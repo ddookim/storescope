@@ -44,6 +44,10 @@ async def lifespan(_app: FastAPI):
         with get_conn() as conn:
             with conn.cursor() as cur:
                 cur.execute("SELECT 1")
+                cur.execute("""
+                    ALTER TABLE api_keys
+                    ADD COLUMN IF NOT EXISTS trial_ends_at TIMESTAMPTZ
+                """)
         print("DB connection pool initialized")
     except Exception as e:
         print(f"DB connection failed: {e}")

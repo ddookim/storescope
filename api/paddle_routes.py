@@ -27,7 +27,7 @@ from typing import Optional
 import requests as req_lib
 from fastapi import APIRouter, HTTPException, Request, Header
 
-from api.auth import create_api_key, deactivate_by_customer
+from api.auth import create_api_key, deactivate_by_customer, is_disposable_email
 from pipeline.alerting import send_alert
 
 _log = logging.getLogger(__name__)
@@ -189,9 +189,11 @@ async def paddle_webhook(
         items           = data.get("items", [])
         price_id        = items[0].get("price", {}).get("id", "") if items else ""
         plan            = _resolve_plan(price_id)
+        trial_dates     = data.get("trial_dates") or {}
+        trial_ends_at   = trial_dates.get("ends_at")  # ISO8601 string or None
         await loop.run_in_executor(
             None, _handle_new_subscription,
-            customer_id, subscription_id, plan
+            customer_id, subscription_id, plan, trial_ends_at
         )
 
     elif event_type in ("subscription.canceled", "subscription.paused"):
@@ -217,7 +219,7 @@ async def paddle_webhook(
 
 
 def _handle_new_subscription(
-    customer_id: str, subscription_id: str, plan: str
+    customer_id: str, subscription_id: str, plan: str, trial_ends_at=None
 ) -> None:
     customer_email = _get_customer_email(customer_id)
     if not customer_email:
@@ -236,10 +238,19 @@ def _handle_new_subscription(
             customer_id, subscription_id, plan,
         )
         return
+    if is_disposable_email(customer_email):
+        send_alert(
+            f"일회용 이메일로 결제 시도\ncustomer_id: {customer_id}\nemail: {customer_email}",
+            level="WARNING",
+        )
+        _log.warning("Disposable email detected: %s customer_id=%s", customer_email, customer_id)
+        return
+
     raw_key = create_api_key(
         email=customer_email,
         plan=plan,
         customer_id=customer_id,
         subscription_id=subscription_id,
+        trial_ends_at=trial_ends_at,
     )
     _send_api_key_email(to_email=customer_email, api_key=raw_key, plan=plan)

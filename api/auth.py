@@ -34,6 +34,15 @@ PLAN_DAILY_LIMITS = {
     "starter": 500,
     "pro": None,
 }
+TRIAL_DAILY_LIMIT = 500  # Pro 체험 중 동일 제한 — 남용 방지
+
+DISPOSABLE_EMAIL_DOMAINS = {
+    "mailinator.com", "guerrillamail.com", "temp-mail.org", "throwam.com",
+    "yopmail.com", "sharklasers.com", "guerrillamailblock.com", "grr.la",
+    "guerrillamail.info", "spam4.me", "trashmail.com", "dispostable.com",
+    "tempmail.com", "fakeinbox.com", "maildrop.cc", "getnada.com",
+    "discard.email", "mailnull.com", "spamgourmet.com", "trashmail.me",
+}
 
 # ── 커넥션 풀 싱글톤 (double-checked locking) ─────────────────
 _pool: Optional[psycopg2.pool.ThreadedConnectionPool] = None
@@ -78,15 +87,25 @@ def generate_api_key() -> tuple[str, str]:
 
 # ── 공개 API ─────────────────────────────────────────────────
 
+def is_disposable_email(email: str) -> bool:
+    domain = email.split("@")[-1].lower() if "@" in email else ""
+    return domain in DISPOSABLE_EMAIL_DOMAINS
+
+
 def create_api_key(
     email: str,
     plan: str,
     customer_id: Optional[str] = None,
     subscription_id: Optional[str] = None,
+    trial_ends_at=None,
 ) -> str:
     """DB에 API 키 저장 후 raw 키 반환 (1회만 가능)."""
     raw, key_hash = generate_api_key()
-    daily_limit = PLAN_DAILY_LIMITS.get(plan)
+    # 체험 중 Pro도 500건/일 제한 적용
+    if trial_ends_at and plan == "pro":
+        daily_limit = TRIAL_DAILY_LIMIT
+    else:
+        daily_limit = PLAN_DAILY_LIMITS.get(plan)
 
     with get_conn() as conn:
         with conn.cursor() as cur:
@@ -94,11 +113,11 @@ def create_api_key(
                 """
                 INSERT INTO api_keys
                     (key_hash, key_prefix, email, plan,
-                     customer_id, subscription_id, daily_limit)
-                VALUES (%s, %s, %s, %s, %s, %s, %s)
+                     customer_id, subscription_id, daily_limit, trial_ends_at)
+                VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
                 """,
                 (key_hash, raw[:12], email, plan,
-                 customer_id, subscription_id, daily_limit),
+                 customer_id, subscription_id, daily_limit, trial_ends_at),
             )
     return raw
 
@@ -169,10 +188,25 @@ def require_api_key(x_api_key: Optional[str] = Header(None)) -> dict:
     with get_conn() as conn:
         with conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor) as cur:
             cur.execute(
-                "SELECT id, plan, daily_limit, is_active FROM api_keys WHERE key_hash = %s",
+                "SELECT id, plan, daily_limit, is_active, trial_ends_at FROM api_keys WHERE key_hash = %s",
                 (key_hash,),
             )
             row = cur.fetchone()
+            if row and row["plan"] == "pro" and row["trial_ends_at"]:
+                from datetime import timezone
+                import datetime as _dt
+                now = _dt.datetime.now(timezone.utc)
+                trial_end = row["trial_ends_at"]
+                if hasattr(trial_end, "tzinfo") and trial_end.tzinfo is None:
+                    trial_end = trial_end.replace(tzinfo=timezone.utc)
+                if now > trial_end and row["daily_limit"] == TRIAL_DAILY_LIMIT:
+                    # 체험 종료 → Pro 무제한으로 자동 전환
+                    cur.execute(
+                        "UPDATE api_keys SET daily_limit = NULL, trial_ends_at = NULL WHERE id = %s",
+                        (row["id"],),
+                    )
+                    row = dict(row)
+                    row["daily_limit"] = None
 
     if not row:
         raise HTTPException(status_code=401, detail="유효하지 않은 API 키입니다.")
