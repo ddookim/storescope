@@ -1,0 +1,67 @@
+databases:
+  - name: storescope-db
+    databaseName: storescope
+    user: shopify
+    plan: free
+
+services:
+  - type: web
+    name: storescope-api
+    plan: free
+    runtime: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn api.main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /health
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: storescope-db
+          property: connectionString
+      - key: ADMIN_SECRET
+        generateValue: true
+      - key: PADDLE_API_KEY
+        sync: false
+      - key: PADDLE_CLIENT_TOKEN
+        sync: false
+      - key: PADDLE_STARTER_PRICE_ID
+        sync: false
+      - key: PADDLE_PRO_PRICE_ID
+        sync: false
+      - key: PADDLE_WEBHOOK_SECRET
+        sync: false
+      - key: PADDLE_WEBHOOK_SKIP_VERIFY
+        value: "false"
+      - key: ALLOWED_ORIGINS
+        value: https://storescope-app.onrender.com
+      - key: APP_URL
+        value: https://storescope-app.onrender.com
+      - key: TELEGRAM_BOT_TOKEN
+        sync: false
+      - key: TELEGRAM_CHAT_ID
+        sync: false
+      - key: SMTP_HOST
+        value: smtp.gmail.com
+      - key: SMTP_PORT
+        value: "587"
+      - key: SMTP_USER
+        sync: false
+      - key: SMTP_PASS
+        sync: false
+      - key: SMTP_FROM
+        value: noreply@storescope.com
+
+  - type: web
+    name: storescope-app
+    plan: free
+    runtime: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: streamlit run app.py --server.port $PORT --server.address 0.0.0.0 --server.headless true
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: storescope-db
+          property: connectionString
+      - key: API_BASE_URL
+        value: https://storescope-api.onrender.com
+      - key: GA_MEASUREMENT_ID
+        sync: false
