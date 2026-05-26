@@ -100,7 +100,7 @@ def _send_api_key_email(to_email: str, api_key: str, plan: str) -> None:
         f"Add to requests: X-API-Key: {api_key[:8]}...\n"
         f"Daily limit: {limit_label}\n\n"
         f"Keep this key safe — it won't be shown again.\n"
-        f"API docs: https://storescope.netlify.app\n"
+        f"API docs: https://storescope-app.netlify.app\n"
         f"Questions? Reply to this email."
     )
     if not SMTP_HOST:
