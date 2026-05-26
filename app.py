@@ -412,9 +412,9 @@ if analyze_btn and domain_input:
                     st.session_state["email_captured"] = True
                     st.rerun()
 
-            st.caption("No spam. Unsubscribe anytime. [View pricing](https://storescope-app.netlify.app#pricing)")
+            st.caption("No spam. Unsubscribe anytime. [View pricing](https://storescope.netlify.app#pricing)")
     else:
         st.info(
             "Full competitor data unlocked.  "
-            "[**Upgrade to Pro for unlimited API access →**](https://storescope-app.netlify.app#pricing)"
+            "[**Upgrade to Pro for unlimited API access →**](https://storescope.netlify.app#pricing)"
         )

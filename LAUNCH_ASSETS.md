@@ -15,7 +15,7 @@ The idea: if the same product image appears across 30+ independent stores, that'
 - Price spread across competitors (useful for sourcing decisions)
 - Which stores are undercutting each other
 
-**Free to use:** [storescope-app.netlify.app](https://storescope-app.netlify.app) — just paste any Shopify store URL, no signup.
+**Free to use:** [storescope.netlify.app](https://storescope.netlify.app) — just paste any Shopify store URL, no signup.
 
 The clustering runs weekly on fresh crawl data, so the trends update automatically.
 
