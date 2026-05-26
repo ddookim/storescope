@@ -367,7 +367,7 @@
     });
     function openCheckout(priceId) {
       // FIX: CTA 클릭 → GA4 이벤트 — "프라이싱 섹션 도달 vs CTA 클릭" 드롭오프 측정
-      var planName = priceId === 'pri_01ksh172kehejf3xc2ws26e6vy' ? 'pro' : 'starter';
+      var planName = priceId === 'pri_01ksh172kehejf3xc2ws26e6vy' ? 'pro' : (priceId === 'pri_01ksj3qpjyxsv2kprvxn7dpk10' ? 'starter' : 'starter');
       gtag('event', 'select_item', {
         item_list_name: 'pricing',
         items: [{ item_id: planName, item_name: 'StoreScope ' + planName, price: planName === 'pro' ? 49 : 19 }]
@@ -488,7 +488,7 @@
           <li class="locked">CSV export</li>
           <li class="locked">Unlimited requests</li>
         </ul>
-        <button onclick="openCheckout('pri_01ksh13zbekn7n12rtg7b8hvme')" class="plan-cta secondary">Get Starter</button>
+        <button onclick="openCheckout('pri_01ksj3qpjyxsv2kprvxn7dpk10')" class="plan-cta secondary">Get Starter</button>
       </div>
 
       <div class="plan-card featured">
