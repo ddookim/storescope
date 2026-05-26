@@ -1,0 +1,10 @@
+[Unit]
+Description=StoreScope Daily Health Check Timer
+
+[Timer]
+OnCalendar=Asia/Seoul:*-*-* 09:00:00
+Persistent=true
+Unit=storescope-health-check.service
+
+[Install]
+WantedBy=timers.target

@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>StoreScope — Shopify Product Intelligence</title>
+  <meta name="description" content="Discover which products are being sold across multiple Shopify stores. Identify trending supplier products before your competitors do." />
+
+  <!-- FIX: Open Graph — Reddit/Twitter/LinkedIn 공유 시 미리보기 카드 생성,
+       바이럴 공유 1회당 클릭률 2-5x 향상 효과 -->
+  <meta property="og:type"        content="website" />
+  <meta property="og:url"         content="https://storescope.netlify.app" />
+  <meta property="og:title"       content="StoreScope — Find Trending Shopify Products Before Your Competitors" />
+  <meta property="og:description" content="Track which products are sold across 1,400+ Shopify stores. Spot supplier trends, price gaps, and saturation levels via API." />
+  <meta property="og:image"        content="https://storescope.netlify.app/og-image.svg" />
+  <meta property="og:image:width"  content="1200" />
+  <meta property="og:image:height" content="630" />
+
+  <meta name="twitter:card"        content="summary_large_image" />
+  <meta name="twitter:title"       content="StoreScope — Shopify Product Intelligence API" />
+  <meta name="twitter:description" content="138k+ products indexed. Find trending supplier clusters before your competitors do." />
+  <meta name="twitter:image"       content="https://storescope.netlify.app/og-image.svg" />
+
+  <link rel="canonical" href="https://storescope.netlify.app" />
+
+  <!-- FIX: GA4 — 퍼널 이탈 지점 추적 (랜딩 → 프라이싱 클릭 → 체크아웃 오픈 → 결제 완료).
+       gtag('event') 호출로 각 단계 전환율 측정 → 병목 구간 특정 가능.
+       G-XXXXXXXXXX를 실제 GA4 측정 ID로 교체 (https://analytics.google.com) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-XXXXXXXXXX', { 'send_page_view': true });
+  </script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --black: #0f0f0f;
+      --white: #ffffff;
+      --gray-100: #f5f5f5;
+      --gray-200: #e5e5e5;
+      --gray-500: #737373;
+      --gray-700: #404040;
+      --accent: #2563eb;
+      --accent-dark: #1d4ed8;
+      --green: #16a34a;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      color: var(--black);
+      background: var(--white);
+      line-height: 1.6;
+    }
+
+    /* NAV */
+    nav {
+      position: sticky;
+      top: 0;
+      background: rgba(255,255,255,0.95);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--gray-200);
+      z-index: 100;
+    }
+    .nav-inner {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 0 24px;
+      height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .logo { font-weight: 700; font-size: 18px; letter-spacing: -0.5px; }
+    .nav-links { display: flex; gap: 24px; align-items: center; }
+    .nav-links a { text-decoration: none; color: var(--gray-700); font-size: 14px; }
+    .btn-nav {
+      background: var(--black);
+      color: var(--white);
+      padding: 8px 16px;
+      border-radius: 6px;
+      font-size: 14px;
+      font-weight: 500;
+      text-decoration: none;
+    }
+
+    /* HERO */
+    .hero {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 96px 24px 80px;
+      text-align: center;
+    }
+    .hero-badge {
+      display: inline-block;
+      background: var(--gray-100);
+      border: 1px solid var(--gray-200);
+      border-radius: 100px;
+      padding: 4px 12px;
+      font-size: 13px;
+      color: var(--gray-700);
+      margin-bottom: 24px;
+    }
+    .hero h1 {
+      font-size: clamp(32px, 5vw, 56px);
+      font-weight: 800;
+      letter-spacing: -1.5px;
+      line-height: 1.15;
+      max-width: 760px;
+      margin: 0 auto 24px;
+    }
+    .hero p {
+      font-size: clamp(16px, 2vw, 20px);
+      color: var(--gray-500);
+      max-width: 560px;
+      margin: 0 auto 40px;
+    }
+    .hero-ctas { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+    .btn-primary {
+      background: var(--accent);
+      color: var(--white);
+      padding: 14px 28px;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: background 0.15s;
+    }
+    .btn-primary:hover { background: var(--accent-dark); }
+    .btn-ghost {
+      background: transparent;
+      color: var(--black);
+      padding: 14px 28px;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: 500;
+      text-decoration: none;
+      border: 1.5px solid var(--gray-200);
+    }
+
+    /* STAT BAR */
+    .stat-bar {
+      background: var(--gray-100);
+      border-top: 1px solid var(--gray-200);
+      border-bottom: 1px solid var(--gray-200);
+    }
+    .stat-bar-inner {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 24px;
+      display: flex;
+      justify-content: center;
+      gap: 64px;
+      flex-wrap: wrap;
+    }
+    .stat { text-align: center; }
+    .stat-number { font-size: 28px; font-weight: 800; letter-spacing: -1px; }
+    .stat-label { font-size: 13px; color: var(--gray-500); margin-top: 2px; }
+
+    /* HOW IT WORKS */
+    .section {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 80px 24px;
+    }
+    .section-label {
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 12px;
+    }
+    .section h2 {
+      font-size: clamp(24px, 3vw, 36px);
+      font-weight: 800;
+      letter-spacing: -0.8px;
+      max-width: 480px;
+      line-height: 1.2;
+    }
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 32px;
+      margin-top: 48px;
+    }
+    .step-num {
+      width: 36px;
+      height: 36px;
+      background: var(--black);
+      color: var(--white);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      font-weight: 700;
+      margin-bottom: 16px;
+    }
+    .step h3 { font-size: 18px; font-weight: 700; margin-bottom: 8px; }
+    .step p { font-size: 14px; color: var(--gray-500); }
+
+    /* PLANS */
+    .plans-section {
+      background: var(--gray-100);
+      border-top: 1px solid var(--gray-200);
+      border-bottom: 1px solid var(--gray-200);
+    }
+    .plans-inner {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 80px 24px;
+    }
+    .plans-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 24px;
+      margin-top: 48px;
+    }
+    .plan-card {
+      background: var(--white);
+      border: 1.5px solid var(--gray-200);
+      border-radius: 12px;
+      padding: 32px;
+    }
+    .plan-card.featured {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 2px rgba(37,99,235,0.12);
+    }
+    .plan-badge {
+      display: inline-block;
+      background: var(--accent);
+      color: var(--white);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      padding: 3px 8px;
+      border-radius: 4px;
+      margin-bottom: 16px;
+    }
+    .plan-name { font-size: 20px; font-weight: 700; margin-bottom: 4px; }
+    .plan-price {
+      font-size: 40px;
+      font-weight: 800;
+      letter-spacing: -1px;
+      margin: 16px 0 4px;
+    }
+    .plan-price span { font-size: 16px; font-weight: 400; color: var(--gray-500); }
+    .plan-desc { font-size: 14px; color: var(--gray-500); margin-bottom: 24px; }
+    .plan-features { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    .plan-features li { font-size: 14px; display: flex; gap: 8px; align-items: flex-start; }
+    .plan-features li::before { content: ""; display: inline-block; width: 16px; height: 16px; min-width: 16px; background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath fill='%2316a34a' d='M13.5 3.5L6 11 2.5 7.5l-1 1L6 13l8.5-8.5z'/%3E%3C/svg%3E") no-repeat center; margin-top: 1px; }
+    .plan-features li.locked::before { background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath fill='%23d4d4d4' d='M13.5 3.5L6 11 2.5 7.5l-1 1L6 13l8.5-8.5z'/%3E%3C/svg%3E") no-repeat center; }
+    .plan-features li.locked { color: var(--gray-500); }
+    .plan-cta {
+      display: block;
+      text-align: center;
+      margin-top: 28px;
+      padding: 12px;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 15px;
+      text-decoration: none;
+    }
+    .plan-cta.primary { background: var(--accent); color: var(--white); }
+    .plan-cta.secondary { background: var(--gray-100); color: var(--black); }
+
+    /* FREE TOOL CTA */
+    .free-tool-section {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 80px 24px;
+      text-align: center;
+    }
+    .free-tool-box {
+      background: var(--black);
+      color: var(--white);
+      border-radius: 16px;
+      padding: 56px 40px;
+    }
+    .free-tool-box h2 {
+      font-size: clamp(24px, 3vw, 36px);
+      font-weight: 800;
+      letter-spacing: -0.8px;
+      margin-bottom: 16px;
+    }
+    .free-tool-box p { color: #a3a3a3; font-size: 16px; margin-bottom: 32px; max-width: 460px; margin-left: auto; margin-right: auto; }
+    .btn-white {
+      display: inline-block;
+      background: var(--white);
+      color: var(--black);
+      padding: 14px 32px;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    /* USE CASES */
+    .use-cases {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+      margin-top: 48px;
+    }
+    .use-case {
+      border: 1.5px solid var(--gray-200);
+      border-radius: 10px;
+      padding: 24px;
+    }
+    .use-case h3 { font-size: 16px; font-weight: 700; margin-bottom: 8px; }
+    .use-case p { font-size: 14px; color: var(--gray-500); }
+
+    /* FAQ */
+    .faq-list { margin-top: 40px; display: flex; flex-direction: column; gap: 20px; max-width: 680px; }
+    .faq-item details summary {
+      font-weight: 600;
+      cursor: pointer;
+      list-style: none;
+      padding: 16px 0;
+      border-top: 1px solid var(--gray-200);
+    }
+    .faq-item details[open] p { padding: 0 0 16px; font-size: 14px; color: var(--gray-500); }
+
+    /* FOOTER */
+    footer {
+      border-top: 1px solid var(--gray-200);
+      padding: 32px 24px;
+      text-align: center;
+      font-size: 13px;
+      color: var(--gray-500);
+    }
+    footer a { color: var(--gray-500); text-decoration: none; }
+    footer a:hover { color: var(--black); }
+    .footer-links { display: flex; gap: 24px; justify-content: center; margin-top: 12px; }
+
+    @media (max-width: 600px) {
+      .stat-bar-inner { gap: 32px; }
+      .free-tool-box { padding: 40px 24px; }
+    }
+  </style>
+  <script src="https://cdn.paddle.com/paddle/v2/paddle.js"></script>
+  <script>
+    Paddle.Initialize({
+      token: 'live_d4e17395606608d2b4eaec9b46d',
+      eventCallback: function(data) {
+        // FIX: Paddle 이벤트 → GA4 퍼널 이벤트 브릿지.
+        // checkout.loaded = 체크아웃 오픈 성공 (이탈: 오픈 전 vs 오픈 후 비교 가능)
+        // checkout.completed = 결제 완료 (구매 전환 확정)
+        if (data.name === 'checkout.loaded') {
+          gtag('event', 'begin_checkout', {
+            currency: 'USD',
+            value: data.data && data.data.totals ? parseFloat(data.data.totals.total) : 0
+          });
+        }
+        if (data.name === 'checkout.completed') {
+          gtag('event', 'purchase', {
+            transaction_id: data.data && data.data.transaction_id,
+            currency: 'USD',
+            value: data.data && data.data.totals ? parseFloat(data.data.totals.total) : 0
+          });
+          window.location.href = '/?checkout=success';
+        }
+      }
+    });
+    function openCheckout(priceId) {
+      // FIX: CTA 클릭 → GA4 이벤트 — "프라이싱 섹션 도달 vs CTA 클릭" 드롭오프 측정
+      var planName = priceId === 'pri_01ksh172kehejf3xc2ws26e6vy' ? 'pro' : 'starter';
+      gtag('event', 'select_item', {
+        item_list_name: 'pricing',
+        items: [{ item_id: planName, item_name: 'StoreScope ' + planName, price: planName === 'pro' ? 49 : 19 }]
+      });
+      Paddle.Checkout.open({
+        items: [{ priceId: priceId, quantity: 1 }]
+      });
+    }
+  </script>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <div class="logo">StoreScope</div>
+    <div class="nav-links">
+      <a href="#pricing">Pricing</a>
+      <a href="#faq">FAQ</a>
+      <a href="/xray" class="btn-nav">Free X-Ray Tool</a>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-badge">100,000+ Shopify stores indexed</div>
+  <h1>Find trending products before your competitors do</h1>
+  <p>StoreScope tracks which products are sold across multiple Shopify stores — exposing supplier trends, price gaps, and saturation levels in real time.</p>
+  <div class="hero-ctas">
+    <a href="#pricing" class="btn-primary">Get API Access</a>
+    <a href="/xray" class="btn-ghost">Try Free Store X-Ray</a>
+  </div>
+</section>
+
+<!-- STAT BAR -->
+<div class="stat-bar">
+  <div class="stat-bar-inner">
+    <div class="stat">
+      <div class="stat-number">138k+</div>
+      <div class="stat-label">Products tracked</div>
+    </div>
+    <div class="stat">
+      <div class="stat-number">1,400+</div>
+      <div class="stat-label">Stores indexed</div>
+    </div>
+    <div class="stat">
+      <div class="stat-number">500+</div>
+      <div class="stat-label">Product clusters</div>
+    </div>
+    <div class="stat">
+      <div class="stat-number">Weekly</div>
+      <div class="stat-label">Data refresh</div>
+    </div>
+  </div>
+</div>
+
+<!-- HOW IT WORKS -->
+<section class="section">
+  <div class="section-label">How it works</div>
+  <h2>Supplier intelligence from public data</h2>
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <h3>Crawl public product data</h3>
+      <p>StoreScope continuously indexes product catalogs from thousands of public Shopify stores using the open products.json endpoint.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <h3>Cluster by image similarity</h3>
+      <p>Perceptual image hashing groups products from different stores that share the same supplier photo — even across rebranded listings.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <h3>Surface trends via API</h3>
+      <p>Query trending clusters, store-level intelligence, and historical week-over-week growth via a simple REST API or the free Streamlit dashboard.</p>
+    </div>
+  </div>
+</section>
+
+<!-- USE CASES -->
+<section class="section" style="padding-top: 0;">
+  <div class="section-label">Who uses StoreScope</div>
+  <h2>Built for operators who move fast</h2>
+  <div class="use-cases">
+    <div class="use-case">
+      <h3>Dropship product research</h3>
+      <p>Find products already proven across 5+ stores — validate demand before sourcing, not after. Skip the research phase entirely.</p>
+    </div>
+    <div class="use-case">
+      <h3>Competitor monitoring</h3>
+      <p>Get alerts when new stores start selling the same product cluster you carry. Know when saturation hits before your margins do.</p>
+    </div>
+    <div class="use-case">
+      <h3>Agency intelligence</h3>
+      <p>Build client reports in minutes. Pull supplier overlap data, price benchmarks, and trending clusters via the REST API.</p>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<div class="plans-section" id="pricing">
+  <div class="plans-inner">
+    <div class="section-label">Pricing</div>
+    <h2>Founding member pricing — first 50 users only</h2>
+    <div class="plans-grid">
+
+      <div class="plan-card">
+        <div class="plan-name">Starter</div>
+        <div class="plan-price">$19<span>/month</span></div>
+        <p class="plan-desc">For individual operators and researchers.</p>
+        <ul class="plan-features">
+          <li>500 API requests/day</li>
+          <li>Access to all trending clusters</li>
+          <li>Store-level product data</li>
+          <li>7-day trend history</li>
+          <li class="locked">Webhook alerts</li>
+          <li class="locked">CSV export</li>
+          <li class="locked">Unlimited requests</li>
+        </ul>
+        <button onclick="openCheckout('pri_01ksh13zbekn7n12rtg7b8hvme')" class="plan-cta secondary">Get Starter</button>
+      </div>
+
+      <div class="plan-card featured">
+        <div class="plan-badge">MOST POPULAR</div>
+        <div class="plan-name">Pro</div>
+        <div class="plan-price">$49<span>/month</span></div>
+        <p class="plan-desc">For agencies and power operators who need full access.</p>
+        <ul class="plan-features">
+          <li>Unlimited API requests</li>
+          <li>Access to all trending clusters</li>
+          <li>Store-level product data</li>
+          <li>30-day trend history</li>
+          <li>Webhook alerts on new clusters</li>
+          <li>CSV bulk export</li>
+          <li>Priority support</li>
+        </ul>
+        <button onclick="openCheckout('pri_01ksh172kehejf3xc2ws26e6vy')" class="plan-cta primary">Get Pro</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- FREE TOOL CTA -->
+<section class="free-tool-section">
+  <div class="free-tool-box">
+    <h2>Analyze any Shopify store for free</h2>
+    <p>Enter any Shopify store URL and instantly see which of their products are sold by competitors — no signup required.</p>
+    <a href="/xray" class="btn-white">Try Free Store X-Ray</a>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="section" id="faq">
+  <div class="section-label">FAQ</div>
+  <h2>Common questions</h2>
+  <div class="faq-list">
+    <div class="faq-item">
+      <details>
+        <summary>Is this data scraped without permission?</summary>
+        <p>StoreScope only indexes publicly available product data via Shopify's open /products.json endpoint — the same data any browser can access. We comply with robots.txt, respect rate limits, and offer instant opt-out for any merchant who wants their store removed.</p>
+      </details>
+    </div>
+    <div class="faq-item">
+      <details>
+        <summary>How often is the data updated?</summary>
+        <p>The full index is refreshed weekly. Trending snapshots are recorded with each pipeline run, so historical trend data accumulates over time. Individual store lookups via the free X-Ray tool hit the live Shopify API instantly.</p>
+      </details>
+    </div>
+    <div class="faq-item">
+      <details>
+        <summary>How does product clustering work?</summary>
+        <p>We compute a perceptual hash (pHash) of each product's primary image. Products with a Hamming distance of 8 or less are grouped into the same cluster — meaning they share a visually identical supplier image even if the title or price differs across stores.</p>
+      </details>
+    </div>
+    <div class="faq-item">
+      <details>
+        <summary>Can I request my store be removed?</summary>
+        <p>Yes. Send a request to <a href="mailto:optout@storescope.com">optout@storescope.com</a> with your .myshopify.com domain. Your store will be removed from the index within 48 hours and excluded from future crawls.</p>
+      </details>
+    </div>
+    <div class="faq-item">
+      <details>
+        <summary>Do you cover all Shopify stores?</summary>
+        <p>Currently 1,400+ stores with ongoing expansion. The crawl targets stores with public product catalogs discovered via web archives and public Shopify store directories.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div>StoreScope &copy; 2025 — Shopify Product Intelligence</div>
+  <div class="footer-links">
+    <a href="/xray">Free X-Ray Tool</a>
+    <a href="mailto:optout@storescope.com">Merchant Opt-out</a>
+    <a href="#pricing">Pricing</a>
+  </div>
+</footer>
+
+<script>
+  // FIX: 퍼널 상단 이벤트 — Hero CTA vs 내비 링크 vs 무료툴 클릭 분포 측정.
+  // GA4 이벤트로 "어느 CTA에서 프라이싱으로 전환하는가" 파악 → 카피 A/B 테스트 근거.
+  document.addEventListener('DOMContentLoaded', function() {
+    // Hero "Get API Access" 클릭
+    var heroCtaPrimary = document.querySelector('.hero-ctas .btn-primary');
+    if (heroCtaPrimary) {
+      heroCtaPrimary.addEventListener('click', function() {
+        gtag('event', 'cta_click', { cta_location: 'hero', cta_text: 'Get API Access' });
+      });
+    }
+    // Hero "Try Free Store X-Ray" 클릭
+    var heroCtaGhost = document.querySelector('.hero-ctas .btn-ghost');
+    if (heroCtaGhost) {
+      heroCtaGhost.addEventListener('click', function() {
+        gtag('event', 'cta_click', { cta_location: 'hero', cta_text: 'Free X-Ray' });
+      });
+    }
+    // 프라이싱 섹션 Intersection Observer — 뷰포트 진입 시점 기록
+    var pricingSection = document.getElementById('pricing');
+    if (pricingSection && 'IntersectionObserver' in window) {
+      var seen = false;
+      new IntersectionObserver(function(entries) {
+        entries.forEach(function(e) {
+          if (e.isIntersecting && !seen) {
+            seen = true;
+            gtag('event', 'view_item_list', { item_list_name: 'pricing' });
+          }
+        });
+      }, { threshold: 0.3 }).observe(pricingSection);
+    }
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,13 @@
+[Unit]
+Description=StoreScope Daily Health Check
+After=network.target docker.service
+
+[Service]
+Type=oneshot
+User=root
+WorkingDirectory=/opt/storescope
+EnvironmentFile=/opt/storescope/.env
+ExecStart=docker compose run --rm -T pipeline python -m pipeline.health_check
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=storescope-health-check

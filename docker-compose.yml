@@ -1,0 +1,82 @@
+version: "3.9"
+
+services:
+  db:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: storescope
+      POSTGRES_USER: shopify
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./scripts/init_db.sql:/docker-entrypoint-initdb.d/init_db.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U shopify -d storescope"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  api:
+    build: .
+    restart: unless-stopped
+    command: python3 -m uvicorn api.main:app --host 0.0.0.0 --port 8000
+    environment:
+      DATABASE_URL: postgresql://shopify:${POSTGRES_PASSWORD}@db/storescope
+      PADDLE_API_KEY: ${PADDLE_API_KEY}
+      PADDLE_CLIENT_TOKEN: ${PADDLE_CLIENT_TOKEN}
+      PADDLE_STARTER_PRICE_ID: ${PADDLE_STARTER_PRICE_ID}
+      PADDLE_PRO_PRICE_ID: ${PADDLE_PRO_PRICE_ID}
+      PADDLE_WEBHOOK_SECRET: ${PADDLE_WEBHOOK_SECRET:-}
+      ADMIN_SECRET: ${ADMIN_SECRET}
+      ALLOWED_ORIGINS: ${ALLOWED_ORIGINS:-http://localhost:8501}
+      APP_URL: ${APP_URL:-http://localhost:8501}
+      SMTP_HOST: ${SMTP_HOST:-}
+      SMTP_PORT: ${SMTP_PORT:-587}
+      SMTP_USER: ${SMTP_USER:-}
+      SMTP_PASS: ${SMTP_PASS:-}
+      SMTP_FROM: ${SMTP_FROM:-noreply@storescope.com}
+      TELEGRAM_BOT_TOKEN: ${TELEGRAM_BOT_TOKEN:-}
+      TELEGRAM_CHAT_ID: ${TELEGRAM_CHAT_ID:-}
+    ports:
+      - "127.0.0.1:8000:8000"  # FIX: Docker bypasses UFW iptables rules; "8000:8000" exposes the port to the internet even with UFW deny — bind to loopback only, nginx proxies externally
+    depends_on:
+      db:
+        condition: service_healthy
+    volumes:
+      - ./data:/app/data
+      - ./landing:/app/landing:ro
+
+  streamlit:
+    build: .
+    restart: unless-stopped
+    command: python3 -m streamlit run app.py --server.port 8501 --server.address 0.0.0.0
+    environment:
+      DATABASE_URL: postgresql://shopify:${POSTGRES_PASSWORD}@db/storescope
+      API_BASE_URL: ${API_BASE_URL:-http://api:8000}
+      GA_MEASUREMENT_ID: ${GA_MEASUREMENT_ID:-}
+    ports:
+      - "127.0.0.1:8501:8501"  # FIX: same as api — Docker bypasses UFW; nginx WebSocket proxy handles external traffic
+    depends_on:
+      db:
+        condition: service_healthy
+    volumes:
+      - ./data:/app/data
+
+  pipeline:
+    build: .
+    restart: "no"
+    profiles: ["pipeline"]
+    command: python3 run_pipeline.py
+    environment:
+      DATABASE_URL: postgresql://shopify:${POSTGRES_PASSWORD}@db/storescope
+      TELEGRAM_BOT_TOKEN: ${TELEGRAM_BOT_TOKEN:-}
+      TELEGRAM_CHAT_ID: ${TELEGRAM_CHAT_ID:-}
+    depends_on:
+      db:
+        condition: service_healthy
+    volumes:
+      - ./data:/app/data
+
+volumes:
+  pgdata:

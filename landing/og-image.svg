@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <rect width="1200" height="630" fill="#0f0f0f"/>
+  <rect x="0" y="0" width="1200" height="4" fill="#2563eb"/>
+  <text x="600" y="240" font-family="-apple-system,BlinkMacSystemFont,sans-serif" font-size="72" font-weight="800" fill="#ffffff" text-anchor="middle" letter-spacing="-2">StoreScope</text>
+  <text x="600" y="320" font-family="-apple-system,BlinkMacSystemFont,sans-serif" font-size="28" fill="#a3a3a3" text-anchor="middle">Shopify Product Intelligence API</text>
+  <text x="600" y="420" font-family="-apple-system,BlinkMacSystemFont,sans-serif" font-size="22" fill="#737373" text-anchor="middle">138k+ products · 1,400+ stores · Weekly trend data</text>
+  <rect x="460" y="470" width="280" height="56" rx="8" fill="#2563eb"/>
+  <text x="600" y="504" font-family="-apple-system,BlinkMacSystemFont,sans-serif" font-size="20" font-weight="600" fill="#ffffff" text-anchor="middle">Get API Access →</text>
+</svg>

@@ -1,0 +1,12 @@
+[Unit]
+Description=StoreScope Weekly Pipeline Timer
+
+[Timer]
+# FIX(1): Hetzner 클라우드 서버 기본 타임존은 UTC — KST 토요일 02:55에 실행하려면 UTC 기준 금요일 17:55가 되어 의도와 완전히 어긋남; Asia/Seoul 명시로 타임존 엇갈림 방지
+OnCalendar=Asia/Seoul:Sat *-*-* 02:55:00
+Persistent=true
+# FIX(2): 파일명 기반 암묵적 서비스 연결 대신 대상 유닛을 하드코딩 — 파일명 변경·이동 시에도 트리거 대상이 보장됨
+Unit=storescope-pipeline.service
+
+[Install]
+WantedBy=timers.target

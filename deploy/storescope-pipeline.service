@@ -1,0 +1,15 @@
+[Unit]
+Description=StoreScope Weekly Pipeline
+# FIX(1): postgresql.service는 Host 서비스 — DB는 Docker 컨테이너 내부에서 실행되므로 존재하지 않음; docker.service로 교체하여 데몬 기동 후 실행 보장
+After=network.target docker.service
+
+[Service]
+Type=oneshot
+User=storescope
+# FIX(3): WorkingDirectory 명시 — docker compose가 .env와 docker-compose.yml을 찾는 기준 경로; 미설정 시 / 에서 실행되어 파일 탐색 실패
+WorkingDirectory=/opt/storescope
+ExecStart=/usr/local/bin/weekly_pipeline.sh
+# FIX(2): 138k+ 대용량 처리는 수 시간 소요 가능 — 기본 타임아웃(90s)으로 강제 종료되지 않도록 무제한으로 설정
+TimeoutStartSec=0
+StandardOutput=journal
+StandardError=journal

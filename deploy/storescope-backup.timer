@@ -1,0 +1,12 @@
+[Unit]
+Description=StoreScope DB Backup Timer (매일 03:00 KST)
+
+[Timer]
+# FIX: 파이프라인(토 02:55) 완료 후 충분한 간격인 매일 03:00 실행.
+# Persistent=true: 서버 다운 중 트리거 시간을 놓쳐도 재기동 후 즉시 1회 실행.
+OnCalendar=Asia/Seoul:*-*-* 03:00:00
+Persistent=true
+Unit=storescope-backup.service
+
+[Install]
+WantedBy=timers.target

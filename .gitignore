@@ -1,0 +1,24 @@
+# Secrets
+.env
+
+# Python
+__pycache__/
+*.py[cod]
+*.so
+.Python
+*.egg-info/
+dist/
+build/
+
+# Data (too large for git)
+data/*.json
+data/*.jsonl
+data/products/
+
+# Logs & backups
+backups/
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
