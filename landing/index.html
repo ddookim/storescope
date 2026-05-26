@@ -18,7 +18,7 @@
 
   <meta name="twitter:card"        content="summary_large_image" />
   <meta name="twitter:title"       content="StoreScope — Shopify Product Intelligence API" />
-  <meta name="twitter:description" content="138k+ products indexed. Find trending supplier clusters before your competitors do." />
+  <meta name="twitter:description" content="140k+ products indexed across 1,400+ stores. Find trending supplier clusters before your competitors do." />
   <meta name="twitter:image"       content="https://storescope.netlify.app/og-image.svg" />
 
   <link rel="canonical" href="https://storescope.netlify.app" />
@@ -387,14 +387,14 @@
     <div class="nav-links">
       <a href="#pricing">Pricing</a>
       <a href="#faq">FAQ</a>
-      <a href="/xray" class="btn-nav">Free X-Ray Tool</a>
+      <a href="/xray" class="btn-nav" id="xray-nav">Free X-Ray Tool</a>
     </div>
   </div>
 </nav>
 
 <!-- HERO -->
 <section class="hero">
-  <div class="hero-badge">100,000+ Shopify stores indexed</div>
+  <div class="hero-badge">140,000+ products across 1,400+ Shopify stores</div>
   <h1>Find trending products before your competitors do</h1>
   <p>StoreScope tracks which products are sold across multiple Shopify stores — exposing supplier trends, price gaps, and saturation levels in real time.</p>
   <div class="hero-ctas">
@@ -407,7 +407,7 @@
 <div class="stat-bar">
   <div class="stat-bar-inner">
     <div class="stat">
-      <div class="stat-number">138k+</div>
+      <div class="stat-number">140k+</div>
       <div class="stat-label">Products tracked</div>
     </div>
     <div class="stat">
@@ -415,7 +415,7 @@
       <div class="stat-label">Stores indexed</div>
     </div>
     <div class="stat">
-      <div class="stat-number">500+</div>
+      <div class="stat-number">1,600+</div>
       <div class="stat-label">Product clusters</div>
     </div>
     <div class="stat">
@@ -561,15 +561,59 @@
 
 <!-- FOOTER -->
 <footer>
-  <div>StoreScope &copy; 2025 — Shopify Product Intelligence</div>
+  <div>StoreScope &copy; 2026 — Shopify Product Intelligence</div>
   <div class="footer-links">
     <a href="/xray">Free X-Ray Tool</a>
     <a href="mailto:optout@storescope.com">Merchant Opt-out</a>
     <a href="#pricing">Pricing</a>
+    <a href="/privacy.html">Privacy</a>
+    <a href="/terms.html">Terms</a>
   </div>
 </footer>
 
+<style>
+  .toast {
+    position: fixed; bottom: 32px; left: 50%; transform: translateX(-50%);
+    background: var(--black); color: var(--white);
+    padding: 14px 24px; border-radius: 8px; font-size: 15px; font-weight: 500;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.2); z-index: 9999;
+    opacity: 0; transition: opacity 0.3s;
+    pointer-events: none;
+  }
+  .toast.show { opacity: 1; }
+  .success-banner {
+    background: #dcfce7; border: 1px solid #86efac; color: #166534;
+    text-align: center; padding: 16px; font-size: 15px; font-weight: 600;
+  }
+</style>
+<div class="toast" id="toast"></div>
 <script>
+  function showToast(msg, duration) {
+    var t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    setTimeout(function() { t.classList.remove('show'); }, duration || 3000);
+  }
+
+  // Checkout 성공 처리
+  if (window.location.search.indexOf('checkout=success') !== -1) {
+    var banner = document.createElement('div');
+    banner.className = 'success-banner';
+    banner.textContent = 'Payment confirmed — your API key is on its way to your email. Check spam if not received within 5 minutes.';
+    document.body.insertBefore(banner, document.body.firstChild);
+    history.replaceState({}, '', '/');
+  }
+
+  // /xray 클릭 — Render 배포 전 안내
+  document.querySelectorAll('a[href="/xray"]').forEach(function(el) {
+    el.addEventListener('click', function(e) {
+      if (!window._xrayReady) {
+        e.preventDefault();
+        showToast('Store X-Ray tool is launching soon — check back in 24h.', 4000);
+      }
+    });
+  });
+
   // FIX: 퍼널 상단 이벤트 — Hero CTA vs 내비 링크 vs 무료툴 클릭 분포 측정.
   // GA4 이벤트로 "어느 CTA에서 프라이싱으로 전환하는가" 파악 → 카피 A/B 테스트 근거.
   document.addEventListener('DOMContentLoaded', function() {
