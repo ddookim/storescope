@@ -604,15 +604,7 @@
     history.replaceState({}, '', '/');
   }
 
-  // /xray 클릭 — Render 배포 전 안내
-  document.querySelectorAll('a[href="/xray"]').forEach(function(el) {
-    el.addEventListener('click', function(e) {
-      if (!window._xrayReady) {
-        e.preventDefault();
-        showToast('Store X-Ray tool is launching soon — check back in 24h.', 4000);
-      }
-    });
-  });
+  // /xray — Render live, redirect via _redirects
 
   // FIX: 퍼널 상단 이벤트 — Hero CTA vs 내비 링크 vs 무료툴 클릭 분포 측정.
   // GA4 이벤트로 "어느 CTA에서 프라이싱으로 전환하는가" 파악 → 카피 A/B 테스트 근거.

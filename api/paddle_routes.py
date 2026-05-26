@@ -2,8 +2,8 @@
 StoreScope — Paddle 결제 라우터
 ===================================
 플랜:
-  Starter  $49/월  — API 500 req/일
-  Pro      $99/월  — API 무제한 + 웹훅 알림
+  Starter  $19/월  — API 500 req/일
+  Pro      $49/월  — API 무제한 + 웹훅 알림
 
 환경변수 (.env):
   PADDLE_API_KEY=pdl_live_...
