@@ -92,9 +92,8 @@ def health():
     try:
         with get_conn() as conn:
             with conn.cursor() as cur:
-                cur.execute("SELECT COUNT(*) FROM stores")
-                store_count = cur.fetchone()[0]
-        return {"status": "ok", "stores": store_count}
+                cur.execute("SELECT 1")
+        return {"status": "ok"}
     except Exception:
         logger.error("Health check failed", exc_info=True)
         raise HTTPException(status_code=503, detail="서비스를 일시적으로 사용할 수 없습니다.")
