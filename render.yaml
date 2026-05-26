@@ -24,9 +24,9 @@ services:
       - key: PADDLE_CLIENT_TOKEN
         sync: false
       - key: PADDLE_STARTER_PRICE_ID
-        sync: false
+        value: pri_01ksh13zbekn7n12rtg7b8hvme
       - key: PADDLE_PRO_PRICE_ID
-        sync: false
+        value: pri_01ksh172kehejf3xc2ws26e6vy
       - key: PADDLE_WEBHOOK_SECRET
         sync: false
       - key: PADDLE_WEBHOOK_SKIP_VERIFY
