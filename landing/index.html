@@ -1459,6 +1459,92 @@
       color: #0F172A !important;
     }
 
+    /* ── COLOR CONTRAST FIXES ── */
+    .hero-sub { color: #475569 !important; }
+    .hero-trust { color: #64748B !important; font-size: 13px !important; }
+    .hero-trust span::before { color: #059669; }
+    .counter-label { color: #475569 !important; font-size: 14px !important; }
+
+    /* ── SCROLL REVEAL ── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.65s cubic-bezier(0.22, 1, 0.36, 1),
+                  transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .reveal.is-visible { opacity: 1; transform: none; }
+    .reveal-d1 { transition-delay: 0.08s !important; }
+    .reveal-d2 { transition-delay: 0.16s !important; }
+    .reveal-d3 { transition-delay: 0.24s !important; }
+    .reveal-d4 { transition-delay: 0.32s !important; }
+
+    /* ── NAV SCROLL STATE ── */
+    nav { transition: box-shadow 0.3s ease, background 0.3s ease; }
+    nav.nav-scrolled {
+      background: rgba(249,248,246,0.97) !important;
+      box-shadow: 0 4px 24px rgba(15,23,42,0.09), 0 1px 0 rgba(28,25,23,0.06);
+    }
+
+    /* ── HERO MOCKUP FLOAT ── */
+    @keyframes heroFloat {
+      0%, 100% { transform: perspective(1800px) rotateX(8deg) translateY(0); }
+      50%       { transform: perspective(1800px) rotateX(8deg) translateY(-8px); }
+    }
+    .hero-mockup-inner { animation: heroFloat 6s ease-in-out infinite; }
+
+    /* ── HERO BG PULSE ── */
+    @keyframes heroBgPulse {
+      0%, 100% { opacity: 1; }
+      50%       { opacity: 0.7; }
+    }
+    .hero::before { animation: heroBgPulse 8s ease-in-out infinite; }
+
+    /* ── BENTO CARD HOVER — more pronounced ── */
+    .bento-card:hover {
+      transform: translateY(-5px) !important;
+      box-shadow:
+        0 8px 24px rgba(15,23,42,0.1),
+        0 24px 64px rgba(15,23,42,0.08),
+        0 0 0 1px rgba(79,70,229,0.12) !important;
+    }
+
+    /* ── PLAN CARD HOVER ── */
+    .plan-card {
+      transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+                  box-shadow 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+                  border-color 0.3s ease !important;
+    }
+    .plan-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 12px 40px rgba(15,23,42,0.12), 0 0 0 1px rgba(79,70,229,0.15) !important;
+    }
+
+    /* ── REVIEW CARD HOVER ── */
+    .review-card {
+      transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+                  box-shadow 0.3s cubic-bezier(0.22, 1, 0.36, 1) !important;
+    }
+    .review-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 32px rgba(15,23,42,0.1) !important;
+    }
+
+    /* ── COUNTER ANIMATE ── */
+    @keyframes counterReveal {
+      from { opacity: 0; transform: translateY(12px); }
+      to   { opacity: 1; transform: none; }
+    }
+    .counter-num.counting { animation: counterReveal 0.5s ease forwards; }
+
+    /* ── SECTION HEADING GRADIENT ACCENT ── */
+    .features-section .section-h2 .grad-text,
+    .lifestyle-section .ls-heading .grad-text {
+      background: var(--grad-text);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
   </style>
 
   <script src="https://cdn.paddle.com/paddle/v2/paddle.js"></script>
@@ -1518,10 +1604,9 @@
   <p class="hero-sub">The product that sells out next week is already trending right now across 1,400+ Shopify stores. We show you which one — every Monday, before anyone else does.</p>
   <div class="hero-ctas">
     <button onclick="openCheckout('pri_01ksj3qpjyxsv2kprvxn7dpk10')" class="btn-hero-primary">Start Free Trial — 7 Days Free <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;margin-left:6px;opacity:0.9" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></button>
-    <p style="margin-top:12px;font-size:13px;color:var(--muted);">No charge until day 8 · Cancel anytime · Secure checkout by Paddle</p>
   </div>
   <div class="hero-trust">
-    <span>7 days free — no charge until day 8</span>
+    <span>No charge until day 8</span>
     <span>Cancel anytime</span>
     <span>Secure checkout by Paddle</span>
     <span>1-minute setup</span>
@@ -1702,9 +1787,9 @@
 <!-- ANIMATED COUNTER BAR -->
 <div class="counter-bar">
   <div class="counter-inner">
-    <div class="counter-item"><div class="counter-num">140,000+</div><div class="counter-label">Products Tracked</div></div>
-    <div class="counter-item"><div class="counter-num">1,400+</div><div class="counter-label">Stores Indexed</div></div>
-    <div class="counter-item"><div class="counter-num">1,600+</div><div class="counter-label">Product Clusters</div></div>
+    <div class="counter-item"><div class="counter-num" data-target="140000" data-suffix="k+">140k+</div><div class="counter-label">Products Tracked</div></div>
+    <div class="counter-item"><div class="counter-num" data-target="1400" data-suffix="+">1,400+</div><div class="counter-label">Stores Indexed</div></div>
+    <div class="counter-item"><div class="counter-num" data-target="1600" data-suffix="+">1,600+</div><div class="counter-label">Product Clusters</div></div>
     <div class="counter-item"><div class="counter-num">&lt;10 min</div><div class="counter-label">Daily Research Time</div></div>
   </div>
 </div>
@@ -2756,6 +2841,56 @@
       }, { threshold: 0.3 }).observe(ps);
     }
   });
+
+  /* ── SCROLL REVEAL ── */
+  document.addEventListener('DOMContentLoaded', function() {
+    if (!('IntersectionObserver' in window)) return;
+
+    var vh = window.innerHeight;
+    var revealSels = [
+      '.bento-card', '.plan-card', '.review-card',
+      '.step', '.founder-card', '.faq-item',
+      '.ls-stat', '.xray-box', '.tbadge'
+    ];
+    var allReveal = document.querySelectorAll(revealSels.join(','));
+
+    allReveal.forEach(function(el) {
+      var rect = el.getBoundingClientRect();
+      if (rect.top > vh * 0.9) {
+        el.classList.add('reveal');
+        // stagger siblings in same parent
+        var siblings = Array.from(el.parentElement.children).filter(function(c) {
+          return c.classList.contains(el.classList[0]);
+        });
+        var idx = siblings.indexOf(el);
+        if (idx === 1) el.classList.add('reveal-d1');
+        else if (idx === 2) el.classList.add('reveal-d2');
+        else if (idx === 3) el.classList.add('reveal-d3');
+        else if (idx >= 4) el.classList.add('reveal-d4');
+      }
+    });
+
+    var revObs = new IntersectionObserver(function(entries) {
+      entries.forEach(function(e) {
+        if (e.isIntersecting) {
+          e.target.classList.add('is-visible');
+          revObs.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.08, rootMargin: '0px 0px -24px 0px' });
+
+    document.querySelectorAll('.reveal').forEach(function(el) { revObs.observe(el); });
+  });
+
+  /* ── NAV SCROLL STATE ── */
+  (function() {
+    var nav = document.querySelector('nav');
+    if (!nav) return;
+    window.addEventListener('scroll', function() {
+      nav.classList.toggle('nav-scrolled', window.scrollY > 20);
+    }, { passive: true });
+  })();
+
 </script>
 </body>
 </html>
