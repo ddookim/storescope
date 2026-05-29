@@ -1667,6 +1667,18 @@
     .bc-hbar-hot { background:linear-gradient(0deg,#4F46E5 0%,#7C3AED 100%) !important; box-shadow:0 0 8px rgba(124,58,237,0.5); }
     .bc-history-axis { display:flex; justify-content:space-between; margin-top:7px; font-size:10px; color:rgba(255,255,255,0.3); }
 
+
+    /* ── HERO SECONDARY CTA ── */
+    .btn-hero-secondary {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: 15px; font-weight: 500; color: rgba(255,255,255,0.65);
+      text-decoration: none; padding: 12px 8px; transition: color 0.2s;
+    }
+    .btn-hero-secondary:hover { color: #fff; }
+    .btn-hero-secondary .sec-arrow { transition: transform 0.2s; display: inline-block; }
+    .btn-hero-secondary:hover .sec-arrow { transform: translateX(4px); }
+    @media (max-width: 640px) { .btn-hero-secondary { font-size: 13px; } }
+
     /* ── MOBILE LAYOUT FIXES ── */
     @media (max-width: 640px) {
       /* Counter bar: wrap to 2×2 grid instead of forcing 4 items in one row */
@@ -1755,11 +1767,15 @@
   </div>
   <h1>
     <span class="line1">Source winning products</span>
-    <span class="line2 grad-text">before competitors notice.</span>
+    <span class="line2 grad-text">before your competitors do.</span>
   </h1>
   <p class="hero-sub">The product that sells out next week is already trending right now across 1,400+ Shopify stores. We show you which one — every Monday, before anyone else does.</p>
   <div class="hero-ctas">
     <button onclick="openCheckout('pri_01ksj3qpjyxsv2kprvxn7dpk10')" class="btn-hero-primary">Start Free Trial — 7 Days Free <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;margin-left:6px;opacity:0.9" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></button>
+    <a href="#xray" class="btn-hero-secondary">
+      Analyze any Shopify store free
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="sec-arrow" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+    </a>
   </div>
   <div class="hero-trust">
     <span>No charge until day 8</span>
@@ -1913,40 +1929,53 @@
   </div>
 </section>
 
-<!-- INTEGRATIONS STRIP -->
-<div class="int-strip">
-  <div class="int-strip-inner">
-    <span class="int-label">Real-time data indexed from</span>
-    <div class="int-divider"></div>
-    <div class="int-logo">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-label="Shopify"><path d="M15.34 2.05c-.07-.46-.47-.8-.94-.8-.01 0-1.56.1-1.56.1a14.38 14.38 0 0 0-.97-2.97C11.5.87 11.04.5 10.5.5c-.04 0-.08 0-.12.01-.15-.23-.4-.38-.67-.38-.04 0-.07 0-.1.01C8.1.23 7.07.77 6.34 1.65 5.6 2.54 5.11 3.79 5 5.17H3.45c-.55 0-1.04.41-1.12.95L.02 21.1c-.07.56.32 1.05.88 1.05H16.5c.56 0 1.02-.49.98-1.05L15.34 2.05zm-4.34.95c.24.13.44.33.58.6-.57.2-1.16.46-1.7.76.2-.6.5-1.07.85-1.36.06-.03.12-.05.18-.06l.09.06zm-1.15-.23a1.2 1.2 0 0 0-.7.3c-.47.42-.82 1.1-1.02 1.94H6.93c.4-1.56 1.35-2.26 2.4-2.3a.4.4 0 0 1 .52.06zm2.53.96c-.15-.6-.38-1.05-.67-1.3a5.5 5.5 0 0 1 1.67 1.3h-1z" fill="rgba(28,25,23,0.5)"/></svg>
-      <span>Shopify Stores</span>
-    </div>
-    <div class="int-divider"></div>
-    <div class="int-logo">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="rgba(28,25,23,0.5)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
-      <span>140k+ Products</span>
-    </div>
-    <div class="int-divider"></div>
-    <div class="int-logo">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="rgba(28,25,23,0.5)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
-      <span>Weekly AI Analysis</span>
-    </div>
-    <div class="int-divider"></div>
-    <div class="int-logo">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="rgba(28,25,23,0.5)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-      <span>REST API</span>
-    </div>
-  </div>
-</div>
-
 <!-- ANIMATED COUNTER BAR -->
 <div class="counter-bar">
   <div class="counter-inner">
     <div class="counter-item"><div class="counter-num" data-target="140000" data-suffix="+">140k+</div><div class="counter-label">Products Tracked</div></div>
     <div class="counter-item"><div class="counter-num" data-target="1400" data-suffix="+">1,400+</div><div class="counter-label">Stores Indexed</div></div>
     <div class="counter-item"><div class="counter-num" data-target="1600" data-suffix="+">1,600+</div><div class="counter-label">Trending Products Found</div></div>
-    <div class="counter-item"><div class="counter-num">&lt;10 min</div><div class="counter-label">Weekly Research Time</div></div>
+    <div class="counter-item"><div class="counter-num">9 min</div><div class="counter-label">Weekly research time</div></div>
+  </div>
+</div>
+
+<!-- LIFESTYLE / BEFORE-AFTER SECTION -->
+<div class="lifestyle-section">
+  <div class="lifestyle-inner">
+    <div class="lifestyle-left">
+      <div class="ls-pill">
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fbbf24" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        Time savings
+      </div>
+      <h2 class="ls-heading">Stop the <span class="ls-cross">3-hour</span><br>morning research grind.</h2>
+      <p class="ls-sub">Most store owners spend hours every morning opening tab after tab — comparing prices, guessing what's selling. StoreScope replaces that entire routine with one Monday morning list: the products already gaining momentum, the stores selling them, and what customers are paying. Open it, pick your winner, source it.</p>
+    </div>
+    <div class="lifestyle-right">
+      <div class="ls-card">
+        <div class="ls-card-label">Without StoreScope</div>
+        <div class="ls-card-value red">3 hrs</div>
+        <div class="ls-card-arrow">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 19 5 12"/></svg>
+          Manual store tab-surfing every morning
+        </div>
+      </div>
+      <div class="ls-card" style="border-color: rgba(5,150,105,0.25); background: rgba(5,150,105,0.04);">
+        <div class="ls-card-label" style="color:#059669;">With StoreScope</div>
+        <div class="ls-card-value green">9 min</div>
+        <div class="ls-card-arrow" style="color:var(--muted-2);">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg>
+          Filter Trend Score 80+, source the winner
+        </div>
+      </div>
+      <div class="ls-card" style="border-color: rgba(139,92,246,0.25);">
+        <div class="ls-card-label">Done for you, every Monday</div>
+        <div class="ls-card-value" style="color:#7C3AED;">140k+</div>
+        <div class="ls-card-arrow">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+          Products scanned while you slept — list ready when you wake up
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -2138,118 +2167,11 @@
   </div>
 </div>
 
-<!-- POWERED BY TRUST STRIP -->
-<div class="trust-strip">
-  <div class="trust-inner">
-    <p class="trust-tagline">Your data refreshes every Monday — automatically, without fail.</p>
-    <div class="trust-logos">
-
-      <!-- Shopify API -->
-      <div class="trust-logo-item">
-        <svg width="18" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
-          <line x1="3" y1="6" x2="21" y2="6"/>
-          <path d="M16 10a4 4 0 0 1-8 0"/>
-        </svg>
-        <div>
-          <div class="trust-logo-name">Shopify</div>
-          <div class="trust-logo-role">Data source</div>
-        </div>
-      </div>
-
-      <div class="trust-vdivider"></div>
-
-      <!-- Paddle -->
-      <div class="trust-logo-item">
-        <svg width="16" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <rect x="2" y="5" width="20" height="14" rx="2"/>
-          <line x1="2" y1="10" x2="22" y2="10"/>
-          <line x1="6" y1="15" x2="10" y2="15"/>
-          <line x1="14" y1="15" x2="16" y2="15"/>
-        </svg>
-        <div>
-          <div class="trust-logo-name">Paddle</div>
-          <div class="trust-logo-role">Payments</div>
-        </div>
-      </div>
-
-      <div class="trust-vdivider"></div>
-
-      <!-- AWS -->
-      <div class="trust-logo-item">
-        <svg width="22" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9z"/>
-        </svg>
-        <div>
-          <div class="trust-logo-name">AWS</div>
-          <div class="trust-logo-role">Always-on hosting</div>
-        </div>
-      </div>
-
-      <div class="trust-vdivider"></div>
-
-      <!-- OpenAI -->
-      <div class="trust-logo-item">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <path d="M12 3l1.68 4.32L18 9l-4.32 1.68L12 15l-1.68-4.32L6 9l4.32-1.68L12 3z"/>
-          <path d="M5 17l.89 2.11L8 20l-2.11.89L5 23l-.89-2.11L2 20l2.11-.89L5 17z"/>
-          <path d="M19 3l.67 1.67 1.66.66-1.66.67L19 7.67l-.67-1.67-1.66-.67 1.66-.66L19 3z"/>
-        </svg>
-        <div>
-          <div class="trust-logo-name">OpenAI</div>
-          <div class="trust-logo-role">AI Engine</div>
-        </div>
-      </div>
-
-    </div>
-  </div>
-</div>
-
-<!-- LIFESTYLE / BEFORE-AFTER SECTION -->
-<div class="lifestyle-section">
-  <div class="lifestyle-inner">
-    <div class="lifestyle-left">
-      <div class="ls-pill">
-        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fbbf24" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-        Time savings
-      </div>
-      <h2 class="ls-heading">Stop the <span class="ls-cross">3-hour</span><br>morning research grind.</h2>
-      <p class="ls-sub">Most store owners spend hours every morning opening tab after tab — comparing prices, guessing what's selling. StoreScope replaces that entire routine with one Monday morning list: the products already gaining momentum, the stores selling them, and what customers are paying. Open it, pick your winner, source it.</p>
-    </div>
-    <div class="lifestyle-right">
-      <div class="ls-card">
-        <div class="ls-card-label">Without StoreScope</div>
-        <div class="ls-card-value red">3 hrs</div>
-        <div class="ls-card-arrow">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 19 5 12"/></svg>
-          Manual store tab-surfing every morning
-        </div>
-      </div>
-      <div class="ls-card" style="border-color: rgba(5,150,105,0.25); background: rgba(5,150,105,0.04);">
-        <div class="ls-card-label" style="color:#059669;">With StoreScope</div>
-        <div class="ls-card-value green">9 min</div>
-        <div class="ls-card-arrow" style="color:var(--muted-2);">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg>
-          Filter Trend Score 80+, source the winner
-        </div>
-      </div>
-      <div class="ls-card" style="border-color: rgba(139,92,246,0.25);">
-        <div class="ls-card-label">Done for you, every Monday</div>
-        <div class="ls-card-value" style="color:#7C3AED;">140k+</div>
-        <div class="ls-card-arrow">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
-          Products scanned while you slept — list ready when you wake up
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
 <!-- HOW IT WORKS -->
 <div class="steps-bg" id="how-it-works">
   <div class="section">
     <div class="section-pill">How it works</div>
-    <h2 class="section-heading">Three steps, <br><span class="grad-text">zero manual work</span></h2>
+    <h2 class="section-heading">From 1,400 stores <br><span class="grad-text">to your shortlist — in 3 steps.</span></h2>
     <div class="steps-grid">
       <div class="step">
         <div class="step-line"></div>
@@ -2276,8 +2198,8 @@
 <div class="demo-section">
   <div class="demo-inner">
     <div class="section-pill" style="margin-bottom:16px;">Live dashboard</div>
-    <h2 class="section-heading">This is what you're buying</h2>
-    <p class="section-sub">See which products are climbing, how many stores carry them, and what they charge — one clean view, updated every Monday.</p>
+    <h2 class="section-heading">A snapshot of last Monday's winners.</h2>
+    <p class="section-sub">The same dashboard your account opens to — refreshed every Monday. Below is a static preview; live data unlocks the moment you start your trial.</p>
 
     <div class="demo-browser-wrap">
       <div class="browser-bar">
@@ -2392,120 +2314,70 @@
   </div>
 </div>
 
-<!-- PRICING -->
-<div class="pricing-section" id="pricing">
-  <div class="pricing-inner">
-    <div class="section-pill">Pricing</div>
-    <h2 class="section-heading">Founding member pricing <br><span class="grad-text">First 50 seats only</span></h2>
-    <div class="seats-bar">
-      <div class="seats-track"><div class="seats-fill"></div></div>
-      <span class="seats-label">13 of 50 seats remaining</span>
-    </div>
-    <div class="pricing-trust">
-      <span>No charge until day 8</span>
-      <span>Cancel anytime</span>
-      <span>Secure checkout by Paddle</span>
-      <span>1-minute setup</span>
-    </div>
-    <div class="plans-grid">
+<!-- POWERED BY TRUST STRIP -->
+<div class="trust-strip">
+  <div class="trust-inner">
+    <p class="trust-tagline">Your data refreshes every Monday — automatically, without fail.</p>
+    <div class="trust-logos">
 
-      <!-- ── STARTER ── -->
-      <div class="plan-card">
-        <div class="plan-label">Starter</div>
-        <div class="plan-price"><sup>$</sup>19<span>/month</span></div>
-        <div class="plan-trial">✓ 7-day free trial included</div>
-        <p class="plan-desc">You source products solo and want to stop wasting mornings on manual research.</p>
-        <ul class="plan-features">
-          <!-- Base features: both plans get these -->
-          <li>Weekly trending product list, updated every Monday</li>
-          <li>See every product any Shopify store sells</li>
-          <li>Trend Score on every product — filter to 80+ winners</li>
-          <li>Export data to spreadsheets &amp; automation tools</li>
-          <li>Email support</li>
-          <!-- Pro-only: locked in Starter -->
-          <li class="plan-feat-sep">Pro only</li>
-          <li class="off">30 days of trend history per product</li>
-          <li class="off">Instant alert when a product starts trending</li>
-          <li class="off">One-click export to CSV, Notion, or spreadsheet</li>
-          <li class="off">Priority 24/7 support</li>
-        </ul>
-        <button onclick="openCheckout('pri_01ksj3qpjyxsv2kprvxn7dpk10')" class="plan-btn plan-btn-outline">Start Free Trial</button>
+      <!-- Shopify API -->
+      <div class="trust-logo-item">
+        <svg width="18" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
+          <line x1="3" y1="6" x2="21" y2="6"/>
+          <path d="M16 10a4 4 0 0 1-8 0"/>
+        </svg>
+        <div>
+          <div class="trust-logo-name">Shopify</div>
+          <div class="trust-logo-role">Data source</div>
+        </div>
       </div>
 
-      <!-- ── PRO ── -->
-      <div class="plan-card featured">
-        <div class="plan-badge-top">MOST POPULAR</div>
-        <div class="plan-label">Pro</div>
-        <div class="plan-price"><sup>$</sup>49<span>/month</span></div>
-        <div class="plan-trial">✓ 7-day free trial included</div>
-        <p class="plan-desc">You run multiple stores or manage sourcing for others and need it fully automated.</p>
-        <ul class="plan-features">
-          <!-- Base features -->
-          <li>Weekly trending product list, updated every Monday</li>
-          <li>See every product any Shopify store sells</li>
-          <li>Trend Score on every product — filter to 80+ winners</li>
-          <li>Export data to spreadsheets &amp; automation tools <span class="feat-badge-unlimited">Unlimited</span></li>
-          <li>Email support</li>
-          <!-- Pro-only: fully unlocked -->
-          <li class="plan-feat-sep">Unlocked in Pro</li>
-          <li class="pro-only">30 days of trend history per product <span class="feat-badge-new">+23 extra days</span></li>
-          <li class="pro-only">Instant alert when a product starts trending <span class="feat-badge-hot">🔥 HOT</span></li>
-          <li class="pro-only">One-click export to CSV, Notion, or spreadsheet</li>
-          <li class="pro-only">Priority 24/7 support</li>
-        </ul>
-        <button onclick="openCheckout('pri_01ksh172kehejf3xc2ws26e6vy')" class="plan-btn plan-btn-grad">Start Free Trial</button>
-      </div>
-
-    </div>
-
-    <!-- TRUST BADGES -->
-    <div class="trust-badges">
-      <span class="trust-badges-label">Secured &amp; accepted worldwide</span>
+      <div class="trust-vdivider"></div>
 
       <!-- Paddle -->
-      <div class="tbadge">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-          <circle cx="12" cy="12" r="5" fill="rgba(255,255,255,0.45)"/>
-          <circle cx="12" cy="12" r="9" stroke="rgba(255,255,255,0.45)" stroke-width="1.6" fill="none"/>
+      <div class="trust-logo-item">
+        <svg width="16" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <rect x="2" y="5" width="20" height="14" rx="2"/>
+          <line x1="2" y1="10" x2="22" y2="10"/>
+          <line x1="6" y1="15" x2="10" y2="15"/>
+          <line x1="14" y1="15" x2="16" y2="15"/>
         </svg>
-        <span class="tbadge-label">Paddle</span>
+        <div>
+          <div class="trust-logo-name">Paddle</div>
+          <div class="trust-logo-role">Payments</div>
+        </div>
       </div>
 
-      <!-- Visa -->
-      <div class="tbadge">
-        <svg width="36" height="18" viewBox="0 0 36 18" fill="none" aria-label="Visa">
-          <text x="0" y="15" font-family="Georgia,Times,serif" font-size="17" font-weight="900" fill="rgba(255,255,255,0.65)" letter-spacing="-0.5">VISA</text>
+      <div class="trust-vdivider"></div>
+
+      <!-- AWS -->
+      <div class="trust-logo-item">
+        <svg width="22" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9z"/>
         </svg>
+        <div>
+          <div class="trust-logo-name">AWS</div>
+          <div class="trust-logo-role">Always-on hosting</div>
+        </div>
       </div>
 
-      <!-- Mastercard -->
-      <div class="tbadge">
-        <svg width="34" height="22" viewBox="0 0 34 22" fill="none" aria-label="Mastercard">
-          <circle cx="12" cy="11" r="9" fill="rgba(255,255,255,0.28)"/>
-          <circle cx="22" cy="11" r="9" fill="rgba(255,255,255,0.18)"/>
-          <path d="M17 4.3a9 9 0 0 1 0 13.4A9 9 0 0 1 17 4.3z" fill="rgba(255,255,255,0.2)"/>
+      <div class="trust-vdivider"></div>
+
+      <!-- OpenAI -->
+      <div class="trust-logo-item">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M12 3l1.68 4.32L18 9l-4.32 1.68L12 15l-1.68-4.32L6 9l4.32-1.68L12 3z"/>
+          <path d="M5 17l.89 2.11L8 20l-2.11.89L5 23l-.89-2.11L2 20l2.11-.89L5 17z"/>
+          <path d="M19 3l.67 1.67 1.66.66-1.66.67L19 7.67l-.67-1.67-1.66-.67 1.66-.66L19 3z"/>
         </svg>
-        <span class="tbadge-label">Mastercard</span>
+        <div>
+          <div class="trust-logo-name">OpenAI</div>
+          <div class="trust-logo-role">AI Engine</div>
+        </div>
       </div>
 
-      <!-- 256-bit SSL -->
-      <div class="tbadge">
-        <svg width="16" height="18" viewBox="0 0 16 20" fill="none" aria-hidden="true">
-          <path d="M8 0L1 3v6c0 5.2 3.1 9.7 7 11 3.9-1.3 7-5.8 7-11V3L8 0z" fill="rgba(255,255,255,0.15)" stroke="rgba(255,255,255,0.45)" stroke-width="1.2"/>
-          <polyline points="5,10 7,12 11,8" stroke="rgba(255,255,255,0.65)" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-        </svg>
-        <span class="tbadge-label">256-bit SSL</span>
-      </div>
-
-      <!-- American Express -->
-      <div class="tbadge">
-        <svg width="32" height="18" viewBox="0 0 32 18" fill="none" aria-label="American Express">
-          <rect width="32" height="18" rx="3" fill="rgba(255,255,255,0.12)"/>
-          <text x="3" y="13" font-family="Inter,Arial,sans-serif" font-size="8" font-weight="800" fill="rgba(255,255,255,0.55)" letter-spacing="0.3">AMEX</text>
-        </svg>
-      </div>
     </div>
-
   </div>
 </div>
 
@@ -2688,6 +2560,23 @@
   </div>
 </div>
 
+<!-- FOUNDER -->
+<div class="founder-section">
+  <div class="founder-inner">
+    <div class="section-pill" style="margin-bottom:24px;">From the founder</div>
+    <div class="founder-card">
+      <p class="founder-quote">I was manually checking 30+ Shopify competitor stores every week — hours of copy-pasting that any script could automate. So I built StoreScope. 140,000 public products, indexed and clustered by AI. Now I know what's trending before I open a single store URL.</p>
+      <div class="founder-meta">
+        <div class="founder-av">D</div>
+        <div>
+          <div class="founder-name">Dodo Kim</div>
+          <div class="founder-title">Founder, StoreScope · <a href="https://github.com/ddookim">GitHub</a></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- REVIEWS -->
 <div class="reviews-section">
   <div class="reviews-inner">
@@ -2769,30 +2658,131 @@
   </div>
 </div>
 
-<!-- MID-PAGE CTA BAND -->
-<div style="padding:0 24px 64px;">
-  <div style="max-width:680px;margin:0 auto;text-align:center;background:linear-gradient(135deg,rgba(139,92,246,0.1),rgba(79,70,229,0.07));border:1px solid rgba(139,92,246,0.25);border-radius:20px;padding:52px 40px;">
-    <h3 style="font-size:clamp(22px,3vw,32px);font-weight:900;letter-spacing:-1px;margin-bottom:12px;">See what's selling before you source a single unit.</h3>
-    <p style="color:var(--muted-2);font-size:16px;max-width:440px;margin:0 auto 28px;line-height:1.7;">Your first trending product list is ready in under 5 minutes. No charge until day 8.</p>
-    <button onclick="openCheckout('pri_01ksj3qpjyxsv2kprvxn7dpk10')" class="btn-hero-primary" style="font-size:15px;padding:14px 32px;">Start Free Trial — 7 Days Free <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;margin-left:6px;opacity:0.9" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></button>
-    <p style="margin-top:12px;font-size:12px;color:#64748B;">No charge until day 8 · Cancel anytime · Secure checkout by Paddle</p>
+<!-- PRICING -->
+<div class="pricing-section" id="pricing">
+  <div class="pricing-inner">
+    <div class="section-pill">Pricing</div>
+    <h2 class="section-heading">Founding member pricing <br><span class="grad-text">First 50 seats only</span></h2>
+    <div class="seats-bar">
+      <div class="seats-track"><div class="seats-fill"></div></div>
+      <span class="seats-label">13 of 50 seats remaining</span>
+    </div>
+    <p style="text-align:center;font-size:13px;color:#64748B;margin-bottom:10px;">No card required for the 7-day trial · Cancel anytime</p>
+    <div class="pricing-trust">
+      <span>No charge until day 8</span>
+      <span>Cancel anytime</span>
+      <span>Secure checkout by Paddle</span>
+      <span>1-minute setup</span>
+    </div>
+    <div class="plans-grid">
+
+      <!-- ── STARTER ── -->
+      <div class="plan-card">
+        <div class="plan-label">Starter</div>
+        <div class="plan-price"><sup>$</sup>19<span>/month</span></div>
+        <div class="plan-trial">✓ 7-day free trial included</div>
+        <p class="plan-desc">You source products solo and want to stop wasting mornings on manual research.</p>
+        <ul class="plan-features">
+          <!-- Base features: both plans get these -->
+          <li>Weekly trending product list, updated every Monday</li>
+          <li>See every product any Shopify store sells</li>
+          <li>Trend Score on every product — filter to 80+ winners</li>
+          <li>Export data to spreadsheets &amp; automation tools</li>
+          <li>Email support</li>
+          <!-- Pro-only: locked in Starter -->
+          <li class="plan-feat-sep">Pro only</li>
+          <li class="off">30 days of trend history per product</li>
+          <li class="off">Instant alert when a product starts trending</li>
+          <li class="off">One-click export to CSV, Notion, or spreadsheet</li>
+          <li class="off">Priority 24/7 support</li>
+        </ul>
+        <button onclick="openCheckout('pri_01ksj3qpjyxsv2kprvxn7dpk10')" class="plan-btn plan-btn-outline">Start Free Trial</button>
+      </div>
+
+      <!-- ── PRO ── -->
+      <div class="plan-card featured">
+        <div class="plan-badge-top">MOST POPULAR</div>
+        <div class="plan-label">Pro</div>
+        <div class="plan-price"><sup>$</sup>49<span>/month</span></div>
+        <div class="plan-trial">✓ 7-day free trial included</div>
+        <p class="plan-desc">You run multiple stores or manage sourcing for others and need it fully automated.</p>
+        <ul class="plan-features">
+          <!-- Base features -->
+          <li>Weekly trending product list, updated every Monday</li>
+          <li>See every product any Shopify store sells</li>
+          <li>Trend Score on every product — filter to 80+ winners</li>
+          <li>Export data to spreadsheets &amp; automation tools <span class="feat-badge-unlimited">Unlimited</span></li>
+          <li>Email support</li>
+          <!-- Pro-only: fully unlocked -->
+          <li class="plan-feat-sep">Unlocked in Pro</li>
+          <li class="pro-only">30 days of trend history per product <span class="feat-badge-new">+23 extra days</span></li>
+          <li class="pro-only">Instant alert when a product starts trending <span class="feat-badge-hot">🔥 HOT</span></li>
+          <li class="pro-only">One-click export to CSV, Notion, or spreadsheet</li>
+          <li class="pro-only">Priority 24/7 support</li>
+        </ul>
+        <button onclick="openCheckout('pri_01ksh172kehejf3xc2ws26e6vy')" class="plan-btn plan-btn-grad">Start Free Trial</button>
+      </div>
+
+    </div>
+
+    <!-- TRUST BADGES -->
+    <div class="trust-badges">
+      <span class="trust-badges-label">Secured &amp; accepted worldwide</span>
+
+      <!-- Paddle -->
+      <div class="tbadge">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <circle cx="12" cy="12" r="5" fill="rgba(255,255,255,0.45)"/>
+          <circle cx="12" cy="12" r="9" stroke="rgba(255,255,255,0.45)" stroke-width="1.6" fill="none"/>
+        </svg>
+        <span class="tbadge-label">Paddle</span>
+      </div>
+
+      <!-- Visa -->
+      <div class="tbadge">
+        <svg width="36" height="18" viewBox="0 0 36 18" fill="none" aria-label="Visa">
+          <text x="0" y="15" font-family="Georgia,Times,serif" font-size="17" font-weight="900" fill="rgba(255,255,255,0.65)" letter-spacing="-0.5">VISA</text>
+        </svg>
+      </div>
+
+      <!-- Mastercard -->
+      <div class="tbadge">
+        <svg width="34" height="22" viewBox="0 0 34 22" fill="none" aria-label="Mastercard">
+          <circle cx="12" cy="11" r="9" fill="rgba(255,255,255,0.28)"/>
+          <circle cx="22" cy="11" r="9" fill="rgba(255,255,255,0.18)"/>
+          <path d="M17 4.3a9 9 0 0 1 0 13.4A9 9 0 0 1 17 4.3z" fill="rgba(255,255,255,0.2)"/>
+        </svg>
+        <span class="tbadge-label">Mastercard</span>
+      </div>
+
+      <!-- 256-bit SSL -->
+      <div class="tbadge">
+        <svg width="16" height="18" viewBox="0 0 16 20" fill="none" aria-hidden="true">
+          <path d="M8 0L1 3v6c0 5.2 3.1 9.7 7 11 3.9-1.3 7-5.8 7-11V3L8 0z" fill="rgba(255,255,255,0.15)" stroke="rgba(255,255,255,0.45)" stroke-width="1.2"/>
+          <polyline points="5,10 7,12 11,8" stroke="rgba(255,255,255,0.65)" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+        </svg>
+        <span class="tbadge-label">256-bit SSL</span>
+      </div>
+
+      <!-- American Express -->
+      <div class="tbadge">
+        <svg width="32" height="18" viewBox="0 0 32 18" fill="none" aria-label="American Express">
+          <rect width="32" height="18" rx="3" fill="rgba(255,255,255,0.12)"/>
+          <text x="3" y="13" font-family="Inter,Arial,sans-serif" font-size="8" font-weight="800" fill="rgba(255,255,255,0.55)" letter-spacing="0.3">AMEX</text>
+        </svg>
+      </div>
+    </div>
+
   </div>
 </div>
 
-<!-- FOUNDER -->
-<div class="founder-section">
-  <div class="founder-inner">
-    <div class="section-pill" style="margin-bottom:24px;">From the founder</div>
-    <div class="founder-card">
-      <p class="founder-quote">I was manually checking 30+ Shopify competitor stores every week — hours of copy-pasting that any script could automate. So I built StoreScope. 140,000 public products, indexed and clustered by AI. Now I know what's trending before I open a single store URL.</p>
-      <div class="founder-meta">
-        <div class="founder-av">D</div>
-        <div>
-          <div class="founder-name">Dodo Kim</div>
-          <div class="founder-title">Founder, StoreScope · <a href="https://github.com/ddookim">GitHub</a></div>
-        </div>
-      </div>
-    </div>
+<!-- MID-PAGE CTA BAND -->
+<div style="padding:0 24px 64px;">
+  <div style="max-width:680px;margin:0 auto;text-align:center;background:linear-gradient(135deg,rgba(139,92,246,0.1),rgba(79,70,229,0.07));border:1px solid rgba(139,92,246,0.25);border-radius:20px;padding:52px 40px;">
+    <h3 style="font-size:clamp(22px,3vw,32px);font-weight:900;letter-spacing:-1px;margin-bottom:12px;">Know what's selling — before you spend a dollar on inventory.</h3>
+    <p style="color:var(--muted-2);font-size:16px;max-width:440px;margin:0 auto 28px;line-height:1.7;">Your winner list is ready in under 5 minutes. No card required for the 7-day trial.</p>
+    <button onclick="openCheckout('pri_01ksj3qpjyxsv2kprvxn7dpk10')" class="btn-hero-primary" style="font-size:15px;padding:14px 32px;">Start Free Trial — 7 Days Free <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;margin-left:6px;opacity:0.9" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></button>
+    <p style="margin-top:12px;font-size:12px;color:#64748B;">No charge until day 8 · Cancel anytime · Secure checkout by Paddle</p>
   </div>
 </div>
 
@@ -2800,7 +2790,7 @@
 <div class="faq-section" id="faq">
   <div class="faq-inner">
     <div class="section-pill">FAQ</div>
-    <h2 class="section-heading">Frequently asked questions</h2>
+    <h2 class="section-heading">Still on the fence?</h2>
     <div class="faq-grid">
 
       <div class="faq-item">
