@@ -5,15 +5,68 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>StoreScope — Shopify Product Intelligence</title>
   <meta name="description" content="Find trending Shopify products before your competitors. 140k+ products indexed across 1,400+ stores with AI-powered trend scoring." />
+  <meta name="robots" content="index, follow, max-image-preview:large" />
+  <meta name="theme-color" content="#4F46E5" />
   <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="StoreScope" />
+  <meta property="og:locale" content="en_US" />
   <meta property="og:url" content="https://ddookim.github.io/storescope/" />
   <meta property="og:title" content="StoreScope — Shopify Product Intelligence" />
   <meta property="og:description" content="140k+ products indexed across 1,400+ Shopify stores. Spot supplier trends before your competitors do." />
+  <meta property="og:image" content="https://ddookim.github.io/storescope/landing/og-image.svg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="StoreScope — Shopify Product Intelligence API" />
   <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="StoreScope — Shopify Product Intelligence" />
+  <meta name="twitter:description" content="140k+ products indexed across 1,400+ Shopify stores. Spot supplier trends before your competitors do." />
+  <meta name="twitter:image" content="https://ddookim.github.io/storescope/landing/og-image.svg" />
   <link rel="canonical" href="https://ddookim.github.io/storescope/" />
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%234F46E5'/%3E%3Cpath d='M9 20l5-5 4 4 5-6' stroke='%23fff' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3E%3C/svg%3E" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="preconnect" href="https://cdn.paddle.com" />
+  <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,300;0,14..32,400;0,14..32,500;0,14..32,600;0,14..32,700;0,14..32,800;0,14..32,900;1,14..32,400&display=swap" rel="stylesheet" />
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Organization",
+        "name": "StoreScope",
+        "url": "https://ddookim.github.io/storescope/",
+        "logo": "https://ddookim.github.io/storescope/landing/og-image.svg",
+        "sameAs": ["https://github.com/ddookim/storescope"],
+        "founder": { "@type": "Person", "name": "Dodo Kim" }
+      },
+      {
+        "@type": "SoftwareApplication",
+        "name": "StoreScope",
+        "applicationCategory": "BusinessApplication",
+        "operatingSystem": "Web",
+        "description": "Cross-store Shopify product intelligence. 140k+ products indexed across 1,400+ stores with weekly trend scoring.",
+        "offers": [
+          { "@type": "Offer", "name": "Starter", "price": "19", "priceCurrency": "USD" },
+          { "@type": "Offer", "name": "Pro", "price": "49", "priceCurrency": "USD" }
+        ]
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          { "@type": "Question", "name": "How do I access my account after payment?", "acceptedAnswer": { "@type": "Answer", "text": "Right after payment, you receive a confirmation email with your dashboard link and access credentials. Manage or cancel anytime via the Paddle billing link." } },
+          { "@type": "Question", "name": "Where does StoreScope's data come from?", "acceptedAnswer": { "@type": "Answer", "text": "StoreScope only indexes publicly available product data via Shopify's open /products.json endpoint. We comply with robots.txt and offer merchant opt-out." } },
+          { "@type": "Question", "name": "What is the Trend Score?", "acceptedAnswer": { "@type": "Answer", "text": "Trend Score (0–100) combines week-over-week store adoption rate, total store count, and growth velocity. 80+ signals strong momentum. Updated weekly." } },
+          { "@type": "Question", "name": "How often is the data updated?", "acceptedAnswer": { "@type": "Answer", "text": "The full index is refreshed weekly. Trending snapshots accumulate over time, building historical trend data." } },
+          { "@type": "Question", "name": "Is monitoring competitor stores legal?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. StoreScope only reads publicly listed product pages — the same pages any customer sees. No private data, no auth bypass." } },
+          { "@type": "Question", "name": "Can I cancel anytime?", "acceptedAnswer": { "@type": "Answer", "text": "Yes — cancel any time from your Paddle billing portal. Cancel during the 7-day trial and you are not charged." } },
+          { "@type": "Question", "name": "Can I request my store be removed?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. Email optout@storescope.com with your .myshopify.com domain. Your store is removed within 48 hours." } }
+        ]
+      }
+    ]
+  }
+  </script>
 
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-3YR22V5LW4"></script>
   <script>
@@ -1713,7 +1766,7 @@
         if (data.name === 'checkout.loaded') gtag('event', 'begin_checkout', { currency: 'USD', value: data.data && data.data.totals ? parseFloat(data.data.totals.total) : 0 });
         if (data.name === 'checkout.completed') {
           gtag('event', 'purchase', { transaction_id: data.data && data.data.transaction_id, currency: 'USD', value: data.data && data.data.totals ? parseFloat(data.data.totals.total) : 0 });
-          window.location.href = '/?checkout=success';
+          window.location.href = './?checkout=success';
         }
       }
     });
@@ -1729,7 +1782,7 @@
 <!-- NAV -->
 <nav>
   <div class="nav-inner">
-    <a href="/" class="logo">
+    <a href="./" class="logo" aria-label="StoreScope — home">
       <span class="logo-text">StoreScope</span>
     </a>
     <div class="nav-links">
@@ -1740,7 +1793,7 @@
     </div>
     <div class="nav-ctas">
       <a href="#xray" class="btn-ghost">Free X-Ray Tool</a>
-      <a href="mailto:support@storescope.com?subject=Account Access" class="nav-login-link">Log in</a>
+      <a href="mailto:support@storescope.com?subject=Account%20access%20request&amp;body=Hi%20StoreScope%2C%20please%20resend%20my%20dashboard%20link.%20Account%20email%3A%20" class="nav-login-link" aria-label="Existing customer — request account access">Log in</a>
       <button onclick="openCheckout('pri_01ksj3qpjyxsv2kprvxn7dpk10')" class="btn-glow">Start Free Trial</button>
     </div>
     <div class="nav-mobile">
@@ -2570,7 +2623,7 @@
         <div class="founder-av">D</div>
         <div>
           <div class="founder-name">Dodo Kim</div>
-          <div class="founder-title">Founder, StoreScope · <a href="https://github.com/ddookim">GitHub</a></div>
+          <div class="founder-title">Founder, StoreScope · <a href="https://github.com/ddookim" target="_blank" rel="noopener noreferrer">GitHub</a></div>
         </div>
       </div>
     </div>
@@ -2850,7 +2903,7 @@
 <footer>
   <div class="footer-inner">
     <div class="footer-brand">
-      <a href="/" class="logo">
+      <a href="./" class="logo" aria-label="StoreScope — home">
         <span class="logo-text">StoreScope</span>
       </a>
       <p>Shopify product intelligence for dropshippers and operators who move fast.</p>
@@ -2860,18 +2913,19 @@
       <a href="#features">Features</a>
       <a href="#pricing">Pricing</a>
       <a href="#xray">Free X-Ray Tool</a>
-      <a href="https://storescope-api.onrender.com/docs">API Docs</a>
+      <a href="https://storescope-api.onrender.com/docs" target="_blank" rel="noopener noreferrer">API Docs</a>
     </div>
     <div class="footer-col">
       <h4>Company</h4>
-      <a href="https://github.com/ddookim">GitHub</a>
+      <a href="https://github.com/ddookim/storescope" target="_blank" rel="noopener noreferrer">GitHub</a>
       <a href="mailto:support@storescope.com">Support</a>
       <a href="mailto:optout@storescope.com">Merchant Opt-out</a>
     </div>
     <div class="footer-col">
       <h4>Legal</h4>
-      <a href="mailto:support@storescope.com?subject=Privacy Policy">Privacy Policy</a>
-      <a href="mailto:support@storescope.com?subject=Terms of Service">Terms of Service</a>
+      <a href="./landing/privacy.html">Privacy Policy</a>
+      <a href="./landing/terms.html">Terms of Service</a>
+      <a href="./landing/refund.html">Refund Policy</a>
     </div>
   </div>
   <div class="footer-bottom">
@@ -2914,7 +2968,7 @@
     b.className = 'success-banner';
     b.textContent = 'Payment confirmed — your API key is on its way. Check spam if not received within 5 minutes.';
     document.body.insertBefore(b, document.body.firstChild);
-    history.replaceState({}, '', '/');
+    history.replaceState({}, '', './');
   }
 
   /* animated counter on scroll */
