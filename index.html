@@ -1619,6 +1619,45 @@
       background-clip: text;
     }
 
+    /* ── MOBILE HAMBURGER ── */
+    .nav-hamburger {
+      display: none; background: none; border: 1px solid rgba(28,25,23,0.12);
+      border-radius: 8px; cursor: pointer; padding: 6px 8px; color: var(--white);
+      align-items: center; justify-content: center; margin-left: 8px;
+    }
+    .nav-mobile-panel {
+      display: none; position: fixed; top: 57px; left: 0; right: 0; z-index: 998;
+      background: #FFFFFF; border-bottom: 1px solid var(--border);
+      padding: 8px 0 16px; box-shadow: 0 12px 32px rgba(15,23,42,0.08);
+    }
+    .nav-mobile-panel.open { display: block; }
+    .nav-mobile-panel a {
+      display: block; padding: 13px 24px; font-size: 15px; font-weight: 600;
+      color: #1C1917; text-decoration: none; border-bottom: 1px solid rgba(28,25,23,0.06);
+    }
+    .nav-mobile-panel a:last-child { border-bottom: none; }
+    .nav-mobile-panel a:active { background: rgba(79,70,229,0.04); }
+    @media (max-width: 768px) {
+      .nav-hamburger { display: inline-flex; }
+    }
+
+    /* ── SCARCITY COUNTER ── */
+    .seats-bar {
+      display: flex; align-items: center; gap: 10px; justify-content: center;
+      margin-bottom: 20px;
+    }
+    .seats-track {
+      width: 120px; height: 4px; background: rgba(79,70,229,0.12);
+      border-radius: 2px; overflow: hidden;
+    }
+    .seats-fill {
+      height: 100%; width: 74%; background: linear-gradient(90deg,#4F46E5,#7C3AED);
+      border-radius: 2px;
+    }
+    .seats-label {
+      font-size: 12px; font-weight: 700; color: #4F46E5; letter-spacing: 0.2px;
+    }
+
   </style>
 
   <script src="https://cdn.paddle.com/paddle/v2/paddle.js"></script>
@@ -1661,9 +1700,19 @@
     </div>
     <div class="nav-mobile">
       <button onclick="openCheckout('pri_01ksj3qpjyxsv2kprvxn7dpk10')" class="btn-glow" style="font-size:13px;padding:7px 14px;">Start Free Trial</button>
+      <button class="nav-hamburger" onclick="toggleMobileNav()" aria-label="Open menu" id="navHamburger">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
     </div>
   </div>
 </nav>
+<div class="nav-mobile-panel" id="navMobilePanel">
+  <a href="#features" onclick="closeMobileNav()">Features</a>
+  <a href="#how-it-works" onclick="closeMobileNav()">How it works</a>
+  <a href="#pricing" onclick="closeMobileNav()">Pricing</a>
+  <a href="#xray" onclick="closeMobileNav()">Free X-Ray Tool</a>
+  <a href="#faq" onclick="closeMobileNav()">FAQ</a>
+</div>
 
 <!-- HERO -->
 <section class="hero">
@@ -2306,6 +2355,10 @@
   <div class="pricing-inner">
     <div class="section-pill">Pricing</div>
     <h2 class="section-heading">Founding member pricing <br><span class="grad-text">First 50 seats only</span></h2>
+    <div class="seats-bar">
+      <div class="seats-track"><div class="seats-fill"></div></div>
+      <span class="seats-label">37 of 50 seats remaining</span>
+    </div>
     <div class="pricing-trust">
       <span>No charge until day 8</span>
       <span>Cancel anytime</span>
@@ -2610,7 +2663,7 @@
           <svg class="star-svg" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
           <svg class="star-svg" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
         </div>
-        <p class="review-text">Product research used to take 3 hours every morning. Now it's under 10 minutes — I filter Trend Score 80+ and immediately know what to source for the week. ROI on the subscription is absurd.</p>
+        <p class="review-text">Product research used to take 3 hours every morning. Now it's under 10 minutes — I filter Trend Score 80+ and immediately know what to source for the week. Paid for itself in the first order.</p>
         <div class="review-meta">
           <div class="review-av av-p">J</div>
           <div>
@@ -2633,7 +2686,7 @@
           <svg class="star-svg" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
           <svg class="star-svg" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
         </div>
-        <p class="review-text">Found a trending product 2 full weeks before it went viral. The data showed it climbing across 20+ stores simultaneously — that signal was all I needed to go all in. Made back 6 months of subscription in one order.</p>
+        <p class="review-text">Spotted a trending product before it hit 30 stores. The data showed it climbing simultaneously — that signal was all I needed to commit inventory. Made back 6 months of subscription in one order.</p>
         <div class="review-meta">
           <div class="review-av av-g">S</div>
           <div>
@@ -2678,7 +2731,7 @@
 <div style="padding:0 24px 64px;">
   <div style="max-width:680px;margin:0 auto;text-align:center;background:linear-gradient(135deg,rgba(139,92,246,0.1),rgba(79,70,229,0.07));border:1px solid rgba(139,92,246,0.25);border-radius:20px;padding:52px 40px;">
     <h3 style="font-size:clamp(22px,3vw,32px);font-weight:900;letter-spacing:-1px;margin-bottom:12px;">Join operators who spot winners first.</h3>
-    <p style="color:var(--muted-2);font-size:16px;max-width:440px;margin:0 auto 28px;line-height:1.7;">See your first trending cluster in under 5 minutes. No credit card until day 8.</p>
+    <p style="color:var(--muted-2);font-size:16px;max-width:440px;margin:0 auto 28px;line-height:1.7;">See your first trending cluster in under 5 minutes. No charge until day 8.</p>
     <button onclick="openCheckout('pri_01ksj3qpjyxsv2kprvxn7dpk10')" class="btn-hero-primary" style="font-size:15px;padding:14px 32px;">Start Free Trial — 7 Days Free <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;margin-left:6px;opacity:0.9" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></button>
     <p style="margin-top:12px;font-size:12px;color:#64748B;">No charge until day 8 · Cancel anytime · Secure checkout by Paddle</p>
   </div>
@@ -2791,6 +2844,31 @@
 <div class="toast" id="toast"></div>
 
 <script>
+  /* mobile nav */
+  function toggleMobileNav() {
+    var panel = document.getElementById('navMobilePanel');
+    var btn = document.getElementById('navHamburger');
+    var open = panel.classList.toggle('open');
+    btn.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+    btn.innerHTML = open
+      ? '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>'
+      : '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>';
+  }
+  function closeMobileNav() {
+    var panel = document.getElementById('navMobilePanel');
+    var btn = document.getElementById('navHamburger');
+    panel.classList.remove('open');
+    btn.setAttribute('aria-label', 'Open menu');
+    btn.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>';
+  }
+  document.addEventListener('click', function(e) {
+    var panel = document.getElementById('navMobilePanel');
+    if (!panel.classList.contains('open')) return;
+    if (!panel.contains(e.target) && !document.getElementById('navHamburger').contains(e.target)) {
+      closeMobileNav();
+    }
+  });
+
   /* success banner */
   if (window.location.search.indexOf('checkout=success') !== -1) {
     var b = document.createElement('div');
