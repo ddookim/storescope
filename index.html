@@ -1657,6 +1657,16 @@
       font-size: 12px; font-weight: 700; color: #4F46E5; letter-spacing: 0.2px;
     }
 
+    /* ── 30-DAY HISTORY CHART ── */
+    .bc-history-wrap { margin-top: 24px; }
+    .bc-history-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; }
+    .bc-history-title { font-size:11px; font-weight:600; color:rgba(255,255,255,0.45); letter-spacing:0.2px; }
+    .bc-history-peak { font-size:12px; font-weight:700; color:#c084fc; }
+    .bc-history-bars { display:flex; align-items:flex-end; gap:3px; height:68px; }
+    .bc-hbar { flex:1; background:rgba(139,92,246,0.22); border-radius:2px 2px 0 0; min-width:0; transition: background 0.2s; }
+    .bc-hbar-hot { background:linear-gradient(0deg,#4F46E5 0%,#7C3AED 100%) !important; box-shadow:0 0 8px rgba(124,58,237,0.5); }
+    .bc-history-axis { display:flex; justify-content:space-between; margin-top:7px; font-size:10px; color:rgba(255,255,255,0.3); }
+
     /* ── MOBILE LAYOUT FIXES ── */
     @media (max-width: 640px) {
       /* Counter bar: wrap to 2×2 grid instead of forcing 4 items in one row */
@@ -1944,8 +1954,8 @@
 <div id="features">
   <div class="section">
     <div class="section-pill">Features</div>
-    <h2 class="section-heading">From raw data to <br><span class="grad-text">actionable product intelligence</span></h2>
-    <p class="section-sub">Stop guessing. Every feature is built around one outcome — knowing exactly what to source, at what price, before your competitors do.</p>
+    <h2 class="section-heading">Know what to source, <br><span class="grad-text">before anyone else does</span></h2>
+    <p class="section-sub">Six tools. One goal — stop guessing which products to source and start knowing exactly what's selling, where, and at what price.</p>
 
     <!-- Main 3-col bento grid: Row 1 (Trend 2col + Webhook 1col), Row 2 (Price 1col + API 2col) -->
     <div class="bento-grid">
@@ -1954,13 +1964,13 @@
       <div class="bento-card wide">
         <div class="bento-eyebrow">
           <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>
-          Trend Intelligence
+          Weekly Trend Ranking
         </div>
         <h3>Know what's winning <span class="grad-text">before you source it</span></h3>
-        <p>Every cluster gets a 0–100 Trend Score built from store adoption velocity, WoW growth, and market penetration. Filter to 80+ and you're looking at this week's breakout products.</p>
+        <p>Every product gets a 0–100 Trend Score based on how fast it's spreading across Shopify stores. Filter to 80+ and you immediately see this week's fastest-rising products — the ones already selling before you've heard of them.</p>
         <div class="bc-chart">
           <div class="bc-chart-header">
-            <span class="bc-chart-title">Live cluster rankings — Updated Today</span>
+            <span class="bc-chart-title">Top trending products this week</span>
             <span class="bc-filter">Score 60+</span>
           </div>
           <div class="bc-rows">
@@ -1992,21 +2002,21 @@
           <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
           Real-time Alerts <span class="pro-flag">PRO</span>
         </div>
-        <h3>Get the signal the moment a trend opens</h3>
-        <p>Set a store threshold. When a cluster crosses it, a webhook fires to your Slack, email, or endpoint — zero manual checking.</p>
+        <h3>Get notified the moment a product takes off</h3>
+        <p>Choose a minimum store count. The moment a product crosses that number, you get a Slack or email notification — no manual checking, no tab-surfing.</p>
         <div class="bc-notif">
           <div class="bc-notif-item">
             <div class="bc-notif-dot green"></div>
             <div>
-              <div class="bc-notif-title">LED Strip Lights crossed 20 stores</div>
-              <div class="bc-notif-meta">Score 78 · +31% WoW · just now</div>
+              <div class="bc-notif-title">LED Strip Lights now in 20 stores</div>
+              <div class="bc-notif-meta">Score 78 · +31% this week · just now</div>
             </div>
           </div>
           <div class="bc-notif-item">
             <div class="bc-notif-dot amber"></div>
             <div>
-              <div class="bc-notif-title">Portable Projector at 31 stores</div>
-              <div class="bc-notif-meta">Score 92 · +44% WoW · 2 hrs ago</div>
+              <div class="bc-notif-title">Portable Projector now in 31 stores</div>
+              <div class="bc-notif-meta">Score 92 · +44% this week · 2 hrs ago</div>
             </div>
           </div>
         </div>
@@ -2016,10 +2026,10 @@
       <div class="bento-card">
         <div class="bento-eyebrow">
           <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
-          Price Intelligence
+          Competitor Pricing
         </div>
-        <h3>See every competitor's margin in one view</h3>
-        <p>Min/max pricing across all stores carrying a cluster. Know your spread before you commit to a single unit of inventory.</p>
+        <h3>See what every competitor charges before you source</h3>
+        <p>The lowest and highest price for the same product, across every store that sells it — in one table. Know if there's room to compete before you order anything.</p>
         <div class="bc-price-table">
           <div class="bc-pt-head">
             <span>Store</span><span>Min</span><span>Max</span>
@@ -2039,30 +2049,39 @@
         </div>
       </div>
 
-      <!-- CARD 4: API Terminal (2 cols) -->
-      <div class="bento-card wide bento-dark">
-        <div class="bento-eyebrow" style="color:#4F46E5;">
-          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
-          Developer API
+      <!-- CARD 4: 30-Day Trend History (PRO) -->
+      <div class="bento-card wide">
+        <div class="bento-eyebrow">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+          30-Day History <span class="pro-flag">PRO</span>
         </div>
-        <h3 style="color:#1C1917;">Automate your sourcing workflow with a single API call</h3>
-        <p>Clean JSON endpoints for trending clusters, store data, and 30-day growth history. Drop it into your spreadsheet, Notion database, or custom fulfillment tool — no manual copy-paste ever again.</p>
-        <div class="bc-terminal">
-          <div class="bc-term-bar">
-            <div class="bc-term-dot r"></div><div class="bc-term-dot y"></div><div class="bc-term-dot g"></div>
-            <span class="bc-term-label">bash — storescope-api</span>
+        <h3>Validate a trend before you <span class="grad-text">bet inventory on it</span></h3>
+        <p>This week's score only tells half the story. See the full 30-day trajectory for any product — so you know if it's genuinely climbing or just a one-week blip before you commit a single dollar.</p>
+        <div class="bc-history-wrap">
+          <div class="bc-history-header">
+            <span class="bc-history-title">Portable Projector 1080p — store count, last 30 days</span>
+            <span class="bc-history-peak">31 stores this week</span>
           </div>
-          <div class="bc-term-body">
-            <div><span class="tc-prompt">$ </span><span class="tc-cmd">curl</span> <span class="tc-flag">-s</span> <span class="tc-str">"https://api.storescope.com/v1/trending"</span> <span class="tc-flag">\</span></div>
-            <div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="tc-flag">-H</span> <span class="tc-str">"X-API-Key: si_••••••••••••"</span> <span class="tc-flag">|</span> <span class="tc-cmd">jq</span> <span class="tc-str">'.clusters[0]'</span></div>
-            <div>&nbsp;</div>
-            <div><span class="tc-muted">// Response</span></div>
-            <div>{</div>
-            <div>&nbsp;&nbsp;<span class="tc-key">"name"</span>: <span class="tc-str">"Portable Projector 1080p"</span>,</div>
-            <div>&nbsp;&nbsp;<span class="tc-key">"trend_score"</span>: <span class="tc-num">92</span>,&nbsp;&nbsp;<span class="tc-key">"stores"</span>: <span class="tc-num">31</span>,</div>
-            <div>&nbsp;&nbsp;<span class="tc-key">"wow_growth"</span>: <span class="tc-str">"+44%"</span>,</div>
-            <div>&nbsp;&nbsp;<span class="tc-key">"price_range"</span>: { <span class="tc-key">"min"</span>: <span class="tc-num">39</span>, <span class="tc-key">"max"</span>: <span class="tc-num">89</span> }</div>
-            <div>}</div>
+          <div class="bc-history-bars">
+            <div class="bc-hbar" style="height:19%"></div><div class="bc-hbar" style="height:21%"></div>
+            <div class="bc-hbar" style="height:20%"></div><div class="bc-hbar" style="height:23%"></div>
+            <div class="bc-hbar" style="height:22%"></div><div class="bc-hbar" style="height:26%"></div>
+            <div class="bc-hbar" style="height:28%"></div><div class="bc-hbar" style="height:25%"></div>
+            <div class="bc-hbar" style="height:30%"></div><div class="bc-hbar" style="height:29%"></div>
+            <div class="bc-hbar" style="height:32%"></div><div class="bc-hbar" style="height:35%"></div>
+            <div class="bc-hbar" style="height:38%"></div><div class="bc-hbar" style="height:36%"></div>
+            <div class="bc-hbar" style="height:41%"></div><div class="bc-hbar" style="height:44%"></div>
+            <div class="bc-hbar" style="height:47%"></div><div class="bc-hbar" style="height:45%"></div>
+            <div class="bc-hbar" style="height:50%"></div><div class="bc-hbar" style="height:54%"></div>
+            <div class="bc-hbar" style="height:57%"></div><div class="bc-hbar" style="height:61%"></div>
+            <div class="bc-hbar" style="height:65%"></div><div class="bc-hbar" style="height:69%"></div>
+            <div class="bc-hbar" style="height:74%"></div><div class="bc-hbar" style="height:79%"></div>
+            <div class="bc-hbar" style="height:84%"></div><div class="bc-hbar" style="height:90%"></div>
+            <div class="bc-hbar" style="height:95%"></div><div class="bc-hbar bc-hbar-hot" style="height:100%"></div>
+          </div>
+          <div class="bc-history-axis">
+            <span>30 days ago</span>
+            <span style="color:#c084fc;font-weight:600;">This week ↑</span>
           </div>
         </div>
       </div>
@@ -2076,10 +2095,10 @@
       <div class="bento-card" style="padding:32px 36px;">
         <div class="bento-eyebrow">
           <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-          Store Intelligence
+          Store Lookup
         </div>
-        <h3>Analyze any store's full catalog instantly</h3>
-        <p>Type any Shopify store URL and see exactly what they carry, which suppliers they share, and where the pricing gaps are.</p>
+        <h3>See any competitor's full catalog in seconds</h3>
+        <p>Enter any Shopify store URL and see every product they sell, what prices they charge, and which trending products they're already riding.</p>
         <div class="bc-search-bar">
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="rgba(120,113,108,0.55)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
           <input type="text" value="minimalist-home.myshopify.com" readonly aria-label="Store URL example" />
@@ -2099,8 +2118,8 @@
           <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
           Bulk Export <span class="pro-flag">PRO</span>
         </div>
-        <h3>Send clean data to any tool you already use</h3>
-        <p>Export full trend datasets — names, scores, prices, store counts — directly to your sourcing sheet, client deck, or fulfillment system.</p>
+        <h3>Send your weekly data anywhere, one click</h3>
+        <p>Download the full trend data as a spreadsheet and drop it into Google Sheets, Notion, or any sourcing doc you already use. No copy-pasting, ever.</p>
         <div class="bc-file-card">
           <div class="bc-file-icon">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
