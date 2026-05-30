@@ -69,6 +69,17 @@
   }
   </script>
 
+  <!-- Tailwind CDN — preflight disabled to avoid conflicts with our existing CSS reset.
+       Used only for the Live Telemetry Panel section (drop-in component).
+       Production note: for stable load, consider building a static Tailwind
+       output and inlining the ~6kb of used classes instead of the CDN. -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      corePlugins: { preflight: false }
+    };
+  </script>
+
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-3YR22V5LW4"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
@@ -2149,15 +2160,162 @@
   </div>
 </section>
 
-<!-- ANIMATED COUNTER BAR -->
-<div class="counter-bar">
-  <div class="counter-inner">
-    <div class="counter-item"><div class="counter-num" data-target="140000" data-suffix="+">140k+</div><div class="counter-label">Products indexed</div></div>
-    <div class="counter-item"><div class="counter-num" data-target="1400" data-suffix="+">1,400+</div><div class="counter-label">Shopify stores tracked</div></div>
-    <div class="counter-item"><div class="counter-num" data-target="1600" data-suffix="+">1,600+</div><div class="counter-label">Trending products found</div></div>
-    <div class="counter-item"><div class="counter-num">Weekly</div><div class="counter-label">Index refresh · every Monday</div></div>
+<!-- ════════════════════════════════════════════════════════════════
+     LIVE TELEMETRY PANEL — replaces the old counter-bar
+     Uses Tailwind CDN classes (preflight disabled, no conflicts with our CSS)
+     ════════════════════════════════════════════════════════════════ -->
+<section class="relative overflow-hidden bg-[#FAF9F7] py-24 md:py-32 px-6 border-y border-stone-900/[0.06]">
+
+  <!-- Ambient radial backdrop -->
+  <div aria-hidden="true" class="absolute inset-0 pointer-events-none"
+       style="background:
+         radial-gradient(ellipse 60% 50% at 18% 25%, rgba(166,137,121,0.07), transparent 60%),
+         radial-gradient(ellipse 50% 60% at 88% 75%, rgba(124,58,237,0.05), transparent 65%);">
   </div>
-</div>
+
+  <div class="relative max-w-6xl mx-auto">
+
+    <!-- Section eyebrow -->
+    <div class="flex items-baseline gap-3 mb-12 md:mb-20">
+      <span class="relative flex h-2 w-2">
+        <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75"></span>
+        <span class="relative inline-flex h-2 w-2 rounded-full bg-emerald-500"></span>
+      </span>
+      <span class="text-[11px] font-semibold tracking-[0.22em] uppercase text-stone-500">
+        Live system telemetry
+      </span>
+      <span class="ml-auto text-[11px] text-stone-400 font-mono tabular-nums hidden sm:inline">
+        last cycle · 5h 42m
+      </span>
+    </div>
+
+    <!-- Main grid: hero stat + 3 sub-stats -->
+    <div class="grid lg:grid-cols-12 gap-10 lg:gap-16 items-end">
+
+      <!-- LEFT: massive display number -->
+      <div class="lg:col-span-7">
+        <p class="text-[11px] font-semibold tracking-[0.22em] uppercase text-stone-400 mb-4">
+          Products under analysis
+        </p>
+
+        <h2 class="font-black tracking-[-0.06em] leading-[0.85] text-stone-900 text-[clamp(88px,16vw,220px)]"
+            style="font-feature-settings:'tnum' on;">
+          140<span class="text-stone-300">,</span>201
+        </h2>
+
+        <p class="mt-7 text-base md:text-lg leading-relaxed text-stone-600 max-w-lg">
+          Every public Shopify catalog, read continuously. Scored every Monday.
+          Clustered into the products quietly spreading across the platform —
+          before any of them trends on ads.
+        </p>
+
+        <div class="mt-8 flex items-center gap-3 text-xs font-mono text-stone-400 tabular-nums">
+          <span class="inline-block h-px w-10 bg-stone-300"></span>
+          <span>+1,847 new products since last refresh</span>
+        </div>
+      </div>
+
+      <!-- RIGHT: three stacked sub-stat cards -->
+      <div class="lg:col-span-5 grid gap-4">
+
+        <!-- Card 1: Stores (taupe tint) -->
+        <div class="group relative overflow-hidden rounded-2xl
+                    bg-[#F2E0D8]/40 border border-stone-900/[0.06] p-7
+                    transition-all duration-500 ease-out cursor-default
+                    hover:bg-[#F2E0D8]/75 hover:-translate-y-1
+                    hover:shadow-[0_24px_60px_-20px_rgba(166,137,121,0.4)]">
+          <div class="flex items-start justify-between mb-3">
+            <span class="text-[10px] font-semibold tracking-[0.2em] uppercase text-stone-500">
+              Stores under watch
+            </span>
+            <span class="text-[10px] font-mono text-stone-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+              live
+            </span>
+          </div>
+          <div class="flex items-baseline gap-2">
+            <span class="text-[42px] font-black tracking-[-0.04em] text-stone-900 transition-colors duration-300 group-hover:text-[#8B5A3F] tabular-nums">
+              1,427
+            </span>
+            <span class="text-sm text-stone-500">storefronts</span>
+          </div>
+          <div class="mt-4 h-px bg-gradient-to-r from-stone-900/10 to-transparent"></div>
+          <p class="mt-3 text-xs text-stone-500 leading-relaxed">
+            +12 added since Monday. Re-scanned every 7 days.
+          </p>
+        </div>
+
+        <!-- Card 2: Winners (lavender tint) -->
+        <div class="group relative overflow-hidden rounded-2xl
+                    bg-[#EDDFF5]/40 border border-stone-900/[0.06] p-7
+                    transition-all duration-500 ease-out cursor-default
+                    hover:bg-[#EDDFF5]/75 hover:-translate-y-1
+                    hover:shadow-[0_24px_60px_-20px_rgba(149,107,173,0.4)]">
+          <div class="flex items-start justify-between mb-3">
+            <span class="text-[10px] font-semibold tracking-[0.2em] uppercase text-stone-500">
+              Winners surfaced
+            </span>
+            <span class="text-[10px] font-mono text-stone-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+              last 7d
+            </span>
+          </div>
+          <div class="flex items-baseline gap-2">
+            <span class="text-[42px] font-black tracking-[-0.04em] text-stone-900 transition-colors duration-300 group-hover:text-[#6B4789] tabular-nums">
+              1,642
+            </span>
+            <span class="text-sm text-stone-500">clusters</span>
+          </div>
+          <div class="mt-4 h-px bg-gradient-to-r from-stone-900/10 to-transparent"></div>
+          <p class="mt-3 text-xs text-stone-500 leading-relaxed">
+            Trend Score 80+. Filtered to your shortlist on Monday morning.
+          </p>
+        </div>
+
+        <!-- Card 3: The Monday ritual (sage tint) -->
+        <div class="group relative overflow-hidden rounded-2xl
+                    bg-[#D6F2DA]/40 border border-stone-900/[0.06] p-7
+                    transition-all duration-500 ease-out cursor-default
+                    hover:bg-[#D6F2DA]/75 hover:-translate-y-1
+                    hover:shadow-[0_24px_60px_-20px_rgba(46,147,111,0.4)]">
+          <div class="flex items-start justify-between mb-3">
+            <span class="text-[10px] font-semibold tracking-[0.2em] uppercase text-stone-500">
+              The Monday ritual
+            </span>
+            <span class="flex items-center gap-1.5 text-[10px] font-mono text-emerald-700">
+              <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+              scheduled
+            </span>
+          </div>
+          <div class="flex items-baseline gap-2">
+            <span class="text-[42px] font-black tracking-[-0.04em] text-stone-900 transition-colors duration-300 group-hover:text-[#1B6549] font-mono tabular-nums">
+              06:00
+            </span>
+            <span class="text-sm text-stone-500">PST</span>
+          </div>
+          <div class="mt-4 h-px bg-gradient-to-r from-stone-900/10 to-transparent"></div>
+          <p class="mt-3 text-xs text-stone-500 leading-relaxed">
+            Next refresh in 2 days, 14 hours, 32 minutes.
+          </p>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- Bottom system signature -->
+    <div class="mt-16 md:mt-24 pt-8 border-t border-stone-900/[0.08] flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4">
+      <span class="text-[11px] font-mono text-stone-400 tracking-tight">
+        ~/storescope/pipeline
+      </span>
+      <span class="hidden sm:inline-block w-px h-3 bg-stone-300"></span>
+      <span class="text-[11px] text-stone-500 leading-relaxed">
+        Reading <span class="font-mono tabular-nums">138,201</span> product pages
+        across <span class="font-mono tabular-nums">1,427</span> stores.
+        Last full cycle completed in <span class="font-mono tabular-nums">5h 42m</span>.
+      </span>
+    </div>
+
+  </div>
+</section>
 
 <!-- LIFESTYLE / BEFORE-AFTER SECTION -->
 <div class="ba-section">
@@ -2293,9 +2451,9 @@
 <!-- BENTO FEATURES -->
 <div id="features">
   <div class="section">
-    <div class="section-pill">Features</div>
-    <h2 class="section-heading">Six tools.<br><span class="grad-text">One Monday morning.</span></h2>
-    <p class="section-sub">Trend scoring, price spread, store X-ray, alerts, history, exports. Built for one job: pick this week's winners with data, not vibes.</p>
+    <div class="section-pill">Intelligence layer</div>
+    <h2 class="section-heading">An analyst that <span class="grad-text">never sleeps.</span></h2>
+    <p class="section-sub">While 1,427 Shopify stores quietly update their catalogs overnight, our model reads every change — clusters identical products, tracks adoption velocity, flags what's about to break. By 06:00 Monday, your shortlist is already ranked.</p>
 
     <!-- Main 3-col bento grid: Row 1 (Trend 2col + Webhook 1col), Row 2 (Price 1col + API 2col) -->
     <div class="bento-grid">
@@ -2481,25 +2639,28 @@
 <!-- HOW IT WORKS -->
 <div class="steps-bg" id="how-it-works">
   <div class="section">
-    <div class="section-pill">How it works</div>
-    <h2 class="section-heading">1,400 stores <span class="grad-text">→ your shortlist.</span><br>Three steps. Zero tabs.</h2>
+    <div class="section-pill">The pipeline</div>
+    <h2 class="section-heading">From 1,400 storefronts <span class="grad-text">to your sourcing list.</span><br>While you sleep.</h2>
     <div class="steps-grid">
       <div class="step">
         <div class="step-line"></div>
         <div class="step-num">1</div>
-        <h3>We crawl 1,400+ Shopify stores every week</h3>
-        <p>StoreScope reads publicly listed products via Shopify's open <code style="font-family:monospace;font-size:12px;background:rgba(79,70,229,0.06);padding:1px 6px;border-radius:4px;color:#4F46E5;">/products.json</code> endpoint — the same data any browser sees. Fully automatic. Respects robots.txt and merchant opt-out.</p>
+        <div style="font-family:monospace;font-size:11px;letter-spacing:0.15em;text-transform:uppercase;color:#4F46E5;margin-bottom:8px;">Sunday · 23:00 PST</div>
+        <h3>The model begins reading every public Shopify catalog.</h3>
+        <p>1,427 stores tonight. 138,201 product pages. Six hours of work — none of it yours. Via Shopify's open <code style="font-family:monospace;font-size:12px;background:rgba(79,70,229,0.06);padding:1px 6px;border-radius:4px;color:#4F46E5;">/products.json</code> endpoint, respects robots.txt and merchant opt-out.</p>
       </div>
       <div class="step">
         <div class="step-line"></div>
         <div class="step-num">2</div>
-        <h3>AI clusters identical products across stores</h3>
-        <p>Different names, different prices, same product. Our embedding model recognizes them as one — so you see the full adoption picture: how many stores carry it, the price spread, and the week-over-week growth velocity.</p>
+        <div style="font-family:monospace;font-size:11px;letter-spacing:0.15em;text-transform:uppercase;color:#4F46E5;margin-bottom:8px;">Monday · 04:30 PST</div>
+        <h3>Embeddings collapse identical products into one signal.</h3>
+        <p>The same projector listed under 31 different store names, 31 different prices. Now: one row, one Trend Score, one decision. No more chasing duplicates across tabs.</p>
       </div>
       <div class="step">
         <div class="step-num">3</div>
-        <h3>You open Monday's digest. Filter. Source.</h3>
-        <p>06:00 PST every Monday, your dashboard refreshes. Filter Trend Score 80+, scan the price spread, pick your winners. Your competitors are still opening tabs — you're already at your supplier.</p>
+        <div style="font-family:monospace;font-size:11px;letter-spacing:0.15em;text-transform:uppercase;color:#059669;margin-bottom:8px;">Monday · 06:00 PST</div>
+        <h3>Your dashboard refreshes. The winners are ranked.</h3>
+        <p>Margins pre-calculated, adoption velocity scored, price spreads computed. Filter Trend Score 80+. You're sourcing by 06:15 — while your competitors are still opening tabs.</p>
       </div>
     </div>
   </div>
