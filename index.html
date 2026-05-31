@@ -1761,6 +1761,247 @@
     }
 
     /* ══════════════════════════════════════════════════════════
+       M1: X-RAY PROGRESS BAR (replaces skeleton)
+       ══════════════════════════════════════════════════════════ */
+    .xr-progress-card {
+      background: #fff; border: 1px solid var(--border); border-radius: 16px;
+      padding: 28px;
+      box-shadow: 0 4px 16px rgba(15,23,42,0.04), 0 1px 2px rgba(15,23,42,0.03);
+    }
+    .xr-progress-head {
+      display: flex; align-items: baseline; justify-content: space-between;
+      margin-bottom: 20px; gap: 12px; flex-wrap: wrap;
+    }
+    .xr-progress-live {
+      display: inline-flex; align-items: center; gap: 10px;
+      font-size: 11px; font-family: 'Inter', monospace;
+      color: var(--muted-2); letter-spacing: 0.18em; text-transform: uppercase;
+      font-weight: 600;
+    }
+    .xr-progress-live-dot { position: relative; display: inline-block; width: 8px; height: 8px; }
+    .xr-progress-live-dot::before {
+      content: ''; position: absolute; inset: 0; background: #34d399; border-radius: 50%;
+      animation: xr-ping 1.6s cubic-bezier(0,0,0.2,1) infinite; opacity: 0.75;
+    }
+    .xr-progress-live-dot::after {
+      content: ''; position: absolute; inset: 0; background: #10b981; border-radius: 50%;
+    }
+    @keyframes xr-ping { 75%, 100% { transform: scale(2.6); opacity: 0; } }
+    .xr-progress-store {
+      color: var(--white); text-transform: none; letter-spacing: 0;
+      margin-left: 2px; font-weight: 700;
+    }
+    .xr-progress-pct {
+      font-size: 12px; font-family: 'Inter', monospace; color: var(--muted-2);
+      font-variant-numeric: tabular-nums; font-weight: 600;
+    }
+    .xr-progress-bar {
+      height: 6px; background: rgba(28,25,23,0.06); border-radius: 3px;
+      overflow: hidden; margin-bottom: 22px;
+    }
+    .xr-progress-fill {
+      height: 100%; border-radius: 3px; width: 0%;
+      background: linear-gradient(90deg, #4F46E5 0%, #7C3AED 50%, #2563EB 100%);
+      background-size: 200% 100%;
+      transition: width 0.1s linear;
+      animation: xr-flow 2.5s linear infinite;
+    }
+    @keyframes xr-flow { from { background-position: 0% 0%; } to { background-position: -200% 0%; } }
+    .xr-progress-steps { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 11px; }
+    .xr-progress-step {
+      display: flex; align-items: center; gap: 12px;
+      font-size: 14px; color: rgba(28,25,23,0.28);
+      transition: color 0.3s;
+    }
+    .xr-progress-step.is-done { color: var(--muted-2); }
+    .xr-progress-step.is-active { color: var(--white); font-weight: 500; }
+    .xr-progress-icon {
+      flex-shrink: 0; width: 22px; height: 22px;
+      border-radius: 50%; display: flex; align-items: center; justify-content: center;
+      font-size: 11px; font-weight: 700;
+      background: rgba(28,25,23,0.05); color: rgba(28,25,23,0.3);
+      transition: all 0.3s;
+    }
+    .xr-progress-step.is-active .xr-progress-icon {
+      background: rgba(79,70,229,0.12); color: #4F46E5;
+      animation: xr-step-pulse 1.5s ease-in-out infinite;
+    }
+    .xr-progress-step.is-done .xr-progress-icon {
+      background: rgba(16,185,129,0.12); color: #059669;
+    }
+    @keyframes xr-step-pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50%      { opacity: 0.65; transform: scale(0.9); }
+    }
+
+    /* ══════════════════════════════════════════════════════════
+       M1: X-RAY MODAL (replaces inline step 3 gate)
+       ══════════════════════════════════════════════════════════ */
+    .xr-modal-backdrop {
+      position: fixed; inset: 0; z-index: 9999;
+      background: rgba(28,25,23,0.55); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+      display: none; align-items: center; justify-content: center;
+      padding: 16px;
+      animation: xr-fade-in 0.25s ease-out;
+    }
+    .xr-modal-backdrop.is-open { display: flex; }
+    .xr-modal-card {
+      position: relative; width: 100%; max-width: 460px;
+      background: #fff; border-radius: 24px; padding: 36px 32px 28px;
+      box-shadow: 0 32px 80px rgba(15,23,42,0.4), 0 8px 24px rgba(15,23,42,0.2);
+      animation: xr-slide-up 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    @keyframes xr-fade-in { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes xr-slide-up {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .xr-modal-pill {
+      position: absolute; top: -12px; left: 50%; transform: translateX(-50%);
+      padding: 5px 14px; background: #10b981; color: #fff;
+      font-size: 10px; font-weight: 800; letter-spacing: 0.16em;
+      text-transform: uppercase; border-radius: 999px;
+      box-shadow: 0 4px 14px rgba(16,185,129,0.35);
+      white-space: nowrap;
+    }
+    .xr-modal-close {
+      position: absolute; top: 14px; right: 14px;
+      width: 32px; height: 32px; padding: 0;
+      display: flex; align-items: center; justify-content: center;
+      border-radius: 50%; border: none; background: transparent;
+      color: var(--muted); cursor: pointer; font-size: 16px;
+      font-family: inherit; transition: all 0.15s;
+    }
+    .xr-modal-close:hover { background: rgba(28,25,23,0.06); color: var(--white); }
+    .xr-modal-icon {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 56px; height: 56px; margin: 0 auto 18px;
+      border-radius: 16px;
+      background: linear-gradient(135deg, rgba(16,185,129,0.08), rgba(16,185,129,0.18));
+      color: #059669;
+    }
+    .xr-modal-title {
+      font-family: 'Inter', sans-serif !important;
+      font-size: 24px !important; font-weight: 900 !important; letter-spacing: -1px !important;
+      color: var(--white) !important; margin-bottom: 8px; text-align: center; line-height: 1.15;
+    }
+    .xr-modal-desc {
+      font-size: 14px; line-height: 1.65; color: var(--muted-2);
+      text-align: center; margin-bottom: 22px;
+    }
+    .xr-modal-desc-store { color: var(--white); font-weight: 700; }
+    .xr-modal-desc-stat  { color: #059669; font-weight: 700; }
+    .xr-modal-form { display: flex; flex-direction: column; gap: 10px; }
+    .xr-modal-form input[type="email"] {
+      padding: 15px 18px; background: #F9F8F6;
+      border: 1px solid rgba(28,25,23,0.12); border-radius: 12px;
+      font-size: 15px; outline: none; color: var(--white);
+      transition: all 0.2s; font-family: inherit; width: 100%;
+    }
+    .xr-modal-form input[type="email"]:focus {
+      border-color: #4F46E5; background: #fff;
+      box-shadow: 0 0 0 4px rgba(79,70,229,0.08);
+    }
+    .xr-modal-form input[type="email"]::placeholder { color: var(--muted); }
+    .xr-modal-submit {
+      padding: 15px 20px; border-radius: 12px; border: none;
+      background: linear-gradient(135deg, #4F46E5 0%, #7C3AED 100%);
+      color: #fff; font-size: 14px; font-weight: 700; letter-spacing: -0.1px;
+      cursor: pointer; transition: all 0.25s;
+      box-shadow: 0 4px 16px rgba(79,70,229,0.32), inset 0 1px 0 rgba(255,255,255,0.18);
+      font-family: inherit;
+    }
+    .xr-modal-submit:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(79,70,229,0.45), inset 0 1px 0 rgba(255,255,255,0.22);
+    }
+    .xr-modal-submit:active { transform: translateY(0); }
+    .xr-modal-trust {
+      display: flex; justify-content: center; gap: 10px; align-items: center;
+      margin-top: 16px; font-size: 11px; color: var(--muted); flex-wrap: wrap;
+    }
+    .xr-modal-trust span { display: inline-flex; align-items: center; gap: 4px; }
+    .xr-modal-trust-dot { width: 3px; height: 3px; border-radius: 50%; background: rgba(28,25,23,0.18); }
+
+    /* ══════════════════════════════════════════════════════════
+       M2: STOCK-APP STYLE PULSE + ARROW ON BADGES
+       ══════════════════════════════════════════════════════════ */
+    .badge-green, .badge-amber, .badge-red {
+      position: relative; padding-left: 18px !important;
+    }
+    .badge-green::before, .badge-amber::before, .badge-red::before {
+      content: ''; position: absolute;
+      left: 7px; top: 50%; transform: translateY(-50%);
+      width: 5px; height: 5px; border-radius: 50%;
+    }
+    .badge-green::before { background: #059669; box-shadow: 0 0 0 0 rgba(5,150,105,0.55); animation: pulse-green 1.8s ease-in-out infinite; }
+    .badge-amber::before { background: #D97706; box-shadow: 0 0 0 0 rgba(217,119,6,0.55); animation: pulse-amber 1.8s ease-in-out infinite; }
+    .badge-red::before   { background: #DC2626; box-shadow: 0 0 0 0 rgba(220,38,38,0.55); animation: pulse-red   1.8s ease-in-out infinite; }
+    @keyframes pulse-green { 0% { box-shadow: 0 0 0 0 rgba(5,150,105,0.55); } 70% { box-shadow: 0 0 0 6px rgba(5,150,105,0); } 100% { box-shadow: 0 0 0 0 rgba(5,150,105,0); } }
+    @keyframes pulse-amber { 0% { box-shadow: 0 0 0 0 rgba(217,119,6,0.55); } 70% { box-shadow: 0 0 0 6px rgba(217,119,6,0); } 100% { box-shadow: 0 0 0 0 rgba(217,119,6,0); } }
+    @keyframes pulse-red   { 0% { box-shadow: 0 0 0 0 rgba(220,38,38,0.55); } 70% { box-shadow: 0 0 0 6px rgba(220,38,38,0); } 100% { box-shadow: 0 0 0 0 rgba(220,38,38,0); } }
+
+    /* growth-arrow utility — applies bounce to ↑ ↓ characters */
+    .growth-arrow {
+      display: inline-block;
+      animation: arrow-bounce 1.6s ease-in-out infinite;
+      font-weight: 800;
+      margin-right: 1px;
+    }
+    @keyframes arrow-bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-2px); } }
+
+    @media (prefers-reduced-motion: reduce) {
+      .badge-green::before, .badge-amber::before, .badge-red::before,
+      .growth-arrow, .xr-progress-step.is-active .xr-progress-icon,
+      .xr-progress-fill { animation: none !important; }
+    }
+
+    /* ══════════════════════════════════════════════════════════
+       M3: SCROLL REVEAL — fade up on viewport entry
+       ══════════════════════════════════════════════════════════ */
+    .reveal-up {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+      will-change: opacity, transform;
+    }
+    .reveal-up.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .reveal-up.delay-1 { transition-delay: 100ms; }
+    .reveal-up.delay-2 { transition-delay: 200ms; }
+    .reveal-up.delay-3 { transition-delay: 300ms; }
+    @media (prefers-reduced-motion: reduce) {
+      .reveal-up { opacity: 1; transform: none; transition: none; }
+    }
+
+    /* ══════════════════════════════════════════════════════════
+       M3: PRICING VISUAL HIERARCHY — Pro elevated, Starter dimmed
+       ══════════════════════════════════════════════════════════ */
+    @media (min-width: 900px) {
+      .plans-grid-v2 .plan-card.featured {
+        transform: scale(1.04);
+        z-index: 10;
+        box-shadow:
+          0 32px 60px -20px rgba(79,70,229,0.4),
+          0 8px 24px -8px rgba(79,70,229,0.18),
+          inset 0 1px 0 rgba(255,255,255,0.06) !important;
+        transition: transform 0.3s ease-out, box-shadow 0.3s ease-out;
+      }
+      .plans-grid-v2 .plan-card.featured:hover {
+        transform: scale(1.05) translateY(-4px);
+      }
+      .plans-grid-v2 .plan-card:not(.featured):not(.muted) {
+        opacity: 0.92;
+        transition: opacity 0.3s ease-out;
+      }
+      .plans-grid-v2 .plan-card:not(.featured):not(.muted):hover {
+        opacity: 1;
+      }
+    }
+
+    /* ══════════════════════════════════════════════════════════
        ENTERPRISE / API PANEL — master plan tier 3
        ══════════════════════════════════════════════════════════ */
     .enterprise-panel {
@@ -2469,19 +2710,19 @@
               <span class="bc-prod">Portable Projector 1080p</span>
               <div class="bc-bar-track"><div class="bc-bar-fill bc-fill-hot" style="width:92%"></div></div>
               <span class="bc-score" style="color:#c084fc;">92</span>
-              <span class="bc-wow">+44%</span>
+              <span class="bc-wow"><span class="growth-arrow">↑</span>44%</span>
             </div>
             <div class="bc-row">
               <span class="bc-prod">LED Strip Lights 5M RGB</span>
               <div class="bc-bar-track"><div class="bc-bar-fill bc-fill-warm" style="width:78%"></div></div>
               <span class="bc-score" style="color:#34d399;">78</span>
-              <span class="bc-wow">+31%</span>
+              <span class="bc-wow"><span class="growth-arrow">↑</span>31%</span>
             </div>
             <div class="bc-row">
               <span class="bc-prod">Magnetic Car Mount Pro</span>
               <div class="bc-bar-track"><div class="bc-bar-fill bc-fill-cool" style="width:61%"></div></div>
               <span class="bc-score" style="color:#fbbf24;">61</span>
-              <span class="bc-wow" style="color:#fbbf24;">+18%</span>
+              <span class="bc-wow" style="color:#fbbf24;"><span class="growth-arrow">↑</span>18%</span>
             </div>
           </div>
         </div>
@@ -2710,7 +2951,7 @@
             <div class="dg-stores">31</div>
             <div class="dg-price">$39 – $89</div>
             <div class="dg-growth-cell">
-              <span class="badge badge-green">+44%</span>
+              <span class="badge badge-green"><span class="growth-arrow">↑</span>44%</span>
               <svg width="52" height="20" viewBox="0 0 52 20"><polyline points="0,18 9,14 18,11 27,8 36,5 44,2 52,0" fill="none" stroke="#34d399" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
             </div>
             <div class="dg-score-cell">
@@ -2727,7 +2968,7 @@
             <div class="dg-stores">23</div>
             <div class="dg-price">$12 – $34</div>
             <div class="dg-growth-cell">
-              <span class="badge badge-green">+31%</span>
+              <span class="badge badge-green"><span class="growth-arrow">↑</span>31%</span>
               <svg width="52" height="20" viewBox="0 0 52 20"><polyline points="0,18 9,15 18,12 27,9 36,6 44,3 52,1" fill="none" stroke="#34d399" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
             </div>
             <div class="dg-score-cell">
@@ -2744,7 +2985,7 @@
             <div class="dg-stores">18</div>
             <div class="dg-price">$9 – $24</div>
             <div class="dg-growth-cell">
-              <span class="badge badge-amber">+18%</span>
+              <span class="badge badge-amber"><span class="growth-arrow">↑</span>18%</span>
               <svg width="52" height="20" viewBox="0 0 52 20"><polyline points="0,18 9,16 18,13 27,11 36,9 44,6 52,4" fill="none" stroke="#fbbf24" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
             </div>
             <div class="dg-score-cell">
@@ -2761,7 +3002,7 @@
             <div class="dg-stores">14</div>
             <div class="dg-price">$16 – $38</div>
             <div class="dg-growth-cell">
-              <span class="badge badge-amber">+12%</span>
+              <span class="badge badge-amber"><span class="growth-arrow">↑</span>12%</span>
               <svg width="52" height="20" viewBox="0 0 52 20"><polyline points="0,18 9,17 18,15 27,13 36,11 44,9 52,7" fill="none" stroke="#fbbf24" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
             </div>
             <div class="dg-score-cell">
@@ -2872,136 +3113,68 @@
       <p class="xr-hint">Enter domain or full URL · No signup required</p>
     </div>
 
-    <!-- STEP 2: Skeleton loading -->
+    <!-- STEP 2: Live progress with cycling status messages -->
     <div id="xr-step2" style="display:none;">
-      <div class="xr-skeleton-table">
-        <!-- header row -->
-        <div class="xr-sk-head">
-          <div class="sk sk-head-cell sk-thumb" style="height:9px;width:40px;"></div>
-          <div class="sk sk-head-cell sk-short" style="width:70px;"></div>
-          <div class="sk sk-head-cell sk-med"></div>
-          <div class="sk sk-head-cell sk-wide"></div>
-          <div class="sk sk-head-cell sk-wide"></div>
+      <div class="xr-progress-card">
+        <div class="xr-progress-head">
+          <div class="xr-progress-live">
+            <span class="xr-progress-live-dot"></span>
+            Analyzing <span class="xr-progress-store" id="xr-progress-store-name">store.myshopify.com</span>
+          </div>
+          <span class="xr-progress-pct" id="xr-progress-pct">0%</span>
         </div>
-        <!-- skeleton row 1 -->
-        <div class="xr-sk-row">
-          <div class="sk sk-thumb"></div>
-          <div class="sk-col"><div class="sk sk-short"></div><div class="sk sk-xshort"></div></div>
-          <div class="sk sk-med"></div>
-          <div class="sk sk-wide"></div>
-          <div class="sk sk-wide"></div>
+        <div class="xr-progress-bar">
+          <div class="xr-progress-fill" id="xr-progress-fill"></div>
         </div>
-        <!-- skeleton row 2 -->
-        <div class="xr-sk-row">
-          <div class="sk sk-thumb"></div>
-          <div class="sk-col"><div class="sk" style="width:75%;"></div><div class="sk sk-xshort"></div></div>
-          <div class="sk sk-med"></div>
-          <div class="sk sk-wide"></div>
-          <div class="sk sk-wide" style="width:65px;"></div>
-        </div>
-        <!-- skeleton row 3 -->
-        <div class="xr-sk-row">
-          <div class="sk sk-thumb"></div>
-          <div class="sk-col"><div class="sk" style="width:55%;"></div><div class="sk sk-xshort"></div></div>
-          <div class="sk sk-med"></div>
-          <div class="sk sk-wide"></div>
-          <div class="sk sk-wide"></div>
-        </div>
+        <ul class="xr-progress-steps" id="xr-progress-steps">
+          <!-- Populated by xrayAnalyze() -->
+        </ul>
       </div>
-      <p style="text-align:center;margin-top:16px;font-size:13px;color:var(--muted);">
-        Analyzing store data...
-      </p>
     </div>
 
-    <!-- STEP 3: Email gate (partial results + form) -->
-    <div id="xr-step3" style="display:none;">
-      <div class="xr-gate-box">
+    <!-- STEP 3: Modal email gate (full overlay) -->
+    <div id="xr-step3" class="xr-modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="xr-modal-title" onclick="closeXrModal(event)">
+      <div class="xr-modal-card" onclick="event.stopPropagation()">
+        <div class="xr-modal-pill">Report ready</div>
+        <button type="button" class="xr-modal-close" onclick="closeXrModal()" aria-label="Close">✕</button>
 
-        <!-- 1 fully visible sample row -->
-        <div class="xr-visible-row">
-          <div class="xr-vthumb">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.7)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
-          </div>
-          <div>
-            <div class="xr-vname">Portable Mini Projector 1080p</div>
-            <div class="xr-vcat">Electronics</div>
-          </div>
-          <div class="xr-vnum" style="font-weight:600;">31</div>
-          <div class="xr-vbadge">+44% WoW</div>
-          <div class="xr-vscore">92</div>
+        <div class="xr-modal-icon" style="display:flex;">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+            <polyline points="14 2 14 8 20 8"/>
+          </svg>
         </div>
 
-        <!-- 2 blurred rows (FOMO) -->
-        <div class="xr-blur-rows">
-          <div class="xr-blur-row">
-            <div class="sk sk-thumb" style="opacity:0.4;"></div>
-            <div class="sk-col"><div class="sk sk-short" style="opacity:0.4;"></div><div class="sk sk-xshort" style="opacity:0.4;"></div></div>
-            <div class="sk sk-med" style="opacity:0.4;"></div>
-            <div class="sk sk-wide" style="opacity:0.4;"></div>
-            <div class="sk sk-wide" style="opacity:0.4;"></div>
-          </div>
-          <div class="xr-blur-row">
-            <div class="sk sk-thumb" style="opacity:0.4;"></div>
-            <div class="sk-col"><div class="sk" style="width:70%;opacity:0.4;"></div><div class="sk sk-xshort" style="opacity:0.4;"></div></div>
-            <div class="sk sk-med" style="opacity:0.4;"></div>
-            <div class="sk sk-wide" style="opacity:0.4;"></div>
-            <div class="sk sk-wide" style="width:65px;opacity:0.4;"></div>
-          </div>
-          <div class="xr-blur-overlay" aria-hidden="true"></div>
-        </div>
+        <h3 id="xr-modal-title" class="xr-modal-title">Where should we send it?</h3>
+        <p class="xr-modal-desc">
+          Your full report on <span class="xr-modal-desc-store" id="xr-modal-store-name">store.myshopify.com</span> is ready —
+          <span class="xr-modal-desc-stat">trending products</span>,
+          <span class="xr-modal-desc-stat">price spread</span>, and
+          <span class="xr-modal-desc-stat">supplier matches</span>.
+        </p>
 
-        <!-- lock gate -->
-        <div class="xr-lock-gate">
-          <div class="xr-lock-icon">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-          </div>
-          <div class="xr-gate-count">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
-            <span id="xr-count-label">Showing Top 3 Results Only</span>
-          </div>
-          <h3 class="xr-gate-title">Get the Full Analysis Report via Email</h3>
-          <p class="xr-gate-desc">
-            We'll send you the complete store analysis report and weekly trend insights — completely free.
-          </p>
+        <form id="xr-email-form" class="xr-modal-form" onsubmit="xraySubmit(event)">
+          <input type="hidden" id="xr-store-field"/>
+          <input
+            type="email"
+            name="email"
+            id="xr-email"
+            placeholder="you@yourstore.com"
+            required
+            autocomplete="email"
+            aria-label="Your email address"
+          />
+          <button type="submit" class="xr-modal-submit">
+            Send my report →
+          </button>
+        </form>
 
-          <!-- Netlify Form -->
-          <form
-            id="xr-email-form"
-            onsubmit="xraySubmit(event)"
-          >
-            <input type="hidden" id="xr-store-field"/>
-            <label for="xr-email" style="display:block;text-align:left;max-width:500px;margin:0 auto 8px;font-size:13px;font-weight:600;color:#475569;letter-spacing:0.2px;">Your email address</label>
-            <div class="xr-email-row">
-              <input
-                type="email"
-                name="email"
-                id="xr-email"
-                class="xr-email-input"
-                placeholder="Enter your email address"
-                required
-                autocomplete="email"
-              />
-              <button type="submit" class="xr-submit-btn">
-                Get Full Report
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-2px;margin-left:5px;" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-              </button>
-            </div>
-          </form>
-
-          <div class="xr-trust-note">
-            <span>
-              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
-              No Spam
-            </span>
-            <span>
-              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
-              Unsubscribe Anytime
-            </span>
-            <span>
-              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
-              100% Free
-            </span>
-          </div>
+        <div class="xr-modal-trust">
+          <span>✓ No spam</span>
+          <span class="xr-modal-trust-dot"></span>
+          <span>✓ Unsubscribe in 1 click</span>
+          <span class="xr-modal-trust-dot"></span>
+          <span>✓ Delivered &lt; 60s</span>
         </div>
       </div>
     </div>
@@ -3480,7 +3653,19 @@
     });
   }
 
-  /* ── X-Ray Lead Gen ── */
+  /* ── X-Ray Lead Gen: progress bar + cycling status + modal email gate ── */
+  var XR_STEPS = [
+    'Connecting to {store}...',
+    'Scanning 140,000+ product catalog...',
+    'Computing pHash clusters across 1,400 stores...',
+    'Identifying trending products & growth velocity...',
+    'Reverse-engineering supplier links...',
+    'Analysis complete. Preparing your report...'
+  ];
+  var XR_TOTAL_MS = 5800;        // total fake progress duration — feels real but not slow
+  var XR_TICK_MS = 60;           // progress bar update interval
+  var __xrTimer = null;          // outer ref so we can clear on abort
+
   function xrayAnalyze() {
     var inp = document.getElementById('xr-url');
     var url = inp.value.trim();
@@ -3490,10 +3675,22 @@
       inp.addEventListener('input', function() { inp.classList.remove('error'); }, { once: true });
       return;
     }
-    // store URL for Netlify hidden field
-    document.getElementById('xr-store-field').value = url;
 
-    // transition step1 → step2 (skeleton)
+    var storeName = url.replace(/^https?:\/\//, '').replace(/\/.*$/, '').slice(0, 32) || 'store.myshopify.com';
+    document.getElementById('xr-store-field').value = url;
+    document.getElementById('xr-progress-store-name').textContent = storeName;
+    document.getElementById('xr-modal-store-name').textContent = storeName;
+
+    // Build status step list
+    var stepsContainer = document.getElementById('xr-progress-steps');
+    stepsContainer.innerHTML = XR_STEPS.map(function(msg, i) {
+      return '<li class="xr-progress-step" data-i="' + i + '">'
+        + '<span class="xr-progress-icon">·</span>'
+        + '<span>' + msg.replace('{store}', storeName) + '</span>'
+        + '</li>';
+    }).join('');
+
+    // Phase 1 → 2
     document.getElementById('xr-step1').style.display = 'none';
     var s2 = document.getElementById('xr-step2');
     s2.style.display = 'block';
@@ -3501,22 +3698,76 @@
     s2.style.transition = 'opacity 0.3s';
     requestAnimationFrame(function() { s2.style.opacity = '1'; });
 
-    // after 2s, skeleton → email gate
-    setTimeout(function() {
-      s2.style.transition = 'opacity 0.25s';
-      s2.style.opacity = '0';
-      setTimeout(function() {
-        s2.style.display = 'none';
-        var s3 = document.getElementById('xr-step3');
-        s3.style.display = 'block';
-        s3.style.opacity = '0';
-        s3.style.transition = 'opacity 0.35s';
-        requestAnimationFrame(function() { s3.style.opacity = '1'; });
-        s3.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        gtag('event', 'xray_gate_shown', { store_url: url });
-      }, 250);
-    }, 2000);
+    var fillEl = document.getElementById('xr-progress-fill');
+    var pctEl = document.getElementById('xr-progress-pct');
+    var stepEls = stepsContainer.querySelectorAll('.xr-progress-step');
+    var ticks = XR_TOTAL_MS / XR_TICK_MS;
+    var current = 0;
+
+    if (__xrTimer) clearInterval(__xrTimer);
+    __xrTimer = setInterval(function() {
+      current++;
+      var pct = Math.min(Math.round((current / ticks) * 100), 100);
+      fillEl.style.width = pct + '%';
+      pctEl.textContent = pct + '%';
+      var activeIdx = Math.min(Math.floor((pct / 100) * XR_STEPS.length), XR_STEPS.length - 1);
+      stepEls.forEach(function(el, i) {
+        var isDone = i < activeIdx;
+        var isActive = i === activeIdx;
+        el.classList.toggle('is-done', isDone);
+        el.classList.toggle('is-active', isActive);
+        var icon = el.querySelector('.xr-progress-icon');
+        icon.textContent = isDone ? '✓' : (isActive ? '◌' : '·');
+      });
+      if (pct >= 100) {
+        clearInterval(__xrTimer);
+        __xrTimer = null;
+        // Mark all steps done before modal opens
+        stepEls.forEach(function(el) {
+          el.classList.add('is-done');
+          el.classList.remove('is-active');
+          el.querySelector('.xr-progress-icon').textContent = '✓';
+        });
+        // Pause ~600ms so user sees completion, then open modal
+        setTimeout(openXrModal, 600);
+      }
+    }, XR_TICK_MS);
   }
+
+  function openXrModal() {
+    var s2 = document.getElementById('xr-step2');
+    s2.style.transition = 'opacity 0.25s';
+    s2.style.opacity = '0';
+    setTimeout(function() {
+      s2.style.display = 'none';
+      var s3 = document.getElementById('xr-step3');
+      s3.classList.add('is-open');
+      document.body.style.overflow = 'hidden';
+      gtag('event', 'xray_gate_shown', { store_url: document.getElementById('xr-store-field').value });
+      var emailInp = document.getElementById('xr-email');
+      if (emailInp) setTimeout(function() { emailInp.focus(); }, 350);
+    }, 250);
+  }
+
+  function closeXrModal(e) {
+    if (e && e.target && e.target.closest && e.target.closest('.xr-modal-card')) return;
+    var s3 = document.getElementById('xr-step3');
+    s3.classList.remove('is-open');
+    document.body.style.overflow = '';
+    // Reset back to URL input
+    document.getElementById('xr-step1').style.display = '';
+    var s2 = document.getElementById('xr-step2');
+    s2.style.display = 'none';
+    s2.style.opacity = '';
+  }
+
+  // Escape to close modal
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+      var s3 = document.getElementById('xr-step3');
+      if (s3 && s3.classList.contains('is-open')) closeXrModal();
+    }
+  });
 
   function xraySubmit(e) {
     e.preventDefault();
@@ -3530,16 +3781,14 @@
 
     function showSuccess() {
       var s3 = document.getElementById('xr-step3');
-      s3.style.transition = 'opacity 0.25s';
-      s3.style.opacity = '0';
-      setTimeout(function() {
-        s3.style.display = 'none';
-        var s4 = document.getElementById('xr-step4');
-        s4.style.display = 'block';
-        s4.style.opacity = '0';
-        s4.style.transition = 'opacity 0.35s';
-        requestAnimationFrame(function() { s4.style.opacity = '1'; });
-      }, 250);
+      s3.classList.remove('is-open');
+      document.body.style.overflow = '';
+      var s4 = document.getElementById('xr-step4');
+      s4.style.display = 'block';
+      s4.style.opacity = '0';
+      s4.style.transition = 'opacity 0.35s';
+      requestAnimationFrame(function() { s4.style.opacity = '1'; });
+      s4.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
 
     fetch('https://formsubmit.co/ajax/support@storescope.com', {
@@ -3575,7 +3824,8 @@
     var revealSels = [
       '.bento-card', '.plan-card', '.review-card',
       '.step', '.founder-card', '.faq-item',
-      '.ls-stat', '.xray-box', '.tbadge'
+      '.ls-stat', '.xray-box', '.tbadge',
+      '.enterprise-panel', '.ba-card', '.counter-item'
     ];
     var allReveal = document.querySelectorAll(revealSels.join(','));
 
