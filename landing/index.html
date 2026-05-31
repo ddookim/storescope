@@ -378,7 +378,10 @@
     .counter-bar {
       background: #FFFFFF;
       border-top: 1px solid rgba(28,25,23,0.08); border-bottom: 1px solid rgba(28,25,23,0.08);
-      padding: 44px 24px;
+      padding: 84px 24px;
+    }
+    @media (max-width: 768px) {
+      .counter-bar { padding: 56px 24px; }
     }
     .counter-inner {
       max-width: 1200px; margin: 0 auto;
@@ -1296,18 +1299,21 @@
       color: #64748B !important;
     }
 
-    /* 6 ── COUNTER NUMBERS — bold data display */
+    /* 6 ── COUNTER NUMBERS — bold display data (enlarged scale) */
     .counter-num {
       font-family: 'Inter', sans-serif !important;
-      font-size: 46px !important;
+      font-size: clamp(48px, 6vw, 76px) !important;
       font-weight: 900 !important;
-      letter-spacing: -2.5px !important;
+      letter-spacing: -3.5px !important;
+      line-height: 1 !important;
     }
     .counter-label {
       font-size: 13px !important;
-      font-weight: 500 !important;
+      font-weight: 600 !important;
       color: #64748B !important;
-      letter-spacing: 0.1px !important;
+      letter-spacing: 0.4px !important;
+      text-transform: uppercase !important;
+      margin-top: 12px !important;
     }
 
     /* 7 ── LIFESTYLE SECTION removed — Before/After section uses .ba-* in P5 edit */
@@ -2410,12 +2416,6 @@
       </div>
       <span><span class="ha-name">LED Strip Lights 5M</span> — just hit 23 stores this week</span>
     </div>
-    <div class="hero-alert">
-      <div class="ha-icon purple">
-        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#c4b5fd" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
-      </div>
-      <span>Portable Projector: <span class="ha-name">+44% growth</span> — 12 new stores in 7 days</span>
-    </div>
   </div>
 
   <!-- 3D browser mockup -->
@@ -3013,73 +3013,6 @@
 
         </div>
       </div>
-    </div>
-  </div>
-</div>
-
-<!-- POWERED BY TRUST STRIP -->
-<div class="trust-strip">
-  <div class="trust-inner">
-    <p class="trust-tagline">Your data refreshes every Monday — automatically, without fail.</p>
-    <div class="trust-logos">
-
-      <!-- Shopify API -->
-      <div class="trust-logo-item">
-        <svg width="18" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
-          <line x1="3" y1="6" x2="21" y2="6"/>
-          <path d="M16 10a4 4 0 0 1-8 0"/>
-        </svg>
-        <div>
-          <div class="trust-logo-name">Shopify</div>
-          <div class="trust-logo-role">Data source</div>
-        </div>
-      </div>
-
-      <div class="trust-vdivider"></div>
-
-      <!-- Paddle -->
-      <div class="trust-logo-item">
-        <svg width="16" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <rect x="2" y="5" width="20" height="14" rx="2"/>
-          <line x1="2" y1="10" x2="22" y2="10"/>
-          <line x1="6" y1="15" x2="10" y2="15"/>
-          <line x1="14" y1="15" x2="16" y2="15"/>
-        </svg>
-        <div>
-          <div class="trust-logo-name">Paddle</div>
-          <div class="trust-logo-role">Payments</div>
-        </div>
-      </div>
-
-      <div class="trust-vdivider"></div>
-
-      <!-- AWS -->
-      <div class="trust-logo-item">
-        <svg width="22" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9z"/>
-        </svg>
-        <div>
-          <div class="trust-logo-name">AWS</div>
-          <div class="trust-logo-role">Always-on hosting</div>
-        </div>
-      </div>
-
-      <div class="trust-vdivider"></div>
-
-      <!-- OpenAI -->
-      <div class="trust-logo-item">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <path d="M12 3l1.68 4.32L18 9l-4.32 1.68L12 15l-1.68-4.32L6 9l4.32-1.68L12 3z"/>
-          <path d="M5 17l.89 2.11L8 20l-2.11.89L5 23l-.89-2.11L2 20l2.11-.89L5 17z"/>
-          <path d="M19 3l.67 1.67 1.66.66-1.66.67L19 7.67l-.67-1.67-1.66-.67 1.66-.66L19 3z"/>
-        </svg>
-        <div>
-          <div class="trust-logo-name">OpenAI</div>
-          <div class="trust-logo-role">AI Engine</div>
-        </div>
-      </div>
-
     </div>
   </div>
 </div>
