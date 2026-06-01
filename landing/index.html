@@ -3,13 +3,16 @@
 <head>
   <meta charset="UTF-8" />
   <script>
-    // StoreScope API endpoint resolver — env-aware
+    // StoreScope API endpoint resolver — env-aware.
+    // Backend: Cloudflare Quick Tunnel → local FastAPI :8001 (Dead-man wired).
+    // Cheapest viable path during D1-D7 validation experiment; Render credit
+    // exhausted, DO Student Pack pending. Migrate to DO post-D14 if signal.
+    // If tunnel restarts (Quick URLs can expire after extended use),
+    // update the URL below and re-deploy.
     window.STORESCOPE_API = (function() {
       var h = location.hostname;
-      if (h === 'localhost' || h === '127.0.0.1') return 'http://localhost:8000';
-      // GitHub Pages → Render free tier
-      if (h === 'ddookim.github.io') return 'https://storescope-api.onrender.com';
-      // Custom domain (if mapped later)
+      if (h === 'localhost' || h === '127.0.0.1') return 'http://localhost:8001';
+      if (h === 'ddookim.github.io') return 'https://sussex-imaging-cam-treasurer.trycloudflare.com';
       return 'https://api.storescope.com';
     })();
   </script>
@@ -3528,7 +3531,7 @@
       <a href="#features">Features</a>
       <a href="#pricing">Pricing</a>
       <a href="#xray">Free X-Ray Tool</a>
-      <a href="https://storescope-api.onrender.com/docs" target="_blank" rel="noopener noreferrer">API Docs</a>
+      <a href="https://sussex-imaging-cam-treasurer.trycloudflare.com/docs" target="_blank" rel="noopener noreferrer">API Docs</a>
     </div>
     <div class="footer-col">
       <h4>Company</h4>
