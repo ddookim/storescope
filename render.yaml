@@ -32,7 +32,7 @@ services:
       - key: PADDLE_WEBHOOK_SKIP_VERIFY
         value: "false"
       - key: ALLOWED_ORIGINS
-        value: https://storescope-app.onrender.com,https://ddookim.github.io
+        value: https://storescope-app.onrender.com
       - key: APP_URL
         value: https://storescope-app.onrender.com
       - key: TELEGRAM_BOT_TOKEN
