@@ -22,3 +22,9 @@ backups/
 # OS
 .DS_Store
 Thumbs.db
+
+# Local Netlify folder
+.netlify
+
+# Local tooling (Serena project cache, etc.)
+.serena/
