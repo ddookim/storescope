@@ -7,9 +7,9 @@
     window.STORESCOPE_API = (function() {
       var h = location.hostname;
       if (h === 'localhost' || h === '127.0.0.1') return 'http://localhost:8000';
-      // Cloudflare Quick Tunnel (DEV — URL changes per cloudflared session)
-      if (h === 'ddookim.github.io') return 'https://sussex-imaging-cam-treasurer.trycloudflare.com';
-      // Production (when deployed)
+      // GitHub Pages → Render free tier
+      if (h === 'ddookim.github.io') return 'https://storescope-api.onrender.com';
+      // Custom domain (if mapped later)
       return 'https://api.storescope.com';
     })();
   </script>
