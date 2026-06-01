@@ -2,6 +2,17 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
+  <script>
+    // StoreScope API endpoint resolver — env-aware
+    window.STORESCOPE_API = (function() {
+      var h = location.hostname;
+      if (h === 'localhost' || h === '127.0.0.1') return 'http://localhost:8000';
+      // Cloudflare Quick Tunnel (DEV — URL changes per cloudflared session)
+      if (h === 'ddookim.github.io') return 'https://sussex-imaging-cam-treasurer.trycloudflare.com';
+      // Production (when deployed)
+      return 'https://api.storescope.com';
+    })();
+  </script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>StoreScope — Next week's winning Shopify product, found this Monday</title>
   <meta name="description" content="StoreScope scans 1,400+ Shopify stores weekly and ranks the products gaining adoption — 7 to 14 days before they trend on ads. 140k+ products indexed. Free 7-day trial, no card required." />
@@ -2300,10 +2311,61 @@
       }
     });
     function openCheckout(priceId) {
+      // Dead-man switch: block new checkouts when pipeline data is stale (>72h)
+      if (window.__deadman && window.__deadman.payments_blocked) {
+        alert('Pipeline catching up. Checkout temporarily unavailable. Please try again later or email dodo@storescope.com.');
+        return;
+      }
       var pn = priceId === 'pri_01ksh172kehejf3xc2ws26e6vy' ? 'pro' : 'starter';
       gtag('event', 'select_item', { item_list_name: 'pricing', items: [{ item_id: pn, item_name: 'StoreScope ' + pn, price: pn === 'pro' ? 49 : 19 }] });
       Paddle.Checkout.open({ items: [{ priceId: priceId, quantity: 1 }] });
     }
+
+    // ── Dead-man switch + freshness banner ─────────────────────────
+    (function deadManSwitch(){
+      var API_BASE = window.STORESCOPE_API || 'https://api.storescope.com';
+      fetch(API_BASE + '/health/freshness', { cache: 'no-store' })
+        .then(function(r){ return r.json(); })
+        .then(function(d){
+          window.__deadman = d;
+          if (d.mode === 'warning') {
+            showFreshnessBanner('amber',
+              'Pipeline catching up — data last updated ' + d.days_since + ' days ago.');
+          } else if (d.mode === 'stale' || d.payments_blocked) {
+            showFreshnessBanner('red',
+              'Free preview mode — full data resumes once pipeline catches up.');
+            document.querySelectorAll('.plan-card button, .btn-hero, [data-paddle]').forEach(function(b){
+              if (!b.textContent.match(/Resuming|Free/i)) {
+                b.disabled = true;
+                b.style.opacity = '0.5';
+                b.style.cursor = 'not-allowed';
+                b.setAttribute('aria-disabled', 'true');
+                if (!b.dataset.originalText) b.dataset.originalText = b.textContent;
+              }
+            });
+          }
+        })
+        .catch(function(err){
+          // Fail-open: if API unreachable, do not block payments — log only
+          console.warn('Freshness check failed, defaulting to live mode:', err && err.message);
+          window.__deadman = { mode: 'unknown', payments_blocked: false };
+        });
+
+      function showFreshnessBanner(level, msg){
+        if (document.getElementById('freshness-banner')) return;
+        var bar = document.createElement('div');
+        bar.id = 'freshness-banner';
+        bar.setAttribute('role', 'status');
+        bar.textContent = msg;
+        var bg = (level === 'amber') ? '#FEF3C7' : '#FEE2E2';
+        var fg = (level === 'amber') ? '#92400E' : '#B91C1C';
+        var bd = (level === 'amber') ? '#FDE68A' : '#FECACA';
+        bar.style.cssText = 'position:sticky;top:0;z-index:9999;padding:12px 24px;text-align:center;'
+          + 'font:600 14px/1.4 Inter,-apple-system,sans-serif;'
+          + 'background:' + bg + ';color:' + fg + ';border-bottom:1px solid ' + bd + ';';
+        document.body.insertBefore(bar, document.body.firstChild);
+      }
+    })();
 
     // Billing toggle: monthly / annual
     // NOTE: Annual Paddle price IDs are not yet created. Currently both billing

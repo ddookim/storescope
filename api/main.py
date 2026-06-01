@@ -21,6 +21,7 @@ import socket
 import urllib.parse
 import psycopg2.extras
 from contextlib import asynccontextmanager
+from datetime import datetime, timezone
 from typing import Optional
 
 from fastapi import Depends, FastAPI, HTTPException, Query
@@ -101,6 +102,68 @@ def health():
     except Exception:
         logger.error("Health check failed", exc_info=True)
         raise HTTPException(status_code=503, detail="서비스를 일시적으로 사용할 수 없습니다.")
+
+
+FRESHNESS_WARNING_HOURS = 24
+FRESHNESS_STALE_HOURS = 72
+
+
+@app.get("/health/freshness")
+def health_freshness():
+    """Pipeline 데이터 신선도 + Dead-man switch 상태.
+
+    mode:
+      - "live"    : < 24h  (정상)
+      - "warning" : 24~72h (경고 배너, 결제 허용)
+      - "stale"   : 72h+   (신규 결제 차단)
+
+    payments_blocked=True 이면 클라이언트는 Paddle Checkout 차단.
+    DB 에러 시 fail-safe 로 payments_blocked=True 반환.
+    """
+    try:
+        with get_conn() as conn:
+            with conn.cursor() as cur:
+                cur.execute("SELECT MAX(snapshot_at) FROM trend_snapshots")
+                row = cur.fetchone()
+                last_snap = row[0] if row else None
+    except Exception as exc:
+        logger.error("Freshness check DB error", exc_info=True)
+        return {
+            "status": "error",
+            "mode": "unknown",
+            "payments_blocked": True,
+            "error": str(exc)[:120],
+        }
+
+    if last_snap is None:
+        return {
+            "status": "no_data",
+            "mode": "stale",
+            "updated_at": None,
+            "hours_since": None,
+            "days_since": None,
+            "payments_blocked": True,
+        }
+
+    if last_snap.tzinfo is None:
+        last_snap = last_snap.replace(tzinfo=timezone.utc)
+    hours = (datetime.now(timezone.utc) - last_snap).total_seconds() / 3600
+
+    if hours < FRESHNESS_WARNING_HOURS:
+        mode, blocked = "live", False
+    elif hours < FRESHNESS_STALE_HOURS:
+        mode, blocked = "warning", False
+    else:
+        mode, blocked = "stale", True
+
+    return {
+        "status": "ok",
+        "mode": mode,
+        "updated_at": last_snap.isoformat(),
+        "hours_since": round(hours, 1),
+        "days_since": round(hours / 24, 1),
+        "payments_blocked": blocked,
+    }
 
 
 # ── GET /trending ───────────────────────────────────────────
