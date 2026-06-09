@@ -482,10 +482,24 @@
       height: 80px; display: flex; align-items: center; justify-content: center;
       font-size: 36px; position: relative;
     }
-    .product-thumb.t1 { background: linear-gradient(135deg, #1C1917, #312e81); }
-    .product-thumb.t2 { background: linear-gradient(135deg, #14532d, #166534); }
-    .product-thumb.t3 { background: linear-gradient(135deg, #1e3a5f, #4F46E5); }
-    .product-thumb.t4 { background: linear-gradient(135deg, #451a03, #92400e); }
+    /* UPGRADE 2026-06-09: Hero mockup product cards 실 사진 배경 (Unsplash CDN).
+       이전: SVG 아이콘 + gradient bg → 추상. 이후: 실 제품 사진 + dim overlay → "real intelligence" 인식. */
+    .product-thumb.t1 {
+      background: linear-gradient(rgba(28,25,23,0.35), rgba(28,25,23,0.55)),
+        url('https://images.unsplash.com/photo-1517824806704-9040b037703b?w=200&h=200&fit=crop&q=70') center/cover;
+    }
+    .product-thumb.t2 {
+      background: linear-gradient(rgba(20,83,45,0.4), rgba(22,101,52,0.6)),
+        url('https://images.unsplash.com/photo-1565020069123-44e1c7bdcb44?w=200&h=200&fit=crop&q=70') center/cover;
+    }
+    .product-thumb.t3 {
+      background: linear-gradient(rgba(30,58,95,0.4), rgba(79,70,229,0.55)),
+        url('https://images.unsplash.com/photo-1583863788434-e58a36330cf0?w=200&h=200&fit=crop&q=70') center/cover;
+    }
+    .product-thumb.t4 {
+      background: linear-gradient(rgba(69,26,3,0.4), rgba(146,64,14,0.55)),
+        url('https://images.unsplash.com/photo-1525507119028-ed4c629a60a3?w=200&h=200&fit=crop&q=70') center/cover;
+    }
     .product-body { padding: 10px; }
     .product-name { font-size: 11px; font-weight: 600; color: var(--white); margin-bottom: 6px; line-height: 1.3; }
     .product-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px; }
@@ -1057,6 +1071,14 @@
       display: flex; gap: 16px; align-items: flex-start;
       padding: 18px 0; border-top: 1px solid rgba(28,25,23,0.06);
     }
+    /* UPGRADE 2026-06-09: 실 제품 사진 thumbnail — Unsplash CDN */
+    .email-mock-thumb {
+      width: 56px; height: 56px; flex-shrink: 0;
+      object-fit: cover; border-radius: 12px;
+      background: rgba(28,25,23,0.05);
+      border: 1px solid rgba(28,25,23,0.08);
+      box-shadow: 0 1px 2px rgba(28,25,23,0.04);
+    }
     .email-mock-rank {
       font-family: 'JetBrains Mono', 'SF Mono', monospace;
       font-size: 11px; font-weight: 700;
@@ -1110,6 +1132,7 @@
       .email-mock-h { font-size: 17px; }
       .email-mock-header { padding: 14px 16px; }
       .email-mock-item { gap: 10px; padding: 14px 0; }
+      .email-mock-thumb { width: 44px; height: 44px; }
       .email-mock-rank { width: 22px; font-size: 10px; }
       .email-mock-item-title { font-size: 13.5px; }
       .email-mock-bars { max-width: 100%; }
@@ -3557,6 +3580,10 @@
 
           <div class="email-mock-item">
             <div class="email-mock-rank">01</div>
+            <!-- UPGRADE 2026-06-09: 실 제품 사진 thumbnail (Unsplash CDN, no-auth) — 사용자 "사진/이미지" 요청 -->
+            <img class="email-mock-thumb"
+                 src="https://images.unsplash.com/photo-1521405617584-1d9dcfedf589?w=120&h=120&fit=crop&q=70"
+                 alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" />
             <div class="email-mock-item-body">
               <div class="email-mock-item-title">Wafer Head Self Drilling Screws BZP</div>
               <div class="email-mock-item-meta">
@@ -3583,6 +3610,9 @@
 
           <div class="email-mock-item">
             <div class="email-mock-rank">02</div>
+            <img class="email-mock-thumb"
+                 src="https://images.unsplash.com/photo-1583394838336-acd977736f90?w=120&h=120&fit=crop&q=70"
+                 alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" />
             <div class="email-mock-item-body">
               <div class="email-mock-item-title">Magnetic Cable Organizer · 6-port USB-C</div>
               <div class="email-mock-item-meta">
@@ -3599,8 +3629,11 @@
 
           <div class="email-mock-item">
             <div class="email-mock-rank">03</div>
+            <img class="email-mock-thumb"
+                 src="https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=120&h=120&fit=crop&q=70"
+                 alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" />
             <div class="email-mock-item-body">
-              <div class="email-mock-item-title">Sample product · niche cluster</div>
+              <div class="email-mock-item-title">Premium Sunglasses · UV-protective</div>
               <div class="email-mock-item-meta">
                 <span class="email-mock-stat"><strong>92 stores</strong></span>
                 <span class="email-mock-divider">·</span>
