@@ -255,7 +255,11 @@
       background: #059669; box-shadow: 0 0 0 2.5px rgba(5,150,105,0.18);
       animation: livepulse 2s infinite;
     }
-    @media (max-width: 600px) { .nav-beta-pill { display: none; } }
+    /* FIX 2026-06-09: 모바일에서도 배지 유지 (브랜드 정체성) — dot만 보이게 */
+    @media (max-width: 600px) {
+      .nav-beta-pill { padding: 4px 7px; margin-left: 6px; gap: 0; }
+      .nav-beta-text { display: none; }
+    }
     .nav-ctas { display: flex; gap: 8px; align-items: center; }
     .btn-ghost {
       padding: 8px 18px; border-radius: var(--radius-sm); font-size: 13.5px; font-weight: 500;
@@ -1546,8 +1550,19 @@
       .faq-item:last-child { border-bottom: none; }
       .footer-inner { grid-template-columns: 1fr 1fr; gap: 32px; }
       .counter-item { padding: 0 28px; }
+      /* FIX 2026-06-09 (긴급): nav-ctas 숨김 누락 → 데스크탑 nav + 모바일 nav 동시 표시 버그.
+         "Get Monday's list" 버튼 2번 표시 + 텍스트 줄바꿈 등. */
       .nav-links { display: none; }
-      .nav-mobile { display: block; }
+      .nav-ctas { display: none; }
+      .nav-mobile { display: flex; align-items: center; gap: 8px; }
+    }
+    /* FIX 2026-06-09 (긴급): 좁은 데스크탑 (768-1100px) 도 햄버거 모드 — nav 콘텐츠 7개
+       (4 links + 3 CTAs) 가 폭 부족으로 줄바꿈/깨짐 발생. 사용자 스크린샷 확인. */
+    @media (max-width: 1100px) and (min-width: 769px) {
+      .nav-links { display: none; }
+      .nav-ctas { display: none; }
+      .nav-mobile { display: flex; align-items: center; gap: 8px; }
+      .nav-hamburger { display: inline-flex; }
     }
     @media (max-width: 500px) {
       .dg-head, .dg-row { grid-template-columns: 44px 1fr 80px; }
@@ -2741,7 +2756,7 @@
       <!-- UPGRADE 2026-06-09: nav 라이브 "Open Beta" 배지 — 즉시 가시 (사용자 신뢰: 정직 + 진행 중) -->
       <span class="nav-beta-pill" aria-label="Open beta">
         <span class="nav-beta-dot" aria-hidden="true"></span>
-        Open Beta
+        <span class="nav-beta-text">Open Beta</span>
       </span>
     </a>
     <div class="nav-links">
