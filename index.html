@@ -482,24 +482,12 @@
       height: 80px; display: flex; align-items: center; justify-content: center;
       font-size: 36px; position: relative;
     }
-    /* UPGRADE 2026-06-09: Hero mockup product cards 실 사진 배경 (Unsplash CDN).
-       이전: SVG 아이콘 + gradient bg → 추상. 이후: 실 제품 사진 + dim overlay → "real intelligence" 인식. */
-    .product-thumb.t1 {
-      background: linear-gradient(rgba(28,25,23,0.35), rgba(28,25,23,0.55)),
-        url('https://images.unsplash.com/photo-1517824806704-9040b037703b?w=200&h=200&fit=crop&q=70') center/cover;
-    }
-    .product-thumb.t2 {
-      background: linear-gradient(rgba(20,83,45,0.4), rgba(22,101,52,0.6)),
-        url('https://images.unsplash.com/photo-1565020069123-44e1c7bdcb44?w=200&h=200&fit=crop&q=70') center/cover;
-    }
-    .product-thumb.t3 {
-      background: linear-gradient(rgba(30,58,95,0.4), rgba(79,70,229,0.55)),
-        url('https://images.unsplash.com/photo-1583863788434-e58a36330cf0?w=200&h=200&fit=crop&q=70') center/cover;
-    }
-    .product-thumb.t4 {
-      background: linear-gradient(rgba(69,26,3,0.4), rgba(146,64,14,0.55)),
-        url('https://images.unsplash.com/photo-1525507119028-ed4c629a60a3?w=200&h=200&fit=crop&q=70') center/cover;
-    }
+    /* FIX 2026-06-09: Unsplash 외부 의존 제거 (깨짐 위험) → 그라데이션 + SVG 아이콘 (안정).
+       각 product card 다른 색감 = 시각 구분 명확. */
+    .product-thumb.t1 { background: linear-gradient(135deg, #312E81, #4F46E5); }
+    .product-thumb.t2 { background: linear-gradient(135deg, #166534, #15803D); }
+    .product-thumb.t3 { background: linear-gradient(135deg, #1E3A5F, #4F46E5); }
+    .product-thumb.t4 { background: linear-gradient(135deg, #92400E, #D97706); }
     .product-body { padding: 10px; }
     .product-name { font-size: 11px; font-weight: 600; color: var(--white); margin-bottom: 6px; line-height: 1.3; }
     .product-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px; }
@@ -1071,14 +1059,20 @@
       display: flex; gap: 16px; align-items: flex-start;
       padding: 18px 0; border-top: 1px solid rgba(28,25,23,0.06);
     }
-    /* UPGRADE 2026-06-09: 실 제품 사진 thumbnail — Unsplash CDN */
+    /* FIX 2026-06-09: SVG 일러스트 thumbnail — 외부 의존 0, 깨질 위험 0.
+       각 카테고리별 brand 색감 tint (light pastel bg + dark icon). */
     .email-mock-thumb {
       width: 56px; height: 56px; flex-shrink: 0;
-      object-fit: cover; border-radius: 12px;
-      background: rgba(28,25,23,0.05);
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
       border: 1px solid rgba(28,25,23,0.08);
       box-shadow: 0 1px 2px rgba(28,25,23,0.04);
     }
+    .email-mock-thumb svg { width: 36px; height: 36px; }
+    /* 카테고리별 색감 */
+    .thumb-screws    { background: linear-gradient(135deg, #F0EDE5, #E6E1D5); color: #57534E; }
+    .thumb-cable     { background: linear-gradient(135deg, #EEF2FF, #DDD6FE); color: #4F46E5; }
+    .thumb-sunglasses { background: linear-gradient(135deg, #FEF3C7, #FED7AA); color: #92400E; }
     .email-mock-rank {
       font-family: 'JetBrains Mono', 'SF Mono', monospace;
       font-size: 11px; font-weight: 700;
@@ -3516,8 +3510,9 @@
 <div class="reviews-section">
   <div class="reviews-inner">
     <div class="section-pill">Open Beta</div>
-    <h2 class="section-h2" style="margin-bottom:12px;">A note from the founder.</h2>
-    <p class="section-sub" style="margin-bottom:48px;">No fake testimonials. Here's what's actually built — and why I'm asking you to try it.</p>
+    <!-- FIX 2026-06-09: heading 크기 다소 줄임 (짧은 콘텐츠와 균형) + 가운데 정렬 명시 -->
+    <h2 class="section-h2" style="margin-bottom:12px;font-size:clamp(28px,3.5vw,44px);">A note from the founder.</h2>
+    <p class="section-sub" style="margin-bottom:48px;max-width:560px;margin-left:auto;margin-right:auto;text-align:center;">No fake testimonials. Here's what's actually built — and why we're asking you to try it.</p>
 
     <div class="founder-note">
       <p class="founder-note-body">
@@ -3580,10 +3575,15 @@
 
           <div class="email-mock-item">
             <div class="email-mock-rank">01</div>
-            <!-- UPGRADE 2026-06-09: 실 제품 사진 thumbnail (Unsplash CDN, no-auth) — 사용자 "사진/이미지" 요청 -->
-            <img class="email-mock-thumb"
-                 src="https://images.unsplash.com/photo-1521405617584-1d9dcfedf589?w=120&h=120&fit=crop&q=70"
-                 alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" />
+            <!-- FIX 2026-06-09: Unsplash URL 깨짐 → inline SVG 제품 일러스트 (외부 의존 0). -->
+            <div class="email-mock-thumb thumb-screws">
+              <svg viewBox="0 0 48 48" fill="none" aria-hidden="true">
+                <rect x="20" y="6" width="8" height="32" rx="2" fill="currentColor" opacity="0.85"/>
+                <path d="M16 8 L20 6 L20 12 Z M16 14 L20 12 L20 18 Z M16 20 L20 18 L20 24 Z" fill="currentColor" opacity="0.65"/>
+                <path d="M28 6 L32 8 L28 12 Z M28 12 L32 14 L28 18 Z M28 18 L32 20 L28 24 Z" fill="currentColor" opacity="0.65"/>
+                <path d="M20 38 L24 44 L28 38 Z" fill="currentColor" opacity="0.9"/>
+              </svg>
+            </div>
             <div class="email-mock-item-body">
               <div class="email-mock-item-title">Wafer Head Self Drilling Screws BZP</div>
               <div class="email-mock-item-meta">
@@ -3610,9 +3610,16 @@
 
           <div class="email-mock-item">
             <div class="email-mock-rank">02</div>
-            <img class="email-mock-thumb"
-                 src="https://images.unsplash.com/photo-1583394838336-acd977736f90?w=120&h=120&fit=crop&q=70"
-                 alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" />
+            <div class="email-mock-thumb thumb-cable">
+              <svg viewBox="0 0 48 48" fill="none" aria-hidden="true">
+                <rect x="6" y="20" width="36" height="14" rx="3" fill="currentColor" opacity="0.85"/>
+                <rect x="10" y="24" width="6" height="6" rx="1" fill="currentColor" opacity="0.55"/>
+                <rect x="18" y="24" width="6" height="6" rx="1" fill="currentColor" opacity="0.55"/>
+                <rect x="26" y="24" width="6" height="6" rx="1" fill="currentColor" opacity="0.55"/>
+                <path d="M24 6 Q30 12 30 20" stroke="currentColor" stroke-width="2" opacity="0.7"/>
+                <circle cx="24" cy="6" r="2.5" fill="currentColor" opacity="0.7"/>
+              </svg>
+            </div>
             <div class="email-mock-item-body">
               <div class="email-mock-item-title">Magnetic Cable Organizer · 6-port USB-C</div>
               <div class="email-mock-item-meta">
@@ -3629,9 +3636,14 @@
 
           <div class="email-mock-item">
             <div class="email-mock-rank">03</div>
-            <img class="email-mock-thumb"
-                 src="https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=120&h=120&fit=crop&q=70"
-                 alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" />
+            <div class="email-mock-thumb thumb-sunglasses">
+              <svg viewBox="0 0 48 48" fill="none" aria-hidden="true">
+                <ellipse cx="15" cy="24" rx="9" ry="7" fill="currentColor" opacity="0.85"/>
+                <ellipse cx="33" cy="24" rx="9" ry="7" fill="currentColor" opacity="0.85"/>
+                <path d="M24 24 Q24 22 22 22 L20 22 M24 24 Q24 22 26 22 L28 22" stroke="currentColor" stroke-width="2" opacity="0.7"/>
+                <path d="M6 18 L8 14 M42 18 L40 14" stroke="currentColor" stroke-width="2" opacity="0.55" stroke-linecap="round"/>
+              </svg>
+            </div>
             <div class="email-mock-item-body">
               <div class="email-mock-item-title">Premium Sunglasses · UV-protective</div>
               <div class="email-mock-item-meta">
