@@ -1464,38 +1464,70 @@
     .xr-analyze-btn:hover { box-shadow: 0 4px 16px rgba(79,70,229,0.4), 0 8px 24px rgba(79,70,229,0.2); transform: translateY(-1px); }
     .xr-hint { text-align: center; margin-top: 12px; font-size: 13px; color: var(--muted); }
 
-    /* UPGRADE 2026-06-13: X-Ray "What you'll receive" 4-icon preview */
-    .xr-receive-grid {
-      display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px;
-      max-width: 720px; margin: 36px auto 0;
-    }
-    .xr-receive-item {
-      text-align: center; padding: 18px 12px;
+    /* UPGRADE 2026-06-13: X-Ray "What you'll receive" — Stripe email-receipt premium preview */
+    .xr-receive-preview {
+      max-width: 580px; margin: 36px auto 0;
       background: #FFFFFF;
       border: 1px solid rgba(28,25,23,0.08);
-      border-radius: 12px;
-      transition: transform 0.2s, box-shadow 0.2s;
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow:
+        0 1px 2px rgba(28,25,23,0.04),
+        0 10px 24px rgba(28,25,23,0.05);
     }
-    .xr-receive-item:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(28,25,23,0.06);
+    .xr-receive-preview-head {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 14px 20px;
+      background: linear-gradient(180deg, #F9F8F6, #F3F1EE);
+      border-bottom: 1px solid rgba(28,25,23,0.06);
     }
-    .xr-receive-icon {
-      width: 40px; height: 40px; border-radius: 10px;
-      display: inline-flex; align-items: center; justify-content: center;
-      margin-bottom: 12px;
+    .xr-receive-tag {
+      font-family: 'JetBrains Mono','SF Mono',monospace;
+      font-size: 10.5px; font-weight: 700;
+      color: #57534E; letter-spacing: 0.3px;
     }
-    .xr-receive-title {
-      font-size: 13px; font-weight: 700; color: #1C1917;
-      letter-spacing: -0.1px; margin-bottom: 3px;
+    .xr-receive-pill {
+      font-family: 'JetBrains Mono','SF Mono',monospace;
+      font-size: 9.5px; font-weight: 800;
+      padding: 3px 9px; border-radius: 4px;
+      background: rgba(79,70,229,0.1); color: #4F46E5;
+      letter-spacing: 0.4px;
     }
-    .xr-receive-sub {
-      font-size: 11.5px; color: #78716C; letter-spacing: -0.1px;
+    .xr-receive-stats {
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      padding: 24px 20px;
+      gap: 12px;
     }
-    @media (max-width: 720px) {
-      .xr-receive-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; max-width: 100%; }
-      .xr-receive-item { padding: 14px 10px; }
-      .xr-receive-icon { width: 36px; height: 36px; }
+    .xr-receive-stat {
+      text-align: center;
+      padding: 0 8px;
+      border-right: 1px solid rgba(28,25,23,0.06);
+    }
+    .xr-receive-stat:last-child { border-right: 0; }
+    .xr-receive-stat-val {
+      display: block;
+      font-size: 22px; font-weight: 900;
+      color: #1C1917; letter-spacing: -0.8px;
+      margin-bottom: 2px;
+    }
+    .xr-receive-stat-lbl {
+      font-size: 10.5px; font-weight: 600;
+      color: #78716C; letter-spacing: 0.3px;
+      text-transform: uppercase;
+    }
+    .xr-receive-footer {
+      display: flex; align-items: center; justify-content: center;
+      gap: 8px; padding: 12px 20px;
+      background: rgba(5,150,105,0.05);
+      border-top: 1px solid rgba(5,150,105,0.1);
+      font-size: 12.5px; font-weight: 600;
+      color: #059669; letter-spacing: -0.1px;
+    }
+    @media (max-width: 600px) {
+      .xr-receive-stats { grid-template-columns: repeat(2, 1fr); }
+      .xr-receive-stat:nth-child(2) { border-right: 0; }
+      .xr-receive-stat-val { font-size: 18px; }
+      .xr-receive-tag { font-size: 9.5px; }
     }
 
     /* ── STEP 2 : skeleton ── */
@@ -3048,7 +3080,27 @@
 
               <div class="product-card">
                 <div class="product-thumb t1">
-                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.75)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+                  <!-- UPGRADE 2026-06-13: Premium product render (multi-layer + lens glow + power LED) -->
+                  <svg width="60" height="40" viewBox="0 0 60 40" fill="none" aria-hidden="true">
+                    <defs>
+                      <radialGradient id="lens-1" cx="0.5" cy="0.5" r="0.5">
+                        <stop offset="0" stop-color="#FFFFFF" stop-opacity="0.85"/>
+                        <stop offset="0.5" stop-color="#4F46E5" stop-opacity="0.45"/>
+                        <stop offset="1" stop-color="#1C1917" stop-opacity="0.2"/>
+                      </radialGradient>
+                      <linearGradient id="body-1" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0" stop-color="rgba(255,255,255,0.18)"/>
+                        <stop offset="1" stop-color="rgba(0,0,0,0.25)"/>
+                      </linearGradient>
+                    </defs>
+                    <rect x="6" y="10" width="48" height="22" rx="3" fill="url(#body-1)" stroke="rgba(255,255,255,0.2)"/>
+                    <rect x="6" y="10" width="48" height="2" fill="rgba(255,255,255,0.15)"/>
+                    <circle cx="20" cy="21" r="8" fill="url(#lens-1)" stroke="rgba(255,255,255,0.3)" stroke-width="0.8"/>
+                    <circle cx="20" cy="21" r="3" fill="rgba(255,255,255,0.85)"/>
+                    <circle cx="44" cy="16" r="1.2" fill="#34D399"/>
+                    <rect x="38" y="22" width="10" height="2" rx="0.5" fill="rgba(255,255,255,0.4)"/>
+                    <rect x="38" y="26" width="6" height="1.5" rx="0.5" fill="rgba(255,255,255,0.25)"/>
+                  </svg>
                 </div>
                 <div class="product-body">
                   <div class="product-name">Portable Mini Projector 1080p</div>
@@ -3066,7 +3118,23 @@
 
               <div class="product-card">
                 <div class="product-thumb t2">
-                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.75)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="9" y1="18" x2="15" y2="18"/><line x1="10" y1="22" x2="14" y2="22"/><path d="M15.09 14c.18-.98.65-1.74 1.41-2.5A4.65 4.65 0 0 0 18 8 6 6 0 0 0 6 8c0 1 .23 2.23 1.5 3.5A4.61 4.61 0 0 1 8.91 14"/></svg>
+                  <svg width="60" height="40" viewBox="0 0 60 40" fill="none" aria-hidden="true">
+                    <defs>
+                      <linearGradient id="strip-2" x1="0" y1="0" x2="1" y2="0">
+                        <stop offset="0" stop-color="#FBBF24"/>
+                        <stop offset="0.25" stop-color="#FB7185"/>
+                        <stop offset="0.5" stop-color="#C084FC"/>
+                        <stop offset="0.75" stop-color="#60A5FA"/>
+                        <stop offset="1" stop-color="#34D399"/>
+                      </linearGradient>
+                    </defs>
+                    <path d="M5 28 Q15 16 25 22 Q35 28 45 18 Q52 12 55 14"
+                          stroke="url(#strip-2)" stroke-width="6" fill="none" stroke-linecap="round" opacity="0.9"/>
+                    <path d="M5 28 Q15 16 25 22 Q35 28 45 18 Q52 12 55 14"
+                          stroke="rgba(255,255,255,0.4)" stroke-width="2" fill="none" stroke-linecap="round"/>
+                    <circle cx="8" cy="27" r="3" fill="#FBBF24" opacity="0.85"/>
+                    <circle cx="8" cy="27" r="3" fill="#FBBF24" opacity="0.35" transform="scale(2) translate(-4 -13.5)"/>
+                  </svg>
                 </div>
                 <div class="product-body">
                   <div class="product-name">LED Strip Lights 5M RGB</div>
@@ -3084,7 +3152,22 @@
 
               <div class="product-card">
                 <div class="product-thumb t3">
-                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.75)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+                  <svg width="60" height="40" viewBox="0 0 60 40" fill="none" aria-hidden="true">
+                    <defs>
+                      <linearGradient id="phone-3" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0" stop-color="rgba(255,255,255,0.25)"/>
+                        <stop offset="1" stop-color="rgba(0,0,0,0.35)"/>
+                      </linearGradient>
+                    </defs>
+                    <circle cx="38" cy="20" r="10" fill="#1C1917" opacity="0.55"/>
+                    <circle cx="38" cy="20" r="10" fill="none" stroke="rgba(255,255,255,0.45)" stroke-width="0.8" stroke-dasharray="2 2"/>
+                    <circle cx="38" cy="20" r="3" fill="rgba(255,255,255,0.7)"/>
+                    <rect x="14" y="6" width="18" height="28" rx="3" fill="url(#phone-3)" stroke="rgba(255,255,255,0.25)"/>
+                    <rect x="16" y="10" width="14" height="18" rx="1" fill="rgba(255,255,255,0.18)"/>
+                    <rect x="16" y="10" width="14" height="3" fill="rgba(0,0,0,0.25)"/>
+                    <circle cx="23" cy="31" r="1.2" fill="rgba(255,255,255,0.5)"/>
+                    <path d="M32 20 Q35 18 38 19" stroke="rgba(255,255,255,0.4)" stroke-width="0.8" stroke-dasharray="1 1" fill="none"/>
+                  </svg>
                 </div>
                 <div class="product-body">
                   <div class="product-name">Magnetic Car Phone Mount</div>
@@ -3102,7 +3185,21 @@
 
               <div class="product-card">
                 <div class="product-thumb t4">
-                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.75)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+                  <svg width="60" height="40" viewBox="0 0 60 40" fill="none" aria-hidden="true">
+                    <defs>
+                      <linearGradient id="bag-4" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0" stop-color="rgba(255,255,255,0.3)"/>
+                        <stop offset="1" stop-color="rgba(0,0,0,0.3)"/>
+                      </linearGradient>
+                    </defs>
+                    <path d="M14 14 Q20 10 30 10 Q40 10 46 14 L48 32 Q48 35 45 35 L15 35 Q12 35 12 32 Z"
+                          fill="url(#bag-4)" stroke="rgba(255,255,255,0.3)" stroke-width="0.8"/>
+                    <path d="M18 14 Q18 8 22 6 M42 14 Q42 8 38 6 M22 6 Q28 4 38 6"
+                          stroke="rgba(255,255,255,0.5)" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+                    <rect x="22" y="20" width="16" height="3" rx="1" fill="rgba(255,255,255,0.35)"/>
+                    <rect x="22" y="25" width="10" height="2" rx="0.5" fill="rgba(255,255,255,0.25)"/>
+                    <circle cx="42" cy="22" r="1.2" fill="rgba(255,255,255,0.5)"/>
+                  </svg>
                 </div>
                 <div class="product-body">
                   <div class="product-name">Silicone Reusable Bags Set</div>
@@ -3710,51 +3807,36 @@
       </div>
       <p class="xr-hint">Enter domain or full URL · No signup required</p>
 
-      <!-- UPGRADE 2026-06-13: "What you'll get" 시각 preview — 사용자 URL 입력 전 신뢰 ↑ -->
-      <div class="xr-receive-grid" aria-label="What you'll receive">
-        <div class="xr-receive-item">
-          <div class="xr-receive-icon" style="background:rgba(79,70,229,0.08);color:#4F46E5;">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <path d="M6 2 L18 2 L20 6 L20 20 A2 2 0 0 1 18 22 L6 22 A2 2 0 0 1 4 20 L4 6 Z"/>
-              <line x1="4" y1="10" x2="20" y2="10"/>
-              <line x1="9" y1="15" x2="15" y2="15"/>
-            </svg>
-          </div>
-          <div class="xr-receive-title">Full catalog</div>
-          <div class="xr-receive-sub">Every product they sell</div>
+      <!-- UPGRADE 2026-06-13: "What you'll get" — Stripe email-receipt 패턴 (실 data 형식) -->
+      <div class="xr-receive-preview">
+        <div class="xr-receive-preview-head">
+          <span class="xr-receive-tag">SAMPLE REPORT · example.myshopify.com</span>
+          <span class="xr-receive-pill">.PDF</span>
         </div>
-
-        <div class="xr-receive-item">
-          <div class="xr-receive-icon" style="background:rgba(5,150,105,0.08);color:#059669;">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/>
-              <polyline points="17 6 23 6 23 12"/>
-            </svg>
+        <div class="xr-receive-stats">
+          <div class="xr-receive-stat">
+            <span class="xr-receive-stat-val">128</span>
+            <span class="xr-receive-stat-lbl">products</span>
           </div>
-          <div class="xr-receive-title">Trending items</div>
-          <div class="xr-receive-sub">Already gaining traction</div>
+          <div class="xr-receive-stat">
+            <span class="xr-receive-stat-val">17</span>
+            <span class="xr-receive-stat-lbl">trending now</span>
+          </div>
+          <div class="xr-receive-stat">
+            <span class="xr-receive-stat-val">$12–$89</span>
+            <span class="xr-receive-stat-lbl">price range</span>
+          </div>
+          <div class="xr-receive-stat">
+            <span class="xr-receive-stat-val">~30s</span>
+            <span class="xr-receive-stat-lbl">delivery</span>
+          </div>
         </div>
-
-        <div class="xr-receive-item">
-          <div class="xr-receive-icon" style="background:rgba(217,119,6,0.08);color:#D97706;">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <line x1="12" y1="1" x2="12" y2="23"/>
-              <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
-            </svg>
-          </div>
-          <div class="xr-receive-title">Price range</div>
-          <div class="xr-receive-sub">Min, max across stores</div>
-        </div>
-
-        <div class="xr-receive-item">
-          <div class="xr-receive-icon" style="background:rgba(192,132,252,0.12);color:#7C3AED;">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
-              <polyline points="22 6 12 13 2 6"/>
-            </svg>
-          </div>
-          <div class="xr-receive-title">In your inbox</div>
-          <div class="xr-receive-sub">Within 30 seconds</div>
+        <div class="xr-receive-footer">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+            <polyline points="22 6 12 13 2 6"/>
+          </svg>
+          <span>Sent straight to your inbox</span>
         </div>
       </div>
     </div>
