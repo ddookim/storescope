@@ -1202,11 +1202,38 @@
       border: 1px solid rgba(28,25,23,0.08);
       box-shadow: 0 1px 2px rgba(28,25,23,0.04);
     }
-    .email-mock-thumb svg { width: 36px; height: 36px; }
-    /* 카테고리별 색감 */
-    .thumb-screws    { background: linear-gradient(135deg, #F0EDE5, #E6E1D5); color: #57534E; }
-    .thumb-cable     { background: linear-gradient(135deg, #EEF2FF, #DDD6FE); color: #4F46E5; }
-    .thumb-sunglasses { background: linear-gradient(135deg, #FEF3C7, #FED7AA); color: #92400E; }
+    /* UPGRADE 2026-06-13: Stripe/Linear-tier premium product card.
+       이전: outline SVG = 학생 PPT. 이후: multi-layer + depth + brand mark + SKU. */
+    .thumb-card {
+      position: relative; overflow: hidden;
+      background: linear-gradient(160deg, #F9F8F6 0%, #EDEAE3 100%);
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,0.6),
+        inset 0 -1px 0 rgba(28,25,23,0.06);
+    }
+    .thumb-card .thumb-card-icon {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%;
+      padding: 8px;
+    }
+    .thumb-card-mark {
+      position: absolute; top: 4px; left: 4px;
+      width: 6px; height: 6px; border-radius: 50%;
+      background: #4F46E5;
+      box-shadow: 0 0 0 2px rgba(79,70,229,0.18);
+      z-index: 2;
+    }
+    .thumb-card-sku {
+      position: absolute; bottom: 3px; right: 5px;
+      font-family: 'JetBrains Mono','SF Mono',monospace;
+      font-size: 7px; font-weight: 700;
+      color: rgba(28,25,23,0.55);
+      letter-spacing: 0.3px;
+      z-index: 2;
+    }
+    .thumb-card-1 { background: linear-gradient(160deg, #F4F1EB 0%, #E8E2D4 100%); }
+    .thumb-card-2 { background: linear-gradient(160deg, #EEF2FF 0%, #C7D2FE 100%); }
+    .thumb-card-3 { background: linear-gradient(160deg, #FEF3C7 0%, #FCD34D 100%); }
     .email-mock-rank {
       font-family: 'JetBrains Mono', 'SF Mono', monospace;
       font-size: 11px; font-weight: 700;
@@ -3887,12 +3914,25 @@
           <div class="email-mock-item">
             <div class="email-mock-rank">01</div>
             <!-- FIX 2026-06-09: Unsplash URL 깨짐 → inline SVG 제품 일러스트 (외부 의존 0). -->
-            <div class="email-mock-thumb thumb-screws">
-              <svg viewBox="0 0 48 48" fill="none" aria-hidden="true">
-                <rect x="20" y="6" width="8" height="32" rx="2" fill="currentColor" opacity="0.85"/>
-                <path d="M16 8 L20 6 L20 12 Z M16 14 L20 12 L20 18 Z M16 20 L20 18 L20 24 Z" fill="currentColor" opacity="0.65"/>
-                <path d="M28 6 L32 8 L28 12 Z M28 12 L32 14 L28 18 Z M28 18 L32 20 L28 24 Z" fill="currentColor" opacity="0.65"/>
-                <path d="M20 38 L24 44 L28 38 Z" fill="currentColor" opacity="0.9"/>
+            <!-- UPGRADE 2026-06-13: Stripe/Linear-tier product card (multi-layer depth + brand mark) -->
+            <div class="email-mock-thumb thumb-card thumb-card-1">
+              <span class="thumb-card-mark"></span>
+              <span class="thumb-card-sku">PH-440</span>
+              <svg viewBox="0 0 48 48" fill="none" class="thumb-card-icon" aria-hidden="true">
+                <defs>
+                  <linearGradient id="grad-tool" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0" stop-color="#1C1917" stop-opacity="0.9"/>
+                    <stop offset="1" stop-color="#1C1917" stop-opacity="0.5"/>
+                  </linearGradient>
+                </defs>
+                <path d="M22 12 L26 12 L28 18 L26 36 L22 36 L20 18 Z" fill="url(#grad-tool)"/>
+                <path d="M22 36 L24 42 L26 36 Z" fill="#1C1917"/>
+                <line x1="20" y1="20" x2="14" y2="18" stroke="#57534E" stroke-width="1" opacity="0.6"/>
+                <line x1="20" y1="24" x2="14" y2="22" stroke="#57534E" stroke-width="1" opacity="0.6"/>
+                <line x1="20" y1="28" x2="14" y2="26" stroke="#57534E" stroke-width="1" opacity="0.6"/>
+                <line x1="28" y1="20" x2="34" y2="18" stroke="#57534E" stroke-width="1" opacity="0.6"/>
+                <line x1="28" y1="24" x2="34" y2="22" stroke="#57534E" stroke-width="1" opacity="0.6"/>
+                <line x1="28" y1="28" x2="34" y2="26" stroke="#57534E" stroke-width="1" opacity="0.6"/>
               </svg>
             </div>
             <div class="email-mock-item-body">
@@ -3921,14 +3961,25 @@
 
           <div class="email-mock-item">
             <div class="email-mock-rank">02</div>
-            <div class="email-mock-thumb thumb-cable">
-              <svg viewBox="0 0 48 48" fill="none" aria-hidden="true">
-                <rect x="6" y="20" width="36" height="14" rx="3" fill="currentColor" opacity="0.85"/>
-                <rect x="10" y="24" width="6" height="6" rx="1" fill="currentColor" opacity="0.55"/>
-                <rect x="18" y="24" width="6" height="6" rx="1" fill="currentColor" opacity="0.55"/>
-                <rect x="26" y="24" width="6" height="6" rx="1" fill="currentColor" opacity="0.55"/>
-                <path d="M24 6 Q30 12 30 20" stroke="currentColor" stroke-width="2" opacity="0.7"/>
-                <circle cx="24" cy="6" r="2.5" fill="currentColor" opacity="0.7"/>
+            <div class="email-mock-thumb thumb-card thumb-card-2">
+              <span class="thumb-card-mark"></span>
+              <span class="thumb-card-sku">MC-602</span>
+              <svg viewBox="0 0 48 48" fill="none" class="thumb-card-icon" aria-hidden="true">
+                <defs>
+                  <linearGradient id="grad-cable" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0" stop-color="#4F46E5"/>
+                    <stop offset="1" stop-color="#312E81"/>
+                  </linearGradient>
+                </defs>
+                <rect x="6" y="22" width="36" height="14" rx="3" fill="url(#grad-cable)"/>
+                <rect x="6" y="22" width="36" height="2" rx="1" fill="#fff" opacity="0.25"/>
+                <rect x="10" y="26" width="5" height="6" rx="0.8" fill="#1E1B4B"/>
+                <rect x="17" y="26" width="5" height="6" rx="0.8" fill="#1E1B4B"/>
+                <rect x="24" y="26" width="5" height="6" rx="0.8" fill="#1E1B4B"/>
+                <rect x="31" y="26" width="5" height="6" rx="0.8" fill="#1E1B4B"/>
+                <circle cx="38" cy="29" r="1.5" fill="#34D399"/>
+                <path d="M24 6 Q32 12 32 22" stroke="#1C1917" stroke-width="2.5" opacity="0.4" fill="none"/>
+                <circle cx="24" cy="6" r="3" fill="#57534E" stroke="#1C1917" stroke-width="1"/>
               </svg>
             </div>
             <div class="email-mock-item-body">
@@ -3947,12 +3998,26 @@
 
           <div class="email-mock-item">
             <div class="email-mock-rank">03</div>
-            <div class="email-mock-thumb thumb-sunglasses">
-              <svg viewBox="0 0 48 48" fill="none" aria-hidden="true">
-                <ellipse cx="15" cy="24" rx="9" ry="7" fill="currentColor" opacity="0.85"/>
-                <ellipse cx="33" cy="24" rx="9" ry="7" fill="currentColor" opacity="0.85"/>
-                <path d="M24 24 Q24 22 22 22 L20 22 M24 24 Q24 22 26 22 L28 22" stroke="currentColor" stroke-width="2" opacity="0.7"/>
-                <path d="M6 18 L8 14 M42 18 L40 14" stroke="currentColor" stroke-width="2" opacity="0.55" stroke-linecap="round"/>
+            <div class="email-mock-thumb thumb-card thumb-card-3">
+              <span class="thumb-card-mark"></span>
+              <span class="thumb-card-sku">SG-118</span>
+              <svg viewBox="0 0 48 48" fill="none" class="thumb-card-icon" aria-hidden="true">
+                <defs>
+                  <linearGradient id="grad-sg" x1="0" y1="0" x2="1" y2="1">
+                    <stop offset="0" stop-color="#1C1917"/>
+                    <stop offset="1" stop-color="#44403C"/>
+                  </linearGradient>
+                  <radialGradient id="lens-gloss" cx="0.3" cy="0.3" r="0.5">
+                    <stop offset="0" stop-color="#fff" stop-opacity="0.45"/>
+                    <stop offset="1" stop-color="#fff" stop-opacity="0"/>
+                  </radialGradient>
+                </defs>
+                <ellipse cx="15" cy="24" rx="10" ry="8" fill="url(#grad-sg)"/>
+                <ellipse cx="33" cy="24" rx="10" ry="8" fill="url(#grad-sg)"/>
+                <ellipse cx="15" cy="24" rx="10" ry="8" fill="url(#lens-gloss)"/>
+                <ellipse cx="33" cy="24" rx="10" ry="8" fill="url(#lens-gloss)"/>
+                <path d="M24 24 Q24 22 22 22 L21 22 M24 24 Q24 22 26 22 L27 22" stroke="#1C1917" stroke-width="2" fill="none"/>
+                <path d="M5 19 L7.5 16 M43 19 L40.5 16" stroke="#1C1917" stroke-width="2" stroke-linecap="round" fill="none"/>
               </svg>
             </div>
             <div class="email-mock-item-body">
