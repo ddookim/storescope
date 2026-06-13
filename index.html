@@ -779,6 +779,20 @@
     }
     .step h3 { font-size: 18px; font-weight: 700; margin-bottom: 10px; }
     .step p  { font-size: 14px; color: var(--muted-2); line-height: 1.7; }
+    /* UPGRADE 2026-06-13: Step별 시각 일러스트 (외부 의존 0, inline SVG) */
+    .step-visual {
+      width: 100%; max-width: 240px;
+      background: #FFFFFF;
+      border: 1px solid rgba(28,25,23,0.08);
+      border-radius: 12px;
+      padding: 16px 18px;
+      margin-bottom: 20px;
+      box-shadow: 0 1px 2px rgba(28,25,23,0.04), 0 6px 16px rgba(28,25,23,0.04);
+    }
+    .step-visual svg { width: 100%; height: auto; display: block; }
+    @media (max-width: 768px) {
+      .step-visual { max-width: 100%; }
+    }
 
     /* ── LIVE DEMO ── */
     .demo-section {
@@ -3254,19 +3268,61 @@
       <div class="step">
         <div class="step-line"></div>
         <div class="step-num">1</div>
+        <!-- UPGRADE 2026-06-13: 시각 일러스트 — Step별 SVG. 사용자 "이해 쉽게" 요청 정합. -->
+        <div class="step-visual step-visual-1" aria-hidden="true">
+          <svg viewBox="0 0 120 80" fill="none">
+            <rect x="8" y="12" width="20" height="28" rx="3" fill="rgba(79,70,229,0.12)" stroke="rgba(79,70,229,0.35)" stroke-width="1.5"/>
+            <rect x="36" y="18" width="20" height="28" rx="3" fill="rgba(79,70,229,0.18)" stroke="rgba(79,70,229,0.45)" stroke-width="1.5"/>
+            <rect x="64" y="14" width="20" height="28" rx="3" fill="rgba(79,70,229,0.12)" stroke="rgba(79,70,229,0.35)" stroke-width="1.5"/>
+            <rect x="92" y="20" width="20" height="28" rx="3" fill="rgba(79,70,229,0.18)" stroke="rgba(79,70,229,0.45)" stroke-width="1.5"/>
+            <line x1="10" y1="58" x2="115" y2="58" stroke="#059669" stroke-width="2.5" stroke-linecap="round"/>
+            <circle cx="20" cy="58" r="3" fill="#059669"/>
+            <circle cx="48" cy="58" r="3" fill="#059669"/>
+            <circle cx="76" cy="58" r="3" fill="#059669"/>
+            <circle cx="104" cy="58" r="3" fill="#059669"/>
+            <text x="60" y="75" fill="#78716C" font-size="9" text-anchor="middle" font-weight="600">1,400+ stores · weekly</text>
+          </svg>
+        </div>
         <h3>We scan 1,400+ Shopify stores every week.</h3>
-        <p>StoreScope reads publicly listed products from each store's product catalog. The same data any customer sees when they browse. Fully automatic, respects robots.txt, and any merchant can opt out at any time.</p>
+        <p>Public product data only — same as any shopper sees. Robots.txt respected. Any merchant can opt out.</p>
       </div>
       <div class="step">
         <div class="step-line"></div>
         <div class="step-num">2</div>
+        <div class="step-visual step-visual-2" aria-hidden="true">
+          <svg viewBox="0 0 120 80" fill="none">
+            <rect x="6" y="10" width="22" height="18" rx="3" fill="rgba(79,70,229,0.18)"/>
+            <rect x="32" y="14" width="22" height="18" rx="3" fill="rgba(79,70,229,0.18)"/>
+            <rect x="58" y="10" width="22" height="18" rx="3" fill="rgba(79,70,229,0.18)"/>
+            <rect x="84" y="14" width="22" height="18" rx="3" fill="rgba(79,70,229,0.18)"/>
+            <path d="M17 28 L48 50 M43 32 L48 50 M69 28 L48 50 M95 32 L48 50" stroke="#4F46E5" stroke-width="1.5" stroke-dasharray="3 2" opacity="0.5"/>
+            <rect x="35" y="48" width="40" height="22" rx="4" fill="#4F46E5"/>
+            <text x="55" y="62" fill="#fff" font-size="9" text-anchor="middle" font-weight="700">1 cluster</text>
+          </svg>
+        </div>
         <h3>We group the same product across stores.</h3>
-        <p>The same projector listed under 31 different names with 31 different prices is still the same projector. We compare product images to find duplicates, so 31 stores selling it show up as one entry with the full price range and the growth pattern visible at a glance.</p>
+        <p>The same projector listed in 31 stores becomes one entry — with the full price range and the growth curve visible at a glance.</p>
       </div>
       <div class="step">
         <div class="step-num">3</div>
+        <div class="step-visual step-visual-3" aria-hidden="true">
+          <svg viewBox="0 0 120 80" fill="none">
+            <rect x="20" y="8" width="80" height="60" rx="6" fill="#fff" stroke="rgba(28,25,23,0.15)" stroke-width="1.5"/>
+            <rect x="20" y="8" width="80" height="14" rx="6" fill="rgba(79,70,229,0.08)"/>
+            <text x="60" y="18" fill="#4F46E5" font-size="8" text-anchor="middle" font-weight="700">MONDAY · WEEK 23</text>
+            <rect x="28" y="28" width="20" height="6" rx="1" fill="#C084FC"/>
+            <text x="56" y="33" fill="#1C1917" font-size="7" font-weight="700">86</text>
+            <rect x="28" y="38" width="14" height="6" rx="1" fill="#34D399"/>
+            <text x="56" y="43" fill="#1C1917" font-size="7" font-weight="700">72</text>
+            <rect x="28" y="48" width="10" height="6" rx="1" fill="#FBBF24"/>
+            <text x="56" y="53" fill="#1C1917" font-size="7" font-weight="700">58</text>
+            <rect x="68" y="28" width="24" height="26" rx="3" fill="rgba(5,150,105,0.1)" stroke="rgba(5,150,105,0.3)" stroke-width="1"/>
+            <text x="80" y="42" fill="#059669" font-size="8" text-anchor="middle" font-weight="700">80+</text>
+            <text x="80" y="50" fill="#059669" font-size="6" text-anchor="middle">filter</text>
+          </svg>
+        </div>
         <h3>You filter and source on Monday morning.</h3>
-        <p>Your dashboard refreshes every Monday. Filter for Trend Score 80+, check the price spread, and pick what to source. Whole thing takes about ten minutes.</p>
+        <p>Dashboard refreshes every Monday. Filter Trend Score 80+, check price spread, pick what to source. About 10 minutes.</p>
       </div>
     </div>
   </div>
