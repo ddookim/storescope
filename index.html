@@ -1329,10 +1329,31 @@
     .faq-item { border-right: 1px solid var(--border); border-bottom: 1px solid var(--border); }
     .faq-item:nth-child(2n) { border-right: none; }
     .faq-item:nth-last-child(-n+2) { border-bottom: none; }
-    .faq-item details summary { font-weight: 600; font-size: 14px; cursor: pointer; list-style: none; padding: 24px 28px; min-height: 56px; display: flex; justify-content: space-between; align-items: center; color: var(--white); }
+    .faq-item details summary {
+      font-weight: 600; font-size: 14px; cursor: pointer; list-style: none;
+      padding: 24px 28px; min-height: 56px;
+      display: flex; justify-content: space-between; align-items: center;
+      color: var(--white);
+      transition: background 0.2s, color 0.2s;
+    }
+    .faq-item details summary:hover { background: rgba(79,70,229,0.03); color: #4F46E5; }
     .faq-item details summary::-webkit-details-marker { display: none; }
-    .faq-item details summary::after { content: "+"; font-size: 20px; color: var(--muted); font-weight: 300; flex-shrink: 0; margin-left: 12px; }
-    .faq-item details[open] summary::after { content: "−"; color: var(--purple-hi); }
+    /* UPGRADE 2026-06-13: Premium chevron indicator (텍스트 + / − → SVG rotate) */
+    .faq-item details summary::after {
+      content: "";
+      width: 18px; height: 18px; flex-shrink: 0; margin-left: 12px;
+      background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2378716C' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'/></svg>");
+      background-repeat: no-repeat; background-position: center; background-size: contain;
+      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .faq-item details summary:hover::after {
+      background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%234F46E5' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'/></svg>");
+    }
+    .faq-item details[open] summary::after {
+      transform: rotate(180deg);
+      background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%234F46E5' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'/></svg>");
+    }
+    .faq-item details[open] summary { color: #4F46E5; background: rgba(79,70,229,0.04); }
     .faq-item details[open] p { padding: 0 28px 24px; font-size: 14px; color: var(--muted-2); line-height: 1.8; }
     .faq-item details[open] p a { color: #4F46E5; }
 
