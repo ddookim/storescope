@@ -439,12 +439,17 @@
     .b-dot-r { width: 11px; height: 11px; border-radius: 50%; background: #ff5f57; }
     .b-dot-y { width: 11px; height: 11px; border-radius: 50%; background: #febc2e; }
     .b-dot-g { width: 11px; height: 11px; border-radius: 50%; background: #28c840; }
+    /* UPGRADE 2026-06-14: Browser URL bar premium (JetBrains Mono + monospace tabular) */
     .b-url {
       flex: 1; max-width: 360px; margin-left: 10px;
       background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08);
-      border-radius: 8px; padding: 4px 14px; font-size: 12px; color: var(--muted-2);
-      font-family: 'Inter', monospace; display: flex; align-items: center; gap: 6px;
+      border-radius: 8px; padding: 4px 14px; font-size: 11.5px; color: var(--muted-2);
+      font-family: 'JetBrains Mono', 'SF Mono', monospace;
+      display: flex; align-items: center; gap: 6px;
+      letter-spacing: -0.1px;
+      transition: background 0.2s, border-color 0.2s;
     }
+    .b-url:hover { background: rgba(255,255,255,0.08); border-color: rgba(79,70,229,0.25); }
     .b-url-lock { color: var(--green); font-size: 10px; }
 
     /* ── PRODUCT CARD GRID ── */
@@ -648,7 +653,14 @@
     .bc-fill-hot  { background: linear-gradient(90deg, #7C3AED, #a855f7 60%, #06b6d4); }
     .bc-fill-warm { background: linear-gradient(90deg, #10B981, #34D399); }
     .bc-fill-cool { background: linear-gradient(90deg, #F59E0B, #FBBF24); }
-    .bc-score { font-size: 12px; font-weight: 700; text-align: right; }
+    .bc-score {
+      font-size: 12px; font-weight: 700; text-align: right;
+      font-feature-settings: 'tnum' on, 'cv11' on;
+      font-variant-numeric: tabular-nums;
+      font-family: 'JetBrains Mono', 'SF Mono', monospace;
+      transition: transform 0.18s ease;
+    }
+    .bc-row:hover .bc-score { transform: scale(1.1); }
     .bc-wow   { font-size: 11px; font-weight: 700; color: #34D399; text-align: right; }
 
     /* ── Webhook notification snippet ── */
@@ -2068,6 +2080,10 @@
       font-weight: 900 !important;
       letter-spacing: -3px !important;
       color: #1C1917 !important;
+      /* UPGRADE 2026-06-14: Premium number typography (Stripe pricing 정합) */
+      font-feature-settings: 'tnum' on, 'cv11' on, 'ss01' on !important;
+      font-variant-numeric: tabular-nums !important;
+      font-optical-sizing: auto !important;
     }
     .plan-price sup { font-size: 24px !important; font-weight: 700 !important; vertical-align: top !important; margin-right: 2px; line-height: 1; }
     .plan-price span { font-size: 15px !important; color: #A8A29E !important; }
