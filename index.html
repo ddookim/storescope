@@ -238,7 +238,11 @@
       padding: 7px 15px; border-radius: 8px; font-size: 13.5px; font-weight: 500;
       color: #57534E; text-decoration: none; transition: all 0.15s; letter-spacing: -0.01em;
     }
-    .nav-links a:hover { background: rgba(28,25,23,0.05); color: #1C1917; }
+    /* UPGRADE 2026-06-14: Nav links premium hover — Linear/Stripe 패턴 (subtle bg + color + scale) */
+    .nav-links a {
+      transition: background 0.18s ease, color 0.18s ease, transform 0.2s ease;
+    }
+    .nav-links a:hover { background: rgba(79,70,229,0.06); color: #4F46E5; }
 
     /* UPGRADE 2026-06-09: nav "Open Beta" 배지 — logo 옆 라이브 펄스 */
     .nav-beta-pill {
@@ -951,9 +955,27 @@
     .demo-section-label { padding: 12px 16px 4px; font-size: 10px; text-transform: uppercase; letter-spacing: 1px; color: rgba(255,255,255,0.18); }
     .demo-content { padding: 22px 24px; }
     .demo-content-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; }
-    .demo-content-title { font-size: 14px; font-weight: 700; color: var(--white); }
-    .demo-controls { display: flex; gap: 8px; }
-    .demo-chip { font-size: 11px; background: rgba(255,255,255,0.05); border: 1px solid var(--border); color: var(--muted); padding: 4px 10px; border-radius: 8px; cursor: default; }
+    /* UPGRADE 2026-06-14: Demo dashboard typography hierarchy 강화 (Linear/Stripe SaaS dashboard 정합) */
+    .demo-content-title {
+      font-size: 15px; font-weight: 800; color: var(--white);
+      letter-spacing: -0.3px;
+    }
+    .demo-controls { display: flex; gap: 6px; }
+    .demo-chip {
+      font-size: 10.5px; font-weight: 600;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      color: var(--muted);
+      padding: 5px 11px; border-radius: 100px;
+      cursor: default;
+      letter-spacing: -0.05px;
+      font-family: 'JetBrains Mono', 'SF Mono', monospace;
+      transition: background 0.2s, border-color 0.2s;
+    }
+    .demo-chip:hover {
+      background: rgba(79,70,229,0.08);
+      border-color: rgba(79,70,229,0.25);
+    }
 
     /* enhanced data grid */
     .dg-head { display: grid; grid-template-columns: 56px 1.8fr 70px 110px 130px 120px; gap: 8px; padding: 0 10px 10px; border-bottom: 1px solid var(--border); }
