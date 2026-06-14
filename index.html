@@ -980,9 +980,27 @@
     /* enhanced data grid */
     .dg-head { display: grid; grid-template-columns: 56px 1.8fr 70px 110px 130px 120px; gap: 8px; padding: 0 10px 10px; border-bottom: 1px solid var(--border); }
     .dg-head span { font-size: 10px; text-transform: uppercase; letter-spacing: 0.8px; color: rgba(255,255,255,0.2); font-weight: 600; }
-    .dg-row { display: grid; grid-template-columns: 56px 1.8fr 70px 110px 130px 120px; gap: 8px; padding: 12px 10px; border-bottom: 1px solid rgba(255,255,255,0.03); align-items: center; transition: background 0.15s; cursor: default; border-radius: 8px; }
+    /* UPGRADE 2026-06-14: dg-row premium hover (Linear/Notion table row 정합) */
+    .dg-row {
+      display: grid; grid-template-columns: 56px 1.8fr 70px 110px 130px 120px;
+      gap: 8px; padding: 12px 10px;
+      border-bottom: 1px solid rgba(255,255,255,0.03);
+      align-items: center; cursor: default; border-radius: 8px;
+      transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+      position: relative;
+    }
+    .dg-row::before {
+      content: ""; position: absolute; left: 0; top: 10%; bottom: 10%;
+      width: 2px; background: transparent; border-radius: 0 2px 2px 0;
+      transition: background 0.2s ease;
+    }
     .dg-row:last-child { border-bottom: none; }
-    .dg-row:hover { background: rgba(255,255,255,0.03); }
+    .dg-row:hover {
+      background: rgba(79,70,229,0.05);
+      transform: translateX(2px);
+      box-shadow: 0 1px 0 rgba(79,70,229,0.08);
+    }
+    .dg-row:hover::before { background: #4F46E5; }
     .dg-thumb { width: 44px; height: 44px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0; overflow: hidden; }
     .dg-thumb svg { width: 100%; height: 100%; padding: 4px; }
     .dg-thumb.c1 { background: linear-gradient(135deg,#1C1917,#4F46E5); }
@@ -1112,11 +1130,21 @@
       border-top: 1px solid rgba(28,25,23,0.08);
       border-bottom: 1px solid rgba(28,25,23,0.08);
     }
-    .founder-data-stat { text-align: center; }
+    /* UPGRADE 2026-06-14: Founder stats hover (Stripe revenue dashboard 패턴) */
+    .founder-data-stat {
+      text-align: center;
+      padding: 4px 0;
+      transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .founder-data-stat:hover { transform: translateY(-2px); }
     .founder-data-num {
       font-family: 'Inter', -apple-system, sans-serif;
       font-size: 22px; font-weight: 800; letter-spacing: -0.6px; color: #1C1917;
+      font-feature-settings: 'tnum' on, 'cv11' on;
+      font-variant-numeric: tabular-nums;
+      transition: color 0.2s ease;
     }
+    .founder-data-stat:hover .founder-data-num { color: #4F46E5; }
     .founder-data-label {
       font-size: 11px; color: #78716C; text-transform: uppercase; letter-spacing: 0.6px;
       font-weight: 600; margin-top: 4px;
