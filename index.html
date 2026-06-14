@@ -521,8 +521,22 @@
     .product-stores { font-size: 10px; color: var(--muted); }
     .product-price { font-size: 10px; color: var(--muted-2); }
     .product-growth-row { display: flex; align-items: center; gap: 5px; margin-top: 6px; }
-    .growth-badge-hot  { background: rgba(16,185,129,0.12); color: #34D399; border: 1px solid rgba(16,185,129,0.2); border-radius: 4px; font-size: 10px; font-weight: 700; padding: 2px 6px; }
-    .growth-badge-warm { background: rgba(245,158,11,0.12); color: #FBBF24; border: 1px solid rgba(245,158,11,0.2); border-radius: 4px; font-size: 10px; font-weight: 700; padding: 2px 6px; }
+    .growth-badge-hot  {
+      background: rgba(16,185,129,0.12); color: #34D399;
+      border: 1px solid rgba(16,185,129,0.2); border-radius: 4px;
+      font-size: 10px; font-weight: 800; padding: 2px 6px;
+      font-family: 'JetBrains Mono', 'SF Mono', monospace;
+      font-feature-settings: 'tnum' on;
+      letter-spacing: -0.2px;
+    }
+    .growth-badge-warm {
+      background: rgba(245,158,11,0.12); color: #FBBF24;
+      border: 1px solid rgba(245,158,11,0.2); border-radius: 4px;
+      font-size: 10px; font-weight: 800; padding: 2px 6px;
+      font-family: 'JetBrains Mono', 'SF Mono', monospace;
+      font-feature-settings: 'tnum' on;
+      letter-spacing: -0.2px;
+    }
     .mini-spark { display: block; }
     .score-bar-wrap { margin-top: 7px; }
     .score-bar-label { font-size: 10px; color: var(--muted); margin-bottom: 3px; display: flex; justify-content: space-between; }
@@ -661,7 +675,12 @@
       transition: transform 0.18s ease;
     }
     .bc-row:hover .bc-score { transform: scale(1.1); }
-    .bc-wow   { font-size: 11px; font-weight: 700; color: #34D399; text-align: right; }
+    .bc-wow {
+      font-size: 11px; font-weight: 700; color: #34D399; text-align: right;
+      font-family: 'JetBrains Mono', 'SF Mono', monospace;
+      font-feature-settings: 'tnum' on, 'cv11' on;
+      letter-spacing: -0.2px;
+    }
 
     /* ── Webhook notification snippet ── */
     .bc-notif { margin-top: 28px; display: flex; flex-direction: column; gap: 8px; }
