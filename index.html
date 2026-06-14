@@ -639,6 +639,12 @@
       display: flex; align-items: flex-start; gap: 10px;
       background: rgba(244,241,236,0.9); border: 1px solid rgba(28,25,23,0.07);
       border-radius: 12px; padding: 12px 14px;
+      transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+    }
+    .bc-notif-item:hover {
+      transform: translateX(2px);
+      background: rgba(79,70,229,0.05);
+      border-color: rgba(79,70,229,0.18);
     }
     .bc-notif-dot { width: 8px; height: 8px; border-radius: 50%; margin-top: 5px; flex-shrink: 0; }
     .bc-notif-dot.green { background: #34D399; box-shadow: 0 0 6px rgba(52,211,153,0.5); }
@@ -661,7 +667,10 @@
     .bc-pt-row {
       display: grid; grid-template-columns: 1fr 42px 42px;
       padding: 10px 14px; border-bottom: 1px solid rgba(148,163,184,0.12); align-items: center;
+      transition: background 0.18s ease;
+      cursor: default;
     }
+    .bc-pt-row:hover { background: rgba(79,70,229,0.04); }
     .bc-pt-row:last-child { border-bottom: none; }
     .bc-pt-store { font-size: 11px; color: var(--muted-2); font-weight: 500; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
     .bc-pt-min { font-size: 12px; color: #34D399; font-weight: 700; text-align: right; }
@@ -1062,8 +1071,21 @@
     .plan-trial { font-size: 13px; color: var(--green); font-weight: 600; margin-bottom: 20px; }
     .plan-desc { font-size: 14px; color: var(--muted-2); padding-bottom: 24px; margin-bottom: 24px; border-bottom: 1px solid var(--border); }
     .plan-features { list-style: none; display: flex; flex-direction: column; gap: 11px; margin-bottom: 28px; }
-    .plan-features li { font-size: 14px; display: flex; gap: 8px; align-items: flex-start; color: var(--muted-2); }
-    .plan-features li::before { content: "✓"; color: var(--green); font-weight: 700; flex-shrink: 0; }
+    /* UPGRADE 2026-06-14: Plan feature hover (Stripe pricing 정합 — subtle slide + emphasize text) */
+    .plan-features li {
+      font-size: 14px; display: flex; gap: 8px; align-items: flex-start; color: var(--muted-2);
+      transition: color 0.18s ease, transform 0.18s ease;
+      cursor: default;
+    }
+    .plan-features li:not(.off):not(.plan-feat-sep):hover {
+      color: #1C1917;
+      transform: translateX(2px);
+    }
+    .plan-features li::before {
+      content: "✓"; color: var(--green); font-weight: 700; flex-shrink: 0;
+      transition: transform 0.18s ease;
+    }
+    .plan-features li:not(.off):not(.plan-feat-sep):hover::before { transform: scale(1.15); }
     .plan-features li.off {
       color: rgba(148,163,184,0.65);
       text-decoration: line-through;
