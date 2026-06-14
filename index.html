@@ -721,9 +721,25 @@
     }
     .bc-pt-row:hover { background: rgba(79,70,229,0.04); }
     .bc-pt-row:last-child { border-bottom: none; }
-    .bc-pt-store { font-size: 11px; color: var(--muted-2); font-weight: 500; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-    .bc-pt-min { font-size: 12px; color: #34D399; font-weight: 700; text-align: right; }
-    .bc-pt-max { font-size: 12px; color: var(--muted); text-align: right; }
+    /* UPGRADE 2026-06-14: Bento Pricing table premium typography (Stripe pricing 정합) */
+    .bc-pt-store {
+      font-size: 11px; color: var(--muted-2); font-weight: 500;
+      overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+      font-family: 'JetBrains Mono', 'SF Mono', monospace;
+      letter-spacing: -0.1px;
+    }
+    .bc-pt-min {
+      font-size: 12px; color: #34D399; font-weight: 800; text-align: right;
+      font-family: 'JetBrains Mono', 'SF Mono', monospace;
+      font-feature-settings: 'tnum' on, 'cv11' on;
+      letter-spacing: -0.2px;
+    }
+    .bc-pt-max {
+      font-size: 12px; color: var(--muted); font-weight: 700; text-align: right;
+      font-family: 'JetBrains Mono', 'SF Mono', monospace;
+      font-feature-settings: 'tnum' on, 'cv11' on;
+      letter-spacing: -0.2px;
+    }
 
     /* ── Terminal snippet ── */
     .bc-terminal {
@@ -914,6 +930,8 @@
     }
     .step-mock-store-meta {
       font-size: 10px; color: #A8A29E; margin-top: 1px;
+      font-feature-settings: 'tnum' on, 'cv11' on;
+      font-variant-numeric: tabular-nums;
     }
     .step-mock-status {
       color: #059669; font-size: 8px;
@@ -951,7 +969,10 @@
       font-size: 10px;
     }
     .step-mock-cluster-price {
-      color: #1C1917; font-weight: 700;
+      color: #1C1917; font-weight: 800;
+      font-family: 'JetBrains Mono', 'SF Mono', monospace;
+      font-feature-settings: 'tnum' on, 'cv11' on;
+      letter-spacing: -0.2px;
     }
 
     /* Step 3: dashboard view */
@@ -982,6 +1003,8 @@
       font-family: 'JetBrains Mono','SF Mono',monospace;
       font-size: 10px; font-weight: 800;
       padding: 2px 7px; border-radius: 5px;
+      font-feature-settings: 'tnum' on, 'cv11' on;
+      letter-spacing: -0.2px;
     }
 
     @media (max-width: 768px) {
