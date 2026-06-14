@@ -1061,12 +1061,30 @@
     .dg-product { display: flex; flex-direction: column; gap: 3px; }
     .dg-name { font-size: 13px; font-weight: 600; color: var(--white); line-height: 1.2; }
     .dg-cat  { font-size: 10px; color: var(--muted); background: rgba(255,255,255,0.05); padding: 1px 6px; border-radius: 4px; width: fit-content; }
-    .dg-stores { font-size: 13px; color: var(--muted-2); font-weight: 500; }
-    .dg-price  { font-size: 12px; color: var(--muted); }
+    /* UPGRADE 2026-06-14: Demo dashboard metric numbers premium typography (Linear/Notion 정합) */
+    .dg-stores {
+      font-size: 13px; color: var(--muted-2); font-weight: 600;
+      font-feature-settings: 'tnum' on, 'cv11' on;
+      font-variant-numeric: tabular-nums;
+    }
+    .dg-price {
+      font-size: 12px; color: var(--muted);
+      font-feature-settings: 'tnum' on, 'cv11' on;
+      font-variant-numeric: tabular-nums;
+      letter-spacing: -0.2px;
+    }
     .dg-growth-cell { display: flex; align-items: center; gap: 6px; }
     .dg-score-cell { display: flex; flex-direction: column; gap: 4px; }
     .dg-score-top { display: flex; align-items: center; gap: 5px; }
-    .dg-score-num { font-size: 13px; font-weight: 700; color: var(--muted-2); }
+    .dg-score-num {
+      font-size: 13px; font-weight: 800; color: var(--muted-2);
+      font-family: 'JetBrains Mono', 'SF Mono', monospace;
+      font-feature-settings: 'tnum' on, 'cv11' on;
+      font-variant-numeric: tabular-nums;
+      letter-spacing: -0.3px;
+      transition: transform 0.18s ease;
+    }
+    .dg-row:hover .dg-score-num { transform: scale(1.1); }
     .dg-score-bar { height: 4px; width: 80px; background: rgba(255,255,255,0.07); border-radius: 4px; overflow: hidden; }
     .dg-fill-hot  { height: 100%; border-radius: 4px; background: linear-gradient(90deg, #7C3AED, #06b6d4); }
     .dg-fill-warm { height: 100%; border-radius: 4px; background: linear-gradient(90deg, #F59E0B, #FB923C); }
@@ -1381,13 +1399,20 @@
       font-size: 12px; color: #78716C;
       display: flex; flex-wrap: wrap; align-items: center; gap: 4px 6px;
     }
-    .email-mock-stat strong { color: #1C1917; font-weight: 700; }
+    .email-mock-stat strong {
+      color: #1C1917; font-weight: 700;
+      font-feature-settings: 'tnum' on, 'cv11' on;
+      font-variant-numeric: tabular-nums;
+    }
     .email-mock-divider { color: #D6D3D1; font-weight: 400; }
     .email-mock-trend {
       font-family: 'JetBrains Mono', 'SF Mono', monospace;
       font-size: 11px; color: #4F46E5; font-weight: 700;
       background: rgba(79,70,229,0.06); padding: 1px 7px; border-radius: 4px;
+      font-feature-settings: 'tnum' on, 'cv11' on;
+      transition: background 0.18s ease;
     }
+    .email-mock-item:hover .email-mock-trend { background: rgba(79,70,229,0.12); }
     .email-mock-bars {
       display: flex; gap: 3px; align-items: flex-end;
       height: 26px; margin-top: 10px; max-width: 280px;
