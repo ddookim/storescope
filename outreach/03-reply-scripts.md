@@ -141,7 +141,7 @@ If you want the next list when it goes out Monday, just reply "yes".
 **보냄**:
 ```
 API endpoints exist (Pro tier). Docs:
-https://sussex-imaging-cam-treasurer.trycloudflare.com/docs
+{API_DOCS_URL}      # = post-launch API base + /docs (Render: https://storescope-api.onrender.com/docs)
 
 REST + JSON. Auth via API key generated after Pro signup.
 {TrialURL}
