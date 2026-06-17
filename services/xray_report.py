@@ -148,7 +148,7 @@ def _render_html(email: str, data: dict) -> str:
 <li>X-Ray any of our indexed stores instantly: <a href="{APP_URL}/#xray">X-Ray tool</a></li>
 <li>Reply to this email — I read every one.</li>
 </ul>
-<p style="font-size:13px;color:#78716C;margin-top:24px">— Dodo Kim, Founder · <a href="{APP_URL}">storescope.com</a></p>
+<p style="font-size:13px;color:#78716C;margin-top:24px">— The StoreScope team · <a href="{APP_URL}">storescope.com</a></p>
 </body></html>"""
 
     # 정상 케이스: DB 데이터 있음
@@ -205,7 +205,7 @@ def _render_text(email: str, data: dict) -> str:
             f"X-Ray report — {domain}\n\n"
             f"Thanks for trying StoreScope. {domain} is not yet in our weekly index.\n"
             f"Visit {APP_URL}/#xray to X-Ray any of our 1,400+ indexed stores.\n\n"
-            f"— Dodo Kim, Founder\n{APP_URL}"
+            f"— The StoreScope team\n{APP_URL}"
         )
     lines = [
         f"X-Ray report — {domain}",
@@ -221,7 +221,7 @@ def _render_text(email: str, data: dict) -> str:
         lines.append("")
     lines.append(f"Start 7-day free trial: {APP_URL}/#pricing")
     lines.append("")
-    lines.append("— Dodo Kim, Founder")
+    lines.append("— The StoreScope team")
     return "\n".join(lines)
 
 

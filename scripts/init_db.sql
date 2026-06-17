@@ -67,6 +67,7 @@ CREATE TABLE IF NOT EXISTS api_keys (
     daily_limit             INTEGER,                     -- NULL = 무제한 (Pro)
     customer_id             TEXT UNIQUE,  -- 동시 웹훅 중복 발급 DB 레벨 차단
     subscription_id         TEXT,
+    trial_ends_at           TIMESTAMPTZ,  -- Pro trial 종료 시점 (NULL = 즉시 paid)
     created_at              TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
 

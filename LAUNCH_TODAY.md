@@ -39,13 +39,14 @@ NEON_URL="postgresql://user:pass@ep-xxx-pooler.aws.neon.tech/storescope?sslmode=
 bash deploy/migrate_to_external_pg.sh "$NEON_URL"
 # 기대: PASS — clusters=1671 products=140943 stores=1419
 
-# 마이그레이션 4건 일괄 적용 (스크립트 자동 정렬 + 검증)
+# 마이그레이션 5건 일괄 적용 (스크립트 자동 정렬 + 검증)
 bash deploy/apply_migrations.sh "$NEON_URL"
-# 또는 명시 순서 (idempotency / 인덱스 / dead 테이블 / Stripe → Paddle 컬럼 rename)
+# 또는 명시 순서 (idempotency / 인덱스 / dead 테이블 / Stripe → Paddle 컬럼 rename / api_keys trial_ends_at)
 # psql "$NEON_URL" -f migrations/2026_06_04_paddle_idempotency.sql
 # psql "$NEON_URL" -f migrations/2026_06_04_perf_indexes.sql
 # psql "$NEON_URL" -f migrations/2026_06_04_drop_dead_tables.sql
 # psql "$NEON_URL" -f migrations/2026_06_07_rename_stripe_to_customer.sql  # 환불 후 키 비활성화 가능하게
+# psql "$NEON_URL" -f migrations/2026_06_18_api_keys_trial_ends_at.sql      # 첫 paid webhook 처리 차단 막기 (D+17 발견)
 ```
 
 ### Step 3 — Render Blueprint Apply (5분)
