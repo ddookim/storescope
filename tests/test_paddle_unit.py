@@ -35,9 +35,23 @@ def test_verify_signature_bad_hash():
         assert _verify_signature(b"body", "ts=123;h1=badhash") is False
 
 
-def test_verify_signature_empty_secret_always_passes():
+def test_verify_signature_empty_secret_fail_closed():
+    """SEC: 빈 WEBHOOK_SECRET = fail-closed (이전 fail-open 버그 회귀 방지).
+    이전 테스트는 fail-open 동작을 검증했으나 paddle_routes.py 가 fail-closed로 수정됨.
+    빈 secret + signature 검증 통과 = 인증 우회 취약점."""
     with patch("api.paddle_routes.WEBHOOK_SECRET", ""):
-        assert _verify_signature(b"any_body", "") is True
+        assert _verify_signature(b"any_body", "") is False
+
+
+def test_verify_signature_skip_via_env_flag():
+    """개발 환경 전용 우회 — PADDLE_WEBHOOK_SKIP_VERIFY=true 명시 시만 통과."""
+    import os
+    os.environ["PADDLE_WEBHOOK_SKIP_VERIFY"] = "true"
+    try:
+        with patch("api.paddle_routes.WEBHOOK_SECRET", ""):
+            assert _verify_signature(b"any_body", "") is True
+    finally:
+        del os.environ["PADDLE_WEBHOOK_SKIP_VERIFY"]
 
 
 def test_resolve_plan_returns_pro_for_pro_price():

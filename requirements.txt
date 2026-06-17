@@ -1,6 +1,8 @@
 curl-cffi>=0.13.0,<1.0.0
 imagehash>=4.3.1,<5.0.0
-Pillow>=12.2.0,<13.0.0
+# FIX 2026-06-08: Pillow 12.x 미존재 (최대 11.3.0) → pip install -r requirements.txt 즉시 실패.
+# 라운드 15 발견: production 첫 배포 차단 risk.
+Pillow>=11.0.0,<12.0.0
 fastapi>=0.111.0,<1.0.0
 uvicorn>=0.29.0,<1.0.0
 streamlit>=1.35.0,<2.0.0
@@ -8,3 +10,8 @@ psycopg2-binary>=2.9.9,<3.0.0
 pydantic[email]>=2.7.1,<3.0.0
 requests>=2.32.0,<3.0.0
 tenacity>=8.3.0,<10.0.0
+# Rate limiting (in-memory backend, no Redis) — 무료티어 DDoS 방어
+# 0.x 라이브러리는 minor도 breaking 가능 → upper bound 좁힘 (0.2.0 미만)
+slowapi>=0.1.9,<0.2.0
+# Error tracking — Render 로그 휘발성 대체 (5K errors/mo 무료, 30일 retention)
+sentry-sdk[fastapi]>=2.61.0,<3.0.0

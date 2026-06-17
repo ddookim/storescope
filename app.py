@@ -11,12 +11,33 @@ Shopify 스토어 URL 입력 → 즉시 분석 결과 제공
 import streamlit as st
 from contextlib import contextmanager
 from curl_cffi import requests as cffi_requests
+import logging
 import psycopg2
 import psycopg2.extras
 import psycopg2.pool
 import os
 import requests as _requests
 from typing import Optional
+
+# WARNING+: silent except 가시화. production은 환경변수 LOG_LEVEL로 조정.
+logging.basicConfig(
+    level=os.environ.get("LOG_LEVEL", "WARNING"),
+    format="%(asctime)s [%(levelname)s] %(name)s: %(message)s",
+)
+
+# Sentry SDK — Streamlit 예외 추적. DSN 미설정 시 자동 no-op.
+try:
+    import sentry_sdk
+    _SENTRY_DSN = os.environ.get("SENTRY_DSN", "")
+    if _SENTRY_DSN:
+        sentry_sdk.init(
+            dsn=_SENTRY_DSN,
+            traces_sample_rate=float(os.environ.get("SENTRY_TRACES_SAMPLE_RATE", "0.01")),
+            environment=os.environ.get("RENDER_SERVICE_NAME", "local-streamlit"),
+            send_default_pii=False,
+        )
+except ImportError:
+    pass  # 로컬 개발 시 sentry-sdk 미설치 허용
 
 
 _DB_URL = os.environ.get("DATABASE_URL")
@@ -32,7 +53,7 @@ _GA_ID    = os.environ.get("GA_MEASUREMENT_ID", "")
 
 st.set_page_config(
     page_title="StoreScope — Store X-Ray",
-    page_icon="🔍",
+    page_icon=None,  # 글로벌 룰: no emojis in code/UI
     layout="wide",
 )
 
@@ -115,39 +136,45 @@ def query(sql: str, params=(), one=False):
             with conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor) as cur:
                 cur.execute(sql, params)
                 return cur.fetchone() if one else cur.fetchall()
-        except psycopg2.OperationalError:
+        except psycopg2.OperationalError as e:
+            # 풀 무효화 — 다음 호출에서 신규 풀 생성. 로깅으로 무음 실패 가시화.
+            logging.warning("DB OperationalError, pool cleared: %s", e)
             _get_pool.clear()
             return None
-        except Exception:
+        except Exception as e:
+            # 진짜 silent fail 방지: 로깅 + sentry-style stderr trace.
+            # production에서는 logging handler가 Telegram/Sentry로 라우팅됨.
+            logging.exception("query failed: sql=%s params=%s", sql[:120], params)
             return None
 
 
 # ── 라이브 크롤링 (DB에 없는 스토어용) ─────────────────────
+# OPTIMIZE 2026-06-04: 2,500 products → 250 (1 page).
+# X-Ray UX는 트렌딩/가격대/카테고리 SAMPLE만 필요. 2,500은 over-fetch.
+# 효과: HTTP 호출 10회 → 1회, 응답 시간 ~100s → ~3s, 외부 스토어 부담 ↓
 _LIVE_PAGE_LIMIT = 250
-_LIVE_MAX_PAGES  = 10  # 최대 2,500개
 
+@st.cache_data(ttl=600, max_entries=200, show_spinner=False)
 def live_fetch_products(domain: str) -> Optional[dict]:
-    """페이지네이션으로 스토어 전체 상품 수집 (최대 2,500개)."""
-    all_products: list = []
+    """스토어 첫 페이지 250개 상품 수집. 10분 캐시 (같은 도메인 재조회 시 즉시 반환)."""
+    url = f"https://{domain}/products.json?limit={_LIVE_PAGE_LIMIT}&page=1"
     try:
-        for page in range(1, _LIVE_MAX_PAGES + 1):
-            url = f"https://{domain}/products.json?limit={_LIVE_PAGE_LIMIT}&page={page}"
-            # FIX: chrome120 impersonation → 투명한 봇 UA, CFAA 리스크 제거
-            resp = cffi_requests.get(
-                url,
-                headers={"User-Agent": "StoreScope/1.0 (https://storescope.com; mailto:dodo32032@gmail.com)"},
-                timeout=10,
-                allow_redirects=True,
-            )
-            if resp.status_code != 200:
-                break
-            batch = resp.json().get("products", [])
-            all_products.extend(batch)
-            if len(batch) < _LIVE_PAGE_LIMIT:
-                break
+        # FIX: chrome120 impersonation → 투명한 봇 UA, CFAA 리스크 제거
+        resp = cffi_requests.get(
+            url,
+            headers={"User-Agent": "StoreScope/1.0 (https://storescope.com; mailto:dodo32032@gmail.com)"},
+            timeout=10,
+            allow_redirects=True,
+        )
+        if resp.status_code != 200:
+            logging.info("live_fetch %s: status=%s", domain, resp.status_code)
+            return None
+        products = resp.json().get("products", [])
+        return {"products": products} if products else None
     except Exception:
-        pass
-    return {"products": all_products} if all_products else None
+        # FIX: silent pass 제거 → 로깅으로 가시화. Sentry SDK가 자동 캡처.
+        logging.exception("live_fetch failed: domain=%s", domain)
+        return None
 
 
 import re
@@ -166,25 +193,26 @@ def normalize_domain(raw: str) -> str:
 
 
 # ── 메인 UI ─────────────────────────────────────────────────
-st.title("🔍 StoreScope — Store X-Ray")
+st.title("StoreScope — Store X-Ray")
 st.caption("Shopify 스토어를 즉시 분석합니다. 무료, 가입 불필요.")
 
-domain_input = st.text_input(
-    "Shopify 스토어 URL 입력",
-    placeholder="예: gymshark.myshopify.com 또는 gymshark",
-)
-
-col_analyze, _ = st.columns([1, 5])
-analyze_btn = col_analyze.button("분석하기", type="primary", use_container_width=True)
+# UX: st.form으로 감싸서 Enter 키 제출 활성화 (이전: 마우스 강제).
+# clear_on_submit=False — 사용자가 분석 결과 보면서 도메인 확인 가능.
+with st.form(key="xray_form", clear_on_submit=False):
+    domain_input = st.text_input(
+        "Shopify 스토어 URL 입력",
+        placeholder="예: gymshark.myshopify.com 또는 gymshark",
+        help="도메인만 입력하면 자동으로 `.myshopify.com`이 붙습니다. https://, /, 공백 모두 제거됩니다.",
+    )
+    col_analyze, _ = st.columns([1, 5])
+    analyze_btn = col_analyze.form_submit_button("분석하기", type="primary", use_container_width=True)
 
 st.divider()
 
-# ── 트렌딩 사이드바 ─────────────────────────────────────────
-with st.sidebar:
-    st.header("📈 지금 트렌딩")
-    st.caption("여러 스토어에서 동시에 팔리는 상품")
-
-    trending = query("""
+# OPTIMIZE: 트렌딩은 무파라미터 + 주간 데이터 → 5분 캐시. 매 Streamlit interaction DB 쿼리 제거.
+@st.cache_data(ttl=300, show_spinner=False)
+def _get_sidebar_trending():
+    return query("""
         SELECT c.id, c.store_count, c.product_count,
                p.title, p.price_min, p.image_url
         FROM clusters c
@@ -199,6 +227,31 @@ with st.sidebar:
         ORDER BY c.store_count DESC
         LIMIT 8
     """)
+
+
+# OPTIMIZE: 모듈 레벨 정의 (이전: if-block 안에 정의 = Streamlit 안티패턴).
+# 같은 도메인 재조회 시 캐시 hit → DB 호출 0. 5분 TTL.
+@st.cache_data(ttl=300, max_entries=500, show_spinner=False)
+def _fetch_store_products_cached(d: str):
+    sr = query("SELECT * FROM stores WHERE domain = %s", (d,), one=True)
+    if not sr:
+        return None, None
+    pdb = query("""
+        SELECT p.*, pc.cluster_id
+        FROM products p
+        LEFT JOIN product_clusters pc ON pc.product_id = p.id
+        WHERE p.store_id = %s
+        ORDER BY p.price_min ASC NULLS LAST
+    """, (sr["id"],))
+    return dict(sr), [dict(p) for p in (pdb or [])]
+
+
+# ── 트렌딩 사이드바 ─────────────────────────────────────────
+with st.sidebar:
+    st.header("지금 트렌딩")
+    st.caption("여러 스토어에서 동시에 팔리는 상품")
+
+    trending = _get_sidebar_trending()
 
     if trending:
         for item in trending:
@@ -225,23 +278,13 @@ if analyze_btn and domain_input:
     st.subheader(f"분석 결과: `{domain}`")
 
     with st.spinner("데이터 가져오는 중..."):
-        # 1. DB에서 먼저 조회
-        store_row = query(
-            "SELECT * FROM stores WHERE domain = %s", (domain,), one=True
-        )
+        store_row, products_from_db = _fetch_store_products_cached(domain)
 
         if store_row:
-            products_db = query("""
-                SELECT p.*, pc.cluster_id
-                FROM products p
-                LEFT JOIN product_clusters pc ON pc.product_id = p.id
-                WHERE p.store_id = %s
-                ORDER BY p.price_min ASC NULLS LAST
-            """, (store_row["id"],))
-            products = [dict(p) for p in (products_db or [])]
+            products = products_from_db or []
             source = "db"
         else:
-            # 2. DB에 없으면 라이브 크롤링
+            # 2. DB에 없으면 라이브 크롤링 (live_fetch_products는 이미 10분 캐시됨)
             data = live_fetch_products(domain)
             if data:
                 products = data.get("products", [])
@@ -255,10 +298,13 @@ if analyze_btn and domain_input:
             "스토어에 접근할 수 없어요. "
             "비밀번호가 걸린 스토어이거나 존재하지 않는 주소예요."
         )
+        st.info(
+            "이미 인덱싱된 스토어로 시도해보세요 — 사이드바의 '지금 트렌딩' 상품 도메인을 클릭하면 즉시 분석 가능합니다."
+        )
         st.stop()
 
     # ── 요약 지표 ──────────────────────────────────────────
-    prices = []
+    prices: list[float] = []
     if source == "db":
         prices = [float(p["price_min"]) for p in products if p.get("price_min")]
     else:
@@ -266,19 +312,25 @@ if analyze_btn and domain_input:
             for v in p.get("variants", []):
                 try:
                     prices.append(float(v["price"]))
-                except Exception:
-                    pass
+                except (ValueError, TypeError) as e:
+                    # SEC/UX: silent skip 가시화 — 데이터 품질 추적용.
+                    # ValueError = 비-숫자 문자열, TypeError = None 등.
+                    logging.debug("price parse skip: %s (%s)", v.get("price"), e)
 
     product_count = len(products)
-    avg_price = sum(prices) / len(prices) if prices else 0
-    price_min = min(prices) if prices else 0
-    price_max = max(prices) if prices else 0
+    # FIX 2026-06-07: 가격 없을 때 "$0.00" 표시 misleading → "n/a" (Streamlit metric value 자체에 텍스트 가능).
+    has_prices = bool(prices)
+    avg_price_str = f"${sum(prices)/len(prices):.2f}" if has_prices else "n/a"
+    price_min_str = f"${min(prices):.2f}" if has_prices else "n/a"
+    price_max_str = f"${max(prices):.2f}" if has_prices else "n/a"
 
     c1, c2, c3, c4 = st.columns(4)
     c1.metric("총 상품 수", f"{product_count:,}개")
-    c2.metric("평균 가격", f"${avg_price:.2f}")
-    c3.metric("최저가", f"${price_min:.2f}")
-    c4.metric("최고가", f"${price_max:.2f}")
+    c2.metric("평균 가격", avg_price_str)
+    c3.metric("최저가", price_min_str)
+    c4.metric("최고가", price_max_str)
+    if not has_prices and product_count > 0:
+        st.caption("이 스토어는 가격이 비공개거나 '문의' 상품이 많아요.")
 
     st.divider()
 

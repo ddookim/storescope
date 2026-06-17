@@ -1,0 +1,87 @@
+name: Weekly Pipeline (Crawl + Cluster + Trend)
+
+# 매주 일요일 23:00 UTC = 월요일 08:00 KST.
+# 마스터플랜의 "월요일 아침에 winners 리스트" 약속을 자동 충족.
+# GitHub Actions free tier: 2000 min/mo (현재 작업량 ~30분/주 = 120 min/mo 사용).
+#
+# Render Cron Job은 유료 ($1+/mo) → GH Actions로 대체.
+#
+# 실행:
+#   1. NEON_DB_URL 시크릿 등록: GitHub repo → Settings → Secrets → Actions → New
+#   2. (선택) TELEGRAM_BOT_TOKEN / TELEGRAM_CHAT_ID 시크릿 등록
+#   3. 첫 실행: Actions 탭 → "Weekly Pipeline" → Run workflow (수동 트리거 가능)
+
+on:
+  schedule:
+    - cron: "0 23 * * 0"  # 일요일 23:00 UTC
+  workflow_dispatch:       # 수동 트리거 허용 (디버깅 + 첫 실행용)
+
+# 동시 실행 차단 — 동일 시간에 두 잡이 안 돌게.
+concurrency:
+  group: weekly-pipeline
+  cancel-in-progress: false
+
+jobs:
+  pipeline:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60     # 1시간 상한 (free tier 보호)
+    env:
+      DATABASE_URL: ${{ secrets.NEON_DB_URL }}
+      TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+      TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+      PYTHONUNBUFFERED: "1"
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: "pip"
+
+      - name: Install dependencies
+        run: |
+          pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Run pipeline (crawl + cluster + load)
+        run: |
+          # Droplet 단계(0, 5) 건너뛰고 1~4만 실행 (Neon 환경)
+          python run_pipeline.py --from 1 || PIPELINE_EXIT=$?
+          if [ -n "${PIPELINE_EXIT:-}" ] && [ "$PIPELINE_EXIT" -ne 0 ]; then
+            echo "::error::Pipeline failed with exit $PIPELINE_EXIT"
+            exit "$PIPELINE_EXIT"
+          fi
+
+      - name: Health check after pipeline
+        run: |
+          python -c "
+          import os, psycopg2
+          conn = psycopg2.connect(os.environ['DATABASE_URL'])
+          cur = conn.cursor()
+          cur.execute('SELECT COUNT(*) FROM clusters')
+          n_clusters = cur.fetchone()[0]
+          cur.execute('SELECT COUNT(*) FROM products')
+          n_products = cur.fetchone()[0]
+          print(f'clusters={n_clusters} products={n_products}')
+          assert n_clusters > 1000, f'clusters too few: {n_clusters}'
+          assert n_products > 100000, f'products too few: {n_products}'
+          print('Health check PASS')
+          "
+
+      - name: Notify success (Telegram, optional)
+        if: success() && env.TELEGRAM_BOT_TOKEN != ''
+        run: |
+          curl -sS -X POST "https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage" \
+            -d chat_id="${TELEGRAM_CHAT_ID}" \
+            -d text="✅ StoreScope weekly pipeline completed at $(date -u +%FT%TZ)" \
+            --max-time 10 > /dev/null
+
+      - name: Notify failure (Telegram, optional)
+        if: failure() && env.TELEGRAM_BOT_TOKEN != ''
+        run: |
+          curl -sS -X POST "https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage" \
+            -d chat_id="${TELEGRAM_CHAT_ID}" \
+            -d text="🚨 StoreScope weekly pipeline FAILED at $(date -u +%FT%TZ) — run: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" \
+            --max-time 10 > /dev/null

@@ -1,0 +1,106 @@
+# StoreScope - Render.yaml (Neon-as-DB variant)
+# 사용 시점: Render 크레딧 고갈 후, Neon 3GB free PG + Render free web 조합.
+# 본 파일은 render.yaml과 배타. 활성화 방법: 본 파일을 render.yaml로 rename 후 commit + push.
+#
+# Round 5 합의 수정 적용:
+#  - PYTHON_VERSION 고정 (3.11.9) → psycopg2-binary wheel mismatch 방지
+#  - region: singapore → 한국 latency 200ms → 90ms
+#  - autoDeploy: false → 검증 기간 push 자동 배포 차단
+#  - storescope-app healthCheckPath: /_stcore/health (Streamlit 1.27+ 공식)
+#  - ALLOWED_ORIGINS 디폴트 제공 (CORS 차단 사고 방지)
+#  - API_BASE_URL 디폴트 제공 (Streamlit이 빈 값으로 시작하지 않도록)
+#  - APP_URL 재도입 (라운드 16) — services/xray_report.py 사용 발견
+#
+# Neon 설정 순서:
+#  1. neon.tech → GitHub OAuth → New project "storescope"
+#     region: AWS ap-northeast-1 (Tokyo) — Render singapore와 같은 아시아 권역
+#  2. **Pooled connection string 사용** (postgresql://user:pass@ep-xxx-pooler.aws.neon.tech/storescope)
+#     Pooler URL이 cold start + reconnect overhead 최소화 (Direct URL 쓰면 매 쿼리마다 wake)
+#  3. Render 대시보드 → storescope-api → Environment → DATABASE_URL 값에 붙여넣기
+#  4. storescope-app 도 동일 DATABASE_URL 입력 (동일 Neon 인스턴스 공유)
+#  5. 후속: ALLOWED_ORIGINS 에 커스텀 도메인 추가 시 콤마로 append (e.g., https://api.storescope.me)
+
+services:
+  - type: web
+    name: storescope-api
+    plan: free
+    region: singapore
+    runtime: python
+    autoDeploy: false
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn api.main:app --host 0.0.0.0 --port $PORT
+    # /health/db 사용 — DB 다운 시 Render가 unhealthy 판정 → 트래픽 자동 차단.
+    # /health (경량) 는 UptimeRobot/cron-job.org가 sleep 방지용으로 핑.
+    healthCheckPath: /health/db
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.9
+      - key: DATABASE_URL
+        sync: false
+      - key: ADMIN_SECRET
+        generateValue: true
+      - key: PADDLE_API_KEY
+        sync: false
+      - key: PADDLE_CLIENT_TOKEN
+        sync: false
+      - key: PADDLE_STARTER_PRICE_ID
+        value: pri_01ksj3qpjyxsv2kprvxn7dpk10
+      - key: PADDLE_PRO_PRICE_ID
+        value: pri_01ksh172kehejf3xc2ws26e6vy
+      - key: PADDLE_WEBHOOK_SECRET
+        sync: false
+      - key: PADDLE_WEBHOOK_SKIP_VERIFY
+        value: "false"
+      - key: ALLOWED_ORIGINS
+        value: https://ddookim.github.io,https://storescope-app.onrender.com
+      - key: TELEGRAM_BOT_TOKEN
+        sync: false
+      - key: TELEGRAM_CHAT_ID
+        sync: false
+      - key: SMTP_HOST
+        value: smtp.gmail.com
+      - key: SMTP_PORT
+        value: "587"
+      - key: SMTP_USER
+        sync: false
+      - key: SMTP_PASS
+        sync: false
+      - key: SMTP_FROM
+        value: noreply@storescope.com
+      - key: SENTRY_DSN
+        sync: false
+      - key: SENTRY_TRACES_SAMPLE_RATE
+        value: "0.01"
+      # FIX 2026-06-08: APP_URL 재도입 — services/xray_report.py 5회 사용.
+      # default storescope.com 은 미존재 도메인 → X-Ray 이메일 모든 CTA 404.
+      # Launch 후 사용자가 onrender.com URL 또는 도메인 적용 시 갱신.
+      - key: APP_URL
+        value: https://ddookim.github.io/storescope
+      # Rate limit env vars — launch 후 봇 공격 시 즉시 조정 (재배포 X, env 변경만).
+      - key: RATE_LIMIT_TRENDING
+        value: 60/minute
+      - key: RATE_LIMIT_LEADS
+        value: 5/minute
+      - key: RATE_LIMIT_OPTOUT
+        value: 10/minute
+      - key: RATE_LIMIT_FRESHNESS
+        value: 30/minute
+
+  - type: web
+    name: storescope-app
+    plan: free
+    region: singapore
+    runtime: python
+    autoDeploy: false
+    buildCommand: pip install -r requirements.txt
+    startCommand: streamlit run app.py --server.port $PORT --server.address 0.0.0.0 --server.headless true
+    healthCheckPath: /_stcore/health
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.9
+      - key: DATABASE_URL
+        sync: false
+      - key: API_BASE_URL
+        value: https://storescope-api.onrender.com
+      - key: GA_MEASUREMENT_ID
+        sync: false

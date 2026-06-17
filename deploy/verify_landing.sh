@@ -1,0 +1,138 @@
+#!/bin/bash
+# StoreScope landing 회귀 검증 (배포 전 마지막 게이트)
+# 사용법:
+#   bash deploy/verify_landing.sh                              # 기본 작업본 검증
+#   bash deploy/verify_landing.sh /path/to/index.html          # 특정 파일 검증
+#
+# 검출:
+#   1. HTML parser 에러 (악성 + 깨진 구조)
+#   2. 죽은 외부 URL (trycloudflare in href, NOT in API_BASE resolver — 자동 패치 대상)
+#   3. OG image 라이브 200 응답
+#   4. 마스터플랜 sweep 후 dead 카테고리 부활 (annual toggle, save-pill 등)
+#   5. Schema.org JSON 파싱
+#   6. 파일 사이즈 임계 (180KB-220KB 범위 — 마스터플랜 sweep 트렌드)
+#   7. formsubmit.co 외부 의존 부활 차단
+#   8. Hero CTA 마스터플랜 정합 (X-Ray primary)
+#   9. 가짜 promo (limited time, X seats left) 차단
+
+set -euo pipefail
+
+FILE="${1:-/Users/dodokim/auto biz_factory/storescope_landing_fixed.html}"
+
+if [ ! -f "$FILE" ]; then
+    echo "[ABORT] 파일 없음: $FILE"; exit 1
+fi
+
+TS=$(date +%Y%m%d_%H%M%S)
+PASS=0; FAIL=0; WARN=0
+mark_pass() { echo "  PASS: $1"; PASS=$((PASS+1)); }
+mark_fail() { echo "  FAIL: $1"; FAIL=$((FAIL+1)); }
+mark_warn() { echo "  WARN: $1"; WARN=$((WARN+1)); }
+
+echo "=== StoreScope landing verify ($(basename "$FILE")) at $TS ==="
+echo "----------"
+
+# 1. HTML parser
+if python3 -c "from html.parser import HTMLParser; HTMLParser().feed(open('$FILE').read())" 2>/dev/null; then
+    mark_pass "HTML parser 통과"
+else
+    mark_fail "HTML parser 에러"
+fi
+
+# 2. 죽은 외부 URL — href= 안에 trycloudflare가 있으면 (script API_BASE 제외)
+DEAD_HREFS=$(grep -cE 'href="https://[a-z0-9-]+\.trycloudflare\.com' "$FILE" || true)
+if [ "$DEAD_HREFS" -eq 0 ]; then
+    mark_pass "href 죽은 trycloudflare URL 0건"
+else
+    mark_fail "href 죽은 trycloudflare URL $DEAD_HREFS건"
+fi
+
+# 3. OG image
+OG_URL=$(grep -oE 'property="og:image" content="[^"]+"' "$FILE" | sed -E 's/.*content="([^"]+)".*/\1/')
+if [ -n "$OG_URL" ]; then
+    OG_CODE=$(curl -s -o /dev/null -w "%{http_code}" "$OG_URL" --max-time 8 || echo "000")
+    if [ "$OG_CODE" = "200" ]; then
+        mark_pass "OG image 라이브 200: $OG_URL"
+    else
+        mark_warn "OG image 응답 $OG_CODE: $OG_URL (소셜 공유 시 깨질 수 있음)"
+    fi
+else
+    mark_fail "OG image 메타 누락"
+fi
+
+# 4. 마스터플랜 sweep 후 dead 카테고리 부활 차단
+for KW in "billing-toggle" "save-pill" "hero-stats" "hero-stat-num" "mobile-sticky-cta" "data-yr=" "setBilling"; do
+    if grep -q "$KW" "$FILE"; then
+        # 코멘트 안이면 OK (REMOVED 또는 REVERT 코멘트), HTML/CSS 실제 사용이면 FAIL
+        NON_COMMENT=$(grep -v "^[[:space:]]*//" "$FILE" | grep -v "^[[:space:]]*/\*" | grep -c "$KW" || true)
+        REMOVED_COMMENT=$(grep -E "REMOVED|REVERT" "$FILE" | grep -c "$KW" || true)
+        if [ "$NON_COMMENT" -gt "$REMOVED_COMMENT" ]; then
+            mark_fail "마스터플랜 sweep 후 dead 카테고리 부활: $KW"
+        fi
+    fi
+done
+mark_pass "dead 카테고리 부활 검증 완료"
+
+# 5. Schema.org JSON 파싱
+SCHEMA=$(awk '/<script type="application\/ld\+json">/,/<\/script>/' "$FILE" | sed 's/<[^>]*>//g')
+if echo "$SCHEMA" | python3 -c "import json,sys; json.loads(sys.stdin.read())" 2>/dev/null; then
+    mark_pass "Schema.org JSON-LD 파싱 OK"
+else
+    mark_fail "Schema.org JSON-LD 파싱 실패"
+fi
+
+# 6. 파일 사이즈
+SIZE=$(wc -c < "$FILE")
+if [ "$SIZE" -lt 180000 ]; then
+    mark_warn "파일 사이즈 $SIZE byte — 너무 작음 (예상 180-220KB), 의도치 않게 컴포넌트 손실 가능"
+elif [ "$SIZE" -gt 220000 ]; then
+    mark_warn "파일 사이즈 $SIZE byte — 너무 큼 (예상 180-220KB), 마스터플랜 sweep 트렌드 역행 가능"
+else
+    mark_pass "파일 사이즈 $SIZE byte (정상 범위)"
+fi
+
+# 7. 외부 의존 부활 차단
+if grep -q "formsubmit.co/ajax" "$FILE"; then
+    mark_fail "formsubmit.co 외부 의존 부활 (자체 /leads 사용해야 함)"
+else
+    mark_pass "formsubmit.co 외부 의존 0건"
+fi
+
+# 8. Hero CTA primary = X-Ray (라인 grep + 다음 2줄 컨텍스트)
+HERO_CTA_NEXT=$(grep -A2 'class="hero-ctas"' "$FILE" | head -10)
+if echo "$HERO_CTA_NEXT" | grep -q 'btn-hero-primary' && echo "$HERO_CTA_NEXT" | grep -q "X-Ray"; then
+    mark_pass "Hero primary CTA = X-Ray (마스터플랜 KPI 정합)"
+else
+    # 더 단순한 fallback: hero-ctas div 직후 첫 a/button이 X-Ray로 시작하는지
+    if grep -B1 -A4 'class="hero-ctas"' "$FILE" | head -8 | grep -q "X-Ray a competitor"; then
+        mark_pass "Hero primary CTA = X-Ray (마스터플랜 KPI 정합)"
+    else
+        mark_warn "Hero primary CTA가 X-Ray가 아닐 가능성 — 마스터플랜 STEP 1 KPI 위반 가능"
+    fi
+fi
+
+# 9. 가짜 promo / scarcity 차단
+for FAKE in "limited time" "X seats left" "Only [0-9]+ remaining" "Ends tonight"; do
+    if grep -iE "$FAKE" "$FILE" >/dev/null; then
+        mark_fail "가짜 promo/scarcity 감지: '$FAKE' (마스터플랜 명시 금지)"
+    fi
+done
+mark_pass "가짜 promo 검증 완료"
+
+# 10. footer 정책 페이지 링크 → 실 파일 존재 (라운드 23 발견)
+#    Paddle MoR + GDPR 컴플라이언스 + 가입 절차 필수.
+LANDING_DIR="$(dirname "$FILE")"
+POLICY_MISSING=0
+for policy_link in privacy.html terms.html refund.html; do
+    if grep -qE "(\\./)?landing/$policy_link|/$policy_link" "$FILE"; then
+        if [ ! -f "$LANDING_DIR/$policy_link" ]; then
+            mark_fail "footer 링크된 정책 페이지 누락: $policy_link (Paddle/GDPR 결제 절차 차단)"
+            POLICY_MISSING=1
+        fi
+    fi
+done
+[ "$POLICY_MISSING" -eq 0 ] && mark_pass "정책 페이지 존재 검증 완료"
+
+echo "----------"
+echo "RESULT: PASS=$PASS FAIL=$FAIL WARN=$WARN"
+[ "$FAIL" -eq 0 ] || exit 1

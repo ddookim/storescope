@@ -1,0 +1,38 @@
+name: Keep Render Warm (backup ping)
+
+# cron-job.org 가 다운되거나 잊고 등록 안 했을 경우 백업 안전망.
+# 14분마다 /health 핑 → Render free 15분 idle sleep 직전 wake.
+#
+# GH Actions free tier: 매 14분 = 시간당 4회 = 일 96회 = 월 ~2880 호출.
+# 각 호출당 ~10초 소요 → 월 ~480분 사용. 무료 한도 2000분 안에 충분.
+#
+# 메인 케이프 방지는 cron-job.org 사용 권장 (안정성 + 메인 작업 분리).
+# 본 워크플로는 fallback 용으로만 활성화.
+
+on:
+  schedule:
+    - cron: "*/14 * * * *"
+  workflow_dispatch:
+
+# 중복 실행 차단
+concurrency:
+  group: keep-warm
+  cancel-in-progress: true
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    steps:
+      - name: Ping /health
+        run: |
+          API_URL="${{ vars.RENDER_API_URL }}"
+          if [ -z "$API_URL" ]; then
+            API_URL="https://storescope-api.onrender.com"
+          fi
+          STATUS=$(curl -s -o /dev/null -w "%{http_code}" "$API_URL/health" --max-time 30)
+          echo "::notice::Ping $API_URL/health → $STATUS"
+          if [ "$STATUS" != "200" ]; then
+            echo "::warning::Non-200 response from /health"
+            exit 0   # 비-200이라도 워크플로 실패로 잡지 않음 (cold start 도중일 수 있음)
+          fi

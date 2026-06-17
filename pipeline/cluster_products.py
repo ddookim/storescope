@@ -440,6 +440,7 @@ def compute_trending(clusters: dict) -> list[dict]:
 
 def extract_records(products_dir: Path) -> list[ProductRecord]:
     records: list[ProductRecord] = []
+    skipped_files: list[tuple[str, str]] = []
     for file in sorted(products_dir.glob("*.json")):
         try:
             data = json.loads(file.read_text())
@@ -464,8 +465,14 @@ def extract_records(products_dir: Path) -> list[ProductRecord]:
                 ))
                 if len(records) >= MAX_PRODUCTS:
                     return records
-        except Exception:
-            continue
+        except (json.JSONDecodeError, KeyError, TypeError) as exc:
+            # FIX 2026-06-07: silent data loss 방지 → 명시 누적 + 로깅.
+            # 이전: bare `except Exception: continue` = 스토어 전체 silently drop.
+            skipped_files.append((file.name, type(exc).__name__))
+            logging.warning("extract_records skip %s: %s: %s", file.name, type(exc).__name__, exc)
+    if skipped_files:
+        logging.warning("extract_records skipped %d files: %s",
+                        len(skipped_files), [f for f, _ in skipped_files[:10]])
     return records
 
 

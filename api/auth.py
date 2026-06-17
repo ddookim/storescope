@@ -54,8 +54,10 @@ def _get_pool() -> psycopg2.pool.ThreadedConnectionPool:
     if _pool is None or _pool.closed:
         with _pool_lock:
             if _pool is None or _pool.closed:
-                # minconn=2: 항상 최소 2개 커넥션 유지, maxconn=20: 동시 요청 상한
-                _pool = psycopg2.pool.ThreadedConnectionPool(2, 60, dsn=DB_URL)
+                # Render free 512MB / uvicorn 1 worker / Neon free 0.25 vCPU 환경.
+                # max=60일 때 60×10MB=600MB → OOM. max=10이면 100MB로 안전.
+                # 사용자 트래픽 < 100rps 가정 (D+30 검증 단계). 부족 시 max=15로 상향.
+                _pool = psycopg2.pool.ThreadedConnectionPool(2, 10, dsn=DB_URL)
     return _pool
 
 
@@ -136,13 +138,16 @@ def _check_and_increment_usage(key_id: int, daily_limit: Optional[int]) -> None:
     """
     CRITICAL-1 FIX: 한도 검사 + 카운트 증가를 단일 트랜잭션 + FOR UPDATE로 원자적 처리.
     한도 초과 시 카운트 증가 없이 즉시 예외 발생.
+
+    FIX 2026-06-07: timezone 일관성 — used_date는 UTC 기준으로 통일.
+    이전: CURRENT_DATE (서버 TZ=Singapore) vs 헤더 "midnight UTC" 불일치 → 사용자 혼란.
     """
     with get_conn() as conn:
         with conn.cursor() as cur:
             cur.execute(
                 """
                 SELECT request_count FROM api_usage
-                WHERE key_id = %s AND used_date = CURRENT_DATE
+                WHERE key_id = %s AND used_date = (NOW() AT TIME ZONE 'UTC')::date
                 FOR UPDATE
                 """,
                 (key_id,),
@@ -151,19 +156,27 @@ def _check_and_increment_usage(key_id: int, daily_limit: Optional[int]) -> None:
             current_count = row[0] if row else 0
 
             if daily_limit is not None and current_count >= daily_limit:
+                # 정확한 reset 시각 계산 — 다음 UTC midnight (ISO 8601).
+                import datetime as _dt
+                from datetime import timezone as _tz
+                now_utc = _dt.datetime.now(_tz.utc)
+                next_midnight = (now_utc + _dt.timedelta(days=1)).replace(
+                    hour=0, minute=0, second=0, microsecond=0
+                )
                 raise HTTPException(
                     status_code=429,
                     detail=f"일일 한도 초과 ({daily_limit} req/일). Pro 플랜으로 업그레이드하세요.",
                     headers={
                         "X-RateLimit-Limit": str(daily_limit),
-                        "X-RateLimit-Reset": "midnight UTC",
+                        "X-RateLimit-Reset": next_midnight.isoformat(),
+                        "X-RateLimit-Remaining": "0",
                     },
                 )
 
             cur.execute(
                 """
                 INSERT INTO api_usage (key_id, used_date, request_count)
-                VALUES (%s, CURRENT_DATE, 1)
+                VALUES (%s, (NOW() AT TIME ZONE 'UTC')::date, 1)
                 ON CONFLICT (key_id, used_date)
                 DO UPDATE SET request_count = api_usage.request_count + 1
                 """,

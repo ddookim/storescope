@@ -44,6 +44,13 @@ trap 'git worktree remove --force "$WORKTREE" 2>/dev/null || true' EXIT
 cp "$SRC"               "$WORKTREE/index.html"
 cp landing/og-image.png "$WORKTREE/landing/og-image.png"
 cp landing/og-image.svg "$WORKTREE/landing/og-image.svg"
+# FIX 2026-06-08 (라운드 23): 정책 페이지 누락 — footer 링크 ./landing/privacy.html 클릭 시 404.
+# Paddle MoR 가입 절차 + GDPR/EU 컴플라이언스 + 신뢰 요건 필수.
+for policy in privacy.html terms.html refund.html; do
+  if [[ -f "landing/$policy" ]]; then
+    cp "landing/$policy" "$WORKTREE/landing/$policy"
+  fi
+done
 
 # ── 3. gh-pages commit + push ────────────────────────────────────────────────
 cd "$WORKTREE"
@@ -52,6 +59,10 @@ if git diff --quiet && git diff --cached --quiet; then
 else
   COMMIT_MSG="${COMMIT_MSG:-chore: landing deploy $(date +%Y-%m-%d)}"
   git add index.html landing/og-image.png landing/og-image.svg
+  # 정책 페이지 git add (존재하는 것만)
+  for policy in privacy.html terms.html refund.html; do
+    [[ -f "landing/$policy" ]] && git add "landing/$policy"
+  done
   git commit -m "$COMMIT_MSG"
   echo "[3/5] pushing gh-pages..."
   git push origin gh-pages

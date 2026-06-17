@@ -14,17 +14,44 @@ StoreScope — FastAPI 서버
 
 import csv
 import io
-import ipaddress
 import logging
 import os
-import socket
-import urllib.parse
 import psycopg2.extras
+
+# Sentry SDK — Render 휘발성 로그 대체. SENTRY_DSN 미설정 시 자동 no-op.
+import sentry_sdk
+from sentry_sdk.integrations.fastapi import FastApiIntegration
+_SENTRY_DSN = os.environ.get("SENTRY_DSN", "")
+if _SENTRY_DSN:
+    sentry_sdk.init(
+        dsn=_SENTRY_DSN,
+        # Free tier 5K errors/mo. traces_sample_rate=0.01 = 1% 샘플링으로 5M spans 한도 안전.
+        traces_sample_rate=float(os.environ.get("SENTRY_TRACES_SAMPLE_RATE", "0.01")),
+        environment=os.environ.get("RENDER_SERVICE_NAME", "local"),
+        integrations=[FastApiIntegration()],
+        # PII (개인정보 식별) 차단 — Paddle 고객 이메일이 Sentry로 흘러가지 않게.
+        send_default_pii=False,
+    )
+
+# slowapi rate limiter — in-memory 백엔드 (Redis 불필요).
+# 무료티어 DDoS + 봇 폭주 1차 방어.
+# 한도는 env var로 분리 — 마케팅 캠페인 burst 시 임시 상향 가능.
+# Render 1 worker 영구 가정 (workers 명시 안 함). multi-worker 시 limit = N × 정의값.
+from slowapi import Limiter, _rate_limit_exceeded_handler
+from slowapi.util import get_remote_address
+from slowapi.errors import RateLimitExceeded
+
+RATE_LIMIT_TRENDING  = os.environ.get("RATE_LIMIT_TRENDING",  "60/minute")
+RATE_LIMIT_LEADS     = os.environ.get("RATE_LIMIT_LEADS",      "5/minute")
+RATE_LIMIT_OPTOUT    = os.environ.get("RATE_LIMIT_OPTOUT",    "10/minute")  # typo retry 완화
+RATE_LIMIT_FRESHNESS = os.environ.get("RATE_LIMIT_FRESHNESS", "30/minute")  # 랜딩 핑 무방어 차단
+
+limiter = Limiter(key_func=get_remote_address, default_limits=["200/minute"])
 from contextlib import asynccontextmanager
 from datetime import datetime, timezone
 from typing import Optional
 
-from fastapi import Depends, FastAPI, HTTPException, Query
+from fastapi import BackgroundTasks, Depends, FastAPI, HTTPException, Query, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import StreamingResponse
 from pydantic import BaseModel
@@ -41,17 +68,15 @@ ALLOWED_ORIGINS = os.environ.get(
 
 @asynccontextmanager
 async def lifespan(_app: FastAPI):
+    # OPTIMIZE: ALTER TABLE 제거 — migrations/*.sql 일회성으로 이전 (cold wake당 1회 무의미 DDL 제거).
+    # 풀 사전 warm-up만 유지 (cold start latency 감소).
     try:
         with get_conn() as conn:
             with conn.cursor() as cur:
                 cur.execute("SELECT 1")
-                cur.execute("""
-                    ALTER TABLE api_keys
-                    ADD COLUMN IF NOT EXISTS trial_ends_at TIMESTAMPTZ
-                """)
-        print("DB connection pool initialized")
+        logger.info("DB pool warmed up")
     except Exception as e:
-        print(f"DB connection failed: {e}")
+        logger.error("DB warmup failed: %s", e)
     yield
 
 
@@ -62,9 +87,22 @@ app = FastAPI(
     lifespan=lifespan,
 )
 
+# slowapi 등록 — RateLimitExceeded는 자동 429 응답으로 변환.
+app.state.limiter = limiter
+app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
+
+# OPTIMIZE: GZip 압축으로 JSON 응답 ~70% 축소. Render free 대역폭 절감 + cold start 응답 시간 ↓.
+# minimum_size=1000: 작은 응답은 GZip 오버헤드 회피.
+from fastapi.middleware.gzip import GZipMiddleware
+app.add_middleware(GZipMiddleware, minimum_size=1000)
+
+# FIX 2026-06-08: Render 무료 서비스는 URL hash suffix 부여 (storescope-app-XXXX.onrender.com).
+# 정확 매칭만 쓰면 사용자가 launch 후 실 URL을 ALLOWED_ORIGINS에 수동 추가해야 함 (UX 사고).
+# regex 패턴 추가 → storescope-* 서브도메인 모두 허용 (CORS 차단 자동 회피).
 app.add_middleware(
     CORSMiddleware,
     allow_origins=ALLOWED_ORIGINS,
+    allow_origin_regex=r"https://storescope-(api|app)(-[a-z0-9]+)?\.onrender\.com",
     allow_methods=["GET", "POST"],
     allow_headers=["X-API-Key", "Content-Type", "Accept"],
 )
@@ -91,25 +129,76 @@ import re as _re
 _DOMAIN_RE = _re.compile(r"^[a-z0-9][a-z0-9\-]{0,61}[a-z0-9]?\.myshopify\.com$")
 
 
+# ── /trending 모듈-레벨 TTL 캐시 ─────────────────────────────────
+# OPTIMIZE: 데이터는 주간 갱신 (run_pipeline 토요일 02:55 cron).
+# 5분 TTL이면 데이터 신선도 영향 0, DB 부하 90%+ 절감.
+# Render free = 1 worker = process-local dict 충분 (별도 Redis 불필요).
+# 키 = (limit, min_stores, sort). 캐시 사이즈 자연 한계 ~50 (limit 1-100 × min_stores 2-N × sort 2).
+import threading as _threading
+import time as _time
+_TRENDING_CACHE: dict[tuple, tuple[float, list]] = {}
+_TRENDING_TTL_SEC = 300  # 5분
+_TRENDING_LOCK = _threading.Lock()
+
+
+def _trending_cache_get(key: tuple) -> Optional[list]:
+    now = _time.time()
+    entry = _TRENDING_CACHE.get(key)
+    if not entry:
+        return None
+    ts, val = entry
+    if now - ts > _TRENDING_TTL_SEC:
+        # 만료. 명시 제거로 메모리 누적 방지.
+        with _TRENDING_LOCK:
+            _TRENDING_CACHE.pop(key, None)
+        return None
+    return val
+
+
+def _trending_cache_set(key: tuple, val: list) -> None:
+    with _TRENDING_LOCK:
+        # 캐시 무한 증가 방지: > 100 항목이면 절반 제거 (가장 오래된 것부터)
+        if len(_TRENDING_CACHE) > 100:
+            sorted_keys = sorted(_TRENDING_CACHE.items(), key=lambda kv: kv[1][0])
+            for k, _ in sorted_keys[:50]:
+                _TRENDING_CACHE.pop(k, None)
+        _TRENDING_CACHE[key] = (_time.time(), val)
+
+
 # ── 헬스체크 ────────────────────────────────────────────────
 @app.get("/health")
 def health():
+    # OPTIMIZE: 경량 헬스 — UptimeRobot 5분 핑(일 288회)이 DB 안 거치도록.
+    # 프로세스 살아있음 + middleware 동작 = 충분. Render의 healthCheckPath 도 동일 의미.
+    return {"status": "ok"}
+
+
+@app.get("/health/db")
+def health_db():
+    # 깊은 헬스 — 수동 검사 + 진단용. UptimeRobot이 호출 안 함.
     try:
         with get_conn() as conn:
             with conn.cursor() as cur:
                 cur.execute("SELECT 1")
-        return {"status": "ok"}
+        return {"status": "ok", "db": "reachable"}
     except Exception:
-        logger.error("Health check failed", exc_info=True)
-        raise HTTPException(status_code=503, detail="서비스를 일시적으로 사용할 수 없습니다.")
+        logger.error("DB health check failed", exc_info=True)
+        raise HTTPException(status_code=503, detail="DB 연결 실패")
 
 
 FRESHNESS_WARNING_HOURS = 24
 FRESHNESS_STALE_HOURS = 72
 
 
+# /health/freshness 호출 최적화: 랜딩이 매 페이지뷰마다 호출 → 30초 캐시.
+# 30초 stale은 dead-man 정확도에 무관 (임계값 24h/72h 기준).
+_FRESHNESS_CACHE: dict = {"ts": 0.0, "value": None}
+_FRESHNESS_TTL_SEC = 30
+
+
 @app.get("/health/freshness")
-def health_freshness():
+@limiter.limit(RATE_LIMIT_FRESHNESS)  # 랜딩 페이지뷰 DDoS-like 패턴 방어
+def health_freshness(request: Request):
     """Pipeline 데이터 신선도 + Dead-man switch 상태.
 
     mode:
@@ -119,7 +208,12 @@ def health_freshness():
 
     payments_blocked=True 이면 클라이언트는 Paddle Checkout 차단.
     DB 에러 시 fail-safe 로 payments_blocked=True 반환.
+    30s 캐시: 랜딩 페이지뷰 DDoS-like 패턴 대응 (DB 부담 99% 감소).
     """
+    now = _time.time()
+    if _FRESHNESS_CACHE["value"] is not None and now - _FRESHNESS_CACHE["ts"] < _FRESHNESS_TTL_SEC:
+        return _FRESHNESS_CACHE["value"]
+
     try:
         with get_conn() as conn:
             with conn.cursor() as cur:
@@ -128,6 +222,7 @@ def health_freshness():
                 last_snap = row[0] if row else None
     except Exception as exc:
         logger.error("Freshness check DB error", exc_info=True)
+        # 에러는 캐싱 안 함 — 다음 호출에서 즉시 재시도.
         return {
             "status": "error",
             "mode": "unknown",
@@ -136,7 +231,7 @@ def health_freshness():
         }
 
     if last_snap is None:
-        return {
+        result = {
             "status": "no_data",
             "mode": "stale",
             "updated_at": None,
@@ -144,6 +239,9 @@ def health_freshness():
             "days_since": None,
             "payments_blocked": True,
         }
+        _FRESHNESS_CACHE["ts"] = now
+        _FRESHNESS_CACHE["value"] = result
+        return result
 
     if last_snap.tzinfo is None:
         last_snap = last_snap.replace(tzinfo=timezone.utc)
@@ -156,7 +254,7 @@ def health_freshness():
     else:
         mode, blocked = "stale", True
 
-    return {
+    result = {
         "status": "ok",
         "mode": mode,
         "updated_at": last_snap.isoformat(),
@@ -164,11 +262,16 @@ def health_freshness():
         "days_since": round(hours / 24, 1),
         "payments_blocked": blocked,
     }
+    _FRESHNESS_CACHE["ts"] = now
+    _FRESHNESS_CACHE["value"] = result
+    return result
 
 
 # ── GET /trending ───────────────────────────────────────────
 @app.get("/trending", response_model=ApiResponse)
+@limiter.limit(RATE_LIMIT_TRENDING)  # API 키 일일 한도와 별개 — IP당 burst 제한
 def get_trending(
+    request: Request,
     limit: int = Query(default=20, ge=1, le=100),
     min_stores: int = Query(default=2, ge=2),
     sort: str = Query(default="rising", pattern="^(rising|popular)$"),
@@ -181,6 +284,12 @@ def get_trending(
     FIX: store_count DESC 단일 정렬은 고포화 제품을 trending으로 오인하게 만듦,
     week_delta 가중 점수로 교체하여 실질 수요 신호 제공 → 사용자 리텐션 향상
     """
+    # OPTIMIZE: 5분 TTL 캐시. 데이터 주간 갱신이라 5분 stale 영향 0, DB 호출 90%+ 절감.
+    cache_key = (limit, min_stores, sort)
+    cached = _trending_cache_get(cache_key)
+    if cached is not None:
+        return {"success": True, "data": cached, "cached": True}
+
     # SEC-ALERT: f-string SQL 제거 — _SORT_CLAUSES 화이트리스트 dict로 교체.
     # Pydantic pattern 검증이 있어도 f-string SQL은 코드 변경 시 injection 취약점으로 전환될 위험.
     order_clause = _SORT_CLAUSES[sort]
@@ -216,7 +325,9 @@ def get_trending(
                     LIMIT %s
                 """, (min_stores, limit))
                 rows = cur.fetchall()
-        return {"success": True, "data": [dict(r) for r in rows]}
+        result = [dict(r) for r in rows]
+        _trending_cache_set(cache_key, result)
+        return {"success": True, "data": result}
     except Exception:
         logger.error("GET /trending 실패", exc_info=True)
         raise HTTPException(status_code=500, detail="내부 서버 오류가 발생했습니다.")
@@ -417,71 +528,10 @@ def export_trending_csv(
         raise HTTPException(status_code=500, detail="내부 서버 오류가 발생했습니다.")
 
 
-def _assert_safe_webhook_url(url: str) -> None:
-    """
-    SEC-ALERT: SSRF guard — reject webhook URLs that resolve to private/loopback/
-    link-local IPs or known cloud metadata endpoints.
-    Checked at registration time so malicious URLs never reach the DB.
-    """
-    _BLOCKED_HOSTS = {
-        "169.254.169.254",          # AWS / Azure / DigitalOcean instance metadata
-        "metadata.google.internal",  # GCP metadata
-        "fd00:ec2::254",             # GCP IPv6 metadata
-    }
-    try:
-        parsed = urllib.parse.urlparse(url)
-        host = parsed.hostname or ""
-        if not host:
-            raise HTTPException(status_code=400, detail="URL에서 호스트를 파싱할 수 없습니다.")
-        if host.lower() in _BLOCKED_HOSTS:
-            raise HTTPException(status_code=400, detail="허용되지 않는 호스트입니다.")
-        resolved_ip = ipaddress.ip_address(socket.gethostbyname(host))
-        if (resolved_ip.is_private or resolved_ip.is_loopback
-                or resolved_ip.is_link_local or resolved_ip.is_reserved
-                or resolved_ip.is_multicast):
-            raise HTTPException(status_code=400, detail="내부 네트워크 주소는 허용되지 않습니다.")
-    except HTTPException:
-        raise
-    except Exception:
-        raise HTTPException(status_code=400, detail="웹훅 URL 검증에 실패했습니다.")
-
-
-# ── POST /webhook/subscribe (Pro only) ──────────────────────
-class WebhookSubscribeRequest(BaseModel):
-    url: str
-    events: list[str] = ["cluster.new", "cluster.trending"]
-
-
-@app.post("/webhook/subscribe")
-def webhook_subscribe(
-    req: WebhookSubscribeRequest,
-    _auth: dict = Depends(require_api_key),
-):
-    if _auth.get("plan") != "pro":
-        raise HTTPException(
-            status_code=403,
-            detail="웹훅 알림은 Pro 플랜 전용입니다.",
-        )
-    if not req.url.startswith("https://"):
-        raise HTTPException(status_code=400, detail="HTTPS URL만 허용됩니다.")
-    # SEC-ALERT: SSRF — startswith("https://") alone does not prevent SSRF to
-    # 169.254.169.254 or internal services. _assert_safe_webhook_url() resolves
-    # the hostname and blocks all private/link-local/reserved IP ranges.
-    _assert_safe_webhook_url(req.url)
-    valid_events = {"cluster.new", "cluster.trending"}
-    invalid = set(req.events) - valid_events
-    if invalid:
-        raise HTTPException(status_code=400, detail=f"지원하지 않는 이벤트: {invalid}")
-
-    with get_conn() as conn:
-        with conn.cursor() as cur:
-            cur.execute("""
-                INSERT INTO webhook_subscriptions (key_id, url, events)
-                VALUES (%s, %s, %s)
-                ON CONFLICT (key_id) DO UPDATE
-                    SET url = EXCLUDED.url, events = EXCLUDED.events, updated_at = NOW()
-            """, (_auth["id"], req.url, req.events))
-    return {"subscribed": True, "url": req.url, "events": req.events}
+# DELETED 2026-06-04: /webhook/subscribe + WebhookSubscribeRequest + _assert_safe_webhook_url
+# 7일간 구독자 0명 (psql SELECT COUNT 검증). Pro 활성 키 2개도 호출 흔적 0.
+# 마스터플랜 Path A 22% 확률 + Pro tier 미실증 → 추측성 기능. YAGNI 원칙.
+# 첫 Pro 고객 명시 요청 시 복구 (git revert <SHA>).
 
 
 # ── POST /leads ─────────────────────────────────────────────
@@ -492,7 +542,8 @@ class LeadRequest(BaseModel):
 
 
 @app.post("/leads")
-def capture_lead(req: LeadRequest):
+@limiter.limit(RATE_LIMIT_LEADS)  # 봇 스팸 차단 — IP당 분당 N건
+def capture_lead(request: Request, req: LeadRequest, background: BackgroundTasks):
     # FIX: 무료 툴 이메일 리드 저장 — 전환 퍼널 복구,
     # 이메일 리드는 Paddle checkout 유도 또는 직접 API 키 발급의 선행 조건
     import re
@@ -500,6 +551,16 @@ def capture_lead(req: LeadRequest):
         raise HTTPException(status_code=400, detail="유효하지 않은 이메일 형식입니다.")
     if len(req.email) > 254:
         raise HTTPException(status_code=400, detail="이메일이 너무 깁니다.")
+    # SEC: domain DoS 방어 — Shopify 최대 도메인 ~80자, 여유 256 cap.
+    if req.domain and len(req.domain) > 256:
+        raise HTTPException(status_code=400, detail="도메인이 너무 깁니다.")
+    # SEC: paddle_routes와 일관성 — disposable 이메일 차단으로 리드 테이블 오염 방지.
+    # 200 fake-success 반환 (스팸봇이 "차단됨" 신호로 우회 시도하는 것 차단).
+    from api.auth import is_disposable_email
+    normalized_email = req.email.lower().strip()
+    if is_disposable_email(normalized_email):
+        logger.info("Disposable email rejected at /leads: %s", normalized_email)
+        return {"captured": True}  # 의도적 silent reject
     try:
         with get_conn() as conn:
             with conn.cursor() as cur:
@@ -507,7 +568,14 @@ def capture_lead(req: LeadRequest):
                     INSERT INTO email_leads (email, source, domain)
                     VALUES (%s, %s, %s)
                     ON CONFLICT (email) DO NOTHING
-                """, (req.email.lower().strip(), req.source, req.domain))
+                """, (normalized_email, req.source, req.domain))
+        # FIX 2026-06-06: X-Ray 리드 즉시 보고서 자동 발송 (랜딩 모달 약속 이행).
+        # source='xray'인 경우만 — capture form 다른 소스는 향후 별도 핸들러.
+        # BackgroundTask = response 즉시 반환 + SMTP 호출은 별도 thread.
+        # SMTP 미설정 시 console stub (개발 환경 안전).
+        if req.source == "xray":
+            from services.xray_report import send_xray_report
+            background.add_task(send_xray_report, normalized_email, req.domain)
         return {"captured": True}
     except Exception:
         logger.error("POST /leads 실패", exc_info=True)
@@ -516,7 +584,8 @@ def capture_lead(req: LeadRequest):
 
 # ── POST /optout ─────────────────────────────────────────────
 @app.post("/optout")
-def optout(domain: str = Query(..., description="myshopify.com 도메인")):
+@limiter.limit(RATE_LIMIT_OPTOUT)  # 경쟁자 공격 차단 + typo retry UX 균형 (기본 10/min)
+def optout(request: Request, domain: str = Query(..., description="myshopify.com 도메인")):
     """
     머천트 옵트아웃 — 해당 스토어 데이터를 DB에서 삭제하고 재크롤링 차단.
     법적 방어: GDPR Article 17 (삭제 요청권) 및 선의 크롤링 정책 준수 증거.

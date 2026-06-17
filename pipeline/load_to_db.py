@@ -13,14 +13,10 @@ clusters.json + products.json → PostgreSQL
     python -m pipeline.load_to_db
 """
 
-import concurrent.futures
-import ipaddress
+# concurrent.futures / ipaddress / socket / urllib — _deliver_webhooks 삭제로 dead (2026-06-07)
 import json
 import os
-import socket
 import time
-import urllib.parse
-import urllib.request
 from pathlib import Path
 from typing import Optional
 
@@ -285,105 +281,10 @@ def _print_top5(conn) -> None:
         print(f"   {row['rep_title'][:55]} — ${row['rep_price']}")
 
 
-# ── 웹훅 배달 ───────────────────────────────────────────────────
-def _deliver_webhooks(conn) -> None:
-    """
-    Phase 2 커밋 후 실행 — Pro 웹훅 구독자에게 cluster.new / cluster.trending 이벤트 전송.
-    네트워크 오류는 무시 — 웹훅 실패로 파이프라인이 중단되어선 안 됨.
-    """
-    with conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor) as cur:
-        cur.execute("""
-            SELECT ws.url, ws.events
-            FROM webhook_subscriptions ws
-            JOIN api_keys ak ON ak.id = ws.key_id
-            WHERE ak.is_active = TRUE AND ak.plan = 'pro'
-        """)
-        subscribers = cur.fetchall()
-
-    if not subscribers:
-        return
-
-    with conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor) as cur:
-        cur.execute("""
-            SELECT id, cluster_hash, store_count, product_count
-            FROM clusters
-            WHERE first_seen > NOW() - INTERVAL '1 hour'
-        """)
-        new_clusters = [dict(r) for r in cur.fetchall()]
-
-    with conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor) as cur:
-        cur.execute("""
-            SELECT DISTINCT ON (ts.cluster_id)
-                c.id, c.cluster_hash, c.store_count, ts.week_delta
-            FROM trend_snapshots ts
-            JOIN clusters c ON c.id = ts.cluster_id
-            WHERE ts.snapshot_at > NOW() - INTERVAL '2 hours'
-              AND ts.week_delta > 0
-            ORDER BY ts.cluster_id, ts.snapshot_at DESC
-        """)
-        trending_clusters = [dict(r) for r in cur.fetchall()]
-
-    events_to_send: list[tuple[str, str, dict]] = []
-    for sub in subscribers:
-        sub_events = set(sub["events"])
-        if "cluster.new" in sub_events:
-            for c in new_clusters:
-                events_to_send.append((sub["url"], "cluster.new", c))
-        if "cluster.trending" in sub_events:
-            for c in trending_clusters:
-                events_to_send.append((sub["url"], "cluster.trending", c))
-
-    if not events_to_send:
-        return
-
-    def _post(url: str, event_type: str, data: dict) -> None:
-        # SEC-ALERT: SSRF guard — resolve hostname and reject private/loopback/link-local
-        # IPs to prevent exfiltration to cloud metadata endpoints (169.254.169.254 etc.)
-        # or internal network services.
-        try:
-            parsed = urllib.parse.urlparse(url)
-            host = parsed.hostname or ""
-            _BLOCKED_HOSTS = {
-                "169.254.169.254",          # AWS/Azure/DO metadata
-                "metadata.google.internal",  # GCP metadata
-                "fd00:ec2::254",             # GCP metadata IPv6
-            }
-            if host.lower() in _BLOCKED_HOSTS:
-                print(f"  [웹훅] SEC-ALERT: 차단된 메타데이터 호스트 ({host}) — 건너뜀", flush=True)
-                return
-            resolved_ip = ipaddress.ip_address(socket.gethostbyname(host))
-            if (resolved_ip.is_private or resolved_ip.is_loopback
-                    or resolved_ip.is_link_local or resolved_ip.is_reserved
-                    or resolved_ip.is_multicast):
-                print(f"  [웹훅] SEC-ALERT: 내부 IP ({resolved_ip}) 웹훅 차단 — SSRF 방지", flush=True)
-                return
-        except Exception as exc:
-            print(f"  [웹훅] URL 검증 실패 — 건너뜀: {exc}", flush=True)
-            return
-
-        payload = json.dumps({"event": event_type, "data": data}).encode()
-        req = urllib.request.Request(
-            url,
-            data=payload,
-            headers={
-                "Content-Type": "application/json",
-                "User-Agent": "StoreScope-Webhook/1.0",
-            },
-            method="POST",
-        )
-        try:
-            with urllib.request.urlopen(req, timeout=10) as resp:
-                if resp.status not in (200, 201, 202, 204):
-                    print(f"  [웹훅] {url} → HTTP {resp.status}", flush=True)
-        except Exception as exc:
-            print(f"  [웹훅] {url} 전송 실패 (무시): {exc}", flush=True)
-
-    with concurrent.futures.ThreadPoolExecutor(max_workers=10) as pool:
-        futs = [pool.submit(_post, url, ev, data)
-                for url, ev, data in events_to_send]
-        concurrent.futures.wait(futs, timeout=30)
-
-    print(f"  웹훅 {len(events_to_send)}건 전송", flush=True)
+# DELETED 2026-06-07: _deliver_webhooks (구 Pro tier webhook subscription delivery)
+# 의존성: webhook_subscriptions 테이블 — migrations/2026_06_04_drop_dead_tables.sql 로 삭제됨.
+# 호출 유지 시 다음 파이프라인 실행에서 RuntimeError (relation does not exist).
+# 첫 Pro 고객 명시 요청 시 복구 (git revert <SHA> + webhook_subscriptions 테이블 재생성).
 
 
 # ── 진입점 ──────────────────────────────────────────────────────
@@ -446,7 +347,7 @@ def run():
         print("  커밋 완료\n")
 
         _print_top5(conn)
-        _deliver_webhooks(conn)
+        # _deliver_webhooks() 호출 제거 (2026-06-07) — 함수 정의 자체 삭제됨.
         elapsed = time.time() - t0
         print(f"완료: {elapsed:.1f}초")
 

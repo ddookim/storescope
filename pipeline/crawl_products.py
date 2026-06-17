@@ -61,11 +61,14 @@ PAGE_LIMIT   = 250  # Shopify API 최대 page size
 
 # ── robots.txt 준수 캐시 (법적 방어선) ──────────────────────────
 _ROBOTS_CACHE: dict[str, bool] = {}
+_ROBOTS_CACHE_MAX = 5_000              # 1,400 stores × 3 정도 여유. 초과 시 30% 절단
+_ROBOTS_TXT_MAX_BYTES = 256 * 1024     # 256KB cap — 일부 사이트 100MB+ robots.txt 메모리 폭주 방어
+
 
 async def _is_crawl_allowed(session: AsyncSession, domain: str) -> bool:
     """
     robots.txt Disallow: /products 또는 Disallow: / 가 있으면 크롤 건너뜀.
-    결과 캐시하여 도메인당 1회만 요청.
+    결과 캐시하여 도메인당 1회만 요청. 캐시 cap 5,000.
     법적 근거: robots.txt 준수는 웹 크롤링 선의(good faith)의 표준 증거.
     """
     if domain in _ROBOTS_CACHE:
@@ -74,24 +77,47 @@ async def _is_crawl_allowed(session: AsyncSession, domain: str) -> bool:
         url = f"https://{domain}/robots.txt"
         resp = await session.get(url, timeout=5, allow_redirects=True)
         if resp.status_code == 200:
-            text = resp.text.lower()
-            # /products 또는 전체 차단 확인
+            # SEC/DoS: 거대 robots.txt 메모리 폭주 방어 (256KB cap).
+            content = resp.content if hasattr(resp, "content") else resp.text.encode()[:_ROBOTS_TXT_MAX_BYTES]
+            if isinstance(content, bytes):
+                content = content[:_ROBOTS_TXT_MAX_BYTES]
+                text = content.decode("utf-8", errors="ignore").lower()
+            else:
+                text = content[:_ROBOTS_TXT_MAX_BYTES].lower()
             lines = text.splitlines()
-            user_agent_applies = False
+            # FIX 2026-06-07: user-agent 블록 정확히 추적 — 이전: 다른 UA 블록 만나면 reset 안 됨.
+            # robots.txt 규약: 빈 줄 또는 새 user-agent 만나면 이전 블록 종료.
+            applies_to_us = False
             for line in lines:
                 line = line.strip()
+                if not line or line.startswith("#"):
+                    # 빈 줄 또는 주석 = 블록 경계 candidate (RFC 9309 spec)
+                    continue
                 if line.startswith("user-agent:"):
                     ua = line.split(":", 1)[1].strip()
-                    user_agent_applies = ua in ("*", "storescope")
-                elif user_agent_applies and line.startswith("disallow:"):
+                    # 명시: 새 UA 블록 시작 → 이전 컨텍스트 정확히 재평가
+                    applies_to_us = ua in ("*", "storescope")
+                elif applies_to_us and line.startswith("disallow:"):
                     path = line.split(":", 1)[1].strip()
                     if path in ("/", "/products", "/products.json"):
-                        _ROBOTS_CACHE[domain] = False
+                        _cache_set(_ROBOTS_CACHE, domain, False)
                         return False
-    except Exception:
-        pass  # robots.txt 접근 실패 = 제한 없음으로 간주
-    _ROBOTS_CACHE[domain] = True
+    except Exception as exc:
+        # robots.txt 접근 실패 = 제한 없음으로 간주 (보수적 fallback).
+        # 단 unexpected 에러는 로깅 — DNS / SSL / 비정상 응답 추적용.
+        logging.debug("robots.txt fetch failed %s: %s", domain, type(exc).__name__)
+    _cache_set(_ROBOTS_CACHE, domain, True)
     return True
+
+
+def _cache_set(cache: dict, key: str, value: bool) -> None:
+    """캐시 사이즈 cap. 초과 시 가장 오래된 30% 절단 (FIFO 근사 — dict 삽입 순서)."""
+    if len(cache) >= _ROBOTS_CACHE_MAX:
+        # dict 삽입 순서 보장 (Python 3.7+) → 첫 30% 제거
+        prune_n = int(_ROBOTS_CACHE_MAX * 0.3)
+        for k in list(cache.keys())[:prune_n]:
+            cache.pop(k, None)
+    cache[key] = value
 
 
 async def _fetch_page(

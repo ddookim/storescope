@@ -1,0 +1,52 @@
+name: Verify Landing Page
+
+# 매 push + PR 시 landing 회귀 검증.
+# 9개 게이트: HTML parser / 죽은 URL / OG image / dead 카테고리 부활 /
+# Schema.org / 파일 사이즈 / 외부 의존 / Hero CTA KPI 정합 / 가짜 promo.
+#
+# 실패 시 PR 머지 차단 + 푸시 알림.
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'landing/**'
+      - 'deploy/verify_landing.sh'
+      - '.github/workflows/verify_landing.yml'
+  pull_request:
+    paths:
+      - 'landing/**'
+
+concurrency:
+  group: verify-landing-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Python (HTML parser)
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Make verify script executable
+        run: chmod +x deploy/verify_landing.sh
+
+      - name: Run verify gate
+        run: bash deploy/verify_landing.sh landing/index.html
+
+      - name: Notify failure (Telegram, optional)
+        if: failure() && env.TG_TOKEN != ''
+        env:
+          TG_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TG_CHAT: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: |
+          curl -sS -X POST "https://api.telegram.org/bot${TG_TOKEN}/sendMessage" \
+            -d chat_id="${TG_CHAT}" \
+            -d text="🚨 verify_landing FAILED on ${{ github.ref_name }} — ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" \
+            --max-time 10 > /dev/null
