@@ -1,10 +1,25 @@
 .env
 .env.local
+.env.example
 .git
 .gitignore
 __pycache__
 *.pyc
 *.pyo
 .pytest_cache
+.venv
+venv
 data/
 *.log
+backups/
+# 프로덕션 이미지 사이즈 절감 — 다음은 컨테이너 안에서 불필요
+*.docx
+archive/
+outreach/
+tests/
+docs/
+# IDE/OS noise
+.vscode/
+.idea/
+.DS_Store
+*.swp

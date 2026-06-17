@@ -16,6 +16,10 @@ on:
     - cron: "0 23 * * 0"  # 일요일 23:00 UTC
   workflow_dispatch:       # 수동 트리거 허용 (디버깅 + 첫 실행용)
 
+# SEC: 최소 권한 — checkout + pipeline 실행만, write 권한 불필요.
+permissions:
+  contents: read
+
 # 동시 실행 차단 — 동일 시간에 두 잡이 안 돌게.
 concurrency:
   group: weekly-pipeline

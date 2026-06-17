@@ -14,6 +14,9 @@ on:
     - cron: "*/14 * * * *"
   workflow_dispatch:
 
+# SEC: 최소 권한 (이 워크플로는 HTTP ping 만 함 — repo 액세스 필요 없음).
+permissions: {}
+
 # 중복 실행 차단
 concurrency:
   group: keep-warm

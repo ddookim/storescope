@@ -17,6 +17,10 @@ on:
     paths:
       - 'landing/**'
 
+# SEC: 최소 권한 — checkout + run script만, write 권한 불필요.
+permissions:
+  contents: read
+
 concurrency:
   group: verify-landing-${{ github.ref }}
   cancel-in-progress: true

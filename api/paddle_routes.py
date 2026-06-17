@@ -20,6 +20,7 @@ import json
 import logging
 import os
 import smtplib
+import time
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from typing import Optional
@@ -92,6 +93,9 @@ PADDLE_API_KEY     = os.environ.get("PADDLE_API_KEY", "")
 WEBHOOK_SECRET     = os.environ.get("PADDLE_WEBHOOK_SECRET", "")
 STARTER_PRICE      = os.environ.get("PADDLE_STARTER_PRICE_ID", "")
 PRO_PRICE          = os.environ.get("PADDLE_PRO_PRICE_ID", "")
+# Replay 윈도우 — Paddle webhook timestamp (ts) age 허용 한계.
+# 5분: 정상 retry/네트워크 지연 흡수 + 캡처된 시그니처의 무한 replay 차단.
+WEBHOOK_MAX_AGE_SEC = 5 * 60
 
 SMTP_HOST  = os.environ.get("SMTP_HOST", "")
 SMTP_PORT  = int(os.environ.get("SMTP_PORT", "587"))
@@ -114,6 +118,12 @@ def _verify_signature(raw_body: bytes, sig_header: str) -> bool:
         parts = dict(p.split("=", 1) for p in sig_header.split(";"))
         ts = parts.get("ts", "")
         h1 = parts.get("h1", "")
+        # SEC: Replay 방어 — ts age WEBHOOK_MAX_AGE_SEC 초과 시 거부.
+        # ts 비숫자/빈값 = 즉시 거부 (정상 Paddle 은 항상 unix epoch second 송신).
+        if not ts or not ts.isdigit():
+            return False
+        if abs(int(time.time()) - int(ts)) > WEBHOOK_MAX_AGE_SEC:
+            return False
         signed = f"{ts}:{raw_body.decode('utf-8')}"
         expected = hmac.new(
             WEBHOOK_SECRET.encode(), signed.encode(), hashlib.sha256
