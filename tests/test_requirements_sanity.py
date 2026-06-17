@@ -25,7 +25,7 @@ sys.path.insert(0, str(_here))
 
 REQ_FILE = _here / "requirements.txt"
 KNOWN_NON_EXISTENT = {
-    "Pillow": {"12", "13", "14", "15"},  # 라운드 15 시점 최대 11.x
+    "Pillow": {"13", "14", "15"},  # 2026-06-18: Pillow 12.x 릴리즈됨 (12.0~12.2). 13+은 미존재.
 }
 
 
@@ -102,12 +102,15 @@ def test_required_packages_present():
 
 
 def test_pillow_lower_bound_is_existing_major():
-    """Pillow 의 lower bound major 가 실제 PyPI 가용 범위 (10.x ~ 11.x)."""
+    """Pillow 의 lower bound major 가 실제 PyPI 가용 범위 (10.x ~ 12.x).
+
+    2026-06-18 갱신: Pillow 12.x 릴리즈됨 (12.0/12.1/12.2). 6 CVE fix 위해 12.2.0+ 권장.
+    Python >=3.10 요구 — 프로젝트 3.11+ 정합.
+    """
     pillow = next((entry for entry in _parse_requirements() if entry[0] == "pillow"), None)
     assert pillow is not None, "Pillow 누락"
     name, lo, hi = pillow
     lo_major = int(lo.split(".")[0])
-    assert 10 <= lo_major <= 11, (
-        f"Pillow lower bound major={lo_major} — 가용 범위 (10, 11) 밖. "
-        f"라운드 15 회귀: Pillow 12.x 는 미존재 — pip install 즉시 실패."
+    assert 10 <= lo_major <= 12, (
+        f"Pillow lower bound major={lo_major} — 가용 범위 (10, 11, 12) 밖."
     )

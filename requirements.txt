@@ -1,8 +1,8 @@
 curl-cffi>=0.13.0,<1.0.0
 imagehash>=4.3.1,<5.0.0
-# FIX 2026-06-08: Pillow 12.x 미존재 (최대 11.3.0) → pip install -r requirements.txt 즉시 실패.
-# 라운드 15 발견: production 첫 배포 차단 risk.
-Pillow>=11.0.0,<12.0.0
+# Pillow 12.x: 6 CVE fix (PYSEC-2026-165, GHSA-cfh3/whj4/5xmw/r73j/pwv6).
+# Python >=3.10 요구 — 프로젝트 3.11+ 정합. 12.2.0 = 2026-04-01 release.
+Pillow>=12.2.0,<13.0.0
 fastapi>=0.111.0,<1.0.0
 uvicorn>=0.29.0,<1.0.0
 streamlit>=1.35.0,<2.0.0

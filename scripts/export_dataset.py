@@ -209,7 +209,7 @@ def _write_manifest(out: Path, stats: dict):
 
 _LICENSE_TXT = """Creative Commons Attribution-NonCommercial 4.0 International (CC BY-NC 4.0)
 
-Copyright (c) 2026 StoreScope (Dodo Kim)
+Copyright (c) 2026 StoreScope
 
 You are free to:
   - Share — copy and redistribute the material in any medium or format
