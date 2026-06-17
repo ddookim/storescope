@@ -5,7 +5,7 @@ StoreScope Weekly Digest — Path A 유료 구독자의 실제 가치 산출물
 매주 일요일 23:00 UTC 파이프라인 → 월요일 08:00 KST 고객 인박스 도착.
 
 생성:
-    digest_YYYYWNN.html  — Pro/Starter 차등 (Pro: 30일 history + Slack/Email alert, Starter: 20 trending only)
+    digest_YYYYWNN.html  — Pro/Starter 차등 (Pro: 30일 history + 무제한 X-Ray, Starter: 20 trending only)
     digest_YYYYWNN.json  — 동일 데이터 머신 가독성 (Pro API 호출 결과와 일치)
 
 사용:
@@ -279,7 +279,7 @@ def generate(plan: str = "starter", limit: int = 20, output_html: bool = True) -
         if plan == "pro" else
         """
 <div style="background:#FFF7ED;border:1px solid rgba(245,158,11,0.3);border-radius:8px;padding:16px;margin-top:24px">
-<strong>Upgrade to Pro</strong> for 30-day trend history, Slack/email alerts, and unlimited X-Ray lookups.
+<strong>Upgrade to Pro</strong> for 30-day trend history, direct API access, and unlimited X-Ray lookups.
 <a href="https://ddookim.github.io/storescope/#pricing" style="color:#D97706;font-weight:700">See Pro plan →</a>
 </div>
 """
