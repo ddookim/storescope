@@ -135,7 +135,22 @@ def _verify_signature(raw_body: bytes, sig_header: str) -> bool:
 
 # ── 플랜 판별 ────────────────────────────────────────────────────
 def _resolve_plan(price_id: str) -> str:
-    return "pro" if price_id == PRO_PRICE else "starter"
+    # SEC: env var typo / unknown price_id 시 무조건 starter fallback = Pro 결제자가
+    # starter 키 받는 매출 손실. unknown 케이스를 alert로 surface 후 starter fallback 유지
+    # (키 미발급보다 잘못된 plan 발급이 fix 가능성 높음 — admin endpoint로 upgrade 가능).
+    if price_id == PRO_PRICE:
+        return "pro"
+    if price_id == STARTER_PRICE:
+        return "starter"
+    send_alert(
+        f"Unknown Paddle price_id received\n"
+        f"price_id: {price_id!r}\n"
+        f"expected STARTER={STARTER_PRICE!r} or PRO={PRO_PRICE!r}\n"
+        f"조치: env vars PADDLE_*_PRICE_ID 확인 + 고객 plan 수동 조정",
+        level="WARNING",
+    )
+    _log.warning("Unknown price_id %r — falling back to starter", price_id)
+    return "starter"
 
 
 # ── Paddle API로 고객 이메일 조회 ────────────────────────────────
@@ -168,7 +183,22 @@ def _send_api_key_email(to_email: str, api_key: str, plan: str) -> None:
         f"Questions? Reply to this email."
     )
     if not SMTP_HOST:
-        print(f"[EMAIL STUB] To={to_email} Plan={plan} Key={api_key[:20]}...")
+        # SEC: 이전 코드는 raw api_key 의 첫 20자를 print() → Render console/Sentry
+        # logs 접근 시 평문 키 노출. fail-closed로 변경: 키 prefix 만 marker로 남기고
+        # CRITICAL alert 발송하여 수동 onboarding 트리거.
+        key_marker = api_key[:8]
+        _log.error(
+            "SMTP not configured — API key issued but NOT delivered. plan=%s to=%s marker=%s***",
+            plan, to_email, key_marker,
+        )
+        send_alert(
+            f"SMTP 미설정 — API 키 발급되었으나 이메일 미발송\n"
+            f"to: {to_email}\n"
+            f"plan: {plan}\n"
+            f"key_marker: {key_marker}*** (수동 lookup 용)\n"
+            f"조치: SMTP_HOST/USER/PASS env vars 설정 후 /admin/resend-key 호출 또는 수동 전달",
+            level="CRITICAL",
+        )
         return
     msg = MIMEMultipart()
     msg["From"]    = FROM_EMAIL
@@ -284,6 +314,15 @@ async def paddle_webhook(
             level="WARNING",
         )
         _log.warning("Paddle payment failed: event=%s customer_id=%s", event_type, customer_id)
+
+    elif event_type == "transaction.completed":
+        # 매월 갱신 결제 성공. 키 발급은 subscription.activated 분기에서만 처리하므로
+        # 여기서는 명시적 무시 + 로깅만 (etag invisible 방지). idempotency 테이블에 기록됨.
+        _log.info(
+            "Paddle transaction.completed: customer_id=%s subscription_id=%s",
+            data.get("customer_id", ""),
+            data.get("subscription_id") or data.get("id", ""),
+        )
 
     return {"received": True}
 
