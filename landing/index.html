@@ -36,6 +36,28 @@
   <meta name="twitter:title" content="StoreScope — Shopify product trends, a week early" />
   <meta name="twitter:description" content="1,400+ Shopify stores, scanned weekly. Every Monday morning: a ranked list of products gaining adoption — 7 to 14 days before they trend on ads." />
   <meta name="twitter:image" content="https://ddookim.github.io/storescope/landing/og-image.png" />
+
+  <!-- Security headers (meta-equivalent) — OWASP CSP Cheat Sheet + web.dev + Paddle 공식 CSP guide
+       D+20 라운드 L1.A/B/D: HTTP header 미사용 (gh-pages 정적 호스팅) 환경에서 가능한 meta 폼.
+       Paddle Checkout overlay: buy.paddle.com iframe + cdn.paddle.com script 필수 허용.
+       inline CSS/JS 132KB+24KB → 'unsafe-inline' 광범위. nonce/hash 패턴은 inline 폭에 부적합. -->
+  <meta http-equiv="Content-Security-Policy" content="
+    default-src 'self';
+    script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.paddle.com https://www.googletagmanager.com https://www.google-analytics.com;
+    style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
+    font-src 'self' https://fonts.gstatic.com;
+    img-src 'self' data: https:;
+    connect-src 'self' https://storescope-api.onrender.com https://*.onrender.com https://*.trycloudflare.com https://api.paddle.com https://*.paddle.com https://www.google-analytics.com https://*.google-analytics.com;
+    frame-src https://buy.paddle.com https://sandbox-buy.paddle.com https://checkout.paddle.com;
+    frame-ancestors 'none';
+    object-src 'none';
+    base-uri 'self';
+    form-action 'self';
+    upgrade-insecure-requests;
+  " />
+  <meta name="referrer" content="strict-origin-when-cross-origin" />
+  <meta http-equiv="Permissions-Policy" content="geolocation=(), camera=(), microphone=(), interest-cohort=(), browsing-topics=()" />
+
   <link rel="canonical" href="https://ddookim.github.io/storescope/" />
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%234F46E5'/%3E%3Cpath d='M9 20l5-5 4 4 5-6' stroke='%23fff' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3E%3C/svg%3E" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -4158,6 +4180,9 @@
           placeholder="https://example.myshopify.com"
           autocomplete="off"
           spellcheck="false"
+          aria-label="Shopify store URL"
+          inputmode="url"
+          enterkeyhint="search"
         />
         <button class="xr-analyze-btn" onclick="xrayAnalyze()">
           <span id="xr-btn-label">Analyze Store</span>
@@ -4913,10 +4938,13 @@
   var XR_TICK_MS = 60;           // progress bar update interval
   var __xrTimer = null;          // outer ref so we can clear on abort
 
+  // D+20 L3: URL format validation — invalid input 시 30초 fake progress 표시 차단
+  var XR_URL_RE = /^(https?:\/\/)?[a-zA-Z0-9][a-zA-Z0-9\-]*(\.[a-zA-Z0-9][a-zA-Z0-9\-]*)+/;
+
   function xrayAnalyze() {
     var inp = document.getElementById('xr-url');
     var url = inp.value.trim();
-    if (!url) {
+    if (!url || !XR_URL_RE.test(url)) {
       inp.classList.add('error');
       inp.focus();
       inp.addEventListener('input', function() { inp.classList.remove('error'); }, { once: true });
@@ -5066,10 +5094,13 @@
       submitBtn.textContent = 'Sending...';
     }
 
-    gtag('event', 'generate_lead', {
-      method: 'xray_tool',
-      email_domain: email.split('@')[1] || ''
-    });
+    // gtag 가드 — uBlock Origin/Brave/EU GDPR consent 차단 시 ReferenceError 방어
+    if (typeof gtag === 'function') {
+      gtag('event', 'generate_lead', {
+        method: 'xray_tool',
+        email_domain: email.split('@')[1] || ''
+      });
+    }
 
     function showSuccess() {
       var s3 = document.getElementById('xr-step3');
@@ -5084,9 +5115,9 @@
     }
 
     // FIX 2026-06-04: formsubmit.co 3rd party 제거 → 자체 /leads endpoint 사용.
-    // 효과: (1) 외부 의존 0 (privacy + 분석 단일화), (2) disposable email 필터 + rate limit 자동 적용,
-    //       (3) admin/stats에서 lead 집계 가능, (4) Sentry 에러 추적 포함.
-    // fail-open: 네트워크 실패해도 사용자에게 success 표시 (lead는 retry/admin이 챙김).
+    // D+20 L2.A: catch 분기를 silent fail → console.error + gtag exception 으로 변경.
+    // UX 측면 사용자에게는 success 표시 (Patrick McKenzie: never show error on lead form)
+    // 단 admin 측에서 fail rate 가시화 — GA exception event + console error 동시 기록.
     fetch(API_BASE + '/leads', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -5095,18 +5126,43 @@
         domain: store,
         source: 'xray'
       })
-    }).then(showSuccess).catch(showSuccess);
+    }).then(function(r) {
+      if (!r.ok) {
+        console.error('[/leads] non-2xx', r.status);
+        if (typeof gtag === 'function') {
+          gtag('event', 'exception', { description: 'leads_post_' + r.status, fatal: false });
+        }
+      }
+      showSuccess();
+    }).catch(function(err) {
+      console.error('[/leads] network fail', err);
+      if (typeof gtag === 'function') {
+        gtag('event', 'exception', { description: 'leads_post_network_fail', fatal: false });
+      }
+      showSuccess();
+    });
   }
 
-  /* GA4 CTA tracking */
+  /* GA4 CTA tracking — D+20 L2.B: gtag 가드 (uBlock/Brave/GDPR 차단 방어) */
   document.addEventListener('DOMContentLoaded', function() {
     var pc = document.querySelector('.hero-ctas .btn-hero-primary');
-    if (pc) pc.addEventListener('click', function() { gtag('event', 'cta_click', { cta_location: 'hero', cta_text: 'X-Ray a competitor (free)' }); });
+    if (pc) pc.addEventListener('click', function() {
+      if (typeof gtag === 'function') {
+        gtag('event', 'cta_click', { cta_location: 'hero', cta_text: 'X-Ray a competitor (free)' });
+      }
+    });
     var ps = document.getElementById('pricing');
     if (ps && 'IntersectionObserver' in window) {
       var seen = false;
       new IntersectionObserver(function(entries) {
-        entries.forEach(function(e) { if (e.isIntersecting && !seen) { seen = true; gtag('event', 'view_item_list', { item_list_name: 'pricing' }); } });
+        entries.forEach(function(e) {
+          if (e.isIntersecting && !seen) {
+            seen = true;
+            if (typeof gtag === 'function') {
+              gtag('event', 'view_item_list', { item_list_name: 'pricing' });
+            }
+          }
+        });
       }, { threshold: 0.3 }).observe(ps);
     }
   });

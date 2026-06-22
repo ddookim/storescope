@@ -81,12 +81,12 @@ else
     mark_fail "Schema.org JSON-LD 파싱 실패"
 fi
 
-# 6. 파일 사이즈
+# 6. 파일 사이즈 — D+17 premium 시각 + D+20 보안 meta 추가 반영해 240-260KB 정상 범위
 SIZE=$(wc -c < "$FILE")
 if [ "$SIZE" -lt 180000 ]; then
-    mark_warn "파일 사이즈 $SIZE byte — 너무 작음 (예상 180-220KB), 의도치 않게 컴포넌트 손실 가능"
-elif [ "$SIZE" -gt 220000 ]; then
-    mark_warn "파일 사이즈 $SIZE byte — 너무 큼 (예상 180-220KB), 마스터플랜 sweep 트렌드 역행 가능"
+    mark_warn "파일 사이즈 $SIZE byte — 너무 작음 (예상 240-260KB), 의도치 않게 컴포넌트 손실 가능"
+elif [ "$SIZE" -gt 260000 ]; then
+    mark_warn "파일 사이즈 $SIZE byte — 너무 큼 (예상 240-260KB), 디자인 빼는 방향 룰 위배 가능"
 else
     mark_pass "파일 사이즈 $SIZE byte (정상 범위)"
 fi
@@ -132,6 +132,54 @@ for policy_link in privacy.html terms.html refund.html; do
     fi
 done
 [ "$POLICY_MISSING" -eq 0 ] && mark_pass "정책 페이지 존재 검증 완료"
+
+# 11. D+20 L1.A — CSP meta 존재 (paddle iframe + onrender connect 허용)
+if grep -q 'Content-Security-Policy' "$FILE"; then
+    if grep -q 'buy.paddle.com' "$FILE" && grep -q 'onrender.com' "$FILE"; then
+        mark_pass "CSP meta + paddle/onrender 화이트리스트"
+    else
+        mark_warn "CSP meta 있으나 paddle/onrender 화이트리스트 누락 가능 — 결제/X-Ray 실패 위험"
+    fi
+else
+    mark_fail "CSP meta 누락 — XSS 방어 + Paddle iframe 정책 미적용"
+fi
+
+# 12. D+20 L1.B — Referrer-Policy meta 존재
+if grep -qE 'name="referrer"' "$FILE"; then
+    mark_pass "Referrer-Policy meta 존재"
+else
+    mark_warn "Referrer-Policy meta 누락 — referrer 누출"
+fi
+
+# 13. D+20 L1.D — Permissions-Policy meta 존재
+if grep -q 'Permissions-Policy' "$FILE"; then
+    mark_pass "Permissions-Policy meta 존재"
+else
+    mark_warn "Permissions-Policy meta 누락 — geolocation/camera/microphone 명시 차단 미적용"
+fi
+
+# 14. D+20 L1.C — xr-url input a11y (aria-label 또는 label[for])
+if grep -A8 'id="xr-url"' "$FILE" | grep -qE 'aria-label='; then
+    mark_pass "xr-url input aria-label 존재 (WCAG 2.1)"
+else
+    mark_fail "xr-url input aria-label 누락 — 스크린리더 사용자 분기 실종"
+fi
+
+# 15. D+20 L3 — URL validation client-side
+if grep -q 'XR_URL_RE' "$FILE"; then
+    mark_pass "X-Ray URL validation client-side"
+else
+    mark_warn "X-Ray URL validation client-side 누락 — invalid input 시 fake progress 노출"
+fi
+
+# 16. D+20 L2.A — /leads catch 분기 silent fail-open 차단
+#    showSuccess 만 호출하고 console.error/gtag exception 없으면 silent loss
+LEADS_CATCH=$(awk '/fetch\(API_BASE \+ .\/leads/,/}\);/' "$FILE" | tr -d '\n')
+if echo "$LEADS_CATCH" | grep -qE "console\.error.*leads"; then
+    mark_pass "/leads catch 분기 가시화 (console.error + gtag exception)"
+else
+    mark_warn "/leads catch 분기 silent fail — 네트워크 실패 시 sales 손실 invisible"
+fi
 
 echo "----------"
 echo "RESULT: PASS=$PASS FAIL=$FAIL WARN=$WARN"
