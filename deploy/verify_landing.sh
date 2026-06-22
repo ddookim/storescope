@@ -199,6 +199,35 @@ else
     mark_warn "lang switcher 누락 — i18n 사용자 분기 X"
 fi
 
+# 19. D+22 R2 — SEO sitemap.xml + robots.txt 존재
+LANDING_DIR2="$(dirname "$FILE")"
+if [ -f "$LANDING_DIR2/sitemap.xml" ] && [ -f "$LANDING_DIR2/robots.txt" ]; then
+    mark_pass "SEO sitemap.xml + robots.txt 존재"
+else
+    mark_warn "SEO 자산 누락 — sitemap=$([ -f "$LANDING_DIR2/sitemap.xml" ] && echo Y || echo N) robots=$([ -f "$LANDING_DIR2/robots.txt" ] && echo Y || echo N)"
+fi
+
+# 20. D+22 R4 — X-Ray URL invalid error message DOM
+if grep -q 'id="xr-url-error"' "$FILE"; then
+    mark_pass "X-Ray URL invalid error message DOM (i18n)"
+else
+    mark_warn "X-Ray invalid 시 메시지 0 — UX confusion"
+fi
+
+# 21. D+22 R1 — Demo mode banner DOM
+if grep -q 'id="xr-demo-banner"' "$FILE"; then
+    mark_pass "X-Ray demo mode banner DOM (silent fail-open 차단)"
+else
+    mark_warn "demo banner 누락 — fail-open silent UX deception"
+fi
+
+# 22. D+22 R3 — scroll-to-top button
+if grep -q 'id="ss-scroll-top"' "$FILE"; then
+    mark_pass "scroll-to-top button (long page mobile UX)"
+else
+    mark_warn "scroll-to-top button 누락"
+fi
+
 echo "----------"
 echo "RESULT: PASS=$PASS FAIL=$FAIL WARN=$WARN"
 [ "$FAIL" -eq 0 ] || exit 1

@@ -46,9 +46,16 @@ cp landing/og-image.png "$WORKTREE/landing/og-image.png"
 cp landing/og-image.svg "$WORKTREE/landing/og-image.svg"
 # FIX 2026-06-08 (라운드 23): 정책 페이지 누락 — footer 링크 ./landing/privacy.html 클릭 시 404.
 # Paddle MoR 가입 절차 + GDPR/EU 컴플라이언스 + 신뢰 요건 필수.
-for policy in privacy.html terms.html refund.html; do
+for policy in privacy.html terms.html refund.html 404.html; do
   if [[ -f "landing/$policy" ]]; then
     cp "landing/$policy" "$WORKTREE/landing/$policy"
+  fi
+done
+# D+22 R2: SEO sitemap.xml + robots.txt — 검색엔진 표준 root 위치.
+# sitemap.xml 은 subdir (storescope/sitemap.xml) — Google Search Console 등록 시 명시.
+for seo in sitemap.xml robots.txt; do
+  if [[ -f "landing/$seo" ]]; then
+    cp "landing/$seo" "$WORKTREE/$seo"
   fi
 done
 
@@ -59,9 +66,13 @@ if git diff --quiet && git diff --cached --quiet; then
 else
   COMMIT_MSG="${COMMIT_MSG:-chore: landing deploy $(date +%Y-%m-%d)}"
   git add index.html landing/og-image.png landing/og-image.svg
-  # 정책 페이지 git add (존재하는 것만)
-  for policy in privacy.html terms.html refund.html; do
+  # 정책 페이지 + 404 git add (존재하는 것만)
+  for policy in privacy.html terms.html refund.html 404.html; do
     [[ -f "landing/$policy" ]] && git add "landing/$policy"
+  done
+  # D+22: SEO 자산 (sitemap.xml + robots.txt) git add
+  for seo in sitemap.xml robots.txt; do
+    [[ -f "$seo" ]] && git add "$seo"
   done
   git commit -m "$COMMIT_MSG"
   echo "[3/5] pushing gh-pages..."
