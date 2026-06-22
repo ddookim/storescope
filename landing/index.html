@@ -44,8 +44,8 @@
   <meta http-equiv="Content-Security-Policy" content="
     default-src 'self';
     script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.paddle.com https://www.googletagmanager.com https://www.google-analytics.com;
-    style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
-    font-src 'self' https://fonts.gstatic.com;
+    style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.jsdelivr.net;
+    font-src 'self' https://fonts.gstatic.com https://cdn.jsdelivr.net;
     img-src 'self' data: https:;
     connect-src 'self' https://storescope-api.onrender.com https://*.onrender.com https://*.trycloudflare.com https://api.paddle.com https://*.paddle.com https://www.google-analytics.com https://*.google-analytics.com;
     frame-src https://buy.paddle.com https://sandbox-buy.paddle.com https://checkout.paddle.com;
@@ -63,8 +63,11 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="preconnect" href="https://cdn.paddle.com" />
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
   <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,300;0,14..32,400;0,14..32,500;0,14..32,600;0,14..32,700;0,14..32,800;0,14..32,900;1,14..32,400&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,300;0,14..32,400;0,14..32,500;0,14..32,600;0,14..32,700;0,14..32,800;0,14..32,900;1,14..32,400&family=Noto+Sans+JP:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <!-- D+20 i18n: Pretendard (한국어) — orioncactus/pretendard 공식 CDN. subset 사용으로 80KB → 22KB. -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
 
   <script type="application/ld+json">
   {
@@ -3209,6 +3212,76 @@
       }
     }
 
+    /* D+20 i18n: 폰트 분기 — Jen Simmons (WebKit) 패턴, :lang() 셀렉터.
+       English: Inter (이미 로드)
+       Korean:  Pretendard variable (cdn.jsdelivr.net)
+       Japanese: Noto Sans JP (Google Fonts) */
+    :lang(ko) {
+      font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont,
+                   system-ui, "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", sans-serif;
+      line-height: 1.6;
+      word-break: keep-all; /* 한국어 줄바꿈: 단어 단위 (CJK 영문 혼용 시 자연스러움) */
+    }
+    :lang(ja) {
+      font-family: "Noto Sans JP", "Hiragino Sans", "Hiragino Kaku Gothic ProN",
+                   "Yu Gothic UI", "Meiryo", system-ui, sans-serif;
+      line-height: 1.7; /* Japanese typography 표준 (Naoki Sato) */
+      word-break: keep-all;
+    }
+    /* 한/일 사용자 minimal aesthetic (Kenya Hara): hero 여백 강화 */
+    :lang(ko) .hero h1,
+    :lang(ja) .hero h1 {
+      letter-spacing: -0.01em;
+    }
+
+    /* D+20 i18n: lang switcher dropdown — Stripe homepage 헤더 패턴 */
+    .nav-lang-switch {
+      font: 500 13px/1 inherit;
+      color: #6b7280;
+      background: transparent;
+      border: 1px solid #e5e7eb;
+      border-radius: 6px;
+      padding: 6px 24px 6px 10px;
+      cursor: pointer;
+      appearance: none;
+      -webkit-appearance: none;
+      background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3E%3Cpath d='M1.5 3l2.5 2.5L6.5 3' stroke='%236b7280' stroke-width='1.2' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 8px center;
+      background-size: 8px;
+      margin-right: 10px;
+      transition: color 0.15s ease, border-color 0.15s ease;
+    }
+    .nav-lang-switch:hover {
+      color: #111827;
+      border-color: #d1d5db;
+    }
+    .nav-lang-switch:focus-visible {
+      outline: 2px solid #4F46E5;
+      outline-offset: 2px;
+    }
+    @media (max-width: 920px) {
+      .nav-ctas .nav-lang-switch { display: none; }
+    }
+    /* mobile panel 안 lang switcher */
+    .nav-mobile-lang {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 20px;
+      border-top: 1px solid #e5e7eb;
+      margin-top: 8px;
+    }
+    .nav-mobile-lang label {
+      font: 500 13px/1 inherit;
+      color: #6b7280;
+    }
+    .nav-mobile-lang .nav-lang-switch-mobile {
+      flex: 1;
+      max-width: 180px;
+      margin: 0;
+    }
+
   </style>
 
   <script src="https://cdn.paddle.com/paddle/v2/paddle.js"></script>
@@ -3309,6 +3382,103 @@
       openCheckout(priceId);
     }
   </script>
+
+  <!-- D+20 i18n: 인프라 + EN/KO/JA 핵심 30% 번역 (nav + hero + CTA + pricing)
+       Sources: MDN i18n spec / W3C lang attribute / Stripe homepage i18n 패턴.
+       FAQ + footer + policy 페이지는 영어 default (SEO JSON-LD 단일 source + legal terms risk).
+       콘텐츠 번역은 launch 후 한/일 ICP fit 검증 후 확장 (Patrick McKenzie). -->
+  <script>
+    window.STORESCOPE_I18N = {
+      en: {
+        nav_features: "Features",
+        nav_how: "How it works",
+        nav_pricing: "Pricing",
+        nav_faq: "FAQ",
+        nav_xray: "Free X-Ray Tool",
+        nav_login: "Log in",
+        nav_cta: "Get Monday's list",
+        hero_eyebrow: "Live · refreshed every Monday at 9 AM",
+        hero_h1_line1: "Shopify product trends,",
+        hero_h1_line2: "a week early.",
+        hero_sub: "We watch 1,400 Shopify stores and surface the products spreading across them — every Monday morning, before TikTok ads catch on.",
+        hero_cta_primary: "Try X-Ray on any store",
+        hero_cta_secondary: "See pricing →",
+        hero_scale: "Tracking 1,400+ Shopify stores · 140,000+ products · refreshed weekly",
+        lang_switch_label: "Language"
+      },
+      ko: {
+        nav_features: "기능",
+        nav_how: "작동 원리",
+        nav_pricing: "가격",
+        nav_faq: "자주 묻는 질문",
+        nav_xray: "무료 X-Ray 도구",
+        nav_login: "로그인",
+        nav_cta: "월요일 리스트 받기",
+        hero_eyebrow: "실시간 · 매주 월요일 오전 9시 갱신",
+        hero_h1_line1: "Shopify 상품 트렌드,",
+        hero_h1_line2: "일주일 먼저.",
+        hero_sub: "1,400개 Shopify 스토어를 매주 분석해 빠르게 퍼지는 상품을 찾아냅니다 — TikTok 광고가 트렌드를 잡기 전에.",
+        hero_cta_primary: "X-Ray로 스토어 분석",
+        hero_cta_secondary: "가격 보기 →",
+        hero_scale: "1,400+ Shopify 스토어 · 140,000+ 상품 · 매주 갱신",
+        lang_switch_label: "언어"
+      },
+      ja: {
+        nav_features: "機能",
+        nav_how: "しくみ",
+        nav_pricing: "料金",
+        nav_faq: "よくある質問",
+        nav_xray: "無料X-Rayツール",
+        nav_login: "ログイン",
+        nav_cta: "月曜のリストを受け取る",
+        hero_eyebrow: "ライブ · 毎週月曜午前9時に更新",
+        hero_h1_line1: "Shopify商品のトレンドを",
+        hero_h1_line2: "1週間早く。",
+        hero_sub: "1,400店舗のShopifyストアを毎週分析し、急速に広がっている商品をお届けします — TikTok広告が追いつく前に。",
+        hero_cta_primary: "任意のストアをX-Rayで分析",
+        hero_cta_secondary: "料金を見る →",
+        hero_scale: "1,400以上のShopifyストア · 140,000以上の商品 · 毎週更新",
+        lang_switch_label: "言語"
+      }
+    };
+
+    window.STORESCOPE_I18N_APPLY = function(lang) {
+      var dict = window.STORESCOPE_I18N[lang] || window.STORESCOPE_I18N.en;
+      document.documentElement.lang = lang;
+      document.querySelectorAll('[data-i18n]').forEach(function(el) {
+        var key = el.dataset.i18n;
+        var val = dict[key];
+        if (val !== undefined) el.textContent = val;
+      });
+      try { localStorage.setItem('ss-lang', lang); } catch (e) {}
+      if (typeof gtag === 'function') {
+        gtag('event', 'language_select', { language: lang });
+      }
+    };
+
+    // Auto-detect on load: URL ?lang= > localStorage > browser default (en/ko/ja만 지원)
+    (function() {
+      var saved = null;
+      try { saved = localStorage.getItem('ss-lang'); } catch (e) {}
+      var query = null;
+      try { query = new URLSearchParams(location.search).get('lang'); } catch (e) {}
+      var browser = (navigator.language || 'en').toLowerCase().split('-')[0];
+      var supported = { en: 1, ko: 1, ja: 1 };
+      var lang = (query && supported[query]) ? query
+              : (saved && supported[saved]) ? saved
+              : (supported[browser] ? browser : 'en');
+      document.addEventListener('DOMContentLoaded', function() {
+        window.STORESCOPE_I18N_APPLY(lang);
+        var sel = document.getElementById('ss-lang-switch');
+        if (sel) {
+          sel.value = lang;
+          sel.addEventListener('change', function(e) {
+            window.STORESCOPE_I18N_APPLY(e.target.value);
+          });
+        }
+      });
+    })();
+  </script>
 </head>
 <body>
 
@@ -3327,18 +3497,23 @@
       </span>
     </a>
     <div class="nav-links">
-      <a href="#features">Features</a>
-      <a href="#how-it-works">How it works</a>
-      <a href="#pricing">Pricing</a>
-      <a href="#faq">FAQ</a>
+      <a href="#features" data-i18n="nav_features">Features</a>
+      <a href="#how-it-works" data-i18n="nav_how">How it works</a>
+      <a href="#pricing" data-i18n="nav_pricing">Pricing</a>
+      <a href="#faq" data-i18n="nav_faq">FAQ</a>
     </div>
     <div class="nav-ctas">
-      <a href="#xray" class="btn-ghost">Free X-Ray Tool</a>
-      <a href="mailto:support@storescope.com?subject=Account%20access%20request&amp;body=Hi%20StoreScope%2C%20please%20resend%20my%20dashboard%20link.%20Account%20email%3A%20" class="nav-login-link" aria-label="Existing customer — request account access">Log in</a>
-      <button onclick="openCheckout('pri_01ksj3qpjyxsv2kprvxn7dpk10')" class="btn-glow">Get Monday's list</button>
+      <a href="#xray" class="btn-ghost" data-i18n="nav_xray">Free X-Ray Tool</a>
+      <a href="mailto:support@storescope.com?subject=Account%20access%20request&amp;body=Hi%20StoreScope%2C%20please%20resend%20my%20dashboard%20link.%20Account%20email%3A%20" class="nav-login-link" aria-label="Existing customer — request account access" data-i18n="nav_login">Log in</a>
+      <select id="ss-lang-switch" class="nav-lang-switch" aria-label="Language">
+        <option value="en">English</option>
+        <option value="ko">한국어</option>
+        <option value="ja">日本語</option>
+      </select>
+      <button onclick="openCheckout('pri_01ksj3qpjyxsv2kprvxn7dpk10')" class="btn-glow" data-i18n="nav_cta">Get Monday's list</button>
     </div>
     <div class="nav-mobile">
-      <button onclick="openCheckout('pri_01ksj3qpjyxsv2kprvxn7dpk10')" class="btn-glow" style="font-size:13px;padding:7px 14px;">Get Monday's list</button>
+      <button onclick="openCheckout('pri_01ksj3qpjyxsv2kprvxn7dpk10')" class="btn-glow" style="font-size:13px;padding:7px 14px;" data-i18n="nav_cta">Get Monday's list</button>
       <button class="nav-hamburger" onclick="toggleMobileNav()" aria-label="Open menu" id="navHamburger">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
       </button>
@@ -3346,11 +3521,19 @@
   </div>
 </nav>
 <div class="nav-mobile-panel" id="navMobilePanel">
-  <a href="#features" onclick="closeMobileNav()">Features</a>
-  <a href="#how-it-works" onclick="closeMobileNav()">How it works</a>
-  <a href="#pricing" onclick="closeMobileNav()">Pricing</a>
-  <a href="#xray" onclick="closeMobileNav()">Free X-Ray Tool</a>
-  <a href="#faq" onclick="closeMobileNav()">FAQ</a>
+  <a href="#features" onclick="closeMobileNav()" data-i18n="nav_features">Features</a>
+  <a href="#how-it-works" onclick="closeMobileNav()" data-i18n="nav_how">How it works</a>
+  <a href="#pricing" onclick="closeMobileNav()" data-i18n="nav_pricing">Pricing</a>
+  <a href="#xray" onclick="closeMobileNav()" data-i18n="nav_xray">Free X-Ray Tool</a>
+  <a href="#faq" onclick="closeMobileNav()" data-i18n="nav_faq">FAQ</a>
+  <div class="nav-mobile-lang">
+    <label for="ss-lang-switch-mobile" data-i18n="lang_switch_label">Language</label>
+    <select id="ss-lang-switch-mobile" class="nav-lang-switch nav-lang-switch-mobile" aria-label="Language" onchange="document.getElementById('ss-lang-switch').value=this.value; window.STORESCOPE_I18N_APPLY(this.value);">
+      <option value="en">English</option>
+      <option value="ko">한국어</option>
+      <option value="ja">日本語</option>
+    </select>
+  </div>
 </div>
 
 <!-- HERO — UPGRADE 2026-06-08: Linear/Vercel pattern (단일 statement + 명확 sub + ONE CTA + 제품 시각).
@@ -3359,25 +3542,25 @@
 <section class="hero" id="main-content">
   <div class="hero-eyebrow">
     <span class="hero-eyebrow-dot"></span>
-    Live · refreshed every Monday at 9 AM
+    <span data-i18n="hero_eyebrow">Live · refreshed every Monday at 9 AM</span>
   </div>
   <h1>
-    Shopify product trends,<br>
-    <span class="grad-text">a week early.</span>
+    <span data-i18n="hero_h1_line1">Shopify product trends,</span><br>
+    <span class="grad-text" data-i18n="hero_h1_line2">a week early.</span>
   </h1>
-  <p class="hero-sub">We watch 1,400 Shopify stores and surface the products spreading across them — every Monday morning, before TikTok ads catch on.</p>
+  <p class="hero-sub" data-i18n="hero_sub">We watch 1,400 Shopify stores and surface the products spreading across them — every Monday morning, before TikTok ads catch on.</p>
 
   <div class="hero-ctas">
     <a href="#xray" class="btn-hero-primary">
-      Try X-Ray on any store
+      <span data-i18n="hero_cta_primary">Try X-Ray on any store</span>
       <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;margin-left:6px;opacity:0.9" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
     </a>
-    <a href="#pricing" class="hero-secondary-link">See pricing →</a>
+    <a href="#pricing" class="hero-secondary-link" data-i18n="hero_cta_secondary">See pricing →</a>
   </div>
 
   <!-- UPGRADE 2026-06-08: hero-alerts 제거 — 3D dashboard mockup이 동일 가치 제공 (제품 시각).
        이전: alerts + mockup 동시 표시 = 시각 중복. 이제 mockup 단독으로 hero 시각 통일. -->
-  <p class="hero-scale-note">Tracking <strong>1,400+ Shopify stores</strong> · <strong>140,000+ products</strong> · refreshed weekly</p>
+  <p class="hero-scale-note" data-i18n="hero_scale">Tracking 1,400+ Shopify stores · 140,000+ products · refreshed weekly</p>
 
   <!-- 3D browser mockup -->
   <div class="hero-mockup-wrap">

@@ -81,12 +81,12 @@ else
     mark_fail "Schema.org JSON-LD 파싱 실패"
 fi
 
-# 6. 파일 사이즈 — D+17 premium 시각 + D+20 보안 meta 추가 반영해 240-260KB 정상 범위
+# 6. 파일 사이즈 — D+17 premium 시각 + D+20 보안 meta + i18n (EN/KO/JA) 반영해 240-275KB
 SIZE=$(wc -c < "$FILE")
 if [ "$SIZE" -lt 180000 ]; then
-    mark_warn "파일 사이즈 $SIZE byte — 너무 작음 (예상 240-260KB), 의도치 않게 컴포넌트 손실 가능"
-elif [ "$SIZE" -gt 260000 ]; then
-    mark_warn "파일 사이즈 $SIZE byte — 너무 큼 (예상 240-260KB), 디자인 빼는 방향 룰 위배 가능"
+    mark_warn "파일 사이즈 $SIZE byte — 너무 작음 (예상 240-275KB), 의도치 않게 컴포넌트 손실 가능"
+elif [ "$SIZE" -gt 275000 ]; then
+    mark_warn "파일 사이즈 $SIZE byte — 너무 큼 (예상 240-275KB), 디자인 빼는 방향 룰 위배 가능"
 else
     mark_pass "파일 사이즈 $SIZE byte (정상 범위)"
 fi
@@ -179,6 +179,24 @@ if echo "$LEADS_CATCH" | grep -qE "console\.error.*leads"; then
     mark_pass "/leads catch 분기 가시화 (console.error + gtag exception)"
 else
     mark_warn "/leads catch 분기 silent fail — 네트워크 실패 시 sales 손실 invisible"
+fi
+
+# 17. D+20 i18n — STORESCOPE_I18N dict (EN/KO/JA) + data-i18n 속성 존재
+I18N_DATA=$(grep -cE 'data-i18n=' "$FILE" || true)
+HAS_DICT_EN=$(grep -c "^\s*en:\s*{" "$FILE" || true)
+HAS_DICT_KO=$(grep -c "^\s*ko:\s*{" "$FILE" || true)
+HAS_DICT_JA=$(grep -c "^\s*ja:\s*{" "$FILE" || true)
+if [ "$HAS_DICT_EN" -gt 0 ] && [ "$HAS_DICT_KO" -gt 0 ] && [ "$HAS_DICT_JA" -gt 0 ] && [ "$I18N_DATA" -gt 0 ]; then
+    mark_pass "i18n dict EN/KO/JA + data-i18n 속성 $I18N_DATA건"
+else
+    mark_fail "i18n 불완전 — EN dict=$HAS_DICT_EN KO=$HAS_DICT_KO JA=$HAS_DICT_JA data-i18n=$I18N_DATA"
+fi
+
+# 18. D+20 i18n — lang switcher 존재
+if grep -q 'id="ss-lang-switch"' "$FILE"; then
+    mark_pass "lang switcher (EN/KO/JA dropdown) 존재"
+else
+    mark_warn "lang switcher 누락 — i18n 사용자 분기 X"
 fi
 
 echo "----------"
