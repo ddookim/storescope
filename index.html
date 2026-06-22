@@ -261,7 +261,8 @@
     .nav-links { display: flex; gap: 2px; }
     .nav-links a {
       padding: 7px 15px; border-radius: 8px; font-size: 13.5px; font-weight: 500;
-      color: #57534E; text-decoration: none; transition: all 0.15s; letter-spacing: -0.01em;
+      /* D+23 a11y: contrast #57534E (4.1:1 FAIL) → #3D3935 (8.3:1 PASS WCAG AA 4.5:1) */
+      color: #3D3935; text-decoration: none; transition: all 0.15s; letter-spacing: -0.01em;
     }
     /* UPGRADE 2026-06-14: Nav links premium hover — Linear/Stripe 패턴 (subtle bg + color + scale) */
     .nav-links a {
@@ -3275,7 +3276,8 @@
       background: #fff;
       padding: 8px 12px;
     }
-    @media (max-width: 920px) {
+    /* D+23 a11y: 모바일 lang switcher 가시성 — breakpoint 920 → 768 (태블릿 landscape에서도 가시) */
+    @media (max-width: 768px) {
       .nav-ctas .nav-lang-switch { display: none; }
     }
     /* mobile panel 안 lang switcher */
@@ -3481,7 +3483,176 @@
         lang_switch_label: "Language",
         xr_url_error: "Please enter a Shopify store URL — e.g. example.myshopify.com",
         xr_demo_banner: "Demo mode — Live API still connecting. The real report goes out the day after we launch.",
-        scroll_top_label: "Back to top"
+        scroll_top_label: "Back to top",
+
+        // ARIA labels (a11y multilingual)
+        aria_login: "Existing customer — request account access",
+        aria_language: "Language",
+        aria_close_modal: "Close",
+        aria_open_menu: "Open menu",
+        aria_close_menu: "Close menu",
+
+        // Counter Bar
+        counter_products: "Products indexed",
+        counter_stores: "Shopify stores tracked",
+        counter_clusters: "Trending products found",
+        counter_refresh: "Index refresh · every Monday",
+
+        // Features section
+        features_pill: "Features",
+        features_h2: "Everything you need to spot what's spreading.",
+        features_sub: "Five tools to find winners, check pricing, and get the data anywhere you work.",
+        feature_trending_eyebrow: "Trending",
+        feature_trending_h3: "Weekly Trend Ranking",
+        feature_trending_desc: "Products ranked by how many stores added them this week — sorted by Storm Score (momentum-based, not raw count).",
+        feature_xray_eyebrow: "Store X-Ray",
+        feature_xray_h3: "Any-store deep dive",
+        feature_xray_desc: "Paste any Shopify domain. We map their full catalog, identify what they're stocking from the trending pool, and show price spread.",
+        feature_history_eyebrow: "Historical",
+        feature_history_h3: "30-day trend history",
+        feature_history_desc: "Track how each product's store count evolved week-by-week. Spot true momentum vs spikes.",
+        feature_api_eyebrow: "API",
+        feature_api_h3: "Direct API access",
+        feature_api_desc: "Pipe trending data into your own dashboard, sheet, or private bot. JSON endpoints, no scraping.",
+        feature_export_eyebrow: "Export",
+        feature_export_h3: "CSV bulk export",
+        feature_export_desc: "Pro plan: download the full week's ranking as CSV. Bring it to your team meeting in 1 click.",
+
+        // How It Works
+        how_pill: "How it works",
+        how_h2: "From 1,400 stores to your shortlist.",
+        how_step1_h3: "1. We scan 1,400 Shopify stores weekly",
+        how_step1_desc: "Public /products.json endpoint only. No auth bypass, no scraping. Compliant with robots.txt.",
+        how_step2_h3: "2. Cluster identical products via image hash",
+        how_step2_desc: "Same product across multiple stores = trending signal. Image hashing groups products even with different titles.",
+        how_step3_h3: "3. Score by momentum, not raw count",
+        how_step3_desc: "Storm Score combines week-over-week growth, velocity (acceleration), and store count — surfaces rising winners, not saturated giants.",
+
+        // Live Demo Dashboard
+        demo_pill: "Live dashboard",
+        demo_h2: "A snapshot of last Monday's winners.",
+        demo_sub: "The same dashboard your account opens to — refreshed every Monday at 9 AM.",
+        demo_dash_title: "Trending Products This Week",
+        demo_th_product: "Product",
+        demo_th_stores: "Stores",
+        demo_th_price: "Price Range",
+        demo_th_week: "This Week",
+        demo_th_score: "Trend Score",
+
+        // X-Ray Section
+        xr_section_pill: "Free Tool",
+        xr_section_h2: "Try it on any Shopify store. Free.",
+        xr_section_sub: "Paste a competitor's URL — we email you their full catalog snapshot, trending hits, and price range.",
+        xr_analyze_btn: "Analyze Store",
+        xr_hint_text: "Enter domain or full URL · No signup required",
+        xr_sample_tag: "SAMPLE REPORT · example.myshopify.com",
+        xr_stat_products: "products",
+        xr_stat_trending: "trending now",
+        xr_stat_price: "price range",
+        xr_stat_delivery: "delivery",
+        xr_sent_text: "Sent straight to your inbox",
+        xr_progress_head: "Analyzing",
+        xr_modal_pill: "Report ready",
+        xr_modal_title: "Where should we send it?",
+        xr_modal_desc_prefix: "The report on",
+        xr_modal_desc_suffix: "is ready. We'll email you the full product list, the trending items they're stocking, and the price range across stores.",
+        xr_modal_submit: "Send my report →",
+        xr_modal_trust_1: "No spam",
+        xr_modal_trust_2: "Unsubscribe in 1 click",
+        xr_modal_trust_3: "Delivered < 60s",
+        xr_success_title: "Report Sent!",
+        xr_success_desc: "Your analysis report is on its way — check spam if you don't see it within 5 minutes.",
+        xr_sending: "Sending...",
+        // XR_STEPS JS array (X-Ray progress)
+        xr_step_1: "Connecting to Shopify store...",
+        xr_step_2: "Reading product catalog...",
+        xr_step_3: "Cross-checking with 1,400 stores...",
+        xr_step_4: "Computing Storm Score for matches...",
+        xr_step_5: "Building price range...",
+        xr_step_6: "Preparing your report...",
+
+        // Pricing
+        pricing_pill: "Pricing",
+        pricing_h2: "Founding member pricing. Locks in for life.",
+        pricing_founding_banner: "Founding member pricing — first 50 paid customers lock these rates for life. Then prices go up.",
+        pricing_trust_1: "14-day money-back",
+        pricing_trust_2: "Cancel anytime",
+        pricing_trust_3: "Secure checkout by Paddle",
+        plan_manual_name: "Manual research",
+        plan_manual_price: "$0",
+        plan_manual_desc: "What most dropshippers do — and why they miss winners.",
+        plan_manual_feat_1: "Open 30+ competitor tabs",
+        plan_manual_feat_2: "Cross-check products manually",
+        plan_manual_feat_3: "Miss 70%+ of rising clusters",
+        plan_manual_feat_4: "Average 4-8 hours per week",
+        plan_manual_feat_5: "No historical trend data",
+        plan_starter_name: "Starter",
+        plan_starter_price_suffix: "/mo",
+        plan_starter_trial: "7-day free trial · no card",
+        plan_starter_desc: "Monday digest + full X-Ray on any store.",
+        plan_starter_feat_1: "Monday digest — top 20 trending",
+        plan_starter_feat_2: "Unlimited X-Ray any Shopify store",
+        plan_starter_feat_3: "Storm Score + 7-day trend history",
+        plan_starter_feat_4: "Price spread across stores",
+        plan_starter_feat_5: "CSV export — current week",
+        plan_starter_feat_6: "Email support",
+        plan_starter_cta: "Start 7-day free trial",
+        plan_pro_name: "Pro",
+        plan_pro_badge: "Most popular",
+        plan_pro_price_suffix: "/mo",
+        plan_pro_trial: "7-day free trial · no card",
+        plan_pro_desc: "Direct API access + 30-day history + bulk export.",
+        plan_pro_feat_1: "Everything in Starter",
+        plan_pro_feat_2: "Unlimited X-Ray requests",
+        plan_pro_feat_3: "30-day trend history (vs 7-day)",
+        plan_pro_feat_4: "Direct API access — JSON endpoints",
+        plan_pro_feat_5: "CSV bulk export — full history",
+        plan_pro_feat_6: "Priority email support",
+        plan_pro_cta: "Start 7-day free trial",
+        pricing_footnote: "7-day free trial · No card required · Cancel any time · 14-day refund window",
+        pricing_secured: "Secured & accepted worldwide",
+
+        // FAQ section
+        faq_pill: "FAQ",
+        faq_h2: "Questions we hear most often.",
+        faq_cat_product: "Product & data",
+        faq_cat_legal: "Legal & compliance",
+        faq_cat_billing: "Billing & account",
+        faq_q_data_source: "Where does StoreScope's data come from?",
+        faq_a_data_source: "Only public Shopify /products.json endpoints — the same data any visitor sees. No private data, no auth bypass, no scraping behind logins.",
+        faq_q_trend_score: "What is the Trend Score?",
+        faq_a_trend_score: "Storm Score (0-100) combines week-over-week store adoption, momentum (acceleration), and total store count. 80+ signals strong rising momentum.",
+        faq_q_freshness: "How often is the data updated?",
+        faq_a_freshness: "Full index refresh every Monday at 9 AM UTC. Trend snapshots accumulate weekly, building historical data.",
+        faq_q_legal: "Is monitoring competitor stores legal?",
+        faq_a_legal: "Yes, completely. StoreScope only reads publicly listed product pages — the same data any browser sees. We comply with robots.txt and offer instant merchant opt-out.",
+        faq_q_optout: "I'm a merchant — can I request my store be excluded?",
+        faq_a_optout: "Yes, instantly. Email optout@storescope.com with your .myshopify.com domain. Excluded from all future index runs within 48 hours.",
+        faq_q_account: "How do I access my account after payment?",
+        faq_a_account: "Right after payment, you receive a confirmation email with your dashboard link and access credentials. Manage or cancel anytime via Paddle billing portal.",
+        faq_q_cancel: "Can I cancel anytime?",
+        faq_a_cancel: "Yes — cancel any time from your Paddle billing portal. Cancel during the 7-day trial and you are not charged.",
+
+        // Footer
+        footer_tagline: "Cross-store Shopify product intelligence — refreshed every Monday.",
+        footer_independent: "Independent · Bootstrapped · No VC",
+        footer_col_product: "Product",
+        footer_col_company: "Company",
+        footer_col_legal: "Legal",
+        footer_link_pricing: "Pricing",
+        footer_link_xray: "Free X-Ray tool",
+        footer_link_api: "API access",
+        footer_link_faq: "FAQ",
+        footer_link_support: "Support",
+        footer_link_optout: "Merchant opt-out",
+        footer_link_privacy: "Privacy",
+        footer_link_terms: "Terms",
+        footer_link_refund: "Refund",
+        footer_copyright: "© 2026 StoreScope",
+        footer_secure: "Secure checkout by Paddle",
+
+        // Toast / dynamic JS messages
+        toast_payment_ok: "Payment confirmed — your API key is on its way to your inbox."
       },
       ko: {
         nav_features: "기능",
@@ -3501,7 +3672,165 @@
         lang_switch_label: "언어",
         xr_url_error: "Shopify 스토어 URL을 입력하세요 — 예: example.myshopify.com",
         xr_demo_banner: "데모 모드 — 라이브 API 연결 중. 실제 리포트는 정식 출시 후 발송됩니다.",
-        scroll_top_label: "맨 위로"
+        scroll_top_label: "맨 위로",
+
+        aria_login: "기존 고객 — 계정 접속 요청",
+        aria_language: "언어",
+        aria_close_modal: "닫기",
+        aria_open_menu: "메뉴 열기",
+        aria_close_menu: "메뉴 닫기",
+
+        counter_products: "인덱싱된 상품",
+        counter_stores: "추적 중인 Shopify 스토어",
+        counter_clusters: "발견된 트렌드 상품",
+        counter_refresh: "인덱스 갱신 · 매주 월요일",
+
+        features_pill: "기능",
+        features_h2: "퍼지는 상품을 찾아내는 모든 도구.",
+        features_sub: "위너 발굴, 가격 확인, 데이터 활용을 위한 5가지 도구.",
+        feature_trending_eyebrow: "트렌딩",
+        feature_trending_h3: "주간 트렌드 랭킹",
+        feature_trending_desc: "이번 주 신규 스토어 채택 수 기준 — Storm Score(누적이 아닌 모멘텀 기반)로 정렬.",
+        feature_xray_eyebrow: "스토어 X-Ray",
+        feature_xray_h3: "모든 스토어 심층 분석",
+        feature_xray_desc: "임의 Shopify 도메인 입력. 전체 카탈로그를 매핑하고 트렌드 풀의 어떤 상품을 진열하는지, 가격 분포를 보여줍니다.",
+        feature_history_eyebrow: "히스토리",
+        feature_history_h3: "30일 트렌드 히스토리",
+        feature_history_desc: "각 상품의 스토어 수가 주간 단위로 어떻게 변화했는지 추적. 진짜 모멘텀 vs 단발 스파이크를 구분.",
+        feature_api_eyebrow: "API",
+        feature_api_h3: "직접 API 접근",
+        feature_api_desc: "트렌드 데이터를 자체 대시보드, 시트, 또는 비공개 봇으로 연결. JSON 엔드포인트, 크롤링 불필요.",
+        feature_export_eyebrow: "내보내기",
+        feature_export_h3: "CSV 일괄 내보내기",
+        feature_export_desc: "Pro 플랜: 주간 랭킹 전체를 CSV로 다운로드. 팀 미팅에 1클릭으로 가져가세요.",
+
+        how_pill: "작동 원리",
+        how_h2: "1,400개 스토어에서 당신의 shortlist까지.",
+        how_step1_h3: "1. 매주 1,400개 Shopify 스토어 스캔",
+        how_step1_desc: "공개 /products.json 엔드포인트만 사용. 인증 우회 없음, 크롤링 없음. robots.txt 준수.",
+        how_step2_h3: "2. 이미지 해시로 동일 상품 클러스터링",
+        how_step2_desc: "여러 스토어의 동일 상품 = 트렌드 신호. 이미지 해싱은 제목이 달라도 같은 상품을 그룹화합니다.",
+        how_step3_h3: "3. 누적이 아닌 모멘텀으로 점수화",
+        how_step3_desc: "Storm Score는 주간 성장률, 속도(가속도), 스토어 수를 결합 — 포화 거대 클러스터가 아닌 부상 중인 위너를 surface.",
+
+        demo_pill: "라이브 대시보드",
+        demo_h2: "지난 월요일 위너의 스냅샷.",
+        demo_sub: "당신의 계정이 열릴 대시보드 — 매주 월요일 오전 9시 갱신.",
+        demo_dash_title: "이번 주 트렌드 상품",
+        demo_th_product: "상품",
+        demo_th_stores: "스토어",
+        demo_th_price: "가격대",
+        demo_th_week: "이번 주",
+        demo_th_score: "트렌드 점수",
+
+        xr_section_pill: "무료 도구",
+        xr_section_h2: "어떤 Shopify 스토어든 무료로 분석.",
+        xr_section_sub: "경쟁사 URL을 입력하세요 — 전체 카탈로그 스냅샷, 트렌드 적중 상품, 가격대를 이메일로 보내드립니다.",
+        xr_analyze_btn: "스토어 분석",
+        xr_hint_text: "도메인 또는 전체 URL 입력 · 가입 불필요",
+        xr_sample_tag: "샘플 리포트 · example.myshopify.com",
+        xr_stat_products: "상품",
+        xr_stat_trending: "현재 트렌드",
+        xr_stat_price: "가격대",
+        xr_stat_delivery: "전송",
+        xr_sent_text: "받은편지함으로 바로 전송",
+        xr_progress_head: "분석 중",
+        xr_modal_pill: "리포트 준비됨",
+        xr_modal_title: "어디로 보낼까요?",
+        xr_modal_desc_prefix: "다음 스토어의 리포트가 준비되었습니다:",
+        xr_modal_desc_suffix: "전체 상품 목록, 진열 중인 트렌드 상품, 스토어별 가격대를 이메일로 보내드립니다.",
+        xr_modal_submit: "리포트 보내기 →",
+        xr_modal_trust_1: "스팸 없음",
+        xr_modal_trust_2: "1클릭 구독 해지",
+        xr_modal_trust_3: "60초 이내 전송",
+        xr_success_title: "리포트 발송 완료!",
+        xr_success_desc: "분석 리포트가 발송되었습니다 — 5분 내 도착 안 하면 스팸함을 확인하세요.",
+        xr_sending: "전송 중...",
+        xr_step_1: "Shopify 스토어 연결 중...",
+        xr_step_2: "상품 카탈로그 읽는 중...",
+        xr_step_3: "1,400개 스토어와 교차 검증 중...",
+        xr_step_4: "매칭 항목의 Storm Score 계산 중...",
+        xr_step_5: "가격대 구성 중...",
+        xr_step_6: "리포트 준비 중...",
+
+        pricing_pill: "가격",
+        pricing_h2: "창립 회원 가격. 평생 잠금.",
+        pricing_founding_banner: "창립 회원 가격 — 첫 50명 유료 고객은 평생 이 가격을 잠급니다. 이후 가격 인상.",
+        pricing_trust_1: "14일 환불 보장",
+        pricing_trust_2: "언제든 해지",
+        pricing_trust_3: "Paddle 보안 결제",
+        plan_manual_name: "수동 리서치",
+        plan_manual_price: "$0",
+        plan_manual_desc: "대부분의 드롭시퍼가 하는 방식 — 그래서 위너를 놓치는 이유.",
+        plan_manual_feat_1: "30개+ 경쟁사 탭 열기",
+        plan_manual_feat_2: "수동으로 상품 교차 검증",
+        plan_manual_feat_3: "부상 클러스터의 70%+ 놓침",
+        plan_manual_feat_4: "주당 평균 4-8시간 소요",
+        plan_manual_feat_5: "히스토리 트렌드 데이터 없음",
+        plan_starter_name: "Starter",
+        plan_starter_price_suffix: "/월",
+        plan_starter_trial: "7일 무료 체험 · 카드 불필요",
+        plan_starter_desc: "월요일 다이제스트 + 모든 스토어 X-Ray.",
+        plan_starter_feat_1: "월요일 다이제스트 — 상위 20개 트렌드",
+        plan_starter_feat_2: "Shopify 스토어 무제한 X-Ray",
+        plan_starter_feat_3: "Storm Score + 7일 트렌드 히스토리",
+        plan_starter_feat_4: "스토어별 가격 분포",
+        plan_starter_feat_5: "CSV 내보내기 — 이번 주",
+        plan_starter_feat_6: "이메일 지원",
+        plan_starter_cta: "7일 무료 체험 시작",
+        plan_pro_name: "Pro",
+        plan_pro_badge: "가장 인기",
+        plan_pro_price_suffix: "/월",
+        plan_pro_trial: "7일 무료 체험 · 카드 불필요",
+        plan_pro_desc: "직접 API 접근 + 30일 히스토리 + 일괄 내보내기.",
+        plan_pro_feat_1: "Starter 전체 포함",
+        plan_pro_feat_2: "무제한 X-Ray 요청",
+        plan_pro_feat_3: "30일 트렌드 히스토리 (7일 대비)",
+        plan_pro_feat_4: "직접 API 접근 — JSON 엔드포인트",
+        plan_pro_feat_5: "CSV 일괄 내보내기 — 전체 히스토리",
+        plan_pro_feat_6: "우선 이메일 지원",
+        plan_pro_cta: "7일 무료 체험 시작",
+        pricing_footnote: "7일 무료 체험 · 카드 불필요 · 언제든 해지 · 14일 환불 기간",
+        pricing_secured: "전 세계 보안 결제 지원",
+
+        faq_pill: "자주 묻는 질문",
+        faq_h2: "가장 자주 듣는 질문들.",
+        faq_cat_product: "제품 및 데이터",
+        faq_cat_legal: "법적 및 컴플라이언스",
+        faq_cat_billing: "결제 및 계정",
+        faq_q_data_source: "StoreScope의 데이터 출처는?",
+        faq_a_data_source: "공개 Shopify /products.json 엔드포인트만 사용 — 누구나 볼 수 있는 데이터. 비공개 데이터 없음, 인증 우회 없음, 로그인 뒤 크롤링 없음.",
+        faq_q_trend_score: "트렌드 점수란?",
+        faq_a_trend_score: "Storm Score(0-100)는 주간 스토어 채택, 모멘텀(가속도), 전체 스토어 수를 결합합니다. 80+는 강한 부상 모멘텀을 의미.",
+        faq_q_freshness: "데이터는 얼마나 자주 갱신되나요?",
+        faq_a_freshness: "전체 인덱스는 매주 월요일 UTC 오전 9시 갱신. 트렌드 스냅샷은 주간 누적되어 히스토리 데이터를 구축합니다.",
+        faq_q_legal: "경쟁사 스토어 모니터링이 합법인가요?",
+        faq_a_legal: "네, 완전히 합법입니다. StoreScope는 공개 상품 페이지만 읽습니다 — 어떤 브라우저든 볼 수 있는 데이터. robots.txt를 준수하고 즉시 머천트 옵트아웃을 제공합니다.",
+        faq_q_optout: "머천트인데 — 제 스토어를 제외 요청할 수 있나요?",
+        faq_a_optout: "네, 즉시 가능합니다. .myshopify.com 도메인을 적어 optout@storescope.com 으로 이메일하세요. 48시간 내 모든 향후 인덱스 실행에서 제외됩니다.",
+        faq_q_account: "결제 후 계정 접속은 어떻게 하나요?",
+        faq_a_account: "결제 직후 대시보드 링크와 접속 자격 증명이 포함된 확인 이메일을 받습니다. Paddle 결제 포털로 언제든 관리 또는 해지.",
+        faq_q_cancel: "언제든 해지할 수 있나요?",
+        faq_a_cancel: "네 — Paddle 결제 포털에서 언제든 해지. 7일 무료 체험 중 해지하면 청구되지 않습니다.",
+
+        footer_tagline: "크로스 스토어 Shopify 상품 인텔리전스 — 매주 월요일 갱신.",
+        footer_independent: "독립 · 부트스트랩 · VC 없음",
+        footer_col_product: "제품",
+        footer_col_company: "회사",
+        footer_col_legal: "법적",
+        footer_link_pricing: "가격",
+        footer_link_xray: "무료 X-Ray 도구",
+        footer_link_api: "API 접근",
+        footer_link_faq: "자주 묻는 질문",
+        footer_link_support: "지원",
+        footer_link_optout: "머천트 옵트아웃",
+        footer_link_privacy: "개인정보처리방침",
+        footer_link_terms: "이용약관",
+        footer_link_refund: "환불 정책",
+        footer_copyright: "© 2026 StoreScope",
+        footer_secure: "Paddle 보안 결제",
+
+        toast_payment_ok: "결제 확인됨 — API 키가 받은편지함으로 전송됩니다."
       },
       ja: {
         nav_features: "機能",
@@ -3521,21 +3850,204 @@
         lang_switch_label: "言語",
         xr_url_error: "ShopifyストアのURLを入力してください — 例: example.myshopify.com",
         xr_demo_banner: "デモモード — ライブAPI接続中。実際のレポートは正式リリース後に送信されます。",
-        scroll_top_label: "トップへ戻る"
+        scroll_top_label: "トップへ戻る",
+
+        aria_login: "既存のお客様 — アカウントアクセスのリクエスト",
+        aria_language: "言語",
+        aria_close_modal: "閉じる",
+        aria_open_menu: "メニューを開く",
+        aria_close_menu: "メニューを閉じる",
+
+        counter_products: "インデックス済み商品",
+        counter_stores: "追跡中のShopifyストア",
+        counter_clusters: "発見されたトレンド商品",
+        counter_refresh: "インデックス更新 · 毎週月曜",
+
+        features_pill: "機能",
+        features_h2: "広がる商品を見つけるすべてのツール。",
+        features_sub: "勝者発見、価格確認、データ活用のための5つのツール。",
+        feature_trending_eyebrow: "トレンディング",
+        feature_trending_h3: "週次トレンドランキング",
+        feature_trending_desc: "今週の新規ストア採用数で順位 — Storm Score(累積ではなくモメンタムベース)で並べ替え。",
+        feature_xray_eyebrow: "ストアX-Ray",
+        feature_xray_h3: "任意ストアの詳細分析",
+        feature_xray_desc: "任意のShopifyドメインを入力。全カタログをマッピングし、トレンドプールのどの商品を扱っているか、価格分布を表示します。",
+        feature_history_eyebrow: "履歴",
+        feature_history_h3: "30日トレンド履歴",
+        feature_history_desc: "各商品のストア数が週ごとにどう変化したかを追跡。真のモメンタム vs 一時的スパイクを区別。",
+        feature_api_eyebrow: "API",
+        feature_api_h3: "直接APIアクセス",
+        feature_api_desc: "トレンドデータを自社ダッシュボード、シート、または非公開ボットに接続。JSONエンドポイント、スクレイピング不要。",
+        feature_export_eyebrow: "エクスポート",
+        feature_export_h3: "CSV一括エクスポート",
+        feature_export_desc: "Proプラン:週次ランキング全体をCSVでダウンロード。チームミーティングに1クリックで持参。",
+
+        how_pill: "しくみ",
+        how_h2: "1,400店舗からあなたのショートリストまで。",
+        how_step1_h3: "1. 毎週1,400店舗のShopifyストアをスキャン",
+        how_step1_desc: "公開 /products.json エンドポイントのみ使用。認証バイパスなし、スクレイピングなし。robots.txt準拠。",
+        how_step2_h3: "2. 画像ハッシュで同一商品をクラスタリング",
+        how_step2_desc: "複数ストアの同一商品 = トレンドシグナル。画像ハッシングはタイトルが異なっても同じ商品をグループ化。",
+        how_step3_h3: "3. 累積ではなくモメンタムで採点",
+        how_step3_desc: "Storm Scoreは週次成長率、速度(加速度)、ストア数を組み合わせ — 飽和した巨大クラスターではなく台頭する勝者を表示。",
+
+        demo_pill: "ライブダッシュボード",
+        demo_h2: "先週月曜の勝者のスナップショット。",
+        demo_sub: "あなたのアカウントが開くダッシュボード — 毎週月曜午前9時更新。",
+        demo_dash_title: "今週のトレンド商品",
+        demo_th_product: "商品",
+        demo_th_stores: "ストア",
+        demo_th_price: "価格帯",
+        demo_th_week: "今週",
+        demo_th_score: "トレンドスコア",
+
+        xr_section_pill: "無料ツール",
+        xr_section_h2: "任意のShopifyストアで無料お試し。",
+        xr_section_sub: "競合のURLを入力 — 全カタログのスナップショット、トレンドヒット商品、価格帯をメールでお届けします。",
+        xr_analyze_btn: "ストアを分析",
+        xr_hint_text: "ドメインまたは完全URLを入力 · サインアップ不要",
+        xr_sample_tag: "サンプルレポート · example.myshopify.com",
+        xr_stat_products: "商品",
+        xr_stat_trending: "現在トレンド",
+        xr_stat_price: "価格帯",
+        xr_stat_delivery: "配信",
+        xr_sent_text: "受信トレイへ直接送信",
+        xr_progress_head: "分析中",
+        xr_modal_pill: "レポート準備完了",
+        xr_modal_title: "どちらへお送りしますか?",
+        xr_modal_desc_prefix: "次のストアのレポートが準備できました:",
+        xr_modal_desc_suffix: "全商品リスト、扱っているトレンド商品、ストアごとの価格帯をメールでお送りします。",
+        xr_modal_submit: "レポートを送信 →",
+        xr_modal_trust_1: "スパムなし",
+        xr_modal_trust_2: "1クリックで配信停止",
+        xr_modal_trust_3: "60秒以内に配信",
+        xr_success_title: "レポート送信完了!",
+        xr_success_desc: "分析レポートを送信しました — 5分以内に届かない場合は迷惑メールフォルダをご確認ください。",
+        xr_sending: "送信中...",
+        xr_step_1: "Shopifyストアに接続中...",
+        xr_step_2: "商品カタログを読み込み中...",
+        xr_step_3: "1,400店舗と相互チェック中...",
+        xr_step_4: "マッチ項目のStorm Scoreを計算中...",
+        xr_step_5: "価格帯を構築中...",
+        xr_step_6: "レポートを準備中...",
+
+        pricing_pill: "料金",
+        pricing_h2: "創設メンバー価格。生涯ロック。",
+        pricing_founding_banner: "創設メンバー価格 — 最初の50名の有料顧客はこの料金を生涯ロック。その後値上げ。",
+        pricing_trust_1: "14日間返金保証",
+        pricing_trust_2: "いつでも解約",
+        pricing_trust_3: "Paddleセキュア決済",
+        plan_manual_name: "手動リサーチ",
+        plan_manual_price: "$0",
+        plan_manual_desc: "ほとんどのドロップシッパーがしていること — そして勝者を逃す理由。",
+        plan_manual_feat_1: "30以上の競合タブを開く",
+        plan_manual_feat_2: "手動で商品を相互チェック",
+        plan_manual_feat_3: "台頭クラスターの70%以上を見逃す",
+        plan_manual_feat_4: "週平均4-8時間",
+        plan_manual_feat_5: "履歴トレンドデータなし",
+        plan_starter_name: "Starter",
+        plan_starter_price_suffix: "/月",
+        plan_starter_trial: "7日間無料トライアル · カード不要",
+        plan_starter_desc: "月曜ダイジェスト + 任意ストアの完全X-Ray。",
+        plan_starter_feat_1: "月曜ダイジェスト — トップ20トレンド",
+        plan_starter_feat_2: "Shopifyストア無制限X-Ray",
+        plan_starter_feat_3: "Storm Score + 7日トレンド履歴",
+        plan_starter_feat_4: "ストア間の価格分布",
+        plan_starter_feat_5: "CSVエクスポート — 今週分",
+        plan_starter_feat_6: "メールサポート",
+        plan_starter_cta: "7日間無料トライアル開始",
+        plan_pro_name: "Pro",
+        plan_pro_badge: "最も人気",
+        plan_pro_price_suffix: "/月",
+        plan_pro_trial: "7日間無料トライアル · カード不要",
+        plan_pro_desc: "直接APIアクセス + 30日履歴 + 一括エクスポート。",
+        plan_pro_feat_1: "Starterのすべて",
+        plan_pro_feat_2: "無制限X-Rayリクエスト",
+        plan_pro_feat_3: "30日トレンド履歴(7日対比)",
+        plan_pro_feat_4: "直接APIアクセス — JSONエンドポイント",
+        plan_pro_feat_5: "CSV一括エクスポート — 全履歴",
+        plan_pro_feat_6: "優先メールサポート",
+        plan_pro_cta: "7日間無料トライアル開始",
+        pricing_footnote: "7日間無料トライアル · カード不要 · いつでも解約 · 14日間返金期間",
+        pricing_secured: "世界中で安全に決済",
+
+        faq_pill: "よくある質問",
+        faq_h2: "よく寄せられる質問。",
+        faq_cat_product: "製品とデータ",
+        faq_cat_legal: "法務とコンプライアンス",
+        faq_cat_billing: "請求とアカウント",
+        faq_q_data_source: "StoreScopeのデータはどこから?",
+        faq_a_data_source: "公開Shopify /products.json エンドポイントのみ — 誰でも見られるデータ。プライベートデータなし、認証バイパスなし、ログイン後のスクレイピングなし。",
+        faq_q_trend_score: "トレンドスコアとは?",
+        faq_a_trend_score: "Storm Score(0-100)は週次ストア採用、モメンタム(加速度)、合計ストア数を組み合わせます。80以上は強い台頭モメンタムを示します。",
+        faq_q_freshness: "データはどのくらいの頻度で更新されますか?",
+        faq_a_freshness: "全インデックスは毎週月曜UTC午前9時に更新。トレンドスナップショットは週次で蓄積され、履歴データを構築します。",
+        faq_q_legal: "競合ストアのモニタリングは合法ですか?",
+        faq_a_legal: "はい、完全に合法です。StoreScopeは公開商品ページのみを読み取ります — どのブラウザでも見られるデータ。robots.txtを遵守し、即時のマーチャントオプトアウトを提供します。",
+        faq_q_optout: "マーチャントですが — ストアの除外をリクエストできますか?",
+        faq_a_optout: "はい、即時可能。.myshopify.com ドメインを記載して optout@storescope.com までメール。48時間以内に今後すべてのインデックス実行から除外されます。",
+        faq_q_account: "決済後のアカウントアクセスはどうしますか?",
+        faq_a_account: "決済直後、ダッシュボードリンクとアクセス認証情報を含む確認メールが届きます。Paddle請求ポータルでいつでも管理または解約。",
+        faq_q_cancel: "いつでも解約できますか?",
+        faq_a_cancel: "はい — Paddle請求ポータルからいつでも解約。7日間無料トライアル中に解約すれば請求されません。",
+
+        footer_tagline: "クロスストアShopify商品インテリジェンス — 毎週月曜更新。",
+        footer_independent: "独立 · ブートストラップ · VCなし",
+        footer_col_product: "製品",
+        footer_col_company: "会社",
+        footer_col_legal: "法務",
+        footer_link_pricing: "料金",
+        footer_link_xray: "無料X-Rayツール",
+        footer_link_api: "APIアクセス",
+        footer_link_faq: "よくある質問",
+        footer_link_support: "サポート",
+        footer_link_optout: "マーチャントオプトアウト",
+        footer_link_privacy: "プライバシーポリシー",
+        footer_link_terms: "利用規約",
+        footer_link_refund: "返金ポリシー",
+        footer_copyright: "© 2026 StoreScope",
+        footer_secure: "Paddleセキュア決済",
+
+        toast_payment_ok: "決済確認 — APIキーが受信トレイに届きます。"
       }
     };
 
     window.STORESCOPE_I18N_APPLY = function(lang) {
       var dict = window.STORESCOPE_I18N[lang] || window.STORESCOPE_I18N.en;
       document.documentElement.lang = lang;
+      // 1st pass: textContent swap
       document.querySelectorAll('[data-i18n]').forEach(function(el) {
         var key = el.dataset.i18n;
         var val = dict[key];
         if (val !== undefined) el.textContent = val;
       });
+      // D+22 a11y 2nd pass: ARIA attribute swap — data-aria-i18n="aria-label:key" 형식
+      // 다국어 스크린리더 분기 (NVDA/JAWS/VoiceOver 한국어/일본어 모드 영어 라벨 차단)
+      document.querySelectorAll('[data-aria-i18n]').forEach(function(el) {
+        var spec = el.dataset.ariaI18n;
+        var parts = spec.split(':');
+        if (parts.length === 2) {
+          var val = dict[parts[1]];
+          if (val !== undefined) el.setAttribute(parts[0], val);
+        }
+      });
+      // 3rd pass: placeholder swap — data-placeholder-i18n="key"
+      document.querySelectorAll('[data-placeholder-i18n]').forEach(function(el) {
+        var val = dict[el.dataset.placeholderI18n];
+        if (val !== undefined) el.setAttribute('placeholder', val);
+      });
+      // 4th pass: title attribute swap — data-title-i18n="key"
+      document.querySelectorAll('[data-title-i18n]').forEach(function(el) {
+        var val = dict[el.dataset.titleI18n];
+        if (val !== undefined) el.setAttribute('title', val);
+      });
       try { localStorage.setItem('ss-lang', lang); } catch (e) {}
       if (typeof gtag === 'function') {
         gtag('event', 'language_select', { language: lang });
+      }
+      // X-Ray progress steps JS 배열 갱신 (xrayAnalyze 호출 시점 동기화)
+      if (window.STORESCOPE_REFRESH_XR_STEPS) {
+        window.STORESCOPE_REFRESH_XR_STEPS();
       }
     };
 
@@ -3587,8 +4099,8 @@
     </div>
     <div class="nav-ctas">
       <a href="#xray" class="btn-ghost" data-i18n="nav_xray">Free X-Ray Tool</a>
-      <a href="mailto:support@storescope.com?subject=Account%20access%20request&amp;body=Hi%20StoreScope%2C%20please%20resend%20my%20dashboard%20link.%20Account%20email%3A%20" class="nav-login-link" aria-label="Existing customer — request account access" data-i18n="nav_login">Log in</a>
-      <select id="ss-lang-switch" class="nav-lang-switch" aria-label="Language">
+      <a href="mailto:support@storescope.com?subject=Account%20access%20request&amp;body=Hi%20StoreScope%2C%20please%20resend%20my%20dashboard%20link.%20Account%20email%3A%20" class="nav-login-link" aria-label="Existing customer — request account access" data-i18n="nav_login" data-aria-i18n="aria-label:aria_login">Log in</a>
+      <select id="ss-lang-switch" class="nav-lang-switch" aria-label="Language" data-aria-i18n="aria-label:aria_language">
         <option value="en">English</option>
         <option value="ko">한국어</option>
         <option value="ja">日本語</option>
@@ -3597,7 +4109,7 @@
     </div>
     <div class="nav-mobile">
       <button onclick="openCheckout('pri_01ksj3qpjyxsv2kprvxn7dpk10')" class="btn-glow" style="font-size:13px;padding:7px 14px;" data-i18n="nav_cta">Get Monday's list</button>
-      <button class="nav-hamburger" onclick="toggleMobileNav()" aria-label="Open menu" id="navHamburger">
+      <button class="nav-hamburger" onclick="toggleMobileNav()" aria-label="Open menu" data-aria-i18n="aria-label:aria_open_menu" id="navHamburger">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
       </button>
     </div>
@@ -3611,7 +4123,7 @@
   <a href="#faq" onclick="closeMobileNav()" data-i18n="nav_faq">FAQ</a>
   <div class="nav-mobile-lang">
     <label for="ss-lang-switch-mobile" data-i18n="lang_switch_label">Language</label>
-    <select id="ss-lang-switch-mobile" class="nav-lang-switch nav-lang-switch-mobile" aria-label="Language" onchange="document.getElementById('ss-lang-switch').value=this.value; window.STORESCOPE_I18N_APPLY(this.value);">
+    <select id="ss-lang-switch-mobile" class="nav-lang-switch nav-lang-switch-mobile" aria-label="Language" data-aria-i18n="aria-label:aria_language" onchange="document.getElementById('ss-lang-switch').value=this.value; window.STORESCOPE_I18N_APPLY(this.value);">
       <option value="en">English</option>
       <option value="ko">한국어</option>
       <option value="ja">日本語</option>
@@ -3974,9 +4486,9 @@
 <!-- BENTO FEATURES -->
 <div id="features">
   <div class="section">
-    <div class="section-pill">Features</div>
-    <h2 class="section-heading">Everything you need to <span class="grad-text">spot what's spreading.</span></h2>
-    <p class="section-sub">Five tools to find winners, check pricing, and get the data anywhere you work.</p>
+    <div class="section-pill" data-i18n="features_pill">Features</div>
+    <h2 class="section-heading" data-i18n="features_h2">Everything you need to spot what's spreading.</h2>
+    <p class="section-sub" data-i18n="features_sub">Five tools to find winners, check pricing, and get the data anywhere you work.</p>
 
     <!-- Main 3-col bento grid: Row 1 (Trend 2col + Webhook 1col), Row 2 (Price 1col + API 2col) -->
     <div class="bento-grid">
@@ -4446,12 +4958,12 @@
 <div class="xray-section" id="xray">
   <div class="xray-inner">
     <div style="text-align:center;margin-bottom:12px;">
-      <span class="section-pill">Free Tool</span>
+      <span class="section-pill" data-i18n="xr_section_pill">Free Tool</span>
     </div>
-    <h2 class="section-h2" style="text-align:center;margin-bottom:14px;">
-      Try it on any Shopify store. <span class="grad-text">Free.</span>
+    <h2 class="section-h2" style="text-align:center;margin-bottom:14px;" data-i18n="xr_section_h2">
+      Try it on any Shopify store. Free.
     </h2>
-    <p class="xr-sub">Paste a competitor's URL. We'll send you their full catalog, the products they're already selling, and the price range. Free, no signup needed beyond your email.</p>
+    <p class="xr-sub" data-i18n="xr_section_sub">Paste a competitor's URL. We'll send you their full catalog, the products they're already selling, and the price range. Free, no signup needed beyond your email.</p>
 
     <!-- STEP 1: URL input -->
     <div id="xr-step1">
@@ -4468,10 +4980,10 @@
           enterkeyhint="search"
         />
         <button class="xr-analyze-btn" onclick="xrayAnalyze()">
-          <span id="xr-btn-label">Analyze Store</span>
+          <span id="xr-btn-label" data-i18n="xr_analyze_btn">Analyze Store</span>
         </button>
       </div>
-      <p class="xr-hint">Enter domain or full URL · No signup required</p>
+      <p class="xr-hint" data-i18n="xr_hint_text">Enter domain or full URL · No signup required</p>
       <p class="xr-error-msg" id="xr-url-error" data-i18n="xr_url_error" hidden role="alert">Please enter a Shopify store URL — e.g. example.myshopify.com</p>
 
       <!-- UPGRADE 2026-06-13: "What you'll get" — Stripe email-receipt 패턴 (실 data 형식) -->
@@ -4530,8 +5042,8 @@
     <!-- STEP 3: Modal email gate (full overlay) -->
     <div id="xr-step3" class="xr-modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="xr-modal-title" onclick="closeXrModal(event)">
       <div class="xr-modal-card" onclick="event.stopPropagation()">
-        <div class="xr-modal-pill">Report ready</div>
-        <button type="button" class="xr-modal-close" onclick="closeXrModal()" aria-label="Close">✕</button>
+        <div class="xr-modal-pill" data-i18n="xr_modal_pill">Report ready</div>
+        <button type="button" class="xr-modal-close" onclick="closeXrModal()" aria-label="Close" data-aria-i18n="aria-label:aria_close_modal">✕</button>
 
         <div class="xr-modal-icon" style="display:flex;">
           <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -4540,9 +5052,9 @@
           </svg>
         </div>
 
-        <h3 id="xr-modal-title" class="xr-modal-title">Where should we send it?</h3>
+        <h3 id="xr-modal-title" class="xr-modal-title" data-i18n="xr_modal_title">Where should we send it?</h3>
         <p class="xr-modal-desc">
-          The report on <span class="xr-modal-desc-store" id="xr-modal-store-name">store.myshopify.com</span> is ready. We'll email you the full product list, the trending items they're stocking, and the price range across stores.
+          <span data-i18n="xr_modal_desc_prefix">The report on</span> <span class="xr-modal-desc-store" id="xr-modal-store-name">store.myshopify.com</span> <span data-i18n="xr_modal_desc_suffix">is ready. We'll email you the full product list, the trending items they're stocking, and the price range across stores.</span>
         </p>
 
         <form id="xr-email-form" class="xr-modal-form" onsubmit="xraySubmit(event)">
@@ -4557,16 +5069,16 @@
             aria-label="Your email address"
           />
           <button type="submit" class="xr-modal-submit">
-            Send my report →
+            <span data-i18n="xr_modal_submit">Send my report →</span>
           </button>
         </form>
 
         <div class="xr-modal-trust">
-          <span>✓ No spam</span>
+          <span>✓ <span data-i18n="xr_modal_trust_1">No spam</span></span>
           <span class="xr-modal-trust-dot"></span>
-          <span>✓ Unsubscribe in 1 click</span>
+          <span>✓ <span data-i18n="xr_modal_trust_2">Unsubscribe in 1 click</span></span>
           <span class="xr-modal-trust-dot"></span>
-          <span>✓ Delivered &lt; 60s</span>
+          <span>✓ <span data-i18n="xr_modal_trust_3">Delivered &lt; 60s</span></span>
         </div>
       </div>
     </div>
@@ -4581,8 +5093,8 @@
         <div class="xr-success-icon">
           <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#34D399" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
         </div>
-        <div class="xr-success-title">Report Sent!</div>
-        <p class="xr-success-desc">
+        <div class="xr-success-title" data-i18n="xr_success_title">Report Sent!</div>
+        <p class="xr-success-desc" data-i18n="xr_success_desc">
           Your analysis report is on its way — check spam if you don't see it within 5 minutes.
         </p>
       </div>
@@ -4799,14 +5311,14 @@
 <!-- PRICING -->
 <div class="pricing-section" id="pricing">
   <div class="pricing-inner">
-    <div class="section-pill">Pricing</div>
-    <h2 class="section-heading">Founding member pricing.<br><span class="grad-text">Locks in for life.</span></h2>
+    <div class="section-pill" data-i18n="pricing_pill">Pricing</div>
+    <h2 class="section-heading" data-i18n="pricing_h2">Founding member pricing. Locks in for life.</h2>
 
     <!-- REVERT 2026-06-04: 미래 가격 인상은 사용자 미합의 사항. 정직한 vague FOMO 복원. -->
     <div class="founding-banner-wrap">
       <div class="founding-banner">
         <span class="founding-banner-dot"></span>
-        Founding member pricing. Today's price locks in for life — even if we raise prices later.
+        <span data-i18n="pricing_founding_banner">Founding member pricing. Today's price locks in for life — even if we raise prices later.</span>
       </div>
     </div>
 
@@ -4985,8 +5497,8 @@
 <!-- UPGRADE 2026-06-08: FAQ 3 카테고리화 (Stripe pricing FAQ 패턴) — 검색 시간 ↓ -->
 <div class="faq-section" id="faq">
   <div class="faq-inner">
-    <div class="section-pill">FAQ</div>
-    <h2 class="section-heading">Common questions.</h2>
+    <div class="section-pill" data-i18n="faq_pill">FAQ</div>
+    <h2 class="section-heading" data-i18n="faq_h2">Common questions.</h2>
 
     <!-- Category 1: Product / value -->
     <div class="faq-category">
@@ -5078,43 +5590,43 @@
       <a href="./" class="logo" aria-label="StoreScope — home">
         <span class="logo-text">StoreScope</span>
       </a>
-      <p>Cross-store Shopify product data for dropshippers and DTC operators.</p>
-      <p style="margin-top:10px;font-size:12px;color:#A8A29E;">Independent · Bootstrapped · Built for Shopify operators</p>
+      <p data-i18n="footer_tagline">Cross-store Shopify product data for dropshippers and DTC operators.</p>
+      <p style="margin-top:10px;font-size:12px;color:#A8A29E;" data-i18n="footer_independent">Independent · Bootstrapped · Built for Shopify operators</p>
     </div>
     <div class="footer-col">
-      <h4>Product</h4>
-      <a href="#pricing">Pricing</a>
-      <a href="#xray">Free X-Ray tool</a>
-      <a href="mailto:dodo@storescope.com?subject=API%20docs%20access" class="footer-link-muted" aria-label="Email for API documentation access">API access</a>
+      <h4 data-i18n="footer_col_product">Product</h4>
+      <a href="#pricing" data-i18n="footer_link_pricing">Pricing</a>
+      <a href="#xray" data-i18n="footer_link_xray">Free X-Ray tool</a>
+      <a href="mailto:dodo@storescope.com?subject=API%20docs%20access" class="footer-link-muted" aria-label="Email for API documentation access" data-i18n="footer_link_api">API access</a>
     </div>
     <div class="footer-col">
-      <h4>Company</h4>
-      <a href="#faq">FAQ</a>
-      <a href="mailto:support@storescope.com">Support</a>
-      <a href="mailto:optout@storescope.com">Merchant opt-out</a>
+      <h4 data-i18n="footer_col_company">Company</h4>
+      <a href="#faq" data-i18n="footer_link_faq">FAQ</a>
+      <a href="mailto:support@storescope.com" data-i18n="footer_link_support">Support</a>
+      <a href="mailto:optout@storescope.com" data-i18n="footer_link_optout">Merchant opt-out</a>
     </div>
     <div class="footer-col">
-      <h4>Legal</h4>
-      <a href="./landing/privacy.html">Privacy</a>
-      <a href="./landing/terms.html">Terms</a>
-      <a href="./landing/refund.html">Refund</a>
+      <h4 data-i18n="footer_col_legal">Legal</h4>
+      <a href="./landing/privacy.html" data-i18n="footer_link_privacy">Privacy</a>
+      <a href="./landing/terms.html" data-i18n="footer_link_terms">Terms</a>
+      <a href="./landing/refund.html" data-i18n="footer_link_refund">Refund</a>
     </div>
   </div>
   <div class="footer-bottom">
-    <span class="footer-bottom-copy">© 2026 StoreScope · Shopify product intelligence</span>
+    <span class="footer-bottom-copy" data-i18n="footer_copyright">© 2026 StoreScope · Shopify product intelligence</span>
     <span class="footer-bottom-status">
       <span class="footer-status-dot" aria-hidden="true"></span>
-      All systems operational · Refreshed every Monday
+      <span data-i18n="counter_refresh">All systems operational · Refreshed every Monday</span>
     </span>
     <span class="footer-bottom-secure">
       <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-      Secure checkout by Paddle
+      <span data-i18n="footer_secure">Secure checkout by Paddle</span>
     </span>
   </div>
 </footer>
 
 <!-- D+22 R3: scroll-to-top button — long landing (262KB+) mobile UX 강화 -->
-<button id="ss-scroll-top" class="ss-scroll-top" aria-label="Back to top">
+<button id="ss-scroll-top" class="ss-scroll-top" aria-label="Back to top" data-aria-i18n="aria-label:scroll_top_label">
   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
     <line x1="12" y1="19" x2="12" y2="5"/>
     <polyline points="5 12 12 5 19 12"/>
@@ -5222,6 +5734,7 @@
   }
 
   /* ── X-Ray Lead Gen: progress bar + cycling status + modal email gate ── */
+  // D+23 i18n: XR_STEPS 동적 갱신 — 사용자 lang 변경 시 STORESCOPE_REFRESH_XR_STEPS 호출
   var XR_STEPS = [
     'Connecting to {store}...',
     'Loading product catalog...',
@@ -5230,6 +5743,14 @@
     'Pulling price ranges across stores...',
     'Analysis complete. Preparing your report...'
   ];
+
+  window.STORESCOPE_REFRESH_XR_STEPS = function() {
+    var dict = window.STORESCOPE_I18N && window.STORESCOPE_I18N[document.documentElement.lang || 'en'];
+    if (!dict) return;
+    var keys = ['xr_step_1', 'xr_step_2', 'xr_step_3', 'xr_step_4', 'xr_step_5', 'xr_step_6'];
+    XR_STEPS = keys.map(function(k) { return dict[k] || XR_STEPS[keys.indexOf(k)]; });
+  };
+  // initial apply (DOMContentLoaded 시 STORESCOPE_I18N_APPLY → REFRESH_XR_STEPS 호출됨)
   var XR_TOTAL_MS = 5800;        // total fake progress duration — feels real but not slow
   var XR_TICK_MS = 60;           // progress bar update interval
   var __xrTimer = null;          // outer ref so we can clear on abort
