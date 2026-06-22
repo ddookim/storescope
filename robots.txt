@@ -1,0 +1,11 @@
+# StoreScope robots.txt — D+22 라운드 R2
+# Source pattern: robotstxt.org spec + Google Search Central guide
+
+User-agent: *
+Allow: /
+# StoreScope 자체가 Shopify /products.json 를 정직하게 읽음 — landing 자체는 모든 크롤러 허용
+Disallow: /landing/404.html
+
+# 404 페이지 noindex — robots meta noindex 와 함께 (이미 적용됨)
+
+Sitemap: https://ddookim.github.io/storescope/sitemap.xml
