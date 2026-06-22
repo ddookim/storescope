@@ -15,6 +15,79 @@
       if (h === 'ddookim.github.io') return 'https://jacob-shakespeare-matthew-mathematical.trycloudflare.com';
       return 'https://api.storescope.com';
     })();
+
+    // D+23 Mock API mode — trycloudflare placeholder 감지 시 정적 mock 응답으로 사용자 X-Ray full flow 평가 가능.
+    // Render launch 후 API_BASE → onrender.com 으로 변경 시 자동 비활성 (real fetch 사용).
+    // Honest UX: global sticky banner 로 사용자에게 mock mode 명시 ([[feedback-no-false-advertising]] 준수).
+    (function setupMockAPI() {
+      var apiBase = window.STORESCOPE_API || '';
+      window.STORESCOPE_DEMO_MODE = /trycloudflare\.com|^$/.test(apiBase);
+      if (!window.STORESCOPE_DEMO_MODE) return;
+
+      var _origFetch = window.fetch.bind(window);
+      function jsonResponse(body, status) {
+        return new Response(JSON.stringify(body),
+          { status: status || 200, headers: { 'Content-Type': 'application/json' } });
+      }
+
+      window.fetch = function(input, init) {
+        var url = (typeof input === 'string') ? input : (input && input.url);
+        if (!url || url.indexOf(apiBase) !== 0) return _origFetch(input, init);
+        var endpoint = url.substring(apiBase.length).split('?')[0];
+
+        // GET /health
+        if (endpoint === '/health') {
+          return Promise.resolve(jsonResponse({ status: 'ok' }));
+        }
+        // GET /health/freshness — Dead-man switch (live mode)
+        if (endpoint === '/health/freshness') {
+          var twoHoursAgo = new Date(Date.now() - 2 * 3600 * 1000).toISOString();
+          return Promise.resolve(jsonResponse({
+            status: 'ok', mode: 'live',
+            updated_at: twoHoursAgo, hours_since: 2.1, days_since: 0.09,
+            payments_blocked: false
+          }));
+        }
+        // POST /leads — email capture (simulated 600ms latency)
+        if (endpoint === '/leads') {
+          return new Promise(function(resolve) {
+            setTimeout(function() {
+              resolve(jsonResponse({ success: true, lead_id: 'demo_' + Date.now() }));
+            }, 600);
+          });
+        }
+        // GET /trending — Storm Score V2 sample data (3 clusters)
+        if (endpoint === '/trending') {
+          return Promise.resolve(jsonResponse({
+            success: true,
+            data: [
+              { cluster_id: 1, store_count: 42, week_delta: 15, momentum_score: 8.34,
+                representative_title: 'Wireless Magnetic Charger', representative_price: 24.99, representative_image: '' },
+              { cluster_id: 2, store_count: 38, week_delta: 12, momentum_score: 7.21,
+                representative_title: 'Adjustable Phone Stand', representative_price: 18.50, representative_image: '' },
+              { cluster_id: 3, store_count: 31, week_delta: 9, momentum_score: 6.45,
+                representative_title: 'RGB LED Strip Pack', representative_price: 32.00, representative_image: '' }
+            ]
+          }));
+        }
+        // 기타 endpoint = 404
+        return Promise.resolve(jsonResponse({ error: 'mock not found', endpoint: endpoint }, 404));
+      };
+
+      // Global sticky demo banner — 페이지 load 시 즉시 표시 (X-Ray submit 후 demo banner 와 별개)
+      document.addEventListener('DOMContentLoaded', function() {
+        if (document.getElementById('ss-global-demo-banner')) return;
+        var dict = (window.STORESCOPE_I18N && window.STORESCOPE_I18N[document.documentElement.lang]) || {};
+        var msg = dict.global_demo_banner || 'Demo mode — Mock API responses shown. Real data goes live the day after we launch.';
+        var banner = document.createElement('div');
+        banner.id = 'ss-global-demo-banner';
+        banner.setAttribute('role', 'status');
+        banner.setAttribute('data-i18n', 'global_demo_banner');
+        banner.textContent = msg;
+        banner.style.cssText = 'background:linear-gradient(90deg,#FEF3C7,#FDE68A);color:#92400E;padding:9px 16px 9px 36px;text-align:center;font:600 13px/1.4 -apple-system,system-ui,sans-serif;position:sticky;top:0;z-index:9999;border-bottom:1px solid #FCD34D;letter-spacing:-0.005em;background-image:url("data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'%2392400E\' stroke-width=\'2.4\' stroke-linecap=\'round\' stroke-linejoin=\'round\'%3E%3Ccircle cx=\'12\' cy=\'12\' r=\'10\'/%3E%3Cline x1=\'12\' y1=\'8\' x2=\'12\' y2=\'12\'/%3E%3Cline x1=\'12\' y1=\'16\' x2=\'12.01\' y2=\'16\'/%3E%3C/svg%3E"),linear-gradient(90deg,#FEF3C7,#FDE68A);background-repeat:no-repeat,no-repeat;background-position:14px center,0 0;background-size:14px,100%;';
+        document.body.insertBefore(banner, document.body.firstChild);
+      });
+    })();
   </script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>StoreScope — Shopify product trends, a week early</title>
@@ -3652,7 +3725,74 @@
         footer_secure: "Secure checkout by Paddle",
 
         // Toast / dynamic JS messages
-        toast_payment_ok: "Payment confirmed — your API key is on its way to your inbox."
+        toast_payment_ok: "Payment confirmed — your API key is on its way to your inbox.",
+
+        // D+23 신규 — Mock API mode banner + 누락 영역
+        global_demo_banner: "Demo mode — Mock API responses shown. Real data goes live after launch.",
+
+        // Plan card extras (badges + currents + pro-only labels)
+        plan_current_label: "What you do today",
+        plan_disabled_cta: "Your current workflow",
+        plan_pro_only_label: "Pro only",
+        plan_unlocked_label: "Unlocked in Pro",
+        plan_badge_top: "MOST POPULAR",
+        plan_billed_monthly: "billed monthly",
+        plan_per_month: "/month",
+        plan_per_month_15hrs: "/mo · 15 hrs/wk",
+        plan_pro_feat_api_badge: "HOT",
+        plan_pro_feat_csv_badge: "Unlimited",
+
+        // Manual feat (5)
+        plan_manual_feat_full_1: "Open 30+ tabs every morning",
+        plan_manual_feat_full_2: "Screenshot what looks trending",
+        plan_manual_feat_full_3: "Source on gut feeling",
+        plan_manual_feat_full_4: "Find out the margin after ordering",
+        plan_manual_feat_full_5: "Realize a competitor stocked it 12 days ago",
+        plan_manual_desc_full: "Opening 30+ competitor tabs every morning. Guessing what's new. Hoping you picked right.",
+
+        // Starter feat visible (5) + 4 disabled
+        plan_starter_desc_full: "For solo sourcers who want Monday's ranked list ready when they sit down.",
+        plan_starter_feat_full_1: "Monday digest — top 20 trending products",
+        plan_starter_feat_full_2: "X-ray any Shopify store",
+        plan_starter_feat_full_3: "Trend Score on every product — filter 80+ winners",
+        plan_starter_feat_full_4: "Price spread: min / median / max across stores",
+        plan_starter_feat_full_5: "Email support",
+        plan_starter_feat_disabled_1: "30-day trend history per product",
+        plan_starter_feat_disabled_2: "Direct API access",
+        plan_starter_feat_disabled_3: "CSV export to your tools",
+        plan_starter_feat_disabled_4: "Priority email support",
+        plan_starter_cta_full: "Start 7-day free trial",
+
+        // Pro feat visible (5) + 4 unlocked
+        plan_pro_desc_full: "For power users and agencies that need the full 30-day history, API access, and unlimited exports.",
+        plan_pro_feat_full_1: "Monday digest — unlimited trending products",
+        plan_pro_feat_full_2: "X-ray any Shopify store (unlimited lookups)",
+        plan_pro_feat_full_3: "Trend Score on every product — filter 80+ winners",
+        plan_pro_feat_full_4: "Price spread: min / median / max across stores",
+        plan_pro_feat_full_5: "Email support",
+        plan_pro_feat_unlocked_1: "30-day trend history per product",
+        plan_pro_feat_unlocked_2: "Direct API access",
+        plan_pro_feat_unlocked_3: "Unlimited CSV exports",
+        plan_pro_feat_unlocked_4: "Priority email support",
+        plan_pro_cta_full: "Start 7-day free trial",
+
+        // FAQ 신규 3 + 기존 q 매핑
+        faq_q_digest: "What exactly is in the Monday digest?",
+        faq_a_digest: "Top 20 (Starter) or unlimited (Pro) trending products from the past 7 days, ranked by Storm Score. Each product shows: store count adopting it, week-over-week delta, momentum score, price spread, and links to all stores carrying it.",
+        faq_q_diff: "How is this different from other product research tools?",
+        faq_a_diff: "Most tools rank by absolute store count (saturated giants win). StoreScope's Storm Score combines momentum (acceleration) + log-scaled store count + age decay — surfacing rising products before they saturate. Single niche: Shopify cross-store intelligence, no ad spy / TikTok / Amazon dilution.",
+        faq_q_trial_value: "What if I don't see value in 7 days?",
+        faq_a_trial_value: "Cancel from your Paddle billing portal — you are not charged. After billing starts, our refund window is 14 days, no questions asked.",
+
+        // Enterprise / Custom panel
+        ent_label: "Custom needs?",
+        ent_heading: "Running an agency, or tracking 50+ stores?",
+        ent_desc: "If the Starter and Pro plans don't fit what you're doing, just email us. We'll figure out a custom setup that does.",
+        ent_cta: "Email the team",
+        ent_meta: "Direct reply within 24 hours.",
+
+        // Footer status
+        footer_status_msg: "All systems operational · Refreshed every Monday"
       },
       ko: {
         nav_features: "기능",
@@ -3830,7 +3970,66 @@
         footer_copyright: "© 2026 StoreScope",
         footer_secure: "Paddle 보안 결제",
 
-        toast_payment_ok: "결제 확인됨 — API 키가 받은편지함으로 전송됩니다."
+        toast_payment_ok: "결제 확인됨 — API 키가 받은편지함으로 전송됩니다.",
+
+        global_demo_banner: "데모 모드 — Mock API 응답입니다. 실제 데이터는 정식 출시 후 라이브됩니다.",
+
+        plan_current_label: "지금 하는 방식",
+        plan_disabled_cta: "현재 워크플로",
+        plan_pro_only_label: "Pro 전용",
+        plan_unlocked_label: "Pro에서 잠금 해제",
+        plan_badge_top: "가장 인기",
+        plan_billed_monthly: "월 결제",
+        plan_per_month: "/월",
+        plan_per_month_15hrs: "/월 · 주 15시간",
+        plan_pro_feat_api_badge: "HOT",
+        plan_pro_feat_csv_badge: "무제한",
+
+        plan_manual_feat_full_1: "매일 아침 30개+ 탭 열기",
+        plan_manual_feat_full_2: "트렌딩으로 보이는 것 스크린샷",
+        plan_manual_feat_full_3: "직감으로 소싱",
+        plan_manual_feat_full_4: "주문 후 마진 확인",
+        plan_manual_feat_full_5: "12일 전 경쟁사가 이미 진열한 것을 발견",
+        plan_manual_desc_full: "매일 아침 30개+ 경쟁사 탭 열기. 새 상품 추측. 옳은 선택이었기를 희망.",
+
+        plan_starter_desc_full: "월요일 아침에 책상 앞에 앉으면 랭킹 리스트가 준비된 솔로 소서를 위해.",
+        plan_starter_feat_full_1: "월요일 다이제스트 — 상위 20개 트렌드 상품",
+        plan_starter_feat_full_2: "임의의 Shopify 스토어 X-Ray",
+        plan_starter_feat_full_3: "모든 상품 트렌드 점수 — 80+ 위너 필터",
+        plan_starter_feat_full_4: "가격 분포: 스토어별 최소/중간/최대",
+        plan_starter_feat_full_5: "이메일 지원",
+        plan_starter_feat_disabled_1: "상품별 30일 트렌드 히스토리",
+        plan_starter_feat_disabled_2: "직접 API 접근",
+        plan_starter_feat_disabled_3: "도구로 CSV 내보내기",
+        plan_starter_feat_disabled_4: "우선 이메일 지원",
+        plan_starter_cta_full: "7일 무료 체험 시작",
+
+        plan_pro_desc_full: "30일 히스토리, API 접근, 무제한 내보내기가 필요한 파워 유저와 에이전시를 위해.",
+        plan_pro_feat_full_1: "월요일 다이제스트 — 무제한 트렌드 상품",
+        plan_pro_feat_full_2: "임의의 Shopify 스토어 X-Ray (무제한 조회)",
+        plan_pro_feat_full_3: "모든 상품 트렌드 점수 — 80+ 위너 필터",
+        plan_pro_feat_full_4: "가격 분포: 스토어별 최소/중간/최대",
+        plan_pro_feat_full_5: "이메일 지원",
+        plan_pro_feat_unlocked_1: "상품별 30일 트렌드 히스토리",
+        plan_pro_feat_unlocked_2: "직접 API 접근",
+        plan_pro_feat_unlocked_3: "무제한 CSV 내보내기",
+        plan_pro_feat_unlocked_4: "우선 이메일 지원",
+        plan_pro_cta_full: "7일 무료 체험 시작",
+
+        faq_q_digest: "월요일 다이제스트에 정확히 무엇이 포함되나요?",
+        faq_a_digest: "지난 7일간 Storm Score로 랭킹된 상위 20개(Starter) 또는 무제한(Pro) 트렌드 상품. 각 상품: 채택 스토어 수, 주간 변화, 모멘텀 점수, 가격 분포, 모든 판매 스토어 링크.",
+        faq_q_diff: "다른 상품 리서치 도구와 어떻게 다른가요?",
+        faq_a_diff: "대부분의 도구는 절대 스토어 수로 랭킹 (포화 거대 클러스터 우위). StoreScope의 Storm Score는 모멘텀(가속도) + 로그 스케일 스토어 수 + 시간 감쇠를 결합 — 포화 전에 부상 중인 상품을 surface. 단일 니치: Shopify 크로스 스토어 인텔리전스, 광고 스파이/TikTok/Amazon 분산 없음.",
+        faq_q_trial_value: "7일 동안 가치를 못 느끼면?",
+        faq_a_trial_value: "Paddle 결제 포털에서 해지 — 청구 없음. 결제 시작 후 환불 기간은 14일, 묻지 않습니다.",
+
+        ent_label: "맞춤 요구사항?",
+        ent_heading: "에이전시 운영 중이거나 50개+ 스토어 추적?",
+        ent_desc: "Starter나 Pro 플랜이 맞지 않는다면, 이메일로 알려주세요. 맞춤 설정을 마련해 드립니다.",
+        ent_cta: "팀에 이메일",
+        ent_meta: "24시간 이내 직접 답변.",
+
+        footer_status_msg: "모든 시스템 정상 작동 · 매주 월요일 갱신"
       },
       ja: {
         nav_features: "機能",
@@ -4008,7 +4207,66 @@
         footer_copyright: "© 2026 StoreScope",
         footer_secure: "Paddleセキュア決済",
 
-        toast_payment_ok: "決済確認 — APIキーが受信トレイに届きます。"
+        toast_payment_ok: "決済確認 — APIキーが受信トレイに届きます。",
+
+        global_demo_banner: "デモモード — Mock APIレスポンスを表示中。実データは正式リリース後にライブ化されます。",
+
+        plan_current_label: "今やっていること",
+        plan_disabled_cta: "現在のワークフロー",
+        plan_pro_only_label: "Pro限定",
+        plan_unlocked_label: "Proで解除",
+        plan_badge_top: "最も人気",
+        plan_billed_monthly: "月次請求",
+        plan_per_month: "/月",
+        plan_per_month_15hrs: "/月 · 週15時間",
+        plan_pro_feat_api_badge: "HOT",
+        plan_pro_feat_csv_badge: "無制限",
+
+        plan_manual_feat_full_1: "毎朝30以上のタブを開く",
+        plan_manual_feat_full_2: "トレンドに見えるものをスクリーンショット",
+        plan_manual_feat_full_3: "勘でソーシング",
+        plan_manual_feat_full_4: "注文後にマージンを確認",
+        plan_manual_feat_full_5: "12日前に競合がすでに在庫にしていたと気づく",
+        plan_manual_desc_full: "毎朝30以上の競合タブを開く。新商品を推測する。選択が正しかったことを願う。",
+
+        plan_starter_desc_full: "月曜の朝、机に座ったときにランキングリストが準備されているソロソーサー向け。",
+        plan_starter_feat_full_1: "月曜ダイジェスト — トップ20トレンド商品",
+        plan_starter_feat_full_2: "任意のShopifyストアをX-Ray",
+        plan_starter_feat_full_3: "全商品のトレンドスコア — 80以上の勝者をフィルター",
+        plan_starter_feat_full_4: "価格分布:ストア間の最小/中央値/最大",
+        plan_starter_feat_full_5: "メールサポート",
+        plan_starter_feat_disabled_1: "商品ごとの30日トレンド履歴",
+        plan_starter_feat_disabled_2: "直接APIアクセス",
+        plan_starter_feat_disabled_3: "ツールへCSVエクスポート",
+        plan_starter_feat_disabled_4: "優先メールサポート",
+        plan_starter_cta_full: "7日間無料トライアル開始",
+
+        plan_pro_desc_full: "30日履歴、APIアクセス、無制限エクスポートが必要なパワーユーザーとエージェンシー向け。",
+        plan_pro_feat_full_1: "月曜ダイジェスト — 無制限トレンド商品",
+        plan_pro_feat_full_2: "任意のShopifyストアをX-Ray(無制限ルックアップ)",
+        plan_pro_feat_full_3: "全商品のトレンドスコア — 80以上の勝者をフィルター",
+        plan_pro_feat_full_4: "価格分布:ストア間の最小/中央値/最大",
+        plan_pro_feat_full_5: "メールサポート",
+        plan_pro_feat_unlocked_1: "商品ごとの30日トレンド履歴",
+        plan_pro_feat_unlocked_2: "直接APIアクセス",
+        plan_pro_feat_unlocked_3: "無制限CSVエクスポート",
+        plan_pro_feat_unlocked_4: "優先メールサポート",
+        plan_pro_cta_full: "7日間無料トライアル開始",
+
+        faq_q_digest: "月曜ダイジェストに正確には何が含まれますか?",
+        faq_a_digest: "過去7日間でStorm Scoreでランキングされたトップ20(Starter)または無制限(Pro)のトレンド商品。各商品:採用ストア数、週次変化、モメンタムスコア、価格分布、全販売ストアへのリンク。",
+        faq_q_diff: "他の商品リサーチツールとどう違いますか?",
+        faq_a_diff: "ほとんどのツールは絶対ストア数でランキング(飽和した巨大クラスター優位)。StoreScopeのStorm Scoreはモメンタム(加速度)+対数スケールストア数+時間減衰を組み合わせ — 飽和前に台頭する商品を表示。単一ニッチ:Shopifyクロスストアインテリジェンス、広告スパイ/TikTok/Amazon希釈なし。",
+        faq_q_trial_value: "7日間で価値を感じなかったら?",
+        faq_a_trial_value: "Paddle請求ポータルから解約 — 請求なし。請求開始後の返金期間は14日間、質問なし。",
+
+        ent_label: "カスタムニーズ?",
+        ent_heading: "エージェンシー運営、または50以上のストア追跡?",
+        ent_desc: "StarterまたはProプランがフィットしない場合、メールでお知らせください。カスタム設定をご用意します。",
+        ent_cta: "チームへメール",
+        ent_meta: "24時間以内に直接返信。",
+
+        footer_status_msg: "すべてのシステム正常稼働 · 毎週月曜更新"
       }
     };
 
@@ -5354,85 +5612,85 @@
 
       <!-- ── MANUAL (anchor) ── -->
       <div class="plan-card muted">
-        <div class="plan-current-pill">What you do today</div>
-        <div class="plan-label">Manual research</div>
-        <div class="plan-price">$0<span>/mo · 15 hrs/wk</span></div>
-        <p class="plan-desc">Opening 30+ competitor tabs every morning. Guessing what's new. Hoping you picked right.</p>
+        <div class="plan-current-pill" data-i18n="plan_current_label">What you do today</div>
+        <div class="plan-label" data-i18n="plan_manual_name">Manual research</div>
+        <div class="plan-price">$0<span data-i18n="plan_per_month_15hrs">/mo · 15 hrs/wk</span></div>
+        <p class="plan-desc" data-i18n="plan_manual_desc_full">Opening 30+ competitor tabs every morning. Guessing what's new. Hoping you picked right.</p>
         <ul class="plan-features">
-          <li>Open 30+ tabs every morning</li>
-          <li>Screenshot what looks trending</li>
-          <li>Source on gut feeling</li>
-          <li>Find out the margin after ordering</li>
-          <li>Realize a competitor stocked it 12 days ago</li>
+          <li data-i18n="plan_manual_feat_full_1">Open 30+ tabs every morning</li>
+          <li data-i18n="plan_manual_feat_full_2">Screenshot what looks trending</li>
+          <li data-i18n="plan_manual_feat_full_3">Source on gut feeling</li>
+          <li data-i18n="plan_manual_feat_full_4">Find out the margin after ordering</li>
+          <li data-i18n="plan_manual_feat_full_5">Realize a competitor stocked it 12 days ago</li>
         </ul>
-        <span class="plan-disabled-cta">Your current workflow</span>
+        <span class="plan-disabled-cta" data-i18n="plan_disabled_cta">Your current workflow</span>
       </div>
 
       <!-- ── STARTER ── -->
       <div class="plan-card">
-        <div class="plan-label">Starter</div>
+        <div class="plan-label" data-i18n="plan_starter_name">Starter</div>
         <div class="plan-price">
-          <sup>$</sup><span class="price-amount">19</span><span>/month</span>
+          <sup>$</sup><span class="price-amount">19</span><span data-i18n="plan_per_month">/month</span>
         </div>
-        <div class="plan-trial">✓ 7-day free trial · billed monthly</div>
-        <p class="plan-desc">For solo sourcers who want Monday's ranked list ready when they sit down.</p>
+        <div class="plan-trial">✓ <span data-i18n="plan_starter_trial">7-day free trial · billed monthly</span></div>
+        <p class="plan-desc" data-i18n="plan_starter_desc_full">For solo sourcers who want Monday's ranked list ready when they sit down.</p>
         <ul class="plan-features">
-          <li>Monday digest — top 20 trending products</li>
-          <li>X-ray any Shopify store</li>
-          <li>Trend Score on every product — filter 80+ winners</li>
-          <li>Price spread: min / median / max across stores</li>
-          <li>Email support</li>
-          <li class="plan-feat-sep">Pro only</li>
-          <li class="off">30-day trend history per product</li>
-          <li class="off">Direct API access</li>
-          <li class="off">CSV export to your tools</li>
-          <li class="off">Priority email support</li>
+          <li data-i18n="plan_starter_feat_full_1">Monday digest — top 20 trending products</li>
+          <li data-i18n="plan_starter_feat_full_2">X-ray any Shopify store</li>
+          <li data-i18n="plan_starter_feat_full_3">Trend Score on every product — filter 80+ winners</li>
+          <li data-i18n="plan_starter_feat_full_4">Price spread: min / median / max across stores</li>
+          <li data-i18n="plan_starter_feat_full_5">Email support</li>
+          <li class="plan-feat-sep" data-i18n="plan_pro_only_label">Pro only</li>
+          <li class="off" data-i18n="plan_starter_feat_disabled_1">30-day trend history per product</li>
+          <li class="off" data-i18n="plan_starter_feat_disabled_2">Direct API access</li>
+          <li class="off" data-i18n="plan_starter_feat_disabled_3">CSV export to your tools</li>
+          <li class="off" data-i18n="plan_starter_feat_disabled_4">Priority email support</li>
         </ul>
-        <button data-price-mo="pri_01ksj3qpjyxsv2kprvxn7dpk10" onclick="openCheckoutForBilling(this)" class="plan-btn plan-btn-outline">Start 7-day free trial</button>
+        <button data-price-mo="pri_01ksj3qpjyxsv2kprvxn7dpk10" onclick="openCheckoutForBilling(this)" class="plan-btn plan-btn-outline" data-i18n="plan_starter_cta_full">Start 7-day free trial</button>
       </div>
 
       <!-- ── PRO ── -->
       <div class="plan-card featured">
-        <div class="plan-badge-top">MOST POPULAR</div>
-        <div class="plan-label">Pro</div>
+        <div class="plan-badge-top" data-i18n="plan_badge_top">MOST POPULAR</div>
+        <div class="plan-label" data-i18n="plan_pro_name">Pro</div>
         <div class="plan-price">
-          <sup>$</sup><span class="price-amount">49</span><span>/month</span>
+          <sup>$</sup><span class="price-amount">49</span><span data-i18n="plan_per_month">/month</span>
         </div>
-        <div class="plan-trial">✓ 7-day free trial · billed monthly</div>
-        <p class="plan-desc">For power users and agencies that need the full 90-day history, API access, and unlimited exports.</p>
+        <div class="plan-trial">✓ <span data-i18n="plan_pro_trial">7-day free trial · billed monthly</span></div>
+        <p class="plan-desc" data-i18n="plan_pro_desc_full">For power users and agencies that need the full 30-day history, API access, and unlimited exports.</p>
         <ul class="plan-features">
-          <li>Monday digest — unlimited trending products</li>
-          <li>X-ray any Shopify store (unlimited lookups)</li>
-          <li>Trend Score on every product — filter 80+ winners</li>
-          <li>Price spread: min / median / max across stores</li>
-          <li>Email support</li>
-          <li class="plan-feat-sep">Unlocked in Pro</li>
-          <li class="pro-only">30-day trend history per product</li>
-          <li class="pro-only">Direct API access <span class="feat-badge-hot">🔥 HOT</span></li>
-          <li class="pro-only">Unlimited CSV exports <span class="feat-badge-unlimited">Unlimited</span></li>
-          <li class="pro-only">Priority email support</li>
+          <li data-i18n="plan_pro_feat_full_1">Monday digest — unlimited trending products</li>
+          <li data-i18n="plan_pro_feat_full_2">X-ray any Shopify store (unlimited lookups)</li>
+          <li data-i18n="plan_pro_feat_full_3">Trend Score on every product — filter 80+ winners</li>
+          <li data-i18n="plan_pro_feat_full_4">Price spread: min / median / max across stores</li>
+          <li data-i18n="plan_pro_feat_full_5">Email support</li>
+          <li class="plan-feat-sep" data-i18n="plan_unlocked_label">Unlocked in Pro</li>
+          <li class="pro-only" data-i18n="plan_pro_feat_unlocked_1">30-day trend history per product</li>
+          <li class="pro-only"><span data-i18n="plan_pro_feat_unlocked_2">Direct API access</span> <span class="feat-badge-hot">🔥 <span data-i18n="plan_pro_feat_api_badge">HOT</span></span></li>
+          <li class="pro-only"><span data-i18n="plan_pro_feat_unlocked_3">Unlimited CSV exports</span> <span class="feat-badge-unlimited" data-i18n="plan_pro_feat_csv_badge">Unlimited</span></li>
+          <li class="pro-only" data-i18n="plan_pro_feat_unlocked_4">Priority email support</li>
         </ul>
-        <button data-price-mo="pri_01ksh172kehejf3xc2ws26e6vy" onclick="openCheckoutForBilling(this)" class="plan-btn plan-btn-grad">Start 7-day free trial</button>
+        <button data-price-mo="pri_01ksh172kehejf3xc2ws26e6vy" onclick="openCheckoutForBilling(this)" class="plan-btn plan-btn-grad" data-i18n="plan_pro_cta_full">Start 7-day free trial</button>
       </div>
 
     </div>
 
     <!-- Trust line under cards (closer to the decision point) -->
-    <p style="text-align:center;font-size:13px;color:#78716C;margin-top:32px;">7-day free trial · No card required · Cancel any time · 14-day refund window</p>
+    <p style="text-align:center;font-size:13px;color:#78716C;margin-top:32px;" data-i18n="pricing_footnote">7-day free trial · No card required · Cancel any time · 14-day refund window</p>
 
     <!-- ── ENTERPRISE / CUSTOM CONTACT PANEL ──────────────────────────── -->
     <div class="enterprise-panel">
       <div class="ent-left">
-        <div class="ent-label">Custom needs?</div>
-        <h3 class="ent-heading">Running an agency, or tracking 50+ stores?</h3>
-        <p class="ent-desc">If the Starter and Pro plans don't fit what you're doing, just email me. I'll figure out a custom setup that does.</p>
+        <div class="ent-label" data-i18n="ent_label">Custom needs?</div>
+        <h3 class="ent-heading" data-i18n="ent_heading">Running an agency, or tracking 50+ stores?</h3>
+        <p class="ent-desc" data-i18n="ent_desc">If the Starter and Pro plans don't fit what you're doing, just email me. I'll figure out a custom setup that does.</p>
       </div>
       <div class="ent-right">
         <a href="mailto:dodo@storescope.com?subject=StoreScope%20custom%20setup&amp;body=Hi%20Dodo%2C%0A%0AHere%27s%20what%20I%27m%20trying%20to%20do%3A%0A%0A" class="ent-cta">
-          Email the founder
+          <span data-i18n="ent_cta">Email the team</span>
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
         </a>
-        <p class="ent-meta">Direct reply within 24 hours.</p>
+        <p class="ent-meta" data-i18n="ent_meta">Direct reply within 24 hours.</p>
       </div>
     </div>
 
@@ -5509,26 +5767,26 @@
       <div class="faq-grid">
         <div class="faq-item">
           <details open>
-            <summary>What exactly is in the Monday digest?</summary>
-            <p>A ranked list of every product gaining adoption across 1,400+ Shopify stores this week. Each row shows: product name, total store count, week-over-week growth %, price spread (min/median/max across stores), and Trend Score 0–100. Filter to Score 80+ and you have your sourcing shortlist in 30 seconds.</p>
+            <summary data-i18n="faq_q_digest">What exactly is in the Monday digest?</summary>
+            <p data-i18n="faq_a_digest">A ranked list of every product gaining adoption across 1,400+ Shopify stores this week. Each row shows: product name, total store count, week-over-week growth %, price spread (min/median/max across stores), and Trend Score 0–100. Filter to Score 80+ and you have your sourcing shortlist in 30 seconds.</p>
           </details>
         </div>
         <div class="faq-item">
           <details>
-            <summary>What is the Trend Score and why should I trust it?</summary>
-            <p>The Trend Score (0–100) combines three things: how fast the product is being added to new stores week-over-week, the total store count, and the overall growth rate. A score of 80 or higher usually means strong momentum that week. It's not a subjective rating — the score is calculated from real store data refreshed every Monday.</p>
+            <summary data-i18n="faq_q_trend_score">What is the Trend Score and why should I trust it?</summary>
+            <p data-i18n="faq_a_trend_score">The Trend Score (0–100) combines three things: how fast the product is being added to new stores week-over-week, the total store count, and the overall growth rate. A score of 80 or higher usually means strong momentum that week. It's not a subjective rating — the score is calculated from real store data refreshed every Monday.</p>
           </details>
         </div>
         <div class="faq-item">
           <details>
-            <summary>How often is the data updated?</summary>
-            <p>The full index refreshes weekly, every Monday 06:00 PST. Trending snapshots accumulate over time, building your 30-day (Starter) or 90-day (Pro) trend history. Use the free X-Ray tool above for on-demand lookups any day of the week.</p>
+            <summary data-i18n="faq_q_freshness">How often is the data updated?</summary>
+            <p data-i18n="faq_a_freshness">The full index refreshes weekly, every Monday 06:00 PST. Trending snapshots accumulate over time, building your 30-day (Starter) or 90-day (Pro) trend history. Use the free X-Ray tool above for on-demand lookups any day of the week.</p>
           </details>
         </div>
         <div class="faq-item">
           <details>
-            <summary>How is this different from other product research tools?</summary>
-            <p>Most research tools track what's already trending on ad networks. By that point, the winners are usually saturated. StoreScope reads adoption directly from Shopify storefronts, so you see products spreading 1–2 weeks earlier from a different angle.</p>
+            <summary data-i18n="faq_q_diff">How is this different from other product research tools?</summary>
+            <p data-i18n="faq_a_diff">Most research tools track what's already trending on ad networks. By that point, the winners are usually saturated. StoreScope reads adoption directly from Shopify storefronts, so you see products spreading 1–2 weeks earlier from a different angle.</p>
           </details>
         </div>
       </div>
@@ -5543,14 +5801,14 @@
       <div class="faq-grid">
         <div class="faq-item">
           <details>
-            <summary>Is monitoring competitor stores legal?</summary>
-            <p>Yes, completely. StoreScope only reads publicly listed product pages via Shopify's open <code style="font-family:monospace;font-size:12px;background:rgba(79,70,229,0.06);padding:1px 5px;border-radius: 4px;color:#4F46E5;">/products.json</code> endpoint — the same data any browser sees. We don't bypass auth, don't access private data, comply with robots.txt, and offer instant merchant opt-out.</p>
+            <summary data-i18n="faq_q_legal">Is monitoring competitor stores legal?</summary>
+            <p data-i18n="faq_a_legal">Yes, completely. StoreScope only reads publicly listed product pages via Shopify's open /products.json endpoint — the same data any browser sees. We don't bypass auth, don't access private data, comply with robots.txt, and offer instant merchant opt-out.</p>
           </details>
         </div>
         <div class="faq-item">
           <details>
-            <summary>I'm a merchant — can I request my store be excluded?</summary>
-            <p>Yes, instantly. Email <a href="mailto:optout@storescope.com">optout@storescope.com</a> with your .myshopify.com domain. Your store is excluded from all future index runs within 48 hours. No questions asked.</p>
+            <summary data-i18n="faq_q_optout">I'm a merchant — can I request my store be excluded?</summary>
+            <p data-i18n="faq_a_optout">Yes, instantly. Email optout@storescope.com with your .myshopify.com domain. Your store is excluded from all future index runs within 48 hours. No questions asked.</p>
           </details>
         </div>
       </div>
@@ -5565,14 +5823,14 @@
       <div class="faq-grid">
         <div class="faq-item">
           <details>
-            <summary>What if I don't see value in 7 days?</summary>
-            <p>Cancel from your Paddle billing portal any time during the trial — you're not charged. After billing, we also honor a 14-day refund window, no questions asked. Email <a href="mailto:dodo@storescope.com">dodo@storescope.com</a> and the refund is processed same day.</p>
+            <summary data-i18n="faq_q_trial_value">What if I don't see value in 7 days?</summary>
+            <p data-i18n="faq_a_trial_value">Cancel from your Paddle billing portal any time during the trial — you're not charged. After billing, we also honor a 14-day refund window, no questions asked. Email dodo@storescope.com and the refund is processed same day.</p>
           </details>
         </div>
         <div class="faq-item">
           <details>
-            <summary>How do I access my account after payment?</summary>
-            <p>Right after checkout, you receive a confirmation email with your dashboard link and login credentials. No technical setup. Manage or cancel via the Paddle billing link in that same email. Questions: <a href="mailto:support@storescope.com">support@storescope.com</a>.</p>
+            <summary data-i18n="faq_q_account">How do I access my account after payment?</summary>
+            <p data-i18n="faq_a_account">Right after checkout, you receive a confirmation email with your dashboard link and login credentials. No technical setup. Manage or cancel via the Paddle billing link in that same email. Questions: support@storescope.com.</p>
           </details>
         </div>
       </div>
