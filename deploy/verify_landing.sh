@@ -81,12 +81,12 @@ else
     mark_fail "Schema.org JSON-LD 파싱 실패"
 fi
 
-# 6. 파일 사이즈 — D+23: i18n 전체 번역 (en/ko/ja 100+ keys) 반영해 280-320KB
+# 6. 파일 사이즈 — D+23: i18n 전체 번역 + Mock API 반영해 300-345KB
 SIZE=$(wc -c < "$FILE")
 if [ "$SIZE" -lt 180000 ]; then
-    mark_warn "파일 사이즈 $SIZE byte — 너무 작음 (예상 280-320KB), 의도치 않게 컴포넌트 손실 가능"
-elif [ "$SIZE" -gt 320000 ]; then
-    mark_warn "파일 사이즈 $SIZE byte — 너무 큼 (예상 280-320KB), 디자인 빼는 방향 룰 위배 가능"
+    mark_warn "파일 사이즈 $SIZE byte — 너무 작음 (예상 300-345KB), 의도치 않게 컴포넌트 손실 가능"
+elif [ "$SIZE" -gt 345000 ]; then
+    mark_warn "파일 사이즈 $SIZE byte — 너무 큼 (예상 300-345KB), 디자인 빼는 방향 룰 위배 가능"
 else
     mark_pass "파일 사이즈 $SIZE byte (정상 범위)"
 fi
@@ -226,6 +226,29 @@ if grep -q 'id="ss-scroll-top"' "$FILE"; then
     mark_pass "scroll-to-top button (long page mobile UX)"
 else
     mark_warn "scroll-to-top button 누락"
+fi
+
+# 23. D+23 — Mock API mode (window.fetch wrap + global demo banner)
+if grep -q 'setupMockAPI' "$FILE" && grep -q 'STORESCOPE_DEMO_MODE' "$FILE"; then
+    mark_pass "Mock API mode (window.fetch wrap + DEMO_MODE flag)"
+else
+    mark_warn "Mock API mode 누락 — trycloudflare 시 사용자 X-Ray flow 평가 불가"
+fi
+
+# 24. D+23 — FAQ 8 summary 전체 data-i18n
+FAQ_I18N=$(awk '/<summary/,/<\/summary>/' "$FILE" | grep -c 'data-i18n=' || true)
+if [ "$FAQ_I18N" -ge 8 ]; then
+    mark_pass "FAQ summary data-i18n $FAQ_I18N건 (전체 번역)"
+else
+    mark_warn "FAQ summary data-i18n $FAQ_I18N/8 — 일부 영역 영어 잔재"
+fi
+
+# 25. D+23 — Plan card 전체 data-i18n (plan_* prefix 키 매칭)
+PLAN_I18N=$(grep -cE 'data-i18n="plan_' "$FILE" || true)
+if [ "$PLAN_I18N" -ge 30 ]; then
+    mark_pass "Plan card data-i18n $PLAN_I18N건 (3 plan 전체)"
+else
+    mark_warn "Plan card data-i18n $PLAN_I18N건 — 일부 영역 영어 잔재"
 fi
 
 echo "----------"
