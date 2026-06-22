@@ -3234,31 +3234,46 @@
       letter-spacing: -0.01em;
     }
 
-    /* D+20 i18n: lang switcher dropdown — Stripe homepage 헤더 패턴 */
+    /* D+22 i18n upgrade: lang switcher with globe icon (Ahrefs/Linear/Stripe nav 패턴)
+       Source: Feather Icons MIT license (globe SVG) + URL-encoded data URI (HTTP request 0).
+       이전: chevron only. 이후: globe icon (left 8px) + chevron (right 8px) = visual hierarchy. */
     .nav-lang-switch {
       font: 500 13px/1 inherit;
       color: #6b7280;
-      background: transparent;
+      background-color: transparent;
       border: 1px solid #e5e7eb;
       border-radius: 6px;
-      padding: 6px 24px 6px 10px;
+      padding: 6px 24px 6px 28px;
       cursor: pointer;
       appearance: none;
       -webkit-appearance: none;
-      background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3E%3Cpath d='M1.5 3l2.5 2.5L6.5 3' stroke='%236b7280' stroke-width='1.2' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
-      background-repeat: no-repeat;
-      background-position: right 8px center;
-      background-size: 8px;
+      background-image:
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='10'/%3E%3Cline x1='2' y1='12' x2='22' y2='12'/%3E%3Cpath d='M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z'/%3E%3C/svg%3E"),
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3E%3Cpath d='M1.5 3l2.5 2.5L6.5 3' stroke='%236b7280' stroke-width='1.2' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat, no-repeat;
+      background-position: left 8px center, right 8px center;
+      background-size: 14px, 8px;
       margin-right: 10px;
-      transition: color 0.15s ease, border-color 0.15s ease;
+      transition: color 0.15s ease, border-color 0.15s ease, background-image 0.15s ease;
     }
     .nav-lang-switch:hover {
       color: #111827;
       border-color: #d1d5db;
+      /* hover 시 globe icon 더 짙은 색 */
+      background-image:
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23111827' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='10'/%3E%3Cline x1='2' y1='12' x2='22' y2='12'/%3E%3Cpath d='M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z'/%3E%3C/svg%3E"),
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3E%3Cpath d='M1.5 3l2.5 2.5L6.5 3' stroke='%23111827' stroke-width='1.2' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
     }
     .nav-lang-switch:focus-visible {
       outline: 2px solid #4F46E5;
       outline-offset: 2px;
+    }
+    /* dropdown option styling — native name 표시 (English / 한국어 / 日本語) */
+    .nav-lang-switch option {
+      font: 500 14px/1.4 -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+      color: #111827;
+      background: #fff;
+      padding: 8px 12px;
     }
     @media (max-width: 920px) {
       .nav-ctas .nav-lang-switch { display: none; }
