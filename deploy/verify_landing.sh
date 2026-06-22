@@ -81,12 +81,12 @@ else
     mark_fail "Schema.org JSON-LD 파싱 실패"
 fi
 
-# 6. 파일 사이즈 — D+17 premium 시각 + D+20 보안 meta + i18n (EN/KO/JA) 반영해 240-275KB
+# 6. 파일 사이즈 — D+23: i18n 전체 번역 (en/ko/ja 100+ keys) 반영해 280-320KB
 SIZE=$(wc -c < "$FILE")
 if [ "$SIZE" -lt 180000 ]; then
-    mark_warn "파일 사이즈 $SIZE byte — 너무 작음 (예상 240-275KB), 의도치 않게 컴포넌트 손실 가능"
-elif [ "$SIZE" -gt 275000 ]; then
-    mark_warn "파일 사이즈 $SIZE byte — 너무 큼 (예상 240-275KB), 디자인 빼는 방향 룰 위배 가능"
+    mark_warn "파일 사이즈 $SIZE byte — 너무 작음 (예상 280-320KB), 의도치 않게 컴포넌트 손실 가능"
+elif [ "$SIZE" -gt 320000 ]; then
+    mark_warn "파일 사이즈 $SIZE byte — 너무 큼 (예상 280-320KB), 디자인 빼는 방향 룰 위배 가능"
 else
     mark_pass "파일 사이즈 $SIZE byte (정상 범위)"
 fi
