@@ -15,14 +15,101 @@ clusters.json + products.json → PostgreSQL
 
 # concurrent.futures / ipaddress / socket / urllib — _deliver_webhooks 삭제로 dead (2026-06-07)
 import json
+import math
 import os
 import time
+from datetime import datetime, timezone
 from pathlib import Path
-from typing import Optional
 
 import psycopg2
 import psycopg2.extras
 from psycopg2.extras import execute_values
+
+# ── Storm Score V2 알고리즘 상수 ─────────────────────────────────
+# D+20 fix: 기존 trend_score = delta/avg_30d 의 6개 결함 fix.
+# 공식: S = log₁₀(sc+1) × EMA(δ) × (1 + tanh(v)) / log₁₀(age+2)
+#       × 0.3   if store_count < 3   (small count penalty)
+_STORM_EMA_ALPHA          = 0.5   # 최근 1 step 50%, 4 step 누적 93.75%
+_STORM_SMALL_COUNT_THRESH = 3     # store_count < 이 값이면 penalty
+_STORM_SMALL_COUNT_FACTOR = 0.3   # ×0.3 penalty multiplier
+_STORM_HISTORY_WEEKS      = 4     # EMA 윈도우 — 4주 데이터 안정 reading
+_STORM_WINSOR_K           = 2.0   # outlier clamp: mean × k 초과는 mean × k 로 clip
+
+
+def _winsorize_history(history: list[int]) -> list[float]:
+    """평균 × _STORM_WINSOR_K 초과 outlier 를 cap.
+
+    Kalman filter innovation gating 패턴 — 단발성 spike (e.g. [1,1,50,1]) 가
+    EMA dominate 하는 결함 fix. 음수는 0 으로 clamp (week_delta 자체는 음수
+    가능하지만 momentum 측정에는 비음수만 사용).
+    """
+    if not history:
+        return []
+    valid = [max(int(d), 0) for d in history]
+    if all(v == 0 for v in valid):
+        return [float(v) for v in valid]
+    mean_h = sum(valid) / len(valid)
+    threshold = mean_h * _STORM_WINSOR_K
+    return [float(min(v, threshold)) for v in valid]
+
+
+def _storm_score(
+    store_count: int,
+    delta_t: int,
+    delta_history: list[int],
+    age_days: float,
+) -> float:
+    """Storm Score V2 — momentum-based cluster ranking.
+
+    Args:
+        store_count: 현재 스토어 수
+        delta_t: 이번 주 신규 스토어 증가 (현재 - 7일 전)
+        delta_history: 최근 4주 week_delta (가장 오래된 first, 시간순)
+        age_days: clusters.first_seen 부터 경과 일수
+
+    Returns:
+        Storm score (unbounded, 정렬 목적). 0 이상.
+
+    Properties:
+        - log₁₀(sc+1):     HN sublinear, 거대 클러스터 monopoly 차단
+        - winsorize+EMA:   outlier clamp + 지수 평활화. 자율운항 Kalman gating 패턴
+        - tanh(velocity):  가속도 boost ∈ [0, 2]. 급가속 = ×2, 정체 = ×1
+        - log₁₀(age+2):    Reddit gravity, 오래된 클러스터 자연 demotion
+        - small_penalty:   sc<3 noise filter (×0.3)
+    """
+    if store_count < 1 or not delta_history:
+        return 0.0
+
+    # Winsorize first (single-step spike → mean×K clamp), then EMA.
+    clamped = _winsorize_history(delta_history)
+    if not clamped:
+        return 0.0
+
+    # EMA momentum — most recent gets highest weight (alpha=0.5)
+    ema: float = 0.0
+    for d in clamped:
+        ema = _STORM_EMA_ALPHA * d + (1.0 - _STORM_EMA_ALPHA) * ema
+
+    # Velocity (acceleration: rate of delta change), with winsorized prev/current
+    if len(clamped) >= 2:
+        prev = max(clamped[-1], 0.0)
+        # delta_t 도 winsor cap 적용 — single-spike 의 velocity 폭주 차단
+        mean_h = sum(clamped) / len(clamped) if clamped else 0
+        delta_t_w = min(max(float(delta_t), 0.0), max(mean_h * _STORM_WINSOR_K, prev))
+        velocity = (delta_t_w - prev) / max(prev, 1.0)
+    else:
+        velocity = 0.0
+
+    log_sc      = math.log10(store_count + 1)
+    log_age     = math.log10(max(age_days, 0.1) + 2.0)
+    accel_boost = 1.0 + math.tanh(velocity)  # ∈ [0, 2]
+
+    score = (log_sc * ema * accel_boost) / log_age
+
+    if store_count < _STORM_SMALL_COUNT_THRESH:
+        score *= _STORM_SMALL_COUNT_FACTOR
+
+    return round(max(score, 0.0), 4)
 
 PRODUCTS_DIR  = Path("data/products")
 CLUSTERS_FILE = Path("data/clusters.json")
@@ -181,9 +268,7 @@ def _bulk_insert_snapshots(
     """)
     prev: dict[int, int] = {row[0]: row[1] for row in cur.fetchall()}
 
-    # 30일 평균 week_delta 조회 (비율 기반 trend_score 계산용)
-    # trend_score = 이번 주 delta / 30일 평균 delta
-    # > 1.0: 평균보다 빠르게 성장 (급상승 신호), < 1.0: 평균 이하
+    # 30일 평균 week_delta 조회 (기존 trend_score backwards-compat 용)
     cur.execute("""
         SELECT cluster_id, AVG(week_delta) AS avg_delta
         FROM trend_snapshots
@@ -193,23 +278,55 @@ def _bulk_insert_snapshots(
     """)
     avg_delta_30d: dict[int, float] = {row[0]: float(row[1]) for row in cur.fetchall()}
 
+    # Storm Score V2: 최근 4주 delta 시계열 (가장 오래된 first)
+    # ARRAY_AGG with ORDER BY → window function 없이 single pass
+    cur.execute("""
+        SELECT cluster_id,
+               ARRAY_AGG(week_delta ORDER BY snapshot_at ASC) AS deltas
+        FROM trend_snapshots
+        WHERE snapshot_at > NOW() - INTERVAL '%s weeks'
+        GROUP BY cluster_id
+    """ % _STORM_HISTORY_WEEKS)
+    delta_history: dict[int, list[int]] = {row[0]: list(row[1]) for row in cur.fetchall()}
+
+    # cluster age (clusters.first_seen → days)
+    cur.execute("SELECT id, first_seen FROM clusters")
+    now_utc = datetime.now(timezone.utc)
+    cluster_age_days: dict[int, float] = {}
+    for row in cur.fetchall():
+        fs = row[1]
+        if fs is None:
+            cluster_age_days[row[0]] = 0.0
+        else:
+            if fs.tzinfo is None:
+                fs = fs.replace(tzinfo=timezone.utc)
+            cluster_age_days[row[0]] = (now_utc - fs).total_seconds() / 86400.0
+
     snapshot_rows = []
     for chash, prods in clusters_data.items():
         cid         = hash_to_cluster_id[chash]
         store_count = len({p["domain"] for p in prods})
         delta       = store_count - prev.get(cid, 0)
 
-        # 마스터플랜 W8 공식: trend_score = 7일 신규 스토어 수 / 30일 평균 신규 스토어 수
+        # backwards-compat trend_score (delta / 30d-avg) — weekly_digest 이메일 의존
         avg = avg_delta_30d.get(cid, 0.0)
         trend_score = round(delta / avg, 4) if avg > 0 else (1.0 if delta > 0 else 0.0)
 
-        snapshot_rows.append((cid, store_count, delta, trend_score))
+        # Storm Score V2 — /trending API 의 rising sort
+        momentum = _storm_score(
+            store_count=store_count,
+            delta_t=delta,
+            delta_history=delta_history.get(cid, []),
+            age_days=cluster_age_days.get(cid, 0.0),
+        )
+
+        snapshot_rows.append((cid, store_count, delta, trend_score, momentum))
 
     execute_values(cur, """
         INSERT INTO trend_snapshots
-            (cluster_id, store_count, week_delta, trend_score, snapshot_at)
+            (cluster_id, store_count, week_delta, trend_score, momentum_score, snapshot_at)
         VALUES %s
-    """, snapshot_rows, template="(%s, %s, %s, %s, NOW())")
+    """, snapshot_rows, template="(%s, %s, %s, %s, %s, NOW())")
 
 
 # ── Phase 6: product_clusters Bulk Insert ───────────────────────

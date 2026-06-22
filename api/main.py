@@ -118,9 +118,11 @@ class ApiResponse(BaseModel):
 
 # FIX: SQL ORDER BY 절을 화이트리스트 dict로 관리.
 # Pydantic pattern 검증이 있어도 f-string SQL은 나쁜 패턴 — 향후 검증 우회 시 SQL injection 취약점으로 전환.
+# D+20 V2: rising 정렬을 momentum_score (Storm Score V2) 로 교체.
+# 기존 (week_delta * 3 + store_count) 의 결함 6개 fix — pipeline/load_to_db._storm_score 참조.
 _SORT_CLAUSES: dict[str, str] = {
-    "rising":  "week_delta * 3 + c.store_count DESC",
-    "popular": "c.store_count DESC, week_delta DESC",
+    "rising":  "COALESCE(ts.momentum_score, 0) DESC, ts.week_delta DESC NULLS LAST",
+    "popular": "c.store_count DESC, ts.week_delta DESC NULLS LAST",
 }
 
 # FIX: domain 형식 검증 정규식 — 파라미터화 쿼리라 SQL injection은 없으나
