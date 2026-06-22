@@ -35,6 +35,9 @@ services:
     envVars:
       - key: PYTHON_VERSION
         value: 3.11.9
+      # D+20 B1: production 모드 — /docs + /openapi.json 비활성화 (endpoint enumeration 차단)
+      - key: API_ENV
+        value: production
       - key: DATABASE_URL
         sync: false
       - key: ADMIN_SECRET

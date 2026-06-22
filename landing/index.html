@@ -3192,6 +3192,23 @@
       .ba-number { font-size: 52px; }
     }
 
+    /* D+20 U3: Apple HIG 44×44px tap targets — touch device 에서 모든 interactive 강제.
+       pointer:coarse 미디어 쿼리 = touch screen (mouse 가 아닌 finger/stylus). */
+    @media (pointer: coarse) {
+      button,
+      .btn,
+      .btn-hero-primary,
+      .btn-hero-secondary,
+      .xr-analyze-btn,
+      .xr-modal-submit,
+      .plan-cta,
+      a.btn,
+      [role="button"] {
+        min-height: 44px;
+        min-width: 44px;
+      }
+    }
+
   </style>
 
   <script src="https://cdn.paddle.com/paddle/v2/paddle.js"></script>
@@ -4949,6 +4966,19 @@
       inp.focus();
       inp.addEventListener('input', function() { inp.classList.remove('error'); }, { once: true });
       return;
+    }
+
+    // D+20 U2: Render free cold start (~50초) 워밍업 — 첫 X-Ray 클릭 시 background ping
+    // 사용자 progress bar 진행하는 동안 API 가 spin up → 실제 fetch 시 latency 감소.
+    if (!window.__xrWarmed) {
+      window.__xrWarmed = true;
+      fetch(API_BASE + '/health', { cache: 'no-store', mode: 'cors' })
+        .then(function(r) {
+          if (typeof gtag === 'function') {
+            gtag('event', 'api_warmup', { status: r.status, cold_start: r.status === 200 ? 'warm' : 'cold' });
+          }
+        })
+        .catch(function() { /* warmup fail = network 이슈, 후속 fetch에서 가시화 */ });
     }
 
     // Restrict to hostname-safe chars before any DOM insertion (XSS hardening:

@@ -53,7 +53,7 @@ bash "$PROJECT_ROOT/deploy/migrate_to_external_pg.sh" "$NEON_URL"
 echo
 
 # ── Step 2: 마이그레이션 ─────────────────────────────────────────────────
-echo "[2/3] 마이그레이션 6건 일괄 적용..."
+echo "[2/3] 마이그레이션 7건 일괄 적용..."
 bash "$PROJECT_ROOT/deploy/apply_migrations.sh" "$NEON_URL"
 echo
 

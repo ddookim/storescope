@@ -78,13 +78,31 @@ async def lifespan(_app: FastAPI):
     except Exception as e:
         logger.error("DB warmup failed: %s", e)
     yield
+    # D+20 B4: graceful shutdown — SIGTERM 시 pool 정리 (connection leak 차단).
+    # Render 재배포 / Neon 측 idle close 시 깨끗한 connection drain 보장.
+    try:
+        import api.auth as _auth
+        with _auth._pool_lock:
+            if _auth._pool is not None and not _auth._pool.closed:
+                _auth._pool.closeall()
+                _auth._pool = None
+                logger.info("DB pool drained on shutdown")
+    except Exception as e:
+        logger.error("Pool shutdown failed: %s", e)
 
+
+# D+20 B1: production 에서 OpenAPI / Swagger 노출 차단 — endpoint enumeration 공격 surface 축소.
+# 로컬 dev (API_ENV=development) 에서는 /docs + /openapi.json 활성화. Render env 에 API_ENV=production 명시.
+_IS_PROD = os.environ.get("API_ENV", "production").lower() == "production"
 
 app = FastAPI(
     title="StoreScope API",
     description="Shopify 크로스스토어 제품 인텔리전스",
     version="0.1.0",
     lifespan=lifespan,
+    docs_url=None if _IS_PROD else "/docs",
+    redoc_url=None if _IS_PROD else "/redoc",
+    openapi_url=None if _IS_PROD else "/openapi.json",
 )
 
 # slowapi 등록 — RateLimitExceeded는 자동 429 응답으로 변환.
@@ -105,6 +123,8 @@ app.add_middleware(
     allow_origin_regex=r"https://storescope-(api|app)(-[a-z0-9]+)?\.onrender\.com",
     allow_methods=["GET", "POST"],
     allow_headers=["X-API-Key", "Content-Type", "Accept"],
+    # D+20 B3: CORS preflight cache 10분 — 매 요청 OPTIONS round-trip 회피 (Render free 부담 절감).
+    max_age=600,
 )
 
 app.include_router(billing_router)
