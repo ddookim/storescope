@@ -81,12 +81,12 @@ else
     mark_fail "Schema.org JSON-LD 파싱 실패"
 fi
 
-# 6. 파일 사이즈 — D+23: i18n 전체 번역 + Mock API 반영해 300-345KB
+# 6. 파일 사이즈 — D+24: visible 100% sweep 반영해 320-365KB
 SIZE=$(wc -c < "$FILE")
 if [ "$SIZE" -lt 180000 ]; then
-    mark_warn "파일 사이즈 $SIZE byte — 너무 작음 (예상 300-345KB), 의도치 않게 컴포넌트 손실 가능"
-elif [ "$SIZE" -gt 345000 ]; then
-    mark_warn "파일 사이즈 $SIZE byte — 너무 큼 (예상 300-345KB), 디자인 빼는 방향 룰 위배 가능"
+    mark_warn "파일 사이즈 $SIZE byte — 너무 작음 (예상 320-365KB), 의도치 않게 컴포넌트 손실 가능"
+elif [ "$SIZE" -gt 365000 ]; then
+    mark_warn "파일 사이즈 $SIZE byte — 너무 큼 (예상 320-365KB), 디자인 빼는 방향 룰 위배 가능"
 else
     mark_pass "파일 사이즈 $SIZE byte (정상 범위)"
 fi
@@ -306,15 +306,21 @@ else
     mark_warn "전체 data-i18n $TOTAL_I18N건 — 130 미만, visible 영역 잔재 위험"
 fi
 
-# 31. visible English-only 잔재 자동 검출 (전문가 검사 영구 룰)
-# 한국어/일본어 사용자 평가 시 disjointed UX 차단. <h2>/<h3>/<p> 안 data-i18n 없는 영역 카운트.
-NO_I18N_HEADERS=$(grep -cE '<(h[123])[^>]*>[^<]*[A-Z][a-zA-Z]+' "$FILE" | head -1 || echo 0)
-NO_I18N_HEADERS_WITH=$(grep -cE '<(h[123])[^>]*data-i18n[^>]*>[^<]*[A-Z][a-zA-Z]+' "$FILE" | head -1 || echo 0)
-NO_I18N_RATIO=$((NO_I18N_HEADERS - NO_I18N_HEADERS_WITH))
-if [ "$NO_I18N_RATIO" -le 3 ]; then
-    mark_pass "headers data-i18n coverage 정합 (잔재 $NO_I18N_RATIO/$NO_I18N_HEADERS)"
+# 31. D+24 R4 — visible English 잔재 sweep (영구 룰, sweep_residue.py 호출)
+# h2/h3/p/span/div + SVG 자식 다음 텍스트까지 검출. KO/JA 모드 disjointed UX 차단.
+# 제외: 제품명/도메인/브랜드 약어 (sweep_residue.py EXCLUDE 리스트).
+SWEEP_SCRIPT="$(dirname "$0")/sweep_residue.py"
+if [ -f "$SWEEP_SCRIPT" ]; then
+    RESIDUE_COUNT=$(python3 "$SWEEP_SCRIPT" "$FILE" 2>/dev/null || echo 999)
+    if [ "$RESIDUE_COUNT" -eq 0 ]; then
+        mark_pass "visible English 잔재 0건 (D+24 sweep 영구 룰)"
+    elif [ "$RESIDUE_COUNT" -le 3 ]; then
+        mark_warn "visible English 잔재 $RESIDUE_COUNT건 — sweep_residue.py 실행으로 확인"
+    else
+        mark_fail "visible English 잔재 $RESIDUE_COUNT건 — KO/JA 모드 disjointed UX 차단 필요"
+    fi
 else
-    mark_warn "headers 영어 잔재 $NO_I18N_RATIO건 — KO/JA 모드 disjointed UX"
+    mark_warn "sweep_residue.py 누락 — 영구 잔재 검증 skip"
 fi
 
 # 32. Live Demo + Email Preview section pill/badge data-i18n (dark section visible labels)
