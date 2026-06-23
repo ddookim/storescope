@@ -251,6 +251,88 @@ else
     mark_warn "Plan card data-i18n $PLAN_I18N건 — 일부 영역 영어 잔재"
 fi
 
+# ─────────────────────────────────────────────────────────────────────────────
+# D+23 R3 영구 다국어 검증 룰 (전문가 페르소나 패턴 영구 주입):
+# - Patrick McKenzie: "pricing trust statements 다국어 필수 (conversion 직격)"
+# - Kenya Hara: "Before/After visible labels 다국어 (Japanese minimal 일관성)"
+# - Brad Frost: "section별 i18n coverage 검증 (design system 다국어 정합)"
+# - accessibility-tester: "ARIA label 다국어 (스크린리더 분기 정합)"
+# - frontend-developer: "EN ↔ KO ↔ JA dict key 동기화 (silent translation gap 차단)"
+# ─────────────────────────────────────────────────────────────────────────────
+
+# 26. Before/After section data-i18n (Kenya Hara visible labels)
+BA_I18N=$(grep -cE 'data-i18n="ba_' "$FILE" || true)
+if [ "$BA_I18N" -ge 20 ]; then
+    mark_pass "Before/After section data-i18n $BA_I18N건 (Kenya Hara minimal labels)"
+else
+    mark_fail "Before/After section data-i18n $BA_I18N건 — visible Mid-page 영어 잔재"
+fi
+
+# 27. Pricing trust badges data-i18n (Patrick McKenzie conversion 직격, -o로 모든 매칭 카운트)
+PRICING_TRUST=$(grep -oE 'data-i18n="pricing_trust_[a-z_]+"' "$FILE" | wc -l | tr -d ' ')
+if [ "$PRICING_TRUST" -ge 6 ]; then
+    mark_pass "Pricing trust badges data-i18n $PRICING_TRUST건 (Patrick McKenzie)"
+else
+    mark_warn "Pricing trust badges data-i18n $PRICING_TRUST건 — 결제 결정 직전 영어 잔재"
+fi
+
+# 28. EN ↔ KO ↔ JA dict key count 동기화 (frontend-developer silent gap 차단)
+EN_KEYS=$(awk '/en:\s*\{/,/^\s*},\s*$/' "$FILE" | grep -cE '^\s+[a-z_]+:\s' || true)
+KO_KEYS=$(awk '/ko:\s*\{/,/^\s*},\s*$/' "$FILE" | grep -cE '^\s+[a-z_]+:\s' || true)
+JA_KEYS=$(awk '/ja:\s*\{/,/^\s*}\s*$/' "$FILE" | grep -cE '^\s+[a-z_]+:\s' || true)
+# 5% 허용오차
+EN_LOW=$((EN_KEYS * 95 / 100))
+EN_HIGH=$((EN_KEYS * 105 / 100))
+if [ "$KO_KEYS" -ge "$EN_LOW" ] && [ "$KO_KEYS" -le "$EN_HIGH" ] && \
+   [ "$JA_KEYS" -ge "$EN_LOW" ] && [ "$JA_KEYS" -le "$EN_HIGH" ]; then
+    mark_pass "i18n dict key 동기화 EN=$EN_KEYS KO=$KO_KEYS JA=$JA_KEYS (±5%)"
+else
+    mark_warn "i18n dict key 미동기화 EN=$EN_KEYS KO=$KO_KEYS JA=$JA_KEYS (silent translation gap 위험)"
+fi
+
+# 29. ARIA i18n coverage (accessibility-tester 스크린리더 다국어)
+ARIA_I18N=$(grep -cE 'data-aria-i18n=' "$FILE" || true)
+if [ "$ARIA_I18N" -ge 5 ]; then
+    mark_pass "ARIA i18n data-aria-i18n $ARIA_I18N건 (다국어 스크린리더)"
+else
+    mark_warn "ARIA i18n $ARIA_I18N건 — KO/JA 모드 영어 aria-label 잔재"
+fi
+
+# 30. 전체 i18n minimum coverage (Brad Frost section 정합)
+TOTAL_I18N=$(grep -cE 'data-i18n=' "$FILE" || true)
+if [ "$TOTAL_I18N" -ge 130 ]; then
+    mark_pass "전체 data-i18n $TOTAL_I18N건 (Brad Frost coverage threshold)"
+else
+    mark_warn "전체 data-i18n $TOTAL_I18N건 — 130 미만, visible 영역 잔재 위험"
+fi
+
+# 31. visible English-only 잔재 자동 검출 (전문가 검사 영구 룰)
+# 한국어/일본어 사용자 평가 시 disjointed UX 차단. <h2>/<h3>/<p> 안 data-i18n 없는 영역 카운트.
+NO_I18N_HEADERS=$(grep -cE '<(h[123])[^>]*>[^<]*[A-Z][a-zA-Z]+' "$FILE" | head -1 || echo 0)
+NO_I18N_HEADERS_WITH=$(grep -cE '<(h[123])[^>]*data-i18n[^>]*>[^<]*[A-Z][a-zA-Z]+' "$FILE" | head -1 || echo 0)
+NO_I18N_RATIO=$((NO_I18N_HEADERS - NO_I18N_HEADERS_WITH))
+if [ "$NO_I18N_RATIO" -le 3 ]; then
+    mark_pass "headers data-i18n coverage 정합 (잔재 $NO_I18N_RATIO/$NO_I18N_HEADERS)"
+else
+    mark_warn "headers 영어 잔재 $NO_I18N_RATIO건 — KO/JA 모드 disjointed UX"
+fi
+
+# 32. Live Demo + Email Preview section pill/badge data-i18n (dark section visible labels)
+DEMO_EMAIL_I18N=$(grep -oE 'data-i18n="(demo_pill|email_preview_pill|email_pro_badge|email_chart_label|email_subject_label|email_preview_sub|demo_h2)"' "$FILE" | wc -l | tr -d ' ')
+if [ "$DEMO_EMAIL_I18N" -ge 7 ]; then
+    mark_pass "Live Demo + Email Preview data-i18n $DEMO_EMAIL_I18N건 (dark section labels)"
+else
+    mark_warn "Live Demo + Email Preview data-i18n $DEMO_EMAIL_I18N건 — pill/badge 영어 잔재"
+fi
+
+# 33. Competitor Pricing bento card data-i18n (visible body 번역 정합)
+PRICE_CARD_I18N=$(grep -oE 'data-i18n="bento_extra_price[a-z0-9_]*"' "$FILE" | wc -l | tr -d ' ')
+if [ "$PRICE_CARD_I18N" -ge 3 ]; then
+    mark_pass "Competitor Pricing bento card data-i18n $PRICE_CARD_I18N건"
+else
+    mark_warn "Competitor Pricing bento card data-i18n $PRICE_CARD_I18N건 — body 영어 잔재"
+fi
+
 echo "----------"
 echo "RESULT: PASS=$PASS FAIL=$FAIL WARN=$WARN"
 [ "$FAIL" -eq 0 ] || exit 1
