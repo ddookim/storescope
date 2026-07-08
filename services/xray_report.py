@@ -31,7 +31,9 @@ SMTP_PORT  = int(os.environ.get("SMTP_PORT", "587"))
 SMTP_USER  = os.environ.get("SMTP_USER", "")
 SMTP_PASS  = os.environ.get("SMTP_PASS", "")
 FROM_EMAIL = os.environ.get("SMTP_FROM", "noreply@storescope.com")
-APP_URL    = os.environ.get("APP_URL", "https://storescope.com")
+# BASE_URL — 외부 노출 URL. paddle_routes 와 통일. 현 GH Pages → 추후 custom 도메인 시 env 만 변경.
+BASE_URL   = os.environ.get("BASE_URL", "https://ddookim.github.io/storescope").rstrip("/")
+APP_URL    = os.environ.get("APP_URL", BASE_URL)  # 후방호환 — APP_URL 명시 시 우선
 
 
 def _fetch_store_data(domain: str) -> dict:
@@ -232,14 +234,27 @@ def send_xray_report(to_email: str, domain: Optional[str] = None) -> bool:
     text = _render_text(to_email, data)
 
     if not SMTP_HOST:
-        # 개발 환경: 콘솔 출력. SMTP 미설정 시 silent fail 방지.
-        _log.warning("[XRAY EMAIL STUB] To=%s Domain=%s", to_email, domain)
-        print(f"\n=== XRAY REPORT EMAIL (SMTP 미설정 — STUB) ===")
-        print(f"To: {to_email}")
-        print(f"Subject: Your X-Ray report — {data.get('domain', domain)}")
-        print(f"--- text body ---")
-        print(text)
-        print(f"--- end ---\n")
+        # production (RENDER_SERVICE_NAME 존재) 환경에서 SMTP 미설정 = 환경 misconfig.
+        # 랜딩 모달의 "We'll email you the full product list" 약속 위반 = 거짓광고 risk.
+        if os.environ.get("RENDER_SERVICE_NAME"):
+            _log.error(
+                "SMTP not configured in production — X-Ray report email skipped: to=%s domain=%s",
+                to_email, domain,
+            )
+            try:
+                from pipeline.alerting import send_alert  # lazy import — circular 회피
+                send_alert(
+                    f"SMTP 미설정 — X-Ray 리포트 이메일 미발송\n"
+                    f"to: {to_email}\n"
+                    f"domain: {domain}\n"
+                    f"조치: SMTP_HOST/USER/PASS env 설정 — 거짓광고 risk",
+                    level="CRITICAL",
+                )
+            except Exception:
+                pass
+        else:
+            # 개발 환경: 콘솔 stub
+            _log.warning("[XRAY EMAIL STUB] To=%s Domain=%s", to_email, domain)
         return False
 
     try:
@@ -256,6 +271,18 @@ def send_xray_report(to_email: str, domain: Optional[str] = None) -> bool:
             srv.send_message(msg)
         _log.info("X-Ray report sent: to=%s domain=%s", to_email, domain)
         return True
-    except Exception as exc:
-        _log.exception("X-Ray report send failed: to=%s domain=%s err=%s", to_email, domain, exc)
+    except Exception:
+        _log.exception("X-Ray report send failed: to=%s domain=%s", to_email, domain)
+        # 거짓광고 risk — 사용자가 약속한 리포트를 못 받음. alert 발송 후 수동 재발송 가능하도록.
+        try:
+            from pipeline.alerting import send_alert
+            send_alert(
+                f"X-Ray 리포트 SMTP 발송 실패\n"
+                f"to: {to_email}\n"
+                f"domain: {domain}\n"
+                f"조치: 수동 재발송 또는 /admin 통해 retry",
+                level="CRITICAL",
+            )
+        except Exception:
+            pass
         return False

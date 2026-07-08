@@ -38,7 +38,22 @@ if _SENTRY_DSN:
 # 한도는 env var로 분리 — 마케팅 캠페인 burst 시 임시 상향 가능.
 # Render 1 worker 영구 가정 (workers 명시 안 함). multi-worker 시 limit = N × 정의값.
 from slowapi import Limiter, _rate_limit_exceeded_handler
-from slowapi.util import get_remote_address
+from slowapi.util import get_remote_address as _slowapi_get_remote_address
+
+
+def get_remote_address(request) -> str:
+    """LB-aware client IP — Render/PaaS 의 X-Forwarded-For 우선.
+
+    Gemini D+29 review_v2: request.client.host 만 사용 시 LB 내부 IP 가 잡혀
+    모든 사용자가 한 rate limit bucket 공유 → 한 명 abuse 가 전체 차단.
+    """
+    xff = request.headers.get("X-Forwarded-For", "")
+    if xff:
+        # 가장 왼쪽 = original client. 중간 proxy IP 신뢰 X (PaaS 가 자체 LB 만 추가).
+        first = xff.split(",")[0].strip()
+        if first:
+            return first
+    return _slowapi_get_remote_address(request)
 from slowapi.errors import RateLimitExceeded
 
 RATE_LIMIT_TRENDING  = os.environ.get("RATE_LIMIT_TRENDING",  "60/minute")
@@ -53,7 +68,7 @@ from typing import Optional
 
 from fastapi import BackgroundTasks, Depends, FastAPI, HTTPException, Query, Request
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import StreamingResponse
+from fastapi.responses import HTMLResponse, StreamingResponse
 from pydantic import BaseModel
 from api.paddle_routes import router as billing_router
 from api.admin_routes import router as admin_router
@@ -188,11 +203,19 @@ def _trending_cache_set(key: tuple, val: list) -> None:
 
 
 # ── 헬스체크 ────────────────────────────────────────────────
+_BOOT_TIME = _time.time()
+
+
 @app.get("/health")
 def health():
-    # OPTIMIZE: 경량 헬스 — UptimeRobot 5분 핑(일 288회)이 DB 안 거치도록.
+    # OPTIMIZE: 경량 헬스 — keep_warm 14분 핑이 DB 안 거치도록.
     # 프로세스 살아있음 + middleware 동작 = 충분. Render의 healthCheckPath 도 동일 의미.
-    return {"status": "ok"}
+    # D+29 추가: deploy 검증용 git SHA + uptime (observability).
+    return {
+        "status": "ok",
+        "version": os.environ.get("RENDER_GIT_COMMIT", "")[:7] or "dev",
+        "uptime_sec": int(_time.time() - _BOOT_TIME),
+    }
 
 
 @app.get("/health/db")
@@ -633,4 +656,110 @@ def optout(request: Request, domain: str = Query(..., description="myshopify.com
         return {"success": False, "message": "해당 도메인을 찾을 수 없습니다."}
     except Exception:
         logger.error("POST /optout 실패", exc_info=True)
+        raise HTTPException(status_code=500, detail="내부 서버 오류가 발생했습니다.")
+
+
+# ── GET /unsubscribe ─────────────────────────────────────────
+# 정보통신망법 §50 / CAN-SPAM Act 컴플라이언스 — 클릭 1회로 즉시 처리.
+# HMAC token = HMAC-SHA256(ADMIN_SECRET, str(sid)) → 8-byte truncate → URL-safe base64.
+# 8-byte 충분: 2^64 collision 공간 + brute-force 1초 100req 제한 (rate limit) = 사실상 불가능.
+import hmac as _hmac_mod
+import hashlib as _hashlib_mod
+import base64 as _base64_mod
+
+_UNSUB_SECRET = os.environ.get("ADMIN_SECRET") or os.environ.get("PADDLE_WEBHOOK_SECRET", "")
+# Production fail-fast: secret 누락 시 boot 차단 (위조된 unsubscribe 차단).
+if not _UNSUB_SECRET:
+    if os.environ.get("RENDER_SERVICE_NAME"):
+        raise RuntimeError(
+            "ADMIN_SECRET (or PADDLE_WEBHOOK_SECRET) required in production for /unsubscribe HMAC. "
+            "Check Render env vars."
+        )
+    _UNSUB_SECRET = "dev-unsub-secret-change-me"  # local dev only
+
+
+def _unsub_token(sid: int) -> str:
+    """8-byte HMAC truncated, URL-safe base64. send_weekly_digests 와 동일 로직."""
+    mac = _hmac_mod.new(_UNSUB_SECRET.encode(), str(sid).encode(), _hashlib_mod.sha256).digest()
+    return _base64_mod.urlsafe_b64encode(mac[:8]).decode().rstrip("=")
+
+
+def _verify_unsub_token(sid: int, token: str) -> bool:
+    if not token or len(token) > 64:
+        return False
+    expected = _unsub_token(sid)
+    return _hmac_mod.compare_digest(expected, token)
+
+
+@app.get("/unsubscribe", response_class=HTMLResponse)
+@limiter.limit("30/minute")  # 봇 enumeration 차단 (HMAC 위반 시 invalid 응답)
+def unsubscribe(
+    request: Request,
+    sid: int = Query(..., description="subscriber_id"),
+    token: str = Query("", description="HMAC token"),
+):
+    """수신거부 — api_keys.unsubscribed_at 갱신. 1회 GET 으로 완료 (확인 form X). HMAC 인증 필수."""
+    # Gemini D+29 review_v2: 200 응답으로 속이면 정상 유저가 수신거부된 줄 착각 →
+    # 다음 주 스팸 신고 → 도메인 평판 파괴. 400 + 명확 메시지로 변경.
+    # Enumeration risk: HMAC 8-byte token 검증 + 30/min rate limit 로 차단 가능.
+    if not _verify_unsub_token(sid, token):
+        logger.warning("Unsubscribe HMAC invalid: sid=%s", sid)
+        return HTMLResponse(
+            content=(
+                "<!doctype html><html lang='en'><head><meta charset='utf-8'>"
+                "<title>Invalid unsubscribe link — StoreScope</title>"
+                "<style>body{font-family:-apple-system,system-ui,sans-serif;"
+                "max-width:560px;margin:80px auto;padding:0 24px;color:#1C1917}"
+                "h1{font-size:22px;margin-bottom:12px;color:#B91C1C}"
+                "p{color:#57534E;line-height:1.6}a{color:#4F46E5}</style></head><body>"
+                "<h1>링크가 유효하지 않습니다.</h1>"
+                "<p>받으신 이메일의 수신거부 링크 <strong>전체</strong>를 복사해서 다시 시도해주세요. "
+                "메일 클라이언트가 URL 을 줄였을 수 있습니다.</p>"
+                "<p>문제 지속 시 <a href='mailto:dodo@storescope.com'>dodo@storescope.com</a> 으로 직접 알려주시면 즉시 처리해 드립니다.</p>"
+                "</body></html>"
+            ),
+            status_code=400,
+        )
+    try:
+        with get_conn() as conn:
+            with conn.cursor() as cur:
+                cur.execute(
+                    "UPDATE api_keys SET unsubscribed_at = NOW() "
+                    "WHERE id = %s AND unsubscribed_at IS NULL "
+                    "RETURNING email",
+                    (sid,),
+                )
+                row = cur.fetchone()
+        if row:
+            logger.info("Unsubscribe processed: subscriber_id=%s email=%s", sid, row[0])
+            return HTMLResponse(
+                content=(
+                    "<!doctype html><html lang='en'><head><meta charset='utf-8'>"
+                    "<title>Unsubscribed — StoreScope</title>"
+                    "<style>body{font-family:-apple-system,system-ui,sans-serif;"
+                    "max-width:560px;margin:80px auto;padding:0 24px;color:#1C1917}"
+                    "h1{font-size:24px;margin-bottom:12px}p{color:#57534E;line-height:1.6}"
+                    "a{color:#4F46E5}</style></head><body>"
+                    "<h1>Unsubscribed</h1>"
+                    "<p>You will no longer receive weekly digest emails from StoreScope.</p>"
+                    "<p>If this was a mistake or you'd like to resubscribe later, email "
+                    "<a href='mailto:dodo@storescope.com'>dodo@storescope.com</a>.</p>"
+                    "<p><a href='https://ddookim.github.io/storescope/'>Return to StoreScope</a></p>"
+                    "</body></html>"
+                ),
+                status_code=200,
+            )
+        # 이미 unsubscribed 또는 잘못된 sid — 200 응답으로 정보 leak 차단
+        return HTMLResponse(
+            content=(
+                "<!doctype html><html lang='en'><head><meta charset='utf-8'>"
+                "<title>Already unsubscribed — StoreScope</title></head><body>"
+                "<p>Your subscription is already cancelled (or the link is invalid).</p>"
+                "<p><a href='mailto:dodo@storescope.com'>Contact support</a> if you need help.</p>"
+                "</body></html>"
+            ),
+            status_code=200,
+        )
+    except Exception:
+        logger.error("GET /unsubscribe 실패: sid=%s", sid, exc_info=True)
         raise HTTPException(status_code=500, detail="내부 서버 오류가 발생했습니다.")

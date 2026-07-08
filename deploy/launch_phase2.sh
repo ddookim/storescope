@@ -122,9 +122,11 @@ echo
 echo "  3) Paddle test event 발사 (Notifications 페이지 → Send test)"
 echo "     기대: 200 OK"
 echo
-echo "  4) UptimeRobot or cron-job.org 등록"
-echo "     URL: $API_URL/health"
-echo "     interval: 5분 (Render free cold start 방지)"
+echo "  4) Keep-warm 검증 (이미 GH Actions cron 14분 ping 적용됨)"
+echo "     ⚠️ UptimeRobot 은 2024-12 부터 commercial use 금지 — 사용 X."
+echo "     → .github/workflows/keep_warm.yml 자동 활성. URL 갱신:"
+echo "        GitHub repo → Settings → Variables → RENDER_API_URL = $API_URL"
+echo "     백업: cron-job.org (free, commercial OK) — URL: $API_URL/health, interval: 5min"
 echo
 echo "  5) 검증 명령 (launch 후 즉시):"
 echo "     curl -X POST -H 'Content-Type: application/json' \\"

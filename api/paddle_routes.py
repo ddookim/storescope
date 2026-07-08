@@ -102,6 +102,8 @@ SMTP_PORT  = int(os.environ.get("SMTP_PORT", "587"))
 SMTP_USER  = os.environ.get("SMTP_USER", "")
 SMTP_PASS  = os.environ.get("SMTP_PASS", "")
 FROM_EMAIL = os.environ.get("SMTP_FROM", "noreply@storescope.com")
+# BASE_URL — 환영 이메일 + admin link 등 외부 노출 URL. 커스텀 도메인 전환 시 env 만 변경.
+BASE_URL   = os.environ.get("BASE_URL", "https://ddookim.github.io/storescope/").rstrip("/")
 
 
 # ── Webhook 서명 검증 (HMAC-SHA256) ─────────────────────────────
@@ -165,13 +167,14 @@ def _get_customer_email(customer_id: str) -> Optional[str]:
         )
         if resp.status_code == 200:
             return resp.json().get("data", {}).get("email")
-    except Exception as exc:
-        print(f"[Paddle] 고객 이메일 조회 실패: {exc}")
+    except Exception:
+        _log.warning("Paddle customer email lookup failed: customer_id=%s", customer_id, exc_info=True)
     return None
 
 
 # ── 이메일 발송 ──────────────────────────────────────────────────
 def _send_api_key_email(to_email: str, api_key: str, plan: str) -> None:
+    """SMTP 발송. 실패 시 send_alert(CRITICAL) + raise — Paddle retry 활성화 위해 webhook 까지 propagate."""
     limit_label = "500 req/day" if plan == "starter" else "Unlimited"
     body = (
         f"Welcome to StoreScope {plan.title()} plan!\n\n"
@@ -179,13 +182,13 @@ def _send_api_key_email(to_email: str, api_key: str, plan: str) -> None:
         f"Add to requests: X-API-Key: {api_key[:8]}...\n"
         f"Daily limit: {limit_label}\n\n"
         f"Keep this key safe — it won't be shown again.\n"
-        f"API docs: https://storescope.netlify.app\n"
+        f"Endpoints: GET /trending, GET /store/{{domain}}, GET /cluster/{{id}}\n"
+        f"Home: {BASE_URL}/\n"
         f"Questions? Reply to this email."
     )
     if not SMTP_HOST:
-        # SEC: 이전 코드는 raw api_key 의 첫 20자를 print() → Render console/Sentry
-        # logs 접근 시 평문 키 노출. fail-closed로 변경: 키 prefix 만 marker로 남기고
-        # CRITICAL alert 발송하여 수동 onboarding 트리거.
+        # SEC: raw key 노출 차단 — prefix marker 만 log + CRITICAL alert 발송.
+        # 단 SMTP 미설정은 환경 문제 (재시도 무의미) → raise X. 수동 처리 flow 로 위임.
         key_marker = api_key[:8]
         _log.error(
             "SMTP not configured — API key issued but NOT delivered. plan=%s to=%s marker=%s***",
@@ -210,9 +213,20 @@ def _send_api_key_email(to_email: str, api_key: str, plan: str) -> None:
             srv.ehlo(); srv.starttls()
             srv.login(SMTP_USER, SMTP_PASS)
             srv.send_message(msg)
-        print(f"[Email] 발송: {to_email} ({plan})")
+        _log.info("API key email sent: to=%s plan=%s", to_email, plan)
     except Exception as exc:
-        print(f"[Email error] {to_email}: {exc}")
+        # SEC/SALES: silent fail 차단 + Paddle retry 활성화 (raise → webhook 500).
+        # 수동 발송도 가능하도록 CRITICAL alert 동시 발송.
+        _log.exception("API key email send failed: to=%s plan=%s", to_email, plan)
+        send_alert(
+            f"API 키 이메일 발송 실패 (SMTP 오류)\n"
+            f"to: {to_email}\n"
+            f"plan: {plan}\n"
+            f"error: {exc!r}\n"
+            f"조치: Paddle 가 자동 재시도. 실패 지속 시 /admin/resend-key 수동 발송",
+            level="CRITICAL",
+        )
+        raise
 
 
 # ── GET /billing/plans ───────────────────────────────────────────
@@ -291,10 +305,35 @@ async def paddle_webhook(
         plan            = _resolve_plan(price_id)
         trial_dates     = data.get("trial_dates") or {}
         trial_ends_at   = trial_dates.get("ends_at")  # ISO8601 string or None
-        await loop.run_in_executor(
-            None, _handle_new_subscription,
-            customer_id, subscription_id, plan, trial_ends_at
-        )
+        try:
+            await loop.run_in_executor(
+                None, _handle_new_subscription,
+                customer_id, subscription_id, plan, trial_ends_at
+            )
+        except Exception as exc:
+            # SEC/SALES: SMTP / DB 실패 시 idempotency rollback → Paddle 자동 retry 활성화.
+            # _is_duplicate_event() 가 INSERT 했지만 commit 됐으므로 명시적 DELETE 로 retry 가능 상태 복원.
+            _log.exception(
+                "subscription.activated handler failed — rolling back idempotency for retry: event_id=%s customer_id=%s",
+                event_id, customer_id,
+            )
+            try:
+                with get_conn() as _conn:
+                    with _conn.cursor() as _cur:
+                        _cur.execute(
+                            "DELETE FROM paddle_processed_events WHERE event_id = %s",
+                            (event_id,),
+                        )
+            except Exception:
+                # rollback 도 실패하면 dedupe 가 영구 잠금 — alert 만 발송, 수동 처리.
+                send_alert(
+                    f"Idempotency rollback 실패\n"
+                    f"event_id: {event_id}\n"
+                    f"original_error: {exc!r}\n"
+                    f"조치: paddle_processed_events 테이블에서 event_id 수동 삭제 후 Paddle 재시도 trigger",
+                    level="CRITICAL",
+                )
+            raise HTTPException(status_code=500, detail="subscription activation failed — retry expected")
 
     elif event_type in ("subscription.canceled", "subscription.paused"):
         customer_id = data.get("customer_id", "")

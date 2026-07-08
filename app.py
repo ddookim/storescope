@@ -48,8 +48,44 @@ DB_URL: str = _DB_URL
 
 # FIX: localhost 하드코딩 제거 — Docker 또는 다른 호스트에서 FastAPI가 실행될 때
 # http://localhost:8000은 Streamlit 컨테이너 내부에서 연결 불가.
-_API_BASE = os.environ.get("API_BASE_URL", "http://localhost:8000")
+def _resolve_api_base() -> str:
+    """env-aware backend URL resolver.
+
+    우선순위:
+      1. API_BASE_URL env (explicit override) — 그대로 사용
+      2. Render 환경 (RENDER_SERVICE_NAME 존재) → storescope-api.onrender.com (render.yaml 고정)
+      3. Streamlit Cloud / 기타 production indicator + API_BASE_URL unset → RuntimeError (fail-fast)
+      4. local dev → http://localhost:8000
+    """
+    explicit = os.environ.get("API_BASE_URL")
+    if explicit:
+        return explicit.rstrip("/")
+    # Render 자동 감지 — FastAPI 같은 service 이름 (render.yaml line 5: name: storescope-api)
+    if os.environ.get("RENDER_SERVICE_NAME"):
+        return "https://storescope-api.onrender.com"
+    # Streamlit Cloud / 기타 production: API_BASE_URL 명시 강제 (fail-fast)
+    _prod_signals = ("STREAMLIT_SHARING_MODE", "STREAMLIT_CLOUD", "IS_PROD")
+    if any(os.environ.get(k) for k in _prod_signals):
+        raise RuntimeError(
+            "API_BASE_URL env required in production (Streamlit Cloud / etc). "
+            "Set API_BASE_URL=https://storescope-api.onrender.com or your backend URL."
+        )
+    # local dev
+    return "http://localhost:8000"
+
+
+_API_BASE = _resolve_api_base()
 _GA_ID    = os.environ.get("GA_MEASUREMENT_ID", "")
+
+# M2 — production 환경에서 GA_ID 누락 시 즉시 알림 (D+30 측정 직격 방지).
+_IS_PROD = bool(os.environ.get("RENDER_SERVICE_NAME"))
+if _IS_PROD and not _GA_ID:
+    logging.warning("GA_MEASUREMENT_ID missing in production — page_view/scroll events lost")
+    try:
+        import sentry_sdk as _sentry_sdk
+        _sentry_sdk.capture_message("GA_MEASUREMENT_ID missing in prod", level="warning")
+    except Exception:
+        pass
 
 st.set_page_config(
     page_title="StoreScope — Store X-Ray",
@@ -82,24 +118,7 @@ def _inject_head_meta() -> None:
 _inject_head_meta()
 
 # ── 스타일 ──────────────────────────────────────────────────
-st.markdown("""
-<style>
-.metric-card {
-    background: #f8f9fa;
-    border-radius: 8px;
-    padding: 16px;
-    text-align: center;
-}
-.trend-badge {
-    background: #d4edda;
-    color: #155724;
-    border-radius: 4px;
-    padding: 2px 8px;
-    font-size: 12px;
-    font-weight: bold;
-}
-</style>
-""", unsafe_allow_html=True)
+# REMOVED 2026-06-29: .metric-card / .trend-badge 정의만 있고 코드 사용 0건. dead CSS.
 
 
 # ── DB 헬퍼 ─────────────────────────────────────────────────
@@ -191,6 +210,30 @@ def normalize_domain(raw: str) -> str:
         raise ValueError(f"유효하지 않은 도메인 형식입니다.")
     return raw
 
+
+# ── 결제 완료 환영 분기 (Paddle successUrl) ────────────────
+# Paddle.Checkout.open 의 settings.successUrl = "<streamlit_url>?welcome=1&plan=pro" 가
+# trial 시작 후 자동 redirect. 사용자에게 결제 완료 + 다음 액션 안내.
+# st.session_state 1회 표시 — 새로고침 / 페이지 이동 시 중복 X.
+try:
+    _qp = st.query_params  # Streamlit 1.30+
+    _welcome_flag = _qp.get("welcome", "")
+    _welcome_plan = _qp.get("plan", "")
+except Exception:
+    # 구 Streamlit (1.29-) fallback
+    _qp = st.experimental_get_query_params()
+    _welcome_flag = (_qp.get("welcome", [""]) or [""])[0]
+    _welcome_plan = (_qp.get("plan", [""]) or [""])[0]
+
+if _welcome_flag == "1" and not st.session_state.get("_welcome_shown"):
+    st.session_state["_welcome_shown"] = True
+    _plan_label = _welcome_plan.title() if _welcome_plan in ("starter", "pro") else "StoreScope"
+    st.success(
+        f"**결제 완료 — {_plan_label} 플랜 시작.** "
+        f"API 키는 이메일로 발송됩니다 (몇 분 소요). "
+        f"문제 시 dodo@storescope.com 으로 연락주세요."
+    )
+    st.balloons()
 
 # ── 메인 UI ─────────────────────────────────────────────────
 st.title("StoreScope — Store X-Ray")
@@ -438,35 +481,57 @@ if analyze_btn and domain_input:
     st.divider()
     if "email_captured" not in st.session_state:
         st.session_state["email_captured"] = False
+    if "lead_submitting" not in st.session_state:
+        st.session_state["lead_submitting"] = False
 
     if not st.session_state["email_captured"]:
         with st.container():
-            st.markdown("### Get the full supplier report")
-            st.caption("Enter your email to unlock full competitor list + weekly trend alerts.")
+            # Gemini review_v1 C1 — 자동 메일 발송 wiring 없으므로 "다이제스트 발송" 약속 금지.
+            # 100% 이행 가능 약속만: "Pro 출시 시 우선 알림".
+            st.markdown("### Pro 플랜 출시 시 우선 알림 받기")
+            st.caption("이메일을 남기면 Pro 출시 / 신규 기능 소식을 가장 먼저 보내드립니다.")
             col_email, col_btn = st.columns([3, 1])
             lead_email = col_email.text_input(
-                "Email", label_visibility="collapsed", placeholder="you@example.com"
+                "이메일",
+                label_visibility="collapsed",
+                placeholder="you@example.com",
+                disabled=st.session_state["lead_submitting"],
             )
-            submit_lead = col_btn.button("Unlock", type="primary", use_container_width=True)
+            submit_lead = col_btn.button(
+                "신청",
+                type="primary",
+                use_container_width=True,
+                disabled=st.session_state["lead_submitting"],
+            )
 
             if submit_lead and lead_email:
+                # Render free cold start 50-60s (Gemini review_v1) → timeout 60s + buffer.
+                # 중복 클릭은 lead_submitting state로 차단.
+                st.session_state["lead_submitting"] = True
                 try:
-                    # FIX: 하드코딩된 localhost:8000 → _API_BASE 환경변수 사용
                     _requests.post(
                         f"{_API_BASE}/leads",
                         json={"email": lead_email, "domain": domain, "source": "xray"},
-                        timeout=3,
+                        timeout=60,
                     )
                     st.session_state["email_captured"] = True
-                    st.success("Check your inbox — full data unlocked below.")
+                    st.session_state["lead_submitting"] = False
+                    st.success("등록 완료. 출시 시 이 이메일로 알림 보내드립니다.")
                     st.rerun()
                 except Exception:
-                    st.session_state["email_captured"] = True
-                    st.rerun()
+                    # 진짜 실패 시 lead 손실 차단 — captured False 유지, retry 가능. Sentry 자동 캡처.
+                    st.session_state["lead_submitting"] = False
+                    logging.exception("/leads submit failed: domain=%s", domain)
+                    st.warning(
+                        "무료 서버가 시작 중입니다. 약 1분 후 다시 시도해주세요."
+                    )
 
-            st.caption("No spam. Unsubscribe anytime. [View pricing](https://storescope.netlify.app#pricing)")
+            st.caption(
+                "스팸 X · 언제든 구독 취소 · "
+                "[가격 보기](https://ddookim.github.io/storescope/#pricing)"
+            )
     else:
         st.info(
-            "Full competitor data unlocked.  "
-            "[**Upgrade to Pro for unlimited API access →**](https://storescope.netlify.app#pricing)"
+            "등록되었습니다. Pro 플랜 출시 시 알림 보내드립니다. "
+            "[**Pro 플랜 미리보기 →**](https://ddookim.github.io/storescope/#pricing)"
         )

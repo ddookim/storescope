@@ -1,8 +1,15 @@
-databases:
-  - name: storescope-db
-    databaseName: storescope
-    user: shopify
-    plan: free
+# D+29 (2026-06-29) 갱신: 단일 FastAPI web service 만 유지.
+#
+# 이전 구성 (storescope-app + storescope-db + storescope-api = 2 web + 1 db) 가
+# Render free workspace 한도 (750hr/mo 합산) 초과 → "credit 소진" 원인.
+# 본 갱신:
+#   - storescope-app (Streamlit) 분리 → Streamlit Cloud free (별도 호스팅)
+#   - storescope-db (PostgreSQL) 분리 → Neon free 3GB (Render PG 는 90일만 free)
+#   - storescope-api (FastAPI) 단일 유지 → 750hr/mo 안에 1 service 안전
+#
+# 사용자 액션:
+#   1. Neon project 생성 후 DATABASE_URL 수동 입력 (Render Dashboard → Environment)
+#   2. Streamlit Cloud 별도 deploy (app.py)
 
 services:
   - type: web
@@ -10,13 +17,15 @@ services:
     plan: free
     runtime: python
     buildCommand: pip install -r requirements.txt
-    startCommand: uvicorn api.main:app --host 0.0.0.0 --port $PORT
+    # Gemini D+29 review_v1 MEDIUM: Render free 50-60s cold start + Paddle webhook 첫 요청
+    # 타임아웃 방어 위해 --timeout-keep-alive 75 명시 (default 5s).
+    startCommand: uvicorn api.main:app --host 0.0.0.0 --port $PORT --timeout-keep-alive 75
     healthCheckPath: /health
     envVars:
+      # DATABASE_URL — Neon Pooled connection string (사용자 입력).
+      # 예: postgres://user:pass@ep-xxx-pooler.us-east-2.aws.neon.tech/storescope?sslmode=require
       - key: DATABASE_URL
-        fromDatabase:
-          name: storescope-db
-          property: connectionString
+        sync: false
       - key: ADMIN_SECRET
         generateValue: true
       - key: PADDLE_API_KEY
@@ -31,16 +40,20 @@ services:
         sync: false
       - key: PADDLE_WEBHOOK_SKIP_VERIFY
         value: "false"
+      # ALLOWED_ORIGINS — Streamlit Cloud URL 확정 후 수정. 임시 placeholder.
       - key: ALLOWED_ORIGINS
-        value: https://storescope-app.onrender.com
+        value: https://ddookim.github.io,https://storescope-app.streamlit.app
+      - key: BASE_URL
+        value: https://ddookim.github.io/storescope
+      # APP_URL — Streamlit Cloud URL 확정 후 수정.
       - key: APP_URL
-        value: https://storescope-app.onrender.com
+        value: https://storescope-app.streamlit.app
       - key: TELEGRAM_BOT_TOKEN
         sync: false
       - key: TELEGRAM_CHAT_ID
         sync: false
       - key: SMTP_HOST
-        value: smtp.gmail.com
+        sync: false
       - key: SMTP_PORT
         value: "587"
       - key: SMTP_USER
@@ -48,20 +61,6 @@ services:
       - key: SMTP_PASS
         sync: false
       - key: SMTP_FROM
-        value: noreply@storescope.com
-
-  - type: web
-    name: storescope-app
-    plan: free
-    runtime: python
-    buildCommand: pip install -r requirements.txt
-    startCommand: streamlit run app.py --server.port $PORT --server.address 0.0.0.0 --server.headless true
-    envVars:
-      - key: DATABASE_URL
-        fromDatabase:
-          name: storescope-db
-          property: connectionString
-      - key: API_BASE_URL
-        value: https://storescope-api.onrender.com
-      - key: GA_MEASUREMENT_ID
+        sync: false
+      - key: SENTRY_DSN
         sync: false

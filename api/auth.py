@@ -54,18 +54,44 @@ def _get_pool() -> psycopg2.pool.ThreadedConnectionPool:
     if _pool is None or _pool.closed:
         with _pool_lock:
             if _pool is None or _pool.closed:
-                # Render free 512MB / uvicorn 1 worker / Neon free 0.25 vCPU 환경.
-                # max=60일 때 60×10MB=600MB → OOM. max=10이면 100MB로 안전.
-                # 사용자 트래픽 < 100rps 가정 (D+30 검증 단계). 부족 시 max=15로 상향.
-                _pool = psycopg2.pool.ThreadedConnectionPool(2, 10, dsn=DB_URL)
+                # Render free 512MB / uvicorn 1 worker / Neon free 동시 conn 제한.
+                # Gemini D+29 review_v2 MEDIUM: Neon free 가 동시 conn tight 제한 → maxconn 5.
+                # Streamlit Cloud + Render web 합산 시에도 안전 (각 1-5 = 합 10 < Neon 한도).
+                _pool = psycopg2.pool.ThreadedConnectionPool(1, 5, dsn=DB_URL)
     return _pool
+
+
+def _is_conn_alive(conn) -> bool:
+    """Connection liveness check — Neon scale-to-zero 후 죽은 TCP 검출."""
+    try:
+        with conn.cursor() as cur:
+            cur.execute("SELECT 1")
+            cur.fetchone()
+        return True
+    except Exception:
+        return False
 
 
 @contextmanager
 def get_conn():
-    """풀에서 커넥션을 빌려 yield; 정상 종료 시 commit, 예외 시 rollback 후 반납."""
+    """풀에서 커넥션을 빌려 yield; 정상 종료 시 commit, 예외 시 rollback 후 반납.
+
+    Gemini D+29 review_v2 CRITICAL: Neon free 5분 idle → scale-to-zero → TCP 죽음.
+    pool 이 죽은 conn 반환 시 OperationalError 무한 루프 → ping + 재발급.
+    """
     p = _get_pool()
     conn = p.getconn()
+    # Neon scale-to-zero 죽은 conn 재발급 — 1회 retry.
+    if not _is_conn_alive(conn):
+        try:
+            p.putconn(conn, close=True)
+        except Exception:
+            pass
+        conn = p.getconn()
+        # 2회 fail = pool 자체 오염 → 호출자에게 raise (try/except 잡혀서 alert).
+        if not _is_conn_alive(conn):
+            p.putconn(conn, close=True)
+            raise psycopg2.OperationalError("DB pool returns dead connections — Neon may be unreachable")
     try:
         yield conn
         conn.commit()
