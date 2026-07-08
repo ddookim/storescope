@@ -3,6 +3,13 @@
 <head>
   <meta charset="UTF-8" />
   <script>
+    // Clickjacking framebuster — GH Pages 가 X-Frame-Options HTTP header 미지원이므로 JS-level.
+    // 한계: modern sandbox iframe 우회 가능. Render 이전 후 HTTP header (X-Frame-Options: DENY) 로 강화 예정.
+    if (window.top !== window.self) {
+      window.top.location.replace(window.self.location.href);
+    }
+  </script>
+  <script>
     // StoreScope API endpoint resolver — env-aware.
     // Backend: Cloudflare Quick Tunnel → local FastAPI :8001 (Dead-man wired).
     // Cheapest viable path during D1-D7 validation experiment; Render credit
@@ -116,13 +123,12 @@
        inline CSS/JS 132KB+24KB → 'unsafe-inline' 광범위. nonce/hash 패턴은 inline 폭에 부적합. -->
   <meta http-equiv="Content-Security-Policy" content="
     default-src 'self';
-    script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.paddle.com https://www.googletagmanager.com https://www.google-analytics.com;
-    style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.jsdelivr.net;
+    script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.paddle.com https://www.googletagmanager.com https://www.google-analytics.com https://public.profitwell.com;
+    style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.jsdelivr.net https://cdn.paddle.com;
     font-src 'self' https://fonts.gstatic.com https://cdn.jsdelivr.net;
     img-src 'self' data: https:;
-    connect-src 'self' https://storescope-api.onrender.com https://*.onrender.com https://*.trycloudflare.com https://api.paddle.com https://*.paddle.com https://www.google-analytics.com https://*.google-analytics.com;
+    connect-src 'self' https://storescope-api.onrender.com https://*.onrender.com https://*.trycloudflare.com https://api.paddle.com https://*.paddle.com https://www.google-analytics.com https://*.google-analytics.com https://*.profitwell.com https://api.storescope.com;
     frame-src https://buy.paddle.com https://sandbox-buy.paddle.com https://checkout.paddle.com;
-    frame-ancestors 'none';
     object-src 'none';
     base-uri 'self';
     form-action 'self';
@@ -203,7 +209,10 @@
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
-    gtag('config', 'G-3YR22V5LW4', { 'send_page_view': true });
+    gtag('config', 'G-3YR22V5LW4', {
+      'send_page_view': true,
+      'cookie_flags': 'SameSite=None;Secure'
+    });
   </script>
 
   <style>
@@ -618,20 +627,20 @@
     .product-name { font-size: 11px; font-weight: 600; color: var(--white); margin-bottom: 6px; line-height: 1.3; }
     .product-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px; }
     .product-stores { font-size: 10px; color: var(--muted); }
-    .product-price { font-size: 10px; color: var(--muted-2); }
+    .product-price { font-size: 11px; color: #cbb8f0; }
     .product-growth-row { display: flex; align-items: center; gap: 5px; margin-top: 6px; }
     .growth-badge-hot  {
-      background: rgba(16,185,129,0.12); color: #34D399;
-      border: 1px solid rgba(16,185,129,0.2); border-radius: 4px;
-      font-size: 10px; font-weight: 800; padding: 2px 6px;
+      background: rgba(16,185,129,0.18); color: #6EE7B7;
+      border: 1px solid rgba(16,185,129,0.3); border-radius: 4px;
+      font-size: 11px; font-weight: 800; padding: 2px 6px;
       font-family: 'JetBrains Mono', 'SF Mono', monospace;
       font-feature-settings: 'tnum' on;
       letter-spacing: -0.2px;
     }
     .growth-badge-warm {
-      background: rgba(245,158,11,0.12); color: #FBBF24;
-      border: 1px solid rgba(245,158,11,0.2); border-radius: 4px;
-      font-size: 10px; font-weight: 800; padding: 2px 6px;
+      background: rgba(245,158,11,0.18); color: #FCD34D;
+      border: 1px solid rgba(245,158,11,0.3); border-radius: 4px;
+      font-size: 11px; font-weight: 800; padding: 2px 6px;
       font-family: 'JetBrains Mono', 'SF Mono', monospace;
       font-feature-settings: 'tnum' on;
       letter-spacing: -0.2px;
@@ -713,6 +722,10 @@
         0 4px 12px rgba(0,0,0,0.04),
         0 12px 32px rgba(0,0,0,0.03);
     }
+    /* D+24 i18n: KO/JA 텍스트 길이 차이 overflow 보호 */
+    .bento-card h3, .bento-card p, .bento-card .bento-eyebrow,
+    .ba-step, .ba-cap, .ba-outcome,
+    .email-mock-h2, .email-mock-intro, .email-mock-footer-note { overflow-wrap: break-word; }
     .bento-card::before {
       content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
       background: linear-gradient(90deg, transparent 0%, rgba(79,70,229,0.2) 50%, transparent 100%);
@@ -1387,6 +1400,12 @@
     }
     .founder-signoff-email {
       color: #4F46E5; text-decoration: none; font-weight: 700;
+      display: inline-block; position: relative; /* WCAG 2.5.5 hit area anchor */
+    }
+    /* WCAG 2.5.5: visible 150x16 + 10px top/bottom + 6px sides = ~162x36 hit area */
+    .founder-signoff-email::before {
+      content: ''; position: absolute;
+      top: -10px; left: -6px; right: -6px; bottom: -10px;
     }
     .founder-signoff-email:hover { text-decoration: underline; }
     @media (max-width: 600px) {
@@ -1680,7 +1699,7 @@
       display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 56px;
     }
     .footer-brand p { font-size: 13px; color: var(--muted-2); line-height: 1.7; max-width: 260px; margin-top: 14px; }
-    .footer-col h4 {
+    .footer-col h3 {
       font-size: 11px; font-weight: 800; text-transform: uppercase;
       letter-spacing: 1.2px; color: var(--white);
       margin-bottom: 18px;
@@ -2347,7 +2366,7 @@
       line-height: 1.8 !important;
       color: #78716C !important;
     }
-    .footer-col h4 {
+    .footer-col h3 {
       font-size: 11px !important;
       font-weight: 700 !important;
       letter-spacing: 1.2px !important;
@@ -2555,6 +2574,12 @@
       display: none; background: none; border: 1px solid rgba(28,25,23,0.12);
       border-radius: 8px; cursor: pointer; padding: 6px 8px; color: var(--white);
       align-items: center; justify-content: center; margin-left: 8px;
+      position: relative; /* WCAG 2.5.5 hit area anchor */
+    }
+    /* WCAG 2.5.5: visible 36x32 + 8px each side = 52x48 (>= 44x44) */
+    .nav-hamburger::before {
+      content: ''; position: absolute;
+      top: -8px; left: -8px; right: -8px; bottom: -8px;
     }
     /* UPGRADE 2026-06-14: Mobile nav panel premium — frosted backdrop + slide + chevron */
     .nav-mobile-panel {
@@ -3395,6 +3420,20 @@
       text-align: center;
     }
 
+    /* D+29 beta: sandbox 모드 상단 sticky 배너 — 실 결제 X / 베타 명시 (광고 정직성 룰 + 사용자 보호) */
+    .ss-beta-banner {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+      background: linear-gradient(90deg, #fef3c7 0%, #fde68a 100%);
+      color: #78350f;
+      border-bottom: 1px solid #f59e0b;
+      padding: 8px 16px;
+      font-size: 13px; font-weight: 600;
+      text-align: center;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+    }
+    .ss-beta-banner a { color: #78350f; text-decoration: underline; }
+    body.ss-beta-on { padding-top: 36px; }
+
     /* D+22 R3: scroll-to-top button — long landing (262KB+) mobile UX */
     .ss-scroll-top {
       position: fixed;
@@ -3435,12 +3474,51 @@
 
   <script src="https://cdn.paddle.com/paddle/v2/paddle.js"></script>
   <script>
+    // D+29 beta: Paddle environment 분기 + BETA 모드 전역 toggle.
+    //
+    // ┌─ 베타 기간 (BETA_MODE=true) ──────────────────────────────────────┐
+    // │ 모든 사용자 default = sandbox 강제 (실 결제 차단).                  │
+    // │ BETA 배너 자동 표시, test card 4242 4242 4242 4242 명시.            │
+    // │ 사용자 모집 채널: BetaList / Indie Hackers / r/SideProject 등.     │
+    // └────────────────────────────────────────────────────────────────────┘
+    //
+    // ┌─ 정식 출시 시 (BETA_MODE=false) ──────────────────────────────────┐
+    // │ default = production (실 결제), ?paddle_env=sandbox URL 만 sandbox.│
+    // │ Reddit r/dropship + 인스타 + Product Hunt 캠페인.                  │
+    // └────────────────────────────────────────────────────────────────────┘
+    window.STORESCOPE_BETA_MODE = true;  // ← 정식 출시 시 false 또는 줄 삭제
+
+    (function() {
+      var qp = new URLSearchParams(location.search);
+      if (qp.get('paddle_env') === 'sandbox') {
+        try { localStorage.setItem('paddle_env', 'sandbox'); } catch (_) {}
+      } else if (qp.get('paddle_env') === 'production') {
+        try { localStorage.removeItem('paddle_env'); } catch (_) {}
+      }
+      var stored = '';
+      try { stored = localStorage.getItem('paddle_env') || ''; } catch (_) {}
+      window.STORESCOPE_PADDLE_ENV = (
+        window.STORESCOPE_BETA_MODE ||  // 베타 기간 = 모든 사용자 sandbox 강제
+        stored === 'sandbox' ||
+        location.hostname === 'localhost' ||
+        location.hostname === '127.0.0.1'
+      ) ? 'sandbox' : 'production';
+    })();
+
+    // Sandbox token 은 베타 단계에서 사용자가 sandbox 가입 후 swap.
+    // Placeholder 그대로 두면 sandbox 모드 진입 시 Paddle.Initialize 가 console.error → checkout fail.
+    var _PADDLE_SANDBOX_TOKEN = 'test_REPLACE_AFTER_PADDLE_SANDBOX_SIGNUP';
+    var _PADDLE_LIVE_TOKEN    = 'live_d4e17395606608d2b4eaec9b46d';
+
+    if (window.STORESCOPE_PADDLE_ENV === 'sandbox' && Paddle && Paddle.Environment) {
+      Paddle.Environment.set('sandbox');
+    }
     Paddle.Initialize({
-      token: 'live_d4e17395606608d2b4eaec9b46d',
+      token: window.STORESCOPE_PADDLE_ENV === 'sandbox' ? _PADDLE_SANDBOX_TOKEN : _PADDLE_LIVE_TOKEN,
       eventCallback: function(data) {
         if (data.name === 'checkout.loaded') gtag('event', 'begin_checkout', { currency: 'USD', value: data.data && data.data.totals ? parseFloat(data.data.totals.total) : 0 });
         if (data.name === 'checkout.completed') {
-          gtag('event', 'purchase', { transaction_id: data.data && data.data.transaction_id, currency: 'USD', value: data.data && data.data.totals ? parseFloat(data.data.totals.total) : 0 });
+          gtag('event', 'purchase', { transaction_id: data.data && data.data.transaction_id, currency: 'USD', value: data.data && data.data.totals ? parseFloat(data.data.totals.total) : 0, paddle_env: window.STORESCOPE_PADDLE_ENV });
           window.location.href = './?checkout=success';
         }
       }
@@ -3892,7 +3970,56 @@
         founder_data_clusters: "Product clusters",
         founder_data_refresh: "Full index refresh",
         founder_signoff_text: "Independent · Bootstrapped",
-        pricing_trust_badges_label: "Secured & accepted worldwide"
+        pricing_trust_badges_label: "Secured & accepted worldwide",
+        bento_rank_eyebrow_v2: "Weekly Trend Ranking",
+        bento_rank_h3_v2: "Spot next week's bestseller this Monday.",
+        bento_rank_body_v2: "Every product scored 0–100 by how fast it spreads across 1,400+ stores. Filter 80+ to see this week's shortlist — typically 1–2 weeks before TikTok ads pick them up.",
+        bento_rank_caption_v2: "Top trending products this week",
+        bento_api_eyebrow_v2: "Direct API",
+        bento_api_h3_v2: "Pull trending data into your own tools.",
+        bento_api_body_v2: "Every Pro plan ships an API key. Query the full trending index from your own dashboard, sheet, or private bot — JSON responses, rate-limited per plan.",
+        bento_api_resp1_v2: "200 OK · 47 clusters · 184 ms",
+        bento_api_resp2_v2: "200 OK · 84 products · 92 ms",
+        bento_price_eyebrow_v2: "Competitor Pricing",
+        bento_price_h3_v2: "See the price spread before you order.",
+        bento_price_body_v2: "Min and max prices for the same product across every store that sells it. Your margin window — in one table, before you commit.",
+        bento_price_th_store_v2: "Store",
+        bento_price_th_min_v2: "Min",
+        bento_price_th_max_v2: "Max",
+        bento_history_eyebrow_v2: "30-Day History",
+        bento_history_h3_v2: "Check 30 days of history before you commit.",
+        bento_history_body_v2: "This week's score is half the story. See the 30-day trajectory — is the product climbing, or already past its peak?",
+        bento_history_axis_start_v2: "30 days ago",
+        bento_history_axis_end_v2: "This week ↑",
+        bento_history_peak_v2: "31 stores this week",
+        bento_export_eyebrow_v2: "Bulk Export",
+        bento_export_h3_v2: "Export to wherever you already work.",
+        bento_export_body_v2: "Download the full trend data as CSV — every cluster, store, and price. Import into Sheets, Notion, or your own pipeline.",
+        how_step1_mock_meta_v2: "products · indexed 2h ago",
+        how_step1_more_v2: "+ 1,397 more this week",
+        how_step2_more_v2: "+ 28 more",
+        how_step3_week_v2: "Monday · Week 23",
+        badge_updated_weekly_v2: "● Updated weekly",
+        xr_sample_tag_v2: "SAMPLE REPORT · example.myshopify.com",
+        xr_stat_products_v2: "products",
+        xr_stat_trending_v2: "trending now",
+        xr_stat_price_v2: "price range",
+        xr_stat_delivery_v2: "delivery",
+        email_mock_sender_v2: "StoreScope · Weekly Digest",
+        email_mock_meta_v2: "Monday, 9:00 AM ·",
+        email_mock_h2_v2: "This week's top 3 spreading.",
+        email_mock_intro_v2: "Among the 1,400+ stores indexed last night, here's what's seeing the fastest cross-store adoption — 1–2 weeks ahead of ad spike.",
+        email_mock_stores_unit_v2: "stores",
+        email_mock_stat_prefix_v2: "+",
+        email_mock_stat_suffix_v2: "this week",
+        email_mock_chart_label_v2: "30-day store-count trend",
+        email_mock_footer_note_v2: "+ 47 more clusters in this week's digest · Open in dashboard for filters, CSV export, and historical trends.",
+        email_mock_footer_caption_v2: "Sample for illustration. Real digest content is sourced from live Shopify data, refreshed weekly.",
+        faq_cat_product_v2: "Product & data",
+        faq_cat_trust_v2: "Trust & compliance",
+        faq_cat_billing_v2: "Billing & account",
+        product_stores_suffix_v2: "stores",
+        badge_pro_v2: "PRO"
       },
       ko: {
         nav_features: "기능",
@@ -4224,7 +4351,56 @@
         founder_data_clusters: "상품 클러스터",
         founder_data_refresh: "전체 인덱스 갱신",
         founder_signoff_text: "독립 · 부트스트랩",
-        pricing_trust_badges_label: "전 세계 안전 결제"
+        pricing_trust_badges_label: "전 세계 안전 결제",
+        bento_rank_eyebrow_v2: "주간 트렌드 랭킹",
+        bento_rank_h3_v2: "다음 주 베스트셀러를 이번 월요일에 포착.",
+        bento_rank_body_v2: "1,400+ 스토어 전반 확산 속도로 0-100점 산정. 80+ 필터로 이번 주 shortlist 확인 — 보통 TikTok 광고 픽업 1-2주 전.",
+        bento_rank_caption_v2: "이번 주 톱 트렌딩 상품",
+        bento_api_eyebrow_v2: "Direct API",
+        bento_api_h3_v2: "트렌딩 데이터를 본인의 도구로.",
+        bento_api_body_v2: "모든 Pro 플랜은 API 키 제공. 본인 대시보드 / 시트 / 봇에서 전체 트렌딩 인덱스 쿼리 — JSON 응답, 플랜별 rate limit.",
+        bento_api_resp1_v2: "200 OK · 47 클러스터 · 184 ms",
+        bento_api_resp2_v2: "200 OK · 84 상품 · 92 ms",
+        bento_price_eyebrow_v2: "경쟁사 가격",
+        bento_price_h3_v2: "주문 전에 가격 스프레드 확인.",
+        bento_price_body_v2: "같은 상품을 파는 모든 스토어의 최저-최고가. 본인의 마진 윈도우를 한 테이블에서, 결정 전에.",
+        bento_price_th_store_v2: "스토어",
+        bento_price_th_min_v2: "최저",
+        bento_price_th_max_v2: "최고",
+        bento_history_eyebrow_v2: "30일 히스토리",
+        bento_history_h3_v2: "결정 전에 30일 히스토리 확인.",
+        bento_history_body_v2: "이번 주 점수는 절반의 이야기. 30일 궤적 확인 — 상승 중인가, 이미 피크 지났는가?",
+        bento_history_axis_start_v2: "30일 전",
+        bento_history_axis_end_v2: "이번 주 ↑",
+        bento_history_peak_v2: "이번 주 31 스토어",
+        bento_export_eyebrow_v2: "벌크 익스포트",
+        bento_export_h3_v2: "이미 사용 중인 곳으로 내보내기.",
+        bento_export_body_v2: "전체 트렌드 데이터를 CSV 로 다운로드 — 모든 클러스터/스토어/가격. Sheets / Notion / 본인 파이프라인으로 import.",
+        how_step1_mock_meta_v2: "상품 · 2시간 전 인덱스",
+        how_step1_more_v2: "+ 1,397 추가 이번 주",
+        how_step2_more_v2: "+ 28 추가",
+        how_step3_week_v2: "월요일 · 23주차",
+        badge_updated_weekly_v2: "● 주간 갱신",
+        xr_sample_tag_v2: "샘플 리포트 · example.myshopify.com",
+        xr_stat_products_v2: "상품",
+        xr_stat_trending_v2: "트렌딩 중",
+        xr_stat_price_v2: "가격대",
+        xr_stat_delivery_v2: "배송",
+        email_mock_sender_v2: "StoreScope · 주간 다이제스트",
+        email_mock_meta_v2: "월요일 오전 9:00 ·",
+        email_mock_h2_v2: "이번 주 확산 톱 3.",
+        email_mock_intro_v2: "어젯밤 인덱스된 1,400+ 스토어 중, 가장 빠른 cross-store 채택을 보이는 항목 — 광고 스파이크 1-2주 전.",
+        email_mock_stores_unit_v2: "스토어",
+        email_mock_stat_prefix_v2: "+",
+        email_mock_stat_suffix_v2: "이번 주",
+        email_mock_chart_label_v2: "30일 스토어 카운트 트렌드",
+        email_mock_footer_note_v2: "+ 47 클러스터 추가 이번 주 다이제스트 · 대시보드에서 필터 / CSV / 히스토리.",
+        email_mock_footer_caption_v2: "예시용 샘플. 실제 다이제스트는 라이브 Shopify 데이터에서 매주 갱신.",
+        faq_cat_product_v2: "상품 & 데이터",
+        faq_cat_trust_v2: "신뢰 & 컴플라이언스",
+        faq_cat_billing_v2: "결제 & 계정",
+        product_stores_suffix_v2: "스토어",
+        badge_pro_v2: "PRO"
       },
       ja: {
         nav_features: "機能",
@@ -4556,7 +4732,56 @@
         founder_data_clusters: "商品クラスター",
         founder_data_refresh: "全インデックス更新",
         founder_signoff_text: "独立 · ブートストラップ",
-        pricing_trust_badges_label: "世界中で安全・利用可能"
+        pricing_trust_badges_label: "世界中で安全・利用可能",
+        bento_rank_eyebrow_v2: "週次トレンドランキング",
+        bento_rank_h3_v2: "来週のベストセラーを今週月曜に発見。",
+        bento_rank_body_v2: "1,400+ストア全体の拡散速度で0-100点を採点。80+でフィルタすると今週のshortlistが見え、通常TikTok広告ピックアップの1-2週間前。",
+        bento_rank_caption_v2: "今週のトップトレンド商品",
+        bento_api_eyebrow_v2: "Direct API",
+        bento_api_h3_v2: "トレンドデータを自分のツールに。",
+        bento_api_body_v2: "全Proプランに API キーを同梱。自分のダッシュボード / シート / プライベートボットから全トレンドインデックスを照会 — JSON 応答、プラン別レート制限。",
+        bento_api_resp1_v2: "200 OK · 47 クラスタ · 184 ms",
+        bento_api_resp2_v2: "200 OK · 84 商品 · 92 ms",
+        bento_price_eyebrow_v2: "競合価格",
+        bento_price_h3_v2: "発注前に価格スプレッドを確認。",
+        bento_price_body_v2: "同じ商品を販売する全ストアの最安-最高価格。あなたのマージン幅を1つのテーブルで、決定前に。",
+        bento_price_th_store_v2: "ストア",
+        bento_price_th_min_v2: "最安",
+        bento_price_th_max_v2: "最高",
+        bento_history_eyebrow_v2: "30日ヒストリー",
+        bento_history_h3_v2: "決定前に30日履歴を確認。",
+        bento_history_body_v2: "今週のスコアは半分の物語。30日軌跡を確認 — 上昇中か、すでにピークを過ぎたか?",
+        bento_history_axis_start_v2: "30日前",
+        bento_history_axis_end_v2: "今週 ↑",
+        bento_history_peak_v2: "今週31ストア",
+        bento_export_eyebrow_v2: "一括エクスポート",
+        bento_export_h3_v2: "既に使っている場所へ。",
+        bento_export_body_v2: "全トレンドデータを CSV でダウンロード — 全クラスタ / ストア / 価格。Sheets / Notion / 自前パイプラインにインポート。",
+        how_step1_mock_meta_v2: "商品 · 2時間前にインデックス",
+        how_step1_more_v2: "+ 1,397 今週追加",
+        how_step2_more_v2: "+ 28 追加",
+        how_step3_week_v2: "月曜 · 第23週",
+        badge_updated_weekly_v2: "● 週次更新",
+        xr_sample_tag_v2: "サンプルレポート · example.myshopify.com",
+        xr_stat_products_v2: "商品",
+        xr_stat_trending_v2: "トレンド中",
+        xr_stat_price_v2: "価格帯",
+        xr_stat_delivery_v2: "配送",
+        email_mock_sender_v2: "StoreScope · 週次ダイジェスト",
+        email_mock_meta_v2: "月曜 午前9:00 ·",
+        email_mock_h2_v2: "今週拡散トップ3。",
+        email_mock_intro_v2: "昨夜インデックスされた1,400+ストアのうち、最速のcross-store採択を見せる項目 — 広告スパイク1-2週間前。",
+        email_mock_stores_unit_v2: "ストア",
+        email_mock_stat_prefix_v2: "+",
+        email_mock_stat_suffix_v2: "今週",
+        email_mock_chart_label_v2: "30日ストアカウントトレンド",
+        email_mock_footer_note_v2: "+ 47 クラスタ追加 今週のダイジェスト · ダッシュボードでフィルタ / CSV / 履歴。",
+        email_mock_footer_caption_v2: "イラスト用サンプル。実際のダイジェストはライブShopifyデータから週次更新。",
+        faq_cat_product_v2: "商品 & データ",
+        faq_cat_trust_v2: "信頼 & コンプライアンス",
+        faq_cat_billing_v2: "請求 & アカウント",
+        product_stores_suffix_v2: "ストア",
+        badge_pro_v2: "PRO"
       }
     };
 
@@ -4624,6 +4849,19 @@
   </script>
 </head>
 <body>
+<!-- D+29 open beta: sandbox 모드 상단 sticky 배너 — 실 결제 X + 피드백 채널 명시 -->
+<div id="ss-beta-banner" class="ss-beta-banner" hidden>
+  🧪 <strong>오픈 베타</strong> — 실 결제 X (test card <code style="background:rgba(0,0,0,0.06);padding:1px 5px;border-radius:3px">4242 4242 4242 4242</code>). 버그 / 피드백: <a href="mailto:dodo@storescope.com?subject=StoreScope%20beta%20feedback">dodo@storescope.com</a> · 정식 출시 알림 받기: 아래 가격 표 → 이메일 입력
+</div>
+<script>
+  (function() {
+    if (window.STORESCOPE_PADDLE_ENV === 'sandbox') {
+      document.body.classList.add('ss-beta-on');
+      var b = document.getElementById('ss-beta-banner');
+      if (b) b.hidden = false;
+    }
+  })();
+</script>
 
 <!-- A11Y: Skip to main content — Tab 한 번 누르면 nav 스킵하고 본문으로. -->
 <a href="#main-content" class="skip-link" data-i18n="a11y_skip_main">Skip to main content</a>
@@ -4771,7 +5009,7 @@
                 </div>
                 <div class="product-body">
                   <div class="product-name">Portable Mini Projector 1080p</div>
-                  <div class="product-row"><span class="product-stores">31 stores</span><span class="product-price">$39–$89</span></div>
+                  <div class="product-row"><span class="product-stores">31 <span data-i18n="product_stores_suffix_v2">stores</span></span><span class="product-price">$39–$89</span></div>
                   <div class="product-growth-row">
                     <span class="growth-badge-hot">+44%</span>
                     <svg class="mini-spark" width="44" height="18" viewBox="0 0 44 18"><polyline points="0,16 7,12 14,9 21,6 29,4 37,2 44,0" fill="none" stroke="#34D399" stroke-width="1.5" stroke-linecap="round"/></svg>
@@ -4805,7 +5043,7 @@
                 </div>
                 <div class="product-body">
                   <div class="product-name">LED Strip Lights 5M RGB</div>
-                  <div class="product-row"><span class="product-stores">23 stores</span><span class="product-price">$12–$34</span></div>
+                  <div class="product-row"><span class="product-stores">23 <span data-i18n="product_stores_suffix_v2">stores</span></span><span class="product-price">$12–$34</span></div>
                   <div class="product-growth-row">
                     <span class="growth-badge-hot">+31%</span>
                     <svg class="mini-spark" width="44" height="18" viewBox="0 0 44 18"><polyline points="0,16 7,13 14,10 21,7 29,5 37,3 44,1" fill="none" stroke="#34D399" stroke-width="1.5" stroke-linecap="round"/></svg>
@@ -4838,7 +5076,7 @@
                 </div>
                 <div class="product-body">
                   <div class="product-name">Magnetic Car Phone Mount</div>
-                  <div class="product-row"><span class="product-stores">18 stores</span><span class="product-price">$9–$24</span></div>
+                  <div class="product-row"><span class="product-stores">18 <span data-i18n="product_stores_suffix_v2">stores</span></span><span class="product-price">$9–$24</span></div>
                   <div class="product-growth-row">
                     <span class="growth-badge-warm">+18%</span>
                     <svg class="mini-spark" width="44" height="18" viewBox="0 0 44 18"><polyline points="0,16 7,14 14,12 21,10 29,8 37,6 44,4" fill="none" stroke="#FBBF24" stroke-width="1.5" stroke-linecap="round"/></svg>
@@ -4870,7 +5108,7 @@
                 </div>
                 <div class="product-body">
                   <div class="product-name">Silicone Reusable Bags Set</div>
-                  <div class="product-row"><span class="product-stores">14 stores</span><span class="product-price">$16–$38</span></div>
+                  <div class="product-row"><span class="product-stores">14 <span data-i18n="product_stores_suffix_v2">stores</span></span><span class="product-price">$16–$38</span></div>
                   <div class="product-growth-row">
                     <span class="growth-badge-warm">+12%</span>
                     <svg class="mini-spark" width="44" height="18" viewBox="0 0 44 18"><polyline points="0,16 7,15 14,13 21,11 29,9 37,8 44,6" fill="none" stroke="#FBBF24" stroke-width="1.5" stroke-linecap="round"/></svg>
@@ -5045,13 +5283,13 @@
       <div class="bento-card wide">
         <div class="bento-eyebrow">
           <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>
-          Weekly Trend Ranking
+          <span data-i18n="bento_rank_eyebrow_v2">Weekly Trend Ranking</span>
         </div>
-        <h3 data-i18n="feature_trending_h3">Spot next week's bestseller this Monday.</h3>
-        <p>Every product scored 0–100 by how fast it spreads across 1,400+ stores. Filter 80+ to see this week's shortlist — typically 1–2 weeks before TikTok ads pick them up.</p>
+        <h3 data-i18n="bento_rank_h3_v2">Spot next week's bestseller this Monday.</h3>
+        <p data-i18n="bento_rank_body_v2">Every product scored 0–100 by how fast it spreads across 1,400+ stores. Filter 80+ to see this week's shortlist — typically 1–2 weeks before TikTok ads pick them up.</p>
         <div class="bc-chart">
           <div class="bc-chart-header">
-            <span class="bc-chart-title" data-i18n="bento_chart_title">Top trending products this week</span>
+            <span class="bc-chart-title" data-i18n="bento_rank_caption_v2">Top trending products this week</span>
             <span class="bc-filter">Score 60+</span>
           </div>
           <div class="bc-rows">
@@ -5083,23 +5321,23 @@
       <div class="bento-card">
         <div class="bento-eyebrow">
           <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
-          Direct API <span class="pro-flag">PRO</span>
+          <span data-i18n="bento_api_eyebrow_v2">Direct API</span> <span class="pro-flag" data-i18n="badge_pro_v2">PRO</span>
         </div>
-        <h3 data-i18n="feature_api_h3">Pull trending data into your own tools.</h3>
-        <p>Every Pro plan ships an API key. Query the full trending index from your own dashboard, sheet, or private bot — JSON responses, rate-limited per plan.</p>
+        <h3 data-i18n="bento_api_h3_v2">Pull trending data into your own tools.</h3>
+        <p data-i18n="bento_api_body_v2">Every Pro plan ships an API key. Query the full trending index from your own dashboard, sheet, or private bot — JSON responses, rate-limited per plan.</p>
         <div class="bc-notif">
           <div class="bc-notif-item">
             <div class="bc-notif-dot green"></div>
             <div>
               <div class="bc-notif-title">GET /trending?score_min=80</div>
-              <div class="bc-notif-meta" style="font-family:'JetBrains Mono','SF Mono',monospace;">200 OK · 47 clusters · 184 ms</div>
+              <div class="bc-notif-meta" data-i18n="bento_api_resp1_v2" style="font-family:'JetBrains Mono','SF Mono',monospace;">200 OK · 47 clusters · 184 ms</div>
             </div>
           </div>
           <div class="bc-notif-item">
             <div class="bc-notif-dot amber"></div>
             <div>
               <div class="bc-notif-title">GET /store/example.myshopify.com</div>
-              <div class="bc-notif-meta" style="font-family:'JetBrains Mono','SF Mono',monospace;">200 OK · 84 products · 92 ms</div>
+              <div class="bc-notif-meta" data-i18n="bento_api_resp2_v2" style="font-family:'JetBrains Mono','SF Mono',monospace;">200 OK · 84 products · 92 ms</div>
             </div>
           </div>
         </div>
@@ -5115,7 +5353,7 @@
         <p data-i18n="bento_extra_price_desc">Min and max prices for the same product across every store that sells it. Your margin window — in one table, before you commit inventory.</p>
         <div class="bc-price-table">
           <div class="bc-pt-head">
-            <span>Store</span><span>Min</span><span>Max</span>
+            <span data-i18n="bento_price_th_store_v2">Store</span><span data-i18n="bento_price_th_min_v2">Min</span><span data-i18n="bento_price_th_max_v2">Max</span>
           </div>
           <div class="bc-pt-row">
             <span class="bc-pt-store">minimalist-home.myshopify.com</span>
@@ -5136,14 +5374,14 @@
       <div class="bento-card wide">
         <div class="bento-eyebrow">
           <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
-          30-Day History <span class="pro-flag">PRO</span>
+          <span data-i18n="bento_history_eyebrow_v2">30-Day History</span> <span class="pro-flag" data-i18n="badge_pro_v2">PRO</span>
         </div>
-        <h3 data-i18n="feature_history_h3">Check 30 days of history before you commit.</h3>
-        <p>This week's score is half the story. See the 30-day trajectory — is the product climbing, or already past its peak?</p>
+        <h3 data-i18n="bento_history_h3_v2">Check 30 days of history before you commit.</h3>
+        <p data-i18n="bento_history_body_v2">This week's score is half the story. See the 30-day trajectory — is the product climbing, or already past its peak?</p>
         <div class="bc-history-wrap">
           <div class="bc-history-header">
             <span class="bc-history-title">Portable Projector 1080p — store count, last 30 days</span>
-            <span class="bc-history-peak">31 stores this week</span>
+            <span class="bc-history-peak" data-i18n="bento_history_peak_v2">31 stores this week</span>
           </div>
           <div class="bc-history-bars">
             <div class="bc-hbar" style="height:22%"></div>
@@ -5163,8 +5401,8 @@
             <div class="bc-hbar bc-hbar-hot" style="height:100%"></div>
           </div>
           <div class="bc-history-axis">
-            <span>30 days ago</span>
-            <span style="color:#C084FC;font-weight:600;">This week ↑</span>
+            <span data-i18n="bento_history_axis_start_v2">30 days ago</span>
+            <span data-i18n="bento_history_axis_end_v2" style="color:#C084FC;font-weight:600;">This week ↑</span>
           </div>
         </div>
       </div>
@@ -5182,10 +5420,10 @@
       <div class="bento-card" style="padding:32px 36px;">
         <div class="bento-eyebrow">
           <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-          Bulk Export <span class="pro-flag">PRO</span>
+          <span data-i18n="bento_export_eyebrow_v2">Bulk Export</span> <span class="pro-flag" data-i18n="badge_pro_v2">PRO</span>
         </div>
-        <h3 data-i18n="feature_export_h3">Export to wherever you already work.</h3>
-        <p>Download the full trend data as CSV — every cluster, store, and price. Import into Sheets, Notion, or your sourcing pipeline.</p>
+        <h3 data-i18n="bento_export_h3_v2">Export to wherever you already work.</h3>
+        <p data-i18n="bento_export_body_v2">Download the full trend data as CSV — every cluster, store, and price. Import into Sheets, Notion, or your sourcing pipeline.</p>
         <div class="bc-file-card">
           <div class="bc-file-icon">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#34D399" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
@@ -5227,7 +5465,7 @@
               <div class="step-mock-logo lg-1">m</div>
               <div class="step-mock-store-info">
                 <div class="step-mock-store-name">minimalist-home</div>
-                <div class="step-mock-store-meta">84 products · indexed 2h ago</div>
+                <div class="step-mock-store-meta">84 <span data-i18n="how_step1_mock_meta_v2">products · indexed 2h ago</span></div>
               </div>
               <span class="step-mock-status">●</span>
             </div>
@@ -5235,7 +5473,7 @@
               <div class="step-mock-logo lg-2">G</div>
               <div class="step-mock-store-info">
                 <div class="step-mock-store-name">gadgetnest</div>
-                <div class="step-mock-store-meta">127 products · indexed 2h ago</div>
+                <div class="step-mock-store-meta">127 <span data-i18n="how_step1_mock_meta_v2">products · indexed 2h ago</span></div>
               </div>
               <span class="step-mock-status">●</span>
             </div>
@@ -5243,11 +5481,11 @@
               <div class="step-mock-logo lg-3">T</div>
               <div class="step-mock-store-info">
                 <div class="step-mock-store-name">trendpicks</div>
-                <div class="step-mock-store-meta">63 products · indexed 2h ago</div>
+                <div class="step-mock-store-meta">63 <span data-i18n="how_step1_mock_meta_v2">products · indexed 2h ago</span></div>
               </div>
               <span class="step-mock-status">●</span>
             </div>
-            <div class="step-mock-more">+ 1,397 more this week</div>
+            <div class="step-mock-more" data-i18n="how_step1_more_v2">+ 1,397 more this week</div>
           </div>
         </div>
         <h3 data-i18n="how_step1_h3">We scan 1,400+ Shopify stores every week.</h3>
@@ -5266,7 +5504,7 @@
           <div class="step-mock-body">
             <div class="step-mock-cluster-head">
               <div class="step-mock-cluster-name">Portable Projector 1080p</div>
-              <span class="step-mock-cluster-badge">31 stores</span>
+              <span class="step-mock-cluster-badge">31 <span data-i18n="product_stores_suffix_v2">stores</span></span>
             </div>
             <div class="step-mock-cluster-list">
               <div class="step-mock-cluster-row">
@@ -5282,7 +5520,7 @@
                 <span class="step-mock-cluster-price">$59</span>
               </div>
               <div class="step-mock-cluster-row">
-                <span class="step-mock-cluster-store">+ 28 more</span>
+                <span class="step-mock-cluster-store" data-i18n="how_step2_more_v2">+ 28 more</span>
                 <span class="step-mock-cluster-price">$35–$89</span>
               </div>
             </div>
@@ -5302,7 +5540,7 @@
           </div>
           <div class="step-mock-body">
             <div class="step-mock-dash-head">
-              <span class="step-mock-dash-week">Monday · Week 23</span>
+              <span class="step-mock-dash-week" data-i18n="how_step3_week_v2">Monday · Week 23</span>
               <span class="step-mock-dash-filter">Score 80+ ✓</span>
             </div>
             <div class="step-mock-product">
@@ -5340,7 +5578,7 @@
           <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
           app.storescope.com/trending
         </div>
-        <span class="badge badge-live" style="margin-left:auto;font-size:10px;">● Updated weekly</span>
+        <span class="badge badge-live" data-i18n="badge_updated_weekly_v2" style="margin-left:auto;font-size:10px;">● Updated weekly</span>
       </div>
       <div class="demo-layout">
         <div class="demo-sidebar">
@@ -5537,25 +5775,25 @@
       <!-- UPGRADE 2026-06-13: "What you'll get" — Stripe email-receipt 패턴 (실 data 형식) -->
       <div class="xr-receive-preview">
         <div class="xr-receive-preview-head">
-          <span class="xr-receive-tag">SAMPLE REPORT · example.myshopify.com</span>
+          <span class="xr-receive-tag" data-i18n="xr_sample_tag_v2">SAMPLE REPORT · example.myshopify.com</span>
           <span class="xr-receive-pill">.PDF</span>
         </div>
         <div class="xr-receive-stats">
           <div class="xr-receive-stat">
             <span class="xr-receive-stat-val">128</span>
-            <span class="xr-receive-stat-lbl">products</span>
+            <span class="xr-receive-stat-lbl" data-i18n="xr_stat_products_v2">products</span>
           </div>
           <div class="xr-receive-stat">
             <span class="xr-receive-stat-val">17</span>
-            <span class="xr-receive-stat-lbl">trending now</span>
+            <span class="xr-receive-stat-lbl" data-i18n="xr_stat_trending_v2">trending now</span>
           </div>
           <div class="xr-receive-stat">
             <span class="xr-receive-stat-val">$12–$89</span>
-            <span class="xr-receive-stat-lbl">price range</span>
+            <span class="xr-receive-stat-lbl" data-i18n="xr_stat_price_v2">price range</span>
           </div>
           <div class="xr-receive-stat">
             <span class="xr-receive-stat-val">~30s</span>
-            <span class="xr-receive-stat-lbl">delivery</span>
+            <span class="xr-receive-stat-lbl" data-i18n="xr_stat_delivery_v2">delivery</span>
           </div>
         </div>
         <div class="xr-receive-footer">
@@ -5713,16 +5951,16 @@
           <div class="email-mock-from">
             <div class="email-mock-avatar">SS</div>
             <div>
-              <div class="email-mock-sender">StoreScope · Weekly Digest</div>
-              <div class="email-mock-meta">Monday, 9:00 AM · <span style="color:#059669;">●</span> Week 23 · 2026</div>
+              <div class="email-mock-sender" data-i18n="email_mock_sender_v2">StoreScope · Weekly Digest</div>
+              <div class="email-mock-meta"><span data-i18n="email_mock_meta_v2">Monday, 9:00 AM ·</span> <span style="color:#059669;">●</span> Week 23 · 2026</div>
             </div>
           </div>
           <div class="email-mock-pill" data-i18n="email_pro_badge">Pro digest</div>
         </div>
 
         <div class="email-mock-body">
-          <h3 class="email-mock-h" data-i18n="email_subject_label">This week's top 3 spreading.</h3>
-          <p class="email-mock-intro">Among the 1,400+ stores indexed last night, here's what's seeing the fastest cross-store adoption — 1–2 weeks ahead of ad spike.</p>
+          <h3 class="email-mock-h" data-i18n="email_mock_h2_v2">This week's top 3 spreading.</h3>
+          <p class="email-mock-intro" data-i18n="email_mock_intro_v2">Among the 1,400+ stores indexed last night, here's what's seeing the fastest cross-store adoption — 1–2 weeks ahead of ad spike.</p>
 
           <div class="email-mock-item">
             <div class="email-mock-rank">01</div>
@@ -5751,9 +5989,9 @@
             <div class="email-mock-item-body">
               <div class="email-mock-item-title">Wafer Head Self Drilling Screws BZP</div>
               <div class="email-mock-item-meta">
-                <span class="email-mock-stat"><strong>660 stores</strong></span>
+                <span class="email-mock-stat"><strong>660 <span data-i18n="email_mock_stores_unit_v2">stores</span></strong></span>
                 <span class="email-mock-divider">·</span>
-                <span class="email-mock-stat" style="color:#059669;">+12 this week</span>
+                <span class="email-mock-stat" style="color:#059669;">+12 <span data-i18n="email_mock_stat_suffix_v2">this week</span></span>
                 <span class="email-mock-divider">·</span>
                 <span class="email-mock-stat">$3.20 – $14.50</span>
                 <span class="email-mock-divider">·</span>
@@ -5768,7 +6006,7 @@
                 <div class="email-mock-bar" style="height: 65%"></div>
                 <div class="email-mock-bar" style="height: 100%"></div>
               </div>
-              <div class="email-mock-hist-label" data-i18n="email_chart_label">30-day store-count trend</div>
+              <div class="email-mock-hist-label" data-i18n="email_mock_chart_label_v2">30-day store-count trend</div>
             </div>
           </div>
 
@@ -5798,9 +6036,9 @@
             <div class="email-mock-item-body">
               <div class="email-mock-item-title">Magnetic Cable Organizer · 6-port USB-C</div>
               <div class="email-mock-item-meta">
-                <span class="email-mock-stat"><strong>184 stores</strong></span>
+                <span class="email-mock-stat"><strong>184 <span data-i18n="email_mock_stores_unit_v2">stores</span></strong></span>
                 <span class="email-mock-divider">·</span>
-                <span class="email-mock-stat" style="color:#059669;">+8 this week</span>
+                <span class="email-mock-stat" style="color:#059669;">+8 <span data-i18n="email_mock_stat_suffix_v2">this week</span></span>
                 <span class="email-mock-divider">·</span>
                 <span class="email-mock-stat">$9.99 – $24.00</span>
                 <span class="email-mock-divider">·</span>
@@ -5836,9 +6074,9 @@
             <div class="email-mock-item-body">
               <div class="email-mock-item-title">Premium Sunglasses · UV-protective</div>
               <div class="email-mock-item-meta">
-                <span class="email-mock-stat"><strong>92 stores</strong></span>
+                <span class="email-mock-stat"><strong>92 <span data-i18n="email_mock_stores_unit_v2">stores</span></strong></span>
                 <span class="email-mock-divider">·</span>
-                <span class="email-mock-stat" style="color:#059669;">+6 this week</span>
+                <span class="email-mock-stat" style="color:#059669;">+6 <span data-i18n="email_mock_stat_suffix_v2">this week</span></span>
                 <span class="email-mock-divider">·</span>
                 <span class="email-mock-stat">$12.00 – $38.00</span>
                 <span class="email-mock-divider">·</span>
@@ -5847,7 +6085,7 @@
             </div>
           </div>
 
-          <p class="email-mock-footer">+ 47 more clusters in this week's digest · Open in dashboard for filters, CSV export, and historical trends.</p>
+          <p class="email-mock-footer" data-i18n="email_mock_footer_note_v2">+ 47 more clusters in this week's digest · Open in dashboard for filters, CSV export, and historical trends.</p>
         </div>
 
         <div class="email-mock-disclaimer" data-i18n="email_disclaimer">Sample for illustration. Real digest content is sourced from live Shopify data, refreshed weekly.</div>
@@ -6052,7 +6290,7 @@
     <div class="faq-category">
       <div class="faq-category-label">
         <span class="faq-category-num">01</span>
-        Product &amp; data
+        <span data-i18n="faq_cat_product_v2">Product &amp; data</span>
       </div>
       <div class="faq-grid">
         <div class="faq-item">
@@ -6086,7 +6324,7 @@
     <div class="faq-category">
       <div class="faq-category-label">
         <span class="faq-category-num">02</span>
-        Trust &amp; compliance
+        <span data-i18n="faq_cat_trust_v2">Trust &amp; compliance</span>
       </div>
       <div class="faq-grid">
         <div class="faq-item">
@@ -6108,7 +6346,7 @@
     <div class="faq-category">
       <div class="faq-category-label">
         <span class="faq-category-num">03</span>
-        Billing &amp; account
+        <span data-i18n="faq_cat_billing_v2">Billing &amp; account</span>
       </div>
       <div class="faq-grid">
         <div class="faq-item">
@@ -6142,19 +6380,19 @@
       <p style="margin-top:10px;font-size:12px;color:#A8A29E;" data-i18n="footer_independent">Independent · Bootstrapped · Built for Shopify operators</p>
     </div>
     <div class="footer-col">
-      <h4 data-i18n="footer_col_product">Product</h4>
+      <h3 data-i18n="footer_col_product">Product</h3>
       <a href="#pricing" data-i18n="footer_link_pricing">Pricing</a>
       <a href="#xray" data-i18n="footer_link_xray">Free X-Ray tool</a>
       <a href="mailto:dodo@storescope.com?subject=API%20docs%20access" class="footer-link-muted" aria-label="Email for API documentation access" data-i18n="footer_link_api">API access</a>
     </div>
     <div class="footer-col">
-      <h4 data-i18n="footer_col_company">Company</h4>
+      <h3 data-i18n="footer_col_company">Company</h3>
       <a href="#faq" data-i18n="footer_link_faq">FAQ</a>
       <a href="mailto:support@storescope.com" data-i18n="footer_link_support">Support</a>
       <a href="mailto:optout@storescope.com" data-i18n="footer_link_optout">Merchant opt-out</a>
     </div>
     <div class="footer-col">
-      <h4 data-i18n="footer_col_legal">Legal</h4>
+      <h3 data-i18n="footer_col_legal">Legal</h3>
       <a href="./landing/privacy.html" data-i18n="footer_link_privacy">Privacy</a>
       <a href="./landing/terms.html" data-i18n="footer_link_terms">Terms</a>
       <a href="./landing/refund.html" data-i18n="footer_link_refund">Refund</a>
