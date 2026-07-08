@@ -74,6 +74,26 @@ jobs:
           print('Health check PASS')
           "
 
+      - name: Send weekly digest emails (D+29 wiring)
+        if: success()
+        env:
+          SMTP_HOST: ${{ secrets.SMTP_HOST }}
+          SMTP_PORT: ${{ secrets.SMTP_PORT }}
+          SMTP_USER: ${{ secrets.SMTP_USER }}
+          SMTP_PASS: ${{ secrets.SMTP_PASS }}
+          SMTP_FROM: ${{ secrets.SMTP_FROM }}
+          BASE_URL: ${{ secrets.BASE_URL }}
+          # /unsubscribe endpoint 가 FastAPI 에 있음 → API_BASE_URL 필수 (없으면 BASE_URL fall back = dead link).
+          API_BASE_URL: ${{ secrets.API_BASE_URL }}
+          # HMAC token 검증을 위해 api/main.py 와 동일 secret 사용.
+          ADMIN_SECRET: ${{ secrets.ADMIN_SECRET }}
+        run: |
+          # non-block: SMTP 미설정 시 코드가 graceful skip + CRITICAL alert. workflow 성공 유지.
+          # at-most-once: email_deliveries UNIQUE 제약이 중복 발송 차단.
+          python services/send_weekly_digests.py || {
+            echo "::warning::send_weekly_digests exited non-zero — see Telegram alert for details"
+          }
+
       - name: Notify success (Telegram, optional)
         if: success() && env.TELEGRAM_BOT_TOKEN != ''
         run: |
