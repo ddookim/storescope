@@ -187,7 +187,7 @@ a:hover{{text-decoration:underline}}
 <a href="https://ddookim.github.io/storescope/">StoreScope</a>
 <a href="https://ddookim.github.io/storescope/#pricing">Pricing</a>
 <a href="https://ddookim.github.io/storescope/landing/privacy.html">Privacy</a>
-<a href="mailto:dodo@storescope.com">Contact</a>
+<a href="mailto:support@storescope.com">Contact</a>
 <div style="margin-top:12px">© 2026 StoreScope · Last refreshed {generated}</div>
 </div>
 </div>
@@ -261,7 +261,7 @@ def _cluster_page(cluster: dict, lookalikes: list, items: list, base_url: str) -
 <p>StoreScope identifies these matches using perceptual image hashing (pHash) across 1,400+ Shopify storefronts. Two listings cluster together when their product imagery has a Hamming distance ≤ 8. Weekly refresh tracks longevity — how many stores still carry the product week-over-week. No private data, no auth bypass: data is read from public /products.json endpoints in compliance with robots.txt and consistent with the 2024 federal ruling on public-data scraping. Stores can request removal anytime via <a href="https://ddookim.github.io/storescope/#optout">our opt-out form</a>.</p>
 
 <h2>Explore related categories</h2>
-<p>Browse other <a href="{base_url}/">{html.escape(category_word.capitalize())} products in the Shopify cross-store index</a> or see <a href="https://ddookim.github.io/storescope/#trending">this week's trending leaderboard</a>. For weekly automated digests delivered to your inbox, see <a href="https://ddookim.github.io/storescope/#pricing">pricing</a>. Brand owners and IP teams can request a <a href="mailto:dodo@storescope.com?subject=Brand%20IP%20audit">brand IP audit</a> covering unauthorized resellers.</p>
+<p>Browse other <a href="{base_url}/">{html.escape(category_word.capitalize())} products in the Shopify cross-store index</a> or see <a href="https://ddookim.github.io/storescope/#trending">this week's trending leaderboard</a>. For weekly automated digests delivered to your inbox, see <a href="https://ddookim.github.io/storescope/#pricing">pricing</a>. Brand owners and IP teams can request a <a href="mailto:support@storescope.com?subject=Brand%20IP%20audit">brand IP audit</a> covering unauthorized resellers.</p>
 """
 
     return _PAGE_TPL.format(

@@ -29,7 +29,7 @@ Free, no signup, no card.
 
 — Dodo
 StoreScope · cross-store product intelligence
-{TwitterHandle if any} | dodo@storescope.com
+{TwitterHandle if any} | support@storescope.com
 
 P.S. I read every reply.
 ```
@@ -48,7 +48,7 @@ P.S. I read every reply.
 - [ ] 메일 본문 단어수 ≤ 120
 - [ ] UTM 파라미터 포함
 - [ ] 발신자 이름 = "Dodo Kim" (founding member 신뢰)
-- [ ] 회신 주소 = dodo@storescope.com 단일 (분산 X)
+- [ ] 회신 주소 = support@storescope.com 단일 (분산 X)
 
 ---
 

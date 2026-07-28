@@ -259,7 +259,7 @@ def generate(
         "<br/><br/>"
         "<b>Next steps.</b> For takedown assistance, supplier reverse-lookup, "
         "or continuous brand monitoring, contact "
-        "<font color='#4F46E5'><b>dodo@storescope.com</b></font>."
+        "<font color='#4F46E5'><b>support@storescope.com</b></font>."
     )
     story.append(Paragraph(methodology, styles["Normal"]))
 

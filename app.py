@@ -231,7 +231,7 @@ if _welcome_flag == "1" and not st.session_state.get("_welcome_shown"):
     st.success(
         f"**결제 완료 — {_plan_label} 플랜 시작.** "
         f"API 키는 이메일로 발송됩니다 (몇 분 소요). "
-        f"문제 시 dodo@storescope.com 으로 연락주세요."
+        f"문제 시 support@storescope.com 으로 연락주세요."
     )
     st.balloons()
 

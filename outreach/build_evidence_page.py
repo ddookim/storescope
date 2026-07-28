@@ -196,7 +196,7 @@ def render(products: list[dict], fresh_cls: str, fresh_text: str, today: str) ->
 
 <footer>
   StoreScope — cross-store Shopify product intelligence ·
-  <a href="mailto:dodo@storescope.com">dodo@storescope.com</a>
+  <a href="mailto:support@storescope.com">support@storescope.com</a>
 </footer>
 </div>
 </body></html>"""

@@ -52,14 +52,14 @@
 > "Founding member price — $19 a month for the first 12 months.  
 > Locked. 14-day trial, no card up front.  
 > If it's not useful in the first month, full refund — just email me.  
-> dodo@storescope.com.  
+> support@storescope.com.  
 > I read every reply."
 
 ---
 
 ## 2:20 — 2:30  Close (10s)
 
-화면: dodo@storescope.com이 큰 글씨로
+화면: support@storescope.com이 큰 글씨로
 
 음성:
 > "If you want the next list when it goes out, just reply 'yes'.  

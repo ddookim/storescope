@@ -715,7 +715,7 @@ def unsubscribe(
                 "<h1>링크가 유효하지 않습니다.</h1>"
                 "<p>받으신 이메일의 수신거부 링크 <strong>전체</strong>를 복사해서 다시 시도해주세요. "
                 "메일 클라이언트가 URL 을 줄였을 수 있습니다.</p>"
-                "<p>문제 지속 시 <a href='mailto:dodo@storescope.com'>dodo@storescope.com</a> 으로 직접 알려주시면 즉시 처리해 드립니다.</p>"
+                "<p>문제 지속 시 <a href='mailto:support@storescope.com'>support@storescope.com</a> 으로 직접 알려주시면 즉시 처리해 드립니다.</p>"
                 "</body></html>"
             ),
             status_code=400,
@@ -743,7 +743,7 @@ def unsubscribe(
                     "<h1>Unsubscribed</h1>"
                     "<p>You will no longer receive weekly digest emails from StoreScope.</p>"
                     "<p>If this was a mistake or you'd like to resubscribe later, email "
-                    "<a href='mailto:dodo@storescope.com'>dodo@storescope.com</a>.</p>"
+                    "<a href='mailto:support@storescope.com'>support@storescope.com</a>.</p>"
                     "<p><a href='https://ddookim.github.io/storescope/'>Return to StoreScope</a></p>"
                     "</body></html>"
                 ),
@@ -755,7 +755,7 @@ def unsubscribe(
                 "<!doctype html><html lang='en'><head><meta charset='utf-8'>"
                 "<title>Already unsubscribed — StoreScope</title></head><body>"
                 "<p>Your subscription is already cancelled (or the link is invalid).</p>"
-                "<p><a href='mailto:dodo@storescope.com'>Contact support</a> if you need help.</p>"
+                "<p><a href='mailto:support@storescope.com'>Contact support</a> if you need help.</p>"
                 "</body></html>"
             ),
             status_code=200,

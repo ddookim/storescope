@@ -172,7 +172,7 @@ def _write_manifest(out: Path, stats: dict):
             "Source: public /products.json endpoints in compliance with robots.txt."
         ),
         "homepage": "https://storescope.com",
-        "contact": "dodo@storescope.com",
+        "contact": "support@storescope.com",
         "files": {
             "clusters.jsonl": {"records": stats.get("clusters", 0)},
             "products.jsonl": {"records": stats.get("products", 0)},
@@ -219,7 +219,7 @@ Under the following terms:
   - Attribution — You must give appropriate credit, provide a link to the license,
     and indicate if changes were made.
   - NonCommercial — You may not use the material for commercial purposes.
-    Commercial use requires a separate license (contact dodo@storescope.com).
+    Commercial use requires a separate license (contact support@storescope.com).
 
 Full license: https://creativecommons.org/licenses/by-nc/4.0/legalcode
 """
@@ -264,7 +264,7 @@ how store adoption (count of stores carrying each cluster) changes over time.
 
 - Source: public Shopify `/products.json` endpoints, scraped weekly per each store's robots.txt
 - Legal basis: 2024 U.S. federal ruling on logged-out public commercial data
-- License: **CC BY-NC 4.0** (free for research / non-commercial; contact dodo@storescope.com for commercial)
+- License: **CC BY-NC 4.0** (free for research / non-commercial; contact support@storescope.com for commercial)
 - PII: **none** — no customer emails, no API keys, no auth tokens, no IPs
 - Opt-out: stores can request removal via https://storescope.com/#optout
 
@@ -296,7 +296,7 @@ print(top[["cluster_id", "representative_title", "store_count", "week_delta"]])
 
 ## Contact
 
-dodo@storescope.com · https://storescope.com
+support@storescope.com · https://storescope.com
 """
 
 

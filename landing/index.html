@@ -3524,9 +3524,22 @@
       }
     });
     function openCheckout(priceId) {
+      // FIX 2026-07-29 D+58: BETA + placeholder sandbox token = Paddle checkout silent fail.
+      // Redirect to hero email form (validation phase 정합) 대신 broken alert.
+      if (window.STORESCOPE_BETA_MODE && _PADDLE_SANDBOX_TOKEN.indexOf('test_REPLACE') === 0) {
+        var heroInput = document.getElementById('hero-email');
+        if (heroInput) {
+          heroInput.scrollIntoView({behavior: 'smooth', block: 'center'});
+          setTimeout(function() { heroInput.focus(); }, 500);
+        }
+        if (typeof gtag === 'function') {
+          gtag('event', 'checkout_beta_deferred', { price_id: priceId });
+        }
+        return;
+      }
       // Dead-man switch: block new checkouts when pipeline data is stale (>72h)
       if (window.__deadman && window.__deadman.payments_blocked) {
-        alert('Pipeline catching up. Checkout temporarily unavailable. Please try again later or email dodo@storescope.com.');
+        alert('Pipeline catching up. Checkout temporarily unavailable. Please try again later or email support@storescope.com.');
         return;
       }
       var pn = priceId === 'pri_01ksh172kehejf3xc2ws26e6vy' ? 'pro' : 'starter';
@@ -3542,7 +3555,7 @@
         console.error('[checkout] Paddle SDK error:', err);
         // 사용자 visible fallback: 이메일로 결제 안내 요청.
         var msg = "Payment widget didn't load (possibly ad blocker or network issue). " +
-                  "Please email dodo@storescope.com to complete checkout — I'll send a direct payment link.";
+                  "Please email support@storescope.com to complete checkout — I'll send a direct payment link.";
         alert(msg);
         if (window.gtag) gtag('event', 'checkout_error', { error_type: err.message || 'unknown' });
       }
@@ -4866,7 +4879,7 @@
 <body>
 <!-- D+29 open beta: sandbox 모드 상단 sticky 배너 — 실 결제 X + 피드백 채널 명시 -->
 <div id="ss-beta-banner" class="ss-beta-banner" hidden>
-  🧪 <strong>오픈 베타</strong> — 실 결제 X (test card <code style="background:rgba(0,0,0,0.06);padding:1px 5px;border-radius:3px">4242 4242 4242 4242</code>). 버그 / 피드백: <a href="mailto:dodo@storescope.com?subject=StoreScope%20beta%20feedback">dodo@storescope.com</a> · 정식 출시 알림 받기: 아래 가격 표 → 이메일 입력
+  🧪 <strong>오픈 베타</strong> — 실 결제 X (test card <code style="background:rgba(0,0,0,0.06);padding:1px 5px;border-radius:3px">4242 4242 4242 4242</code>). 버그 / 피드백: <a href="mailto:support@storescope.com?subject=StoreScope%20beta%20feedback">support@storescope.com</a> · 정식 출시 알림 받기: 아래 가격 표 → 이메일 입력
 </div>
 <script>
   (function() {
@@ -5973,7 +5986,7 @@
       </div>
 
       <p class="founder-signoff">
-        <span data-i18n="founder_signoff_text">Independent · Bootstrapped</span> · <a href="mailto:dodo@storescope.com" class="founder-signoff-email">dodo@storescope.com</a>
+        <span data-i18n="founder_signoff_text">Independent · Bootstrapped</span> · <a href="mailto:support@storescope.com" class="founder-signoff-email">support@storescope.com</a>
       </p>
     </div>
   </div>
@@ -6256,7 +6269,7 @@
         <p class="ent-desc" data-i18n="ent_desc">If the Starter and Pro plans don't fit what you're doing, just email me. I'll figure out a custom setup that does.</p>
       </div>
       <div class="ent-right">
-        <a href="mailto:dodo@storescope.com?subject=StoreScope%20custom%20setup&amp;body=Hi%20Dodo%2C%0A%0AHere%27s%20what%20I%27m%20trying%20to%20do%3A%0A%0A" class="ent-cta">
+        <a href="mailto:support@storescope.com?subject=StoreScope%20custom%20setup&amp;body=Hi%20StoreScope%2C%0A%0AHere%27s%20what%20I%27m%20trying%20to%20do%3A%0A%0A" class="ent-cta">
           <span data-i18n="ent_cta">Email the team</span>
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
         </a>
@@ -6394,7 +6407,7 @@
         <div class="faq-item">
           <details>
             <summary data-i18n="faq_q_trial_value">What if I don't see value in 7 days?</summary>
-            <p data-i18n="faq_a_trial_value">Cancel from your Paddle billing portal any time during the trial — you're not charged. After billing, we also honor a 14-day refund window, no questions asked. Email dodo@storescope.com and the refund is processed same day.</p>
+            <p data-i18n="faq_a_trial_value">Cancel from your Paddle billing portal any time during the trial — you're not charged. After billing, we also honor a 14-day refund window, no questions asked. Email support@storescope.com and the refund is processed same day.</p>
           </details>
         </div>
         <div class="faq-item">
@@ -6425,7 +6438,7 @@
       <h3 data-i18n="footer_col_product">Product</h3>
       <a href="#pricing" data-i18n="footer_link_pricing">Pricing</a>
       <a href="#xray" data-i18n="footer_link_xray">Free X-Ray tool</a>
-      <a href="mailto:dodo@storescope.com?subject=API%20docs%20access" class="footer-link-muted" aria-label="Email for API documentation access" data-i18n="footer_link_api">API access</a>
+      <a href="mailto:support@storescope.com?subject=API%20docs%20access" class="footer-link-muted" aria-label="Email for API documentation access" data-i18n="footer_link_api">API access</a>
     </div>
     <div class="footer-col">
       <h3 data-i18n="footer_col_company">Company</h3>

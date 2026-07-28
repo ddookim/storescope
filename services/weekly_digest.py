@@ -189,8 +189,8 @@ h1{{font-size:28px;letter-spacing:-0.5px;margin-bottom:8px;color:#1C1917}}
 <div class="footer">
 StoreScope · Shopify cross-store intelligence · pHash perceptual clustering<br>
 You're receiving this because you subscribed to the {plan_label} plan.<br>
-<a href="mailto:dodo@storescope.com?subject=Unsubscribe">Unsubscribe</a> ·
-<a href="mailto:dodo@storescope.com">Contact</a>
+<a href="mailto:support@storescope.com?subject=Unsubscribe">Unsubscribe</a> ·
+<a href="mailto:support@storescope.com">Contact</a>
 </div>
 </body></html>
 """

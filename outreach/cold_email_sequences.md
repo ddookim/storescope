@@ -55,7 +55,7 @@ storescope.com
 
 ### 발송 설정
 
-- **From**: dodo@storescope.com (자체 도메인 SPF/DKIM 통과 후만)
+- **From**: support@storescope.com (자체 도메인 SPF/DKIM 통과 후만)
 - **첨부 X** (PDF 첨부는 스팸 필터 트리거)
 - **링크 1개만** (storescope.com 자체 도메인 brand 페이지). 다중 링크 = 스팸 신호
 - **추적 이미지 X** (privacy-conscious DTC brand 거부감)

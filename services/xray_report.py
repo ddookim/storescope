@@ -193,7 +193,7 @@ StoreScope's weekly digest covers the entire cross-store catalog — what's spre
 </div>
 
 <p style="font-size:12px;color:#78716C;margin-top:32px">
-You requested this X-Ray at {APP_URL}. Reply to this email or contact dodo@storescope.com.<br>
+You requested this X-Ray at {APP_URL}. Reply to this email or contact support@storescope.com.<br>
 StoreScope · Shopify cross-store intelligence
 </p>
 </body></html>"""
