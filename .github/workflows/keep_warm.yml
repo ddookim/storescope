@@ -8,10 +8,13 @@ name: Keep Render Warm (backup ping)
 #
 # 메인 케이프 방지는 cron-job.org 사용 권장 (안정성 + 메인 작업 분리).
 # 본 워크플로는 fallback 용으로만 활성화.
+#
+# 2026-07-29 D+58 UPDATE: Render 미배포 상태에서 cron 실패 지속 → schedule 임시 비활성.
+# Render Blueprint apply 완료 후 아래 schedule 주석 해제.
 
 on:
-  schedule:
-    - cron: "*/14 * * * *"
+  # schedule:
+  #   - cron: "*/14 * * * *"   # DISABLED until Render deployment (avoid noisy failures)
   workflow_dispatch:
 
 # SEC: 최소 권한 (이 워크플로는 HTTP ping 만 함 — repo 액세스 필요 없음).

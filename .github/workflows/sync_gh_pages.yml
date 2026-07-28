@@ -1,0 +1,68 @@
+name: Sync landing → gh-pages
+
+# main 의 landing/index.html 또는 outreach/evidence/ 변경 시 gh-pages 브랜치로 자동 sync.
+# 이전엔 수동 sync (chore: landing deploy YYYY-MM-DD 커밋) — 잊음 위험.
+# 2026-07-29 D+58 도입: main push 후 라이브 반영까지 사용자 개입 0.
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'landing/index.html'
+      - 'outreach/evidence/**'
+  workflow_dispatch:
+
+# SEC: 최소 권한 (contents:write 만 필요 — gh-pages 브랜치 push).
+permissions:
+  contents: write
+
+# 중복 실행 차단
+concurrency:
+  group: sync-gh-pages
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout main (full history for branch operations)
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Configure git identity
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+      - name: Sync files from main to gh-pages
+        run: |
+          set -euo pipefail
+
+          # gh-pages worktree 생성
+          git worktree add /tmp/gh-pages-wt gh-pages
+
+          # 파일 sync (main → gh-pages)
+          cp landing/index.html /tmp/gh-pages-wt/index.html
+          cp landing/index.html /tmp/gh-pages-wt/landing/index.html
+          mkdir -p /tmp/gh-pages-wt/outreach/evidence
+          if [ -d outreach/evidence ]; then
+            cp -r outreach/evidence/* /tmp/gh-pages-wt/outreach/evidence/ 2>/dev/null || true
+          fi
+
+          # 변경 여부 확인 + 커밋
+          cd /tmp/gh-pages-wt
+          if git diff --quiet && git diff --cached --quiet; then
+            echo "No changes to sync — skip commit"
+            exit 0
+          fi
+
+          git add index.html landing/index.html outreach/evidence/ 2>/dev/null || git add -A
+          git commit -m "chore: landing deploy $(date -u +%Y-%m-%d) (auto-sync from ${GITHUB_SHA:0:7})"
+          git push origin gh-pages
+
+      - name: Cleanup worktree
+        if: always()
+        run: |
+          git worktree remove /tmp/gh-pages-wt --force 2>/dev/null || true
