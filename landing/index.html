@@ -1685,7 +1685,7 @@
       background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%234F46E5' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'/></svg>");
     }
     .faq-item details[open] summary { color: #4F46E5; background: rgba(79,70,229,0.04); }
-    .faq-item details[open] p { padding: 0 28px 24px; font-size: 14px; color: var(--muted-2); line-height: 1.8; }
+    .faq-item details[open] p { padding: 0 28px 24px; font-size: 14px; color: var(--muted-2); line-height: 1.8; overflow-wrap: anywhere; word-break: break-word; } /* FIX 2026-07-29 D+58 R2-CRIT: CJK 긴 텍스트 cell 밖 오버플로 방지 (JA/KO 답변 잘림) */
     .faq-item details[open] p a { color: #4F46E5; }
 
     /* ── FOOTER — UPGRADE 2026-06-09 (Linear/Plausible polish) ── */
@@ -3640,7 +3640,7 @@
         hero_eyebrow: "Live · refreshed every Monday at 9 AM",
         hero_h1_line1: "Shopify product trends,",
         hero_h1_line2: "a week early.",
-        hero_sub: "We watch 1,400 Shopify stores and surface the products spreading across them — every Monday morning, before TikTok ads catch on.",
+        hero_sub: "We watch 1,400 Shopify stores and surface the products spreading across them — every Monday morning, before mainstream discovery kicks in.",
         hero_cta_primary: "Try X-Ray on any store",
         hero_cta_secondary: "See pricing →",
         hero_scale: "Tracking 1,400+ Shopify stores · 140,000+ products · refreshed weekly",
@@ -3873,7 +3873,7 @@
         faq_q_digest: "What exactly is in the Monday digest?",
         faq_a_digest: "Top 20 (Starter) or unlimited (Pro) trending products from the past 7 days, ranked by Storm Score. Each product shows: store count adopting it, week-over-week delta, momentum score, price spread, and links to all stores carrying it.",
         faq_q_diff: "How is this different from other product research tools?",
-        faq_a_diff: "Most tools rank by absolute store count (saturated giants win). StoreScope's Storm Score combines momentum (acceleration) + log-scaled store count + age decay — surfacing rising products before they saturate. Single niche: Shopify cross-store intelligence, no ad spy / TikTok / Amazon dilution.",
+        faq_a_diff: "Most trend rankings weight absolute store count, which favors already-saturated products. Storm Score weights momentum (acceleration), log-scaled store count, and age decay — surfacing products still climbing. Focused on one thing: Shopify cross-store intelligence. No unrelated channels diluting the signal.",
         faq_q_trial_value: "What if I don't see value in 7 days?",
         faq_a_trial_value: "Cancel from your Paddle billing portal — you are not charged. After billing starts, our refund window is 14 days, no questions asked.",
 
@@ -3988,7 +3988,7 @@
         pricing_trust_badges_label: "Secured & accepted worldwide",
         bento_rank_eyebrow_v2: "Weekly Trend Ranking",
         bento_rank_h3_v2: "Spot next week's bestseller this Monday.",
-        bento_rank_body_v2: "Every product scored 0–100 by how fast it spreads across 1,400+ stores. Filter 80+ to see this week's shortlist — typically 1–2 weeks before TikTok ads pick them up.",
+        bento_rank_body_v2: "Every product scored 0–100 by how fast it spreads across 1,400+ stores. Filter 80+ to see this week's shortlist — typically 1–2 weeks before mainstream ad exposure.",
         bento_rank_caption_v2: "Top trending products this week",
         bento_api_eyebrow_v2: "Direct API",
         bento_api_h3_v2: "Pull trending data into your own tools.",
@@ -4047,7 +4047,7 @@
         hero_eyebrow: "실시간 · 매주 월요일 오전 9시 갱신",
         hero_h1_line1: "Shopify 상품 트렌드,",
         hero_h1_line2: "일주일 먼저.",
-        hero_sub: "1,400개 Shopify 스토어를 매주 분석해 빠르게 퍼지는 상품을 찾아냅니다 — TikTok 광고가 트렌드를 잡기 전에.",
+        hero_sub: "1,400개 Shopify 스토어를 매주 분석해 빠르게 퍼지는 상품을 찾아냅니다 — 대중 시장이 인지하기 전에.",
         hero_cta_primary: "X-Ray로 스토어 분석",
         hero_cta_secondary: "가격 보기 →",
         hero_scale: "1,400+ Shopify 스토어 · 140,000+ 상품 · 매주 갱신",
@@ -4263,7 +4263,7 @@
         faq_q_digest: "월요일 다이제스트에 정확히 무엇이 포함되나요?",
         faq_a_digest: "지난 7일간 Storm Score로 랭킹된 상위 20개(Starter) 또는 무제한(Pro) 트렌드 상품. 각 상품: 채택 스토어 수, 주간 변화, 모멘텀 점수, 가격 분포, 모든 판매 스토어 링크.",
         faq_q_diff: "다른 상품 리서치 도구와 어떻게 다른가요?",
-        faq_a_diff: "대부분의 도구는 절대 스토어 수로 랭킹 (포화 거대 클러스터 우위). StoreScope의 Storm Score는 모멘텀(가속도) + 로그 스케일 스토어 수 + 시간 감쇠를 결합 — 포화 전에 부상 중인 상품을 surface. 단일 니치: Shopify 크로스 스토어 인텔리전스, 광고 스파이/TikTok/Amazon 분산 없음.",
+        faq_a_diff: "대부분의 트렌드 랭킹은 절대 스토어 수에 가중치를 두어 이미 포화된 상품이 유리합니다. Storm Score는 모멘텀(가속도), 로그 스케일 스토어 수, 시간 감쇠에 가중치를 두어 아직 부상 중인 상품을 노출합니다. Shopify 크로스 스토어 인텔리전스 한 가지에 집중 — 관련 없는 채널이 신호를 희석시키지 않습니다.",
         faq_q_trial_value: "7일 동안 가치를 못 느끼면?",
         faq_a_trial_value: "Paddle 결제 포털에서 해지 — 청구 없음. 결제 시작 후 환불 기간은 14일, 묻지 않습니다.",
 
@@ -4371,7 +4371,7 @@
         pricing_trust_badges_label: "전 세계 안전 결제",
         bento_rank_eyebrow_v2: "주간 트렌드 랭킹",
         bento_rank_h3_v2: "다음 주 베스트셀러를 이번 월요일에 포착.",
-        bento_rank_body_v2: "1,400+ 스토어 전반 확산 속도로 0-100점 산정. 80+ 필터로 이번 주 shortlist 확인 — 보통 TikTok 광고 픽업 1-2주 전.",
+        bento_rank_body_v2: "1,400+ 스토어 전반 확산 속도로 0-100점 산정. 80+ 필터로 이번 주 shortlist 확인 — 보통 대중 광고 노출 1-2주 전.",
         bento_rank_caption_v2: "이번 주 톱 트렌딩 상품",
         bento_api_eyebrow_v2: "Direct API",
         bento_api_h3_v2: "트렌딩 데이터를 본인의 도구로.",
@@ -4430,7 +4430,7 @@
         hero_eyebrow: "ライブ · 毎週月曜午前9時に更新",
         hero_h1_line1: "Shopify商品のトレンドを",
         hero_h1_line2: "1週間早く。",
-        hero_sub: "1,400店舗のShopifyストアを毎週分析し、急速に広がっている商品をお届けします — TikTok広告が追いつく前に。",
+        hero_sub: "1,400店舗のShopifyストアを毎週分析し、急速に広がっている商品をお届けします — 主流市場が認識する前に。",
         hero_cta_primary: "任意のストアをX-Rayで分析",
         hero_cta_secondary: "料金を見る →",
         hero_scale: "1,400以上のShopifyストア · 140,000以上の商品 · 毎週更新",
@@ -4646,7 +4646,7 @@
         faq_q_digest: "月曜ダイジェストに正確には何が含まれますか?",
         faq_a_digest: "過去7日間でStorm Scoreでランキングされたトップ20(Starter)または無制限(Pro)のトレンド商品。各商品:採用ストア数、週次変化、モメンタムスコア、価格分布、全販売ストアへのリンク。",
         faq_q_diff: "他の商品リサーチツールとどう違いますか?",
-        faq_a_diff: "ほとんどのツールは絶対ストア数でランキング(飽和した巨大クラスター優位)。StoreScopeのStorm Scoreはモメンタム(加速度)+対数スケールストア数+時間減衰を組み合わせ — 飽和前に台頭する商品を表示。単一ニッチ:Shopifyクロスストアインテリジェンス、広告スパイ/TikTok/Amazon希釈なし。",
+        faq_a_diff: "多くのトレンドランキングは絶対的なストア数を重視するため、すでに飽和した商品が有利になりがちです。Storm Scoreはモメンタム(加速度)、対数スケールのストア数、時間減衰を重視し、まだ台頭中の商品を表示します。Shopifyクロスストアインテリジェンス、この一つに集中しており、関連のないチャネルがシグナルを希釈することはありません。",
         faq_q_trial_value: "7日間で価値を感じなかったら?",
         faq_a_trial_value: "Paddle請求ポータルから解約 — 請求なし。請求開始後の返金期間は14日間、質問なし。",
 
@@ -4754,7 +4754,7 @@
         pricing_trust_badges_label: "世界中で安全・利用可能",
         bento_rank_eyebrow_v2: "週次トレンドランキング",
         bento_rank_h3_v2: "来週のベストセラーを今週月曜に発見。",
-        bento_rank_body_v2: "1,400+ストア全体の拡散速度で0-100点を採点。80+でフィルタすると今週のshortlistが見え、通常TikTok広告ピックアップの1-2週間前。",
+        bento_rank_body_v2: "1,400+ストア全体の拡散速度で0-100点を採点。80+でフィルタすると今週のshortlistが見え、通常、大衆広告露出の1-2週間前です。",
         bento_rank_caption_v2: "今週のトップトレンド商品",
         bento_api_eyebrow_v2: "Direct API",
         bento_api_h3_v2: "トレンドデータを自分のツールに。",
@@ -4948,7 +4948,7 @@
     <span data-i18n="hero_h1_line1">Shopify product trends,</span><br>
     <span class="grad-text" data-i18n="hero_h1_line2">a week early.</span>
   </h1>
-  <p class="hero-sub" data-i18n="hero_sub">We watch 1,400 Shopify stores and surface the products spreading across them — every Monday morning, before TikTok ads catch on.</p>
+  <p class="hero-sub" data-i18n="hero_sub">We watch 1,400 Shopify stores and surface the products spreading across them — every Monday morning, before mainstream discovery kicks in.</p>
 
   <div class="hero-ctas">
     <a href="#xray" class="btn-hero-primary">
@@ -5333,7 +5333,7 @@
           <span data-i18n="bento_rank_eyebrow_v2">Weekly Trend Ranking</span>
         </div>
         <h3 data-i18n="bento_rank_h3_v2">Spot next week's bestseller this Monday.</h3>
-        <p data-i18n="bento_rank_body_v2">Every product scored 0–100 by how fast it spreads across 1,400+ stores. Filter 80+ to see this week's shortlist — typically 1–2 weeks before TikTok ads pick them up.</p>
+        <p data-i18n="bento_rank_body_v2">Every product scored 0–100 by how fast it spreads across 1,400+ stores. Filter 80+ to see this week's shortlist — typically 1–2 weeks before mainstream ad exposure.</p>
         <div class="bc-chart">
           <div class="bc-chart-header">
             <span class="bc-chart-title" data-i18n="bento_rank_caption_v2">Top trending products this week</span>
