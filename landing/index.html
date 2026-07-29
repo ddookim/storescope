@@ -127,7 +127,7 @@
     style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.jsdelivr.net https://cdn.paddle.com;
     font-src 'self' https://fonts.gstatic.com https://cdn.jsdelivr.net;
     img-src 'self' data: https:;
-    connect-src 'self' https://storescope-api.onrender.com https://*.onrender.com https://*.trycloudflare.com https://api.paddle.com https://*.paddle.com https://www.google-analytics.com https://*.google-analytics.com https://*.profitwell.com https://api.storescope.com;
+    connect-src 'self' https://storescope-api.onrender.com https://*.onrender.com https://*.trycloudflare.com https://api.paddle.com https://*.paddle.com https://www.google-analytics.com https://*.google-analytics.com https://*.profitwell.com https://api.storescope.com https://storescope.netlify.app;
     frame-src https://buy.paddle.com https://sandbox-buy.paddle.com https://checkout.paddle.com;
     object-src 'none';
     base-uri 'self';
@@ -4958,12 +4958,17 @@
     <a href="#pricing" class="hero-secondary-link" data-i18n="hero_cta_secondary">See pricing →</a>
   </div>
 
-  <!-- UPGRADE 2026-07-29: above-fold email capture (2026 SaaS pattern: single-field CTA = 15-120% conversion lift, Nielsen 80% attention above-fold).
-       CSS: xr-email-row/input/submit-btn/trust-note 재사용 = design token 일관성 유지. -->
-  <form id="hero-email-form" onsubmit="heroEmailSubmit(event)" style="max-width:500px;margin:4px auto 18px;">
+  <!-- UPGRADE 2026-07-29: above-fold email capture (2026 SaaS pattern: single-field CTA = 15-120% conversion lift).
+       Netlify Forms 연동 (100 submissions/mo 무료, spam honeypot 자동, dodo32032@gmail.com 알림). -->
+  <form id="hero-email-form" name="hero-email-form" onsubmit="heroEmailSubmit(event)"
+        data-netlify="true" netlify-honeypot="bot-field"
+        style="max-width:500px;margin:4px auto 18px;">
+    <input type="hidden" name="form-name" value="hero-email-form" />
+    <p style="display:none;"><label>Leave empty: <input name="bot-field" /></label></p>
     <div class="xr-email-row">
       <input
         type="email"
+        name="email"
         class="xr-email-input"
         id="hero-email"
         placeholder="you@yourstore.com"
@@ -6780,24 +6785,34 @@
       }
     }
 
-    fetch(API_BASE + '/leads', {
+    // FIX 2026-07-29 D+58: Netlify Forms endpoint (100 subs/mo 무료, honeypot spam 방어, 이메일 알림).
+    // GH Pages 원본 페이지에서 cross-origin POST → storescope.netlify.app.
+    // form-encoded body (Netlify Forms 요구 스펙), form-name 필수.
+    var params = new URLSearchParams();
+    params.append('form-name', 'hero-email-form');
+    params.append('email', email);
+    params.append('source', 'hero');
+    params.append('bot-field', '');  // honeypot 빈값 = 봇 아님
+
+    fetch('https://storescope.netlify.app/', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email: email, source: 'hero' })
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: params.toString()
     }).then(function(r) {
-      if (!r.ok) {
-        console.error('[/leads] hero non-2xx', r.status);
+      // Netlify Forms: 200 = accepted (HTML success page or 200 OK)
+      if (!r.ok && r.status !== 0) {
+        console.error('[netlify-form] hero non-2xx', r.status);
         if (typeof gtag === 'function') {
-          gtag('event', 'exception', { description: 'hero_leads_' + r.status, fatal: false });
+          gtag('event', 'exception', { description: 'hero_netlify_' + r.status, fatal: false });
         }
         _heroFailure('server error');
         return;
       }
       _heroSuccess();
     }).catch(function(err) {
-      console.error('[/leads] hero network fail', err);
+      console.error('[netlify-form] hero network fail', err);
       if (typeof gtag === 'function') {
-        gtag('event', 'exception', { description: 'hero_leads_network_fail', fatal: false });
+        gtag('event', 'exception', { description: 'hero_netlify_network_fail', fatal: false });
       }
       _heroFailure('network error');
     });
