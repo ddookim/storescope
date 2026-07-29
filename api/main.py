@@ -689,7 +689,7 @@ def unsubscribe(
     # 다음 주 스팸 신고 → 도메인 평판 파괴. 400 + 명확 메시지로 변경.
     # Enumeration risk: HMAC 8-byte token 검증 + 30/min rate limit 로 차단 가능.
     if not _verify_unsub_token(sid, token):
-        logger.warning("Unsubscribe HMAC invalid: sid=%s", sid)
+        logger.warning("Unsubscribe HMAC invalid: sid=%d", sid)  # FIX 2026-07-29 CodeQL: %s → %d 방어 (Pydantic int 검증 + format enforcement)
         return HTMLResponse(
             content=(
                 "<!doctype html><html lang='en'><head><meta charset='utf-8'>"
@@ -717,7 +717,7 @@ def unsubscribe(
                 )
                 row = cur.fetchone()
         if row:
-            logger.info("Unsubscribe processed: subscriber_id=%s email=%s", sid, row[0])
+            logger.info("Unsubscribe processed: subscriber_id=%d email=%r", sid, row[0])  # FIX 2026-07-29 CodeQL: %d 로 int 강제 + %r 로 email 특수문자 escape
             return HTMLResponse(
                 content=(
                     "<!doctype html><html lang='en'><head><meta charset='utf-8'>"
@@ -747,5 +747,5 @@ def unsubscribe(
             status_code=200,
         )
     except Exception:
-        logger.error("GET /unsubscribe 실패: sid=%s", sid, exc_info=True)
+        logger.error("GET /unsubscribe 실패: sid=%d", sid, exc_info=True)  # FIX 2026-07-29 CodeQL: %s → %d 방어
         raise HTTPException(status_code=500, detail="내부 서버 오류가 발생했습니다.")
