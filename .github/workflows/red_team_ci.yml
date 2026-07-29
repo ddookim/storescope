@@ -1,4 +1,4 @@
-name: Red Team CI (verified tools + custom linter)
+name: Red Team + Blue Team CI (verified tools + debate)
 
 # 2026-07-29 D+58 도입: 사용자 red team 라운드 반복 발견 문제들의 영구 자동 검증.
 # 도입 tool:
@@ -35,19 +35,45 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  # ─── Job 1: 프로젝트 기존 검증 ───────────────
-  project-lints:
-    name: verify_landing + red_team_lint
+  # ─── Job 1: 🔴 RED TEAM + 🛡 BLUE TEAM debate ─────
+  # 병행 실행 후 debate report 출력 — 어느 쪽이 우세한지 각 룰별 판정.
+  red-vs-blue-debate:
+    name: 🔴 Red vs 🛡 Blue debate
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
       - uses: actions/checkout@v4
 
-      - name: Run verify_landing.sh
+      - name: verify_landing (project 관례)
         run: bash deploy/verify_landing.sh landing/index.html
 
-      - name: Run red_team_lint.sh (StoreScope 전용 룰)
+      - name: 🔴 Red Team — 공격 벡터 hunt
+        id: red
         run: bash deploy/red_team_lint.sh
+        continue-on-error: true
+
+      - name: 🛡 Blue Team — 방어 태세 verify
+        id: blue
+        run: bash deploy/blue_team_defense.sh
+        continue-on-error: true
+
+      - name: 🏛 Debate Verdict
+        run: |
+          echo "═══════════════════════════════════════════════"
+          echo "  🏛 DEBATE VERDICT"
+          echo "═══════════════════════════════════════════════"
+          echo "  🔴 Red Team exit:  ${{ steps.red.outcome }}"
+          echo "  🛡 Blue Team exit: ${{ steps.blue.outcome }}"
+          echo ""
+          if [ "${{ steps.red.outcome }}" = "failure" ]; then
+            echo "  ✗ Red team 승 — 공격 벡터 확인. Blue team 방어 gap 확인 필요."
+            exit 1
+          elif [ "${{ steps.blue.outcome }}" = "failure" ]; then
+            echo "  ⚠ Blue team gap — 방어 태세 미비. Red team 공격 없어도 잠재 위험."
+            exit 1
+          else
+            echo "  ✓ 균형 — Red team 공격 벡터 0, Blue team 방어 태세 완비."
+          fi
 
   # ─── Job 2: Lighthouse CI (perf/a11y/SEO) ────────────
   lighthouse:
@@ -133,3 +159,60 @@ jobs:
         run: |
           find api services pipeline scripts -name "*.py" -type f 2>/dev/null | xargs python3 -m py_compile
           echo "✓ py_compile clean"
+
+  # ─── Job 6: 🛡 Blue Team — bandit (Python SAST) ─────────
+  # PyCQA 공식 Python 보안 정적 분석 (47 checks × 7 카테고리)
+  bandit:
+    name: 🛡 bandit (Python SAST — PyCQA 공식)
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install bandit
+        run: pip install bandit
+
+      - name: Run bandit (HIGH severity only, SARIF)
+        run: |
+          bandit -r api services pipeline scripts \
+            --severity-level high \
+            --confidence-level medium \
+            --format sarif \
+            --output bandit.sarif \
+            --exit-zero \
+            || true
+          # 인간 읽기용 요약도 출력
+          bandit -r api services pipeline scripts \
+            --severity-level high \
+            --confidence-level medium \
+            --format screen \
+            || true
+
+      - name: Upload bandit SARIF
+        if: always()
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: bandit.sarif
+          category: bandit
+        continue-on-error: true
+
+  # ─── Job 7: 🛡 Blue Team — pip-audit (dep vuln) ─────────
+  # PyPA 공식 (Trail of Bits + Google 유지관리) - PyPI + OSV DB 스캔
+  pip-audit:
+    name: 🛡 pip-audit (dep CVE — PyPA 공식)
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Run pip-audit on requirements.txt
+        uses: pypa/gh-action-pip-audit@v1.1.0
+        with:
+          inputs: requirements.txt
+          # local: true  # 로컬 pip env 대신 requirements.txt 만 스캔
+        continue-on-error: true  # 취약점 발견 시에도 workflow 계속 (SARIF 리포트만)
