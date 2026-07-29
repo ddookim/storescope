@@ -1996,7 +1996,7 @@
       transition: all 0.2s; font-family: inherit;
     }
     .xr-submit-btn:hover { box-shadow: 0 4px 16px rgba(79,70,229,0.4), 0 8px 24px rgba(79,70,229,0.2); transform: translateY(-1px); }
-    .xr-trust-note { margin-top: 14px; font-size: 12px; color: var(--muted); display: flex; justify-content: center; align-items: center; gap: 14px; }
+    .xr-trust-note { margin-top: 14px; font-size: 12px; color: var(--muted-2); display: flex; justify-content: center; align-items: center; gap: 14px; } /* FIX 2026-07-29 D+58 HIGH WCAG: --muted 2.38:1 → --muted-2 4.6:1 pass. */
     .xr-trust-note span { display: flex; align-items: center; gap: 4px; }
 
     /* ── STEP 4 : success ── */
@@ -3688,14 +3688,11 @@
         feature_export_desc: "Pro plan: download the full week's ranking as CSV. Bring it to your team meeting in 1 click.",
 
         // How It Works
-        how_pill: "How it works",
+        // FIX 2026-07-29 D+58 CRIT: how_pill/step*_desc 중복 정리 — 두 번째 세트 (line ~3970) 가 last-wins.
         how_h2: "From 1,400 stores to your shortlist.",
         how_step1_h3: "1. We scan 1,400 Shopify stores weekly",
-        how_step1_desc: "Public /products.json endpoint only. No auth bypass, no scraping. Compliant with robots.txt.",
         how_step2_h3: "2. Cluster identical products via image hash",
-        how_step2_desc: "Same product across multiple stores = trending signal. Image hashing groups products even with different titles.",
         how_step3_h3: "3. Score by momentum, not raw count",
-        how_step3_desc: "Storm Score combines week-over-week growth, velocity (acceleration), and store count — surfaces rising winners, not saturated giants.",
 
         // Live Demo Dashboard
         demo_pill: "Live dashboard",
@@ -4094,14 +4091,11 @@
         feature_export_h3: "CSV 일괄 내보내기",
         feature_export_desc: "Pro 플랜: 주간 랭킹 전체를 CSV로 다운로드. 팀 미팅에 1클릭으로 가져가세요.",
 
-        how_pill: "작동 원리",
+        // FIX 2026-07-29 D+58 CRIT: how_pill/step*_desc 중복 정리 — 두 번째 세트 (line ~4355) 가 last-wins.
         how_h2: "1,400개 스토어에서 당신의 shortlist까지.",
         how_step1_h3: "1. 매주 1,400개 Shopify 스토어 스캔",
-        how_step1_desc: "공개 /products.json 엔드포인트만 사용. 인증 우회 없음, 크롤링 없음. robots.txt 준수.",
         how_step2_h3: "2. 이미지 해시로 동일 상품 클러스터링",
-        how_step2_desc: "여러 스토어의 동일 상품 = 트렌드 신호. 이미지 해싱은 제목이 달라도 같은 상품을 그룹화합니다.",
         how_step3_h3: "3. 누적이 아닌 모멘텀으로 점수화",
-        how_step3_desc: "Storm Score는 주간 성장률, 속도(가속도), 스토어 수를 결합 — 포화 거대 클러스터가 아닌 부상 중인 위너를 surface.",
 
         demo_pill: "라이브 대시보드",
         demo_h2: "지난 월요일 위너의 스냅샷.",
@@ -4366,9 +4360,9 @@
         founder_h2: "창업자의 한마디.",
         founder_sub: "가짜 후기 없음. 실제로 만들어진 것 — 그리고 왜 시도해보라고 부탁하는지.",
         founder_body_1_strong: "독립, 부트스트랩",
-        founder_body_1_rest: "하나의 생태계 — Shopify — 만을 위한 상품 인텔리전스. VC 로드맵 없음, 인수 타깃 없음, 분기별 이사회 검토가 방향을 지시하지 않음. 오퍼레이터를 위한 집중된 도구.",
+        founder_body_1_rest: "하나의 생태계 — Shopify — 만을 위해 만든 상품 인텔리전스입니다. VC 로드맵도, 인수 타깃도, 분기별 이사회 검토도 방향을 지시하지 않습니다. 오퍼레이터를 위한 집중된 도구입니다.",
         founder_body_2_strong: "오픈 베타",
-        founder_body_2_rest: "는 정직한 가격과 직접 연결을 의미: 어떤 이메일에든 답장하면 사람과 닿음, 서포트 큐가 아닌. Pro 7일 시도 — 가격 값어치를 못 하면 전액 환불.",
+        founder_body_2_rest: "는 정직한 가격 정책과 직접 소통을 뜻합니다. 어떤 이메일이든 답장하면 지원 대기열이 아니라 실제 담당자에게 도달합니다. Pro를 7일 사용해 보시고, 값어치를 못 하면 전액 환불해 드립니다.",
         founder_data_shopify_stores: "Shopify 스토어",
         founder_data_products: "추적 상품",
         founder_data_clusters: "상품 클러스터",
@@ -4440,7 +4434,7 @@
         hero_cta_primary: "任意のストアをX-Rayで分析",
         hero_cta_secondary: "料金を見る →",
         hero_scale: "1,400以上のShopifyストア · 140,000以上の商品 · 毎週更新",
-        hero_email_submit: "サンプルデータを受け取る →",
+        hero_email_submit: "サンプルを取得 →",
         hero_email_trust_1: "週次ダイジェスト",
         hero_email_trust_2: "スパムなし",
         hero_email_trust_3: "いつでも解除可",
@@ -4480,14 +4474,11 @@
         feature_export_h3: "CSV一括エクスポート",
         feature_export_desc: "Proプラン:週次ランキング全体をCSVでダウンロード。チームミーティングに1クリックで持参。",
 
-        how_pill: "しくみ",
+        // FIX 2026-07-29 D+58 CRIT: how_pill/step*_desc 중복 정리 — 두 번째 세트 (line ~4735) 가 last-wins.
         how_h2: "1,400店舗からあなたのショートリストまで。",
         how_step1_h3: "1. 毎週1,400店舗のShopifyストアをスキャン",
-        how_step1_desc: "公開 /products.json エンドポイントのみ使用。認証バイパスなし、スクレイピングなし。robots.txt準拠。",
         how_step2_h3: "2. 画像ハッシュで同一商品をクラスタリング",
-        how_step2_desc: "複数ストアの同一商品 = トレンドシグナル。画像ハッシングはタイトルが異なっても同じ商品をグループ化。",
         how_step3_h3: "3. 累積ではなくモメンタムで採点",
-        how_step3_desc: "Storm Scoreは週次成長率、速度(加速度)、ストア数を組み合わせ — 飽和した巨大クラスターではなく台頭する勝者を表示。",
 
         demo_pill: "ライブダッシュボード",
         demo_h2: "先週月曜の勝者のスナップショット。",
@@ -4752,9 +4743,9 @@
         founder_h2: "創業者からのメモ。",
         founder_sub: "偽の証言なし。実際に作られているもの — そしてなぜ試してほしいのか。",
         founder_body_1_strong: "独立、ブートストラップ",
-        founder_body_1_rest: "1つのエコシステム — Shopify — のために構築された商品インテリジェンス。VCロードマップなし、買収ターゲットなし、四半期取締役会レビューが方向性を指示しない。オペレーターのための集中ツール。",
+        founder_body_1_rest: "1つのエコシステム — Shopify — のために構築された商品インテリジェンスです。VCロードマップも、買収ターゲットも、四半期取締役会レビューが方向性を指示することもありません。オペレーターのための集中ツールです。",
         founder_body_2_strong: "オープンベータ",
-        founder_body_2_rest: "は正直な価格と直接のラインを意味する:どのメールにも返信すると人に届く、サポートキューではなく。Proを7日間試す — 価格を取り戻せなければ全額返金。",
+        founder_body_2_rest: "は正直な価格設定と、直接つながる窓口を意味します。どのメールに返信いただいても、サポートキューではなく担当者本人に届きます。Proを7日間お試しいただき、価値がなければ全額返金いたします。",
         founder_data_shopify_stores: "Shopifyストア",
         founder_data_products: "追跡商品",
         founder_data_clusters: "商品クラスター",
@@ -4994,7 +4985,8 @@
   <!-- UPGRADE 2026-06-08: hero-alerts 제거 — 3D dashboard mockup이 동일 가치 제공 (제품 시각).
        이전: alerts + mockup 동시 표시 = 시각 중복. 이제 mockup 단독으로 hero 시각 통일. -->
   <p class="hero-scale-note" data-i18n="hero_scale">Tracking 1,400+ Shopify stores · 140,000+ products · refreshed weekly</p>
-  <p class="hero-trust-line" style="text-align:center;font-size:12px;color:var(--muted);margin-top:6px;letter-spacing:0.6px;text-transform:uppercase;font-weight:600;">
+  <p class="hero-trust-line" style="text-align:center;font-size:12px;color:var(--muted-2);margin-top:6px;letter-spacing:0.6px;text-transform:uppercase;font-weight:600;">
+    <!-- FIX 2026-07-29 D+58 HIGH: --muted (#A8A29E 2.38:1 vs cream) WCAG AA fail. --muted-2 (#78716C 4.6:1) 통과. -->
     <span data-i18n="hero_trust_line">Independent · Bootstrapped · Early access preview</span>
   </p>
 
@@ -6778,6 +6770,15 @@
         submitBtn.style.background = 'var(--green)';
       }
     }
+    // FIX 2026-07-29 D+58 CRIT: 이전엔 실패 시에도 fake success 표시 → validation metric 오염 + 사용자 misleading.
+    // 이제 실패 시 button 재활성 + 명시 에러 메시지 + retry 가능.
+    function _heroFailure(reason) {
+      if (submitBtn) {
+        submitBtn.disabled = false;
+        submitBtn.style.background = '';
+        submitBtn.innerHTML = '<span>Try again — ' + reason + '</span>';
+      }
+    }
 
     fetch(API_BASE + '/leads', {
       method: 'POST',
@@ -6789,6 +6790,8 @@
         if (typeof gtag === 'function') {
           gtag('event', 'exception', { description: 'hero_leads_' + r.status, fatal: false });
         }
+        _heroFailure('server error');
+        return;
       }
       _heroSuccess();
     }).catch(function(err) {
@@ -6796,7 +6799,7 @@
       if (typeof gtag === 'function') {
         gtag('event', 'exception', { description: 'hero_leads_network_fail', fatal: false });
       }
-      _heroSuccess();
+      _heroFailure('network error');
     });
   }
 
