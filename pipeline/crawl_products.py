@@ -16,6 +16,7 @@ ThreadPoolExecutor 제거 → asyncio 비동기 큐 기반으로 전환.
 
 import asyncio
 import json
+import logging
 import time
 from dataclasses import asdict, dataclass, field
 from datetime import datetime, timezone

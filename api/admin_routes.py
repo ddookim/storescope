@@ -14,8 +14,10 @@ import os
 from typing import Optional
 
 import psycopg2.extras
-from fastapi import APIRouter, Header, HTTPException, Query
+from fastapi import APIRouter, Header, HTTPException, Query, Request
 from pydantic import BaseModel, EmailStr
+
+from api.rate_limit import limiter  # 공용 slowapi 인스턴스 (main.py 와 동일 backend)
 
 _log = logging.getLogger(__name__)
 
@@ -65,7 +67,9 @@ class DeactivateRequest(BaseModel):
 
 # ── POST /admin/key ─────────────────────────────────────────
 @router.post("/key")
+@limiter.limit("5/minute")  # FIX 2026-07-29 D+58 HIGH: brute force ADMIN_SECRET 방어
 def issue_key(
+    request: Request,
     req: KeyCreateRequest,
     x_admin_secret: Optional[str] = Header(None),
 ):
@@ -88,7 +92,9 @@ def issue_key(
 
 # ── POST /admin/deactivate ──────────────────────────────────
 @router.post("/deactivate")
+@limiter.limit("5/minute")
 def deactivate_key(
+    request: Request,
     req: DeactivateRequest,
     x_admin_secret: Optional[str] = Header(None),
 ):
@@ -101,7 +107,9 @@ def deactivate_key(
 
 # ── GET /admin/stats ────────────────────────────────────────
 @router.get("/stats")
+@limiter.limit("5/minute")
 def get_stats(
+    request: Request,
     x_admin_secret: Optional[str] = Header(None),
     limit: int = Query(default=100, ge=1, le=500, description="최대 반환 키 수"),
     offset: int = Query(default=0, ge=0, description="페이지네이션 offset"),

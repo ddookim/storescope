@@ -280,13 +280,14 @@ def _bulk_insert_snapshots(
 
     # Storm Score V2: 최근 4주 delta 시계열 (가장 오래된 first)
     # ARRAY_AGG with ORDER BY → window function 없이 single pass
+    # FIX 2026-07-29 D+58 HIGH: % formatting → make_interval parameterized (프로젝트 룰 준수: f-string SQL 금지)
     cur.execute("""
         SELECT cluster_id,
                ARRAY_AGG(week_delta ORDER BY snapshot_at ASC) AS deltas
         FROM trend_snapshots
-        WHERE snapshot_at > NOW() - INTERVAL '%s weeks'
+        WHERE snapshot_at > NOW() - make_interval(weeks => %s)
         GROUP BY cluster_id
-    """ % _STORM_HISTORY_WEEKS)
+    """, (_STORM_HISTORY_WEEKS,))
     delta_history: dict[int, list[int]] = {row[0]: list(row[1]) for row in cur.fetchall()}
 
     # cluster age (clusters.first_seen → days)

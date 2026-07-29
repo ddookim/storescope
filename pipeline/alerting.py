@@ -12,11 +12,12 @@ StoreScope — Telegram 알림 모듈
 미설정 시: 콘솔 출력으로 fallback (로컬 개발용)
 """
 
-import os
-import urllib.request
-import urllib.parse
+import html
 import json
 import logging
+import os
+import urllib.parse
+import urllib.request
 from typing import Optional
 
 _log = logging.getLogger(__name__)
@@ -39,7 +40,11 @@ def send_alert(message: str, level: str = "ERROR") -> None:
     네트워크 오류는 조용히 무시 — 알림 실패로 파이프라인이 중단되어선 안 됨.
     """
     prefix = _LEVEL_PREFIX.get(level.upper(), "📢")
-    text   = f"{prefix} [StoreScope {level.upper()}]\n{message}"
+    # FIX 2026-07-29 D+58 HIGH: 이전엔 message 를 그대로 HTML parse_mode 로 전달 → exc!r / scraped title 에
+    # <, &, tag-like 문자열 포함 시 Telegram 400 "can't parse entities" → CRITICAL alert 채널 조용히 파괴.
+    # message 는 escape, prefix/level 는 신뢰 (내부 상수) → 그대로 유지.
+    safe_message = html.escape(message)
+    text   = f"{prefix} [StoreScope {level.upper()}]\n{safe_message}"
 
     if not _BOT_TOKEN or not _CHAT_ID:
         print(f"[ALERT STUB] {text}")

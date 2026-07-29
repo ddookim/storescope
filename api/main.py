@@ -33,35 +33,17 @@ if _SENTRY_DSN:
         send_default_pii=False,
     )
 
-# slowapi rate limiter — in-memory 백엔드 (Redis 불필요).
-# 무료티어 DDoS + 봇 폭주 1차 방어.
-# 한도는 env var로 분리 — 마케팅 캠페인 burst 시 임시 상향 가능.
-# Render 1 worker 영구 가정 (workers 명시 안 함). multi-worker 시 limit = N × 정의값.
-from slowapi import Limiter, _rate_limit_exceeded_handler
-from slowapi.util import get_remote_address as _slowapi_get_remote_address
-
-
-def get_remote_address(request) -> str:
-    """LB-aware client IP — Render/PaaS 의 X-Forwarded-For 우선.
-
-    Gemini D+29 review_v2: request.client.host 만 사용 시 LB 내부 IP 가 잡혀
-    모든 사용자가 한 rate limit bucket 공유 → 한 명 abuse 가 전체 차단.
-    """
-    xff = request.headers.get("X-Forwarded-For", "")
-    if xff:
-        # 가장 왼쪽 = original client. 중간 proxy IP 신뢰 X (PaaS 가 자체 LB 만 추가).
-        first = xff.split(",")[0].strip()
-        if first:
-            return first
-    return _slowapi_get_remote_address(request)
+# slowapi rate limiter — 공용 인스턴스는 api/rate_limit.py 로 이동 (2026-07-29 D+58).
+# 이전: main.py 만 소유 → admin_routes.py 순환 임포트 불가 → /admin/* unrate-limited (backend red team CRIT).
+from slowapi import _rate_limit_exceeded_handler
 from slowapi.errors import RateLimitExceeded
+from api.rate_limit import limiter, get_remote_address  # 공용 인스턴스 재사용
 
 RATE_LIMIT_TRENDING  = os.environ.get("RATE_LIMIT_TRENDING",  "60/minute")
 RATE_LIMIT_LEADS     = os.environ.get("RATE_LIMIT_LEADS",      "5/minute")
 RATE_LIMIT_OPTOUT    = os.environ.get("RATE_LIMIT_OPTOUT",    "10/minute")  # typo retry 완화
 RATE_LIMIT_FRESHNESS = os.environ.get("RATE_LIMIT_FRESHNESS", "30/minute")  # 랜딩 핑 무방어 차단
-
-limiter = Limiter(key_func=get_remote_address, default_limits=["200/minute"])
+RATE_LIMIT_ADMIN     = os.environ.get("RATE_LIMIT_ADMIN",     "5/minute")   # brute force ADMIN_SECRET 방어
 from contextlib import asynccontextmanager
 from datetime import datetime, timezone
 from typing import Optional
@@ -219,7 +201,8 @@ def health():
 
 
 @app.get("/health/db")
-def health_db():
+@limiter.limit("10/minute")  # FIX 2026-07-29 D+58 CRIT: 이전 unrate-limited → pool exhaustion DoS. maxconn=5 pool 보호.
+def health_db(request: Request):
     # 깊은 헬스 — 수동 검사 + 진단용. UptimeRobot이 호출 안 함.
     try:
         with get_conn() as conn:
