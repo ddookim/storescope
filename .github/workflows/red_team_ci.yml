@@ -1,0 +1,135 @@
+name: Red Team CI (verified tools + custom linter)
+
+# 2026-07-29 D+58 도입: 사용자 red team 라운드 반복 발견 문제들의 영구 자동 검증.
+# 도입 tool:
+#   - Lighthouse CI (treosh/lighthouse-ci-action@v12) — perf/a11y/SEO (Google 공식)
+#   - gitleaks (gitleaks/gitleaks-action@v3) — secret scan (15k+ stars)
+#   - semgrep (returntocorp/semgrep-action) — 커스텀 룰 (경쟁사 + 개인정체 + 거짓광고 + SQL injection)
+#   - deploy/red_team_lint.sh — StoreScope 전용 룰 (i18n dupe, CJK overflow, dead code)
+#   - deploy/verify_landing.sh — 기존 프로젝트 검증
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'landing/**'
+      - 'api/**'
+      - 'services/**'
+      - 'pipeline/**'
+      - 'outreach/**'
+      - 'scripts/**'
+      - '.semgrep.yml'
+      - 'lighthouserc.json'
+      - 'deploy/verify_landing.sh'
+      - 'deploy/red_team_lint.sh'
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  security-events: write  # SARIF upload
+
+concurrency:
+  group: red-team-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  # ─── Job 1: 프로젝트 기존 검증 ───────────────
+  project-lints:
+    name: verify_landing + red_team_lint
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Run verify_landing.sh
+        run: bash deploy/verify_landing.sh landing/index.html
+
+      - name: Run red_team_lint.sh (StoreScope 전용 룰)
+        run: bash deploy/red_team_lint.sh
+
+  # ─── Job 2: Lighthouse CI (perf/a11y/SEO) ────────────
+  lighthouse:
+    name: Lighthouse CI (a11y + perf + SEO)
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Audit landing/index.html
+        uses: treosh/lighthouse-ci-action@v12
+        with:
+          configPath: './lighthouserc.json'
+          uploadArtifacts: true
+          temporaryPublicStorage: true
+
+  # ─── Job 3: gitleaks (secret scan) ────────────
+  gitleaks:
+    name: gitleaks (secret detection)
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # gitleaks 전체 히스토리 스캔
+
+      - name: Run gitleaks
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # GITLEAKS_LICENSE 는 개인 계정에서 불필요 (org 만 필요)
+
+  # ─── Job 4: semgrep (custom rules) ────────────
+  semgrep:
+    name: semgrep (competitor + identity + false-ads + SQL)
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    container:
+      image: semgrep/semgrep:latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Run semgrep with .semgrep.yml + community p/security
+        run: |
+          semgrep scan \
+            --config=.semgrep.yml \
+            --config=p/security-audit \
+            --config=p/secrets \
+            --error \
+            --sarif \
+            --output=semgrep.sarif \
+            --exclude-rule=generic.secrets.security.detected-generic-api-key.detected-generic-api-key \
+            .
+        continue-on-error: true
+
+      - name: Upload SARIF to GitHub Security
+        if: always()
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: semgrep.sarif
+          category: semgrep
+        continue-on-error: true
+
+  # ─── Job 5: Python static check (backend agents 지원) ─────
+  pycompile:
+    name: py_compile (backend syntax)
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Compile check all Python files
+        run: |
+          find api services pipeline scripts -name "*.py" -type f 2>/dev/null | xargs python3 -m py_compile
+          echo "✓ py_compile clean"

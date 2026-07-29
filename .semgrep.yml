@@ -1,0 +1,151 @@
+# StoreScope custom Semgrep rules
+# Source: 2026-07-29 D+58 사용자 red team 발견 문제들의 영구 강제 룰.
+# Semgrep community edition 호환 (semgrep-rules license).
+#
+# 로컬 실행:
+#   pip install semgrep && semgrep --config .semgrep.yml .
+# CI 실행: .github/workflows/red_team_ci.yml 참조.
+
+rules:
+  # ─── R1: no-competitor-naming ─────────────────────────────
+  - id: no-brand-tiktok
+    pattern-regex: '\bTikTok\b'
+    message: >
+      TikTok 상표 직접 언급 = ByteDance 상표권 리스크 + 표시광고법 §3 비교광고 제한.
+      "mainstream discovery" / "대중 채널" 등 중립 표현으로 대체 필요.
+    languages: [generic]
+    severity: ERROR
+    paths:
+      include: ["landing/**", "outreach/**", "services/**", "*.md"]
+      exclude: [".semgrep.yml", "*.py"]
+
+  - id: no-brand-amazon
+    pattern-regex: '\bAmazon\b'
+    message: >
+      Amazon 상표 직접 언급 = Amazon.com Inc 상표권 리스크. 자기 마케팅에서 사용 금지.
+    languages: [generic]
+    severity: ERROR
+    paths:
+      include: ["landing/**", "outreach/**"]
+      exclude: [".semgrep.yml"]
+
+  - id: no-brand-social
+    pattern-regex: '\b(Facebook|Instagram|YouTube|ByteDance|Meta)\b'
+    message: >
+      SNS/대기업 브랜드 직접 언급 = 상표권 + 비교광고 리스크.
+    languages: [generic]
+    severity: WARNING
+    paths:
+      include: ["landing/**", "outreach/**"]
+
+  - id: no-competitor-category
+    pattern-regex: '(ad spy|광고 스파이|広告スパイ(?!ク))'
+    message: >
+      "ad spy" 카테고리명 = 특정 서비스 지칭 = 부정경쟁방지법 우려.
+      자기 강점 중심 카피로 재작성.
+    languages: [generic]
+    severity: ERROR
+    paths:
+      include: ["landing/**", "outreach/**"]
+
+  # ─── R2: no-personal-identity ─────────────────────────────
+  - id: no-personal-email-leak
+    pattern-regex: 'dodo@storescope\.com'
+    message: >
+      dodo@ 개인 이름 이메일 = feedback-no-personal-identity 룰 위배.
+      support@storescope.com 로 통일.
+    languages: [generic]
+    severity: ERROR
+    paths:
+      include: ["**/*.py", "**/*.html", "**/*.md"]
+      exclude: [".semgrep.yml", ".git/**"]
+
+  - id: no-hi-dodo-body
+    pattern-regex: '(Hi.?Dodo|Hi%20Dodo|안녕하세요.*도도)'
+    message: >
+      Email pre-fill body 에 개인 이름 leak.
+    languages: [generic]
+    severity: ERROR
+    paths:
+      include: ["landing/**", "outreach/**", "services/**"]
+
+  - id: no-student-identity
+    pattern-regex: '(자율운항|충남대|CNU|Chungnam)'
+    message: >
+      학생/대학 정체 = 신생 회사 인상 저하 (feedback-no-personal-identity).
+      "Independent · Bootstrapped" 톤으로 대체.
+    languages: [generic]
+    severity: WARNING
+    paths:
+      include: ["landing/**", "outreach/**"]
+
+  # ─── R3: no-false-advertising ─────────────────────────────
+  - id: no-sla-uptime-promise
+    pattern-regex: '(99\.\d+%\s*(uptime|가동률|稼働率)|SLA guarantee|guaranteed uptime)'
+    message: >
+      SLA/uptime 약속 = 계약적 책임. Render free tier 는 SLA 없음.
+      표시광고법 §3 (허위·과장) 위반 가능.
+    languages: [generic]
+    severity: WARNING
+    paths:
+      include: ["landing/**"]
+
+  - id: no-money-back-guarantee-hedge
+    pattern-regex: '(no questions asked|묻지도 따지지도|理由を問わない).*(refund|환불|返金)'
+    message: >
+      "no questions asked refund" = 계약적 절대 약속. 실제 환불 프로세스와 정합 확인.
+    languages: [generic]
+    severity: WARNING
+    paths:
+      include: ["landing/**"]
+
+  # ─── R4: security patterns ────────────────────────────────
+  - id: no-fstring-sql
+    pattern-either:
+      - pattern-regex: 'cur\.execute\s*\(\s*f["\x27]'
+      - pattern-regex: 'cur\.execute\s*\(\s*["\x27].*%\s*\w+'
+    message: >
+      f-string / % formatting SQL 감지 = SQL injection 리스크 + 프로젝트 룰 위배.
+      parameterized (cur.execute(sql, (params,))) 사용 필수.
+    languages: [python]
+    severity: ERROR
+    paths:
+      include: ["api/**", "services/**", "pipeline/**", "scripts/**"]
+
+  - id: no-bare-except-pass
+    pattern-regex: 'except\s*:?\s*[\r\n]+\s*pass'
+    message: >
+      bare `except: pass` = silent failure. logging.exception() 로 가시화 필수.
+    languages: [python]
+    severity: ERROR
+    paths:
+      include: ["api/**", "services/**", "pipeline/**"]
+
+  - id: no-hmac-eq
+    pattern-either:
+      - pattern-regex: '\bx_admin_secret\s*==\s*ADMIN_SECRET'
+      - pattern-regex: '\bsignature\s*==\s*expected'
+    message: >
+      타이밍 공격 취약 == 비교. hmac.compare_digest() 사용.
+    languages: [python]
+    severity: ERROR
+
+  # ─── R5: i18n integrity ───────────────────────────────────
+  - id: no-empty-i18n-key
+    pattern-regex: '\bdata-i18n=""'
+    message: >
+      빈 data-i18n 값. HTML 렌더 시 fallback 텍스트만 노출.
+    languages: [generic]
+    severity: WARNING
+    paths:
+      include: ["landing/**"]
+
+  # ─── R6: false claims about features ──────────────────────
+  - id: no-tiktok-catch-on-copy
+    pattern-regex: '(before TikTok ads (catch on|pick.*up)|TikTok 광고.*(잡|픽업)|TikTok広告.*(追いつく|ピックアップ))'
+    message: >
+      "TikTok ads catch on" 등 특정 광고 채널 언급. 자기 강점 중심 카피로 재작성.
+    languages: [generic]
+    severity: ERROR
+    paths:
+      include: ["landing/**"]
