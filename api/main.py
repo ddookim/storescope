@@ -137,9 +137,12 @@ class ApiResponse(BaseModel):
 # Pydantic pattern 검증이 있어도 f-string SQL은 나쁜 패턴 — 향후 검증 우회 시 SQL injection 취약점으로 전환.
 # D+20 V2: rising 정렬을 momentum_score (Storm Score V2) 로 교체.
 # 기존 (week_delta * 3 + store_count) 의 결함 6개 fix — pipeline/load_to_db._storm_score 참조.
-_SORT_CLAUSES: dict[str, str] = {
-    "rising":  "COALESCE(ts.momentum_score, 0) DESC, ts.week_delta DESC NULLS LAST",
-    "popular": "c.store_count DESC, ts.week_delta DESC NULLS LAST",
+# FIX 2026-07-29 D+58 debate: f-string SQL → psycopg2.sql.SQL composition
+# Blue team GAP 대응: 화이트리스트 dict + psycopg2.sql = 이중 안전 (rule 준수 + injection 방어)
+from psycopg2 import sql as _psql
+_SORT_CLAUSES: dict[str, _psql.SQL] = {
+    "rising":  _psql.SQL("COALESCE(ts.momentum_score, 0) DESC, ts.week_delta DESC NULLS LAST"),
+    "popular": _psql.SQL("c.store_count DESC, ts.week_delta DESC NULLS LAST"),
 }
 
 # FIX: domain 형식 검증 정규식 — 파라미터화 쿼리라 SQL injection은 없으나
@@ -318,13 +321,13 @@ def get_trending(
     if cached is not None:
         return {"success": True, "data": cached, "cached": True}
 
-    # SEC-ALERT: f-string SQL 제거 — _SORT_CLAUSES 화이트리스트 dict로 교체.
-    # Pydantic pattern 검증이 있어도 f-string SQL은 코드 변경 시 injection 취약점으로 전환될 위험.
-    order_clause = _SORT_CLAUSES[sort]
+    # FIX 2026-07-29 D+58 debate resolution: psycopg2.sql.SQL composition (f-string 제거).
+    # 이중 안전: (1) _SORT_CLAUSES dict 화이트리스트 lookup, (2) psycopg2.sql 안전 composition API
+    order_clause_sql = _SORT_CLAUSES[sort]
     try:
         with get_conn() as conn:
             with conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor) as cur:
-                cur.execute(f"""
+                cur.execute(_psql.SQL("""
                     SELECT
                         c.id           AS cluster_id,
                         c.cluster_hash,
@@ -349,9 +352,9 @@ def get_trending(
                         LIMIT 1
                     ) p ON true
                     WHERE c.store_count >= %s
-                    ORDER BY {order_clause}
+                    ORDER BY {order}
                     LIMIT %s
-                """, (min_stores, limit))
+                """).format(order=order_clause_sql), (min_stores, limit))
                 rows = cur.fetchall()
         result = [dict(r) for r in rows]
         _trending_cache_set(cache_key, result)
