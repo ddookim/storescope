@@ -1,6 +1,16 @@
 #!/bin/bash
 # StoreScope Red Team Linter — feedback 룰 자동 강제
 # =====================================================
+#
+# ⚠ SOURCE: self-synthesized (2026-07-29 D+58, [[feedback-github-verified-code-priority]] 준수 표기)
+#   GitHub verified source 아님 = StoreScope 도메인 특화 공격 벡터 감지 (경쟁사 이름, i18n dupe key, CJK overflow-wrap 등)
+#   semgrep/.semgrep.yml 이 커버 못 하는 것 담당.
+#   보안 영향: 0 (read-only grep + 카운트, 코드 수정 X).
+#   보완 tool (GitHub verified):
+#     - semgrep (custom .semgrep.yml YAML 룰)
+#     - gitleaks (secret 스캔)
+#     - github/codeql-action (semantic security)
+#
 # Source: 2026-07-29 D+58 사용자 red team 라운드에서 반복 발견된 문제들의 정규식 강제.
 #
 # 사용법:

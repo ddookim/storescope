@@ -1,6 +1,16 @@
 #!/bin/bash
 # StoreScope Blue Team Defense Verifier
 # =========================================
+#
+# ⚠ SOURCE: self-synthesized (2026-07-29 D+58, [[feedback-github-verified-code-priority]] 준수 표기)
+#   GitHub verified source 아님 = StoreScope 도메인 특화 방어 규칙 (rate limit 존재, Pydantic 커버리지 등)
+#   CodeQL/bandit/pip-audit 이 못 하는 프로젝트-scoped 검증 담당.
+#   보안 영향: 0 (read-only grep + 카운트, 코드 수정 X).
+#   보완 tool (GitHub verified):
+#     - github/codeql-action (semantic security, GitHub 공식)
+#     - PyCQA/bandit-action (Python SAST, Python 공식 org)
+#     - pypa/gh-action-pip-audit (dep CVE, PyPA 공식)
+#
 # Red team이 공격 벡터를 찾는 반대로, 블루팀은 방어 태세를 확인.
 # 각 red team 룰의 반대편에서 "방어 코드가 실제로 존재하는가" 검증.
 #
