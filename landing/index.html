@@ -264,7 +264,7 @@
       --border-hi:   rgba(79,70,229,0.38);   /* indigo */
       --white:       #1C1917;                /* warm stone-900 — primary text */
       --muted:       #78716C;                /* warm stone-500 (WCAG AA pass 4.6:1 on cream) — 2026-07-29 D+58 lighthouse fix: 이전 stone-400 #A8A29E = 2.38:1 fail */
-      --muted-2:     #78716C;                /* warm stone-500 */
+      --muted-2:     #6B655F;                /* warm stone-600 (WCAG AA on both cream 5.5:1 and surface 5.0:1) — 2026-07-29 lighthouse fix: 이전 stone-500 #78716C 4.25:1 on surface fail */
       --purple:      #4F46E5;                /* indigo-600 — Stripe/Linear DNA */
       --purple-hi:   #6366F1;                /* indigo-500 */
       --blue:        #3730A3;                /* indigo-800 */
@@ -360,7 +360,7 @@
       border: 1px solid rgba(5,150,105,0.22);
       border-radius: 100px;
       font-size: 10.5px; font-weight: 800;
-      color: #059669; letter-spacing: 0.6px; text-transform: uppercase;
+      color: #047857; letter-spacing: 0.6px; text-transform: uppercase; /* FIX 2026-07-29 Lighthouse: #059669 3.25:1 → #047857 4.5:1 */
     }
     .nav-beta-dot {
       width: 5px; height: 5px; border-radius: 50%;
@@ -3198,7 +3198,7 @@
     .ba-pill {
       display: inline-flex; align-items: center; gap: 6px;
       background: rgba(217,119,6,0.08); border: 1px solid rgba(217,119,6,0.25);
-      color: #D97706; padding: 5px 14px; border-radius: 100px;
+      color: #9A5A00; padding: 5px 14px; border-radius: 100px; /* FIX 2026-07-29 Lighthouse: #D97706 2.92:1 → #9A5A00 4.5:1 */
       font-size: 11px; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase;
       margin-bottom: 22px;
     }
