@@ -512,8 +512,7 @@
       transition: all 0.15s;
     }
     .btn-hero-ghost:hover { background: rgba(79,70,229,0.04); color: #1C1917; border-color: rgba(79,70,229,0.3); }
-    .hero-trust { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; font-size: 12px; color: var(--muted); }
-    .hero-trust span::before { content: "✓  "; color: var(--green); }
+    /* REMOVED 2026-07-30 D+59: .hero-trust + .hero-trust span::before — dead CSS (HTML 요소 없음). red team round 2 지적. */
 
     /* hero browser mockup */
     .hero-mockup-wrap {

@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Shopify product research playbook for 2026 — data sources, signal layers, entry timing frameworks, and tooling for solo dropshipping operators. Cross-store overlap over single-store bestsellers.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://ddookim.github.io/storescope/blog/shopify-product-research-2026.html">
+<title>Shopify Product Research 2026 — What Works, What's Dead | StoreScope</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%234F46E5'/%3E%3Cpath d='M9 20l5-5 4 4 5-6' stroke='%23fff' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3E%3C/svg%3E">
+<style>
+  body { font-family: -apple-system, "Inter", sans-serif; max-width: 720px; margin: 0 auto; padding: 60px 24px; color: #1C1917; line-height: 1.65; background: #F9F8F6; }
+  h1 { font-size: 2.2rem; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 0.6rem; line-height: 1.15; }
+  h2 { font-size: 1.35rem; font-weight: 700; margin-top: 2.4rem; margin-bottom: 0.6rem; }
+  h3 { font-size: 1.1rem; font-weight: 700; margin-top: 1.6rem; margin-bottom: 0.4rem; }
+  p { margin-bottom: 1rem; color: #3F3B37; }
+  a { color: #4338ca; text-decoration: underline; text-decoration-color: rgba(67,56,202,0.3); text-underline-offset: 3px; }
+  .meta { color: #6B655F; font-size: 0.9rem; margin-bottom: 2rem; }
+  ul, ol { margin: 1rem 0 1rem 1.6rem; }
+  li { margin-bottom: 0.4rem; color: #3F3B37; }
+  code { background: #F3F1EE; padding: 2px 6px; border-radius: 4px; font-family: "SF Mono", monospace; font-size: 0.9em; color: #4338ca; }
+  blockquote { border-left: 3px solid #4F46E5; padding-left: 16px; margin: 1.5rem 0; color: #57534E; font-style: italic; }
+  .cta { display: inline-block; background: linear-gradient(135deg, #4F46E5 0%, #3730A3 100%); color: #fff; padding: 14px 28px; border-radius: 10px; font-weight: 700; text-decoration: none; margin-top: 24px; }
+  .cta:hover { transform: translateY(-1px); box-shadow: 0 8px 24px rgba(79,70,229,0.25); }
+  .box { background: #F3F1EE; border-left: 3px solid #4F46E5; padding: 16px 20px; border-radius: 6px; margin: 20px 0; color: #3F3B37; }
+</style>
+</head>
+<body>
+
+<p class="meta">Published 2026-07-30 · 7 min read · <a href="https://ddookim.github.io/storescope/">← StoreScope</a></p>
+
+<h1>Shopify Product Research 2026 — What Works, What's Dead</h1>
+
+<p>Every product research method that worked in 2021 has decayed. Ad channels have saturated the "spy on top spenders" pipeline. Copying yesterday's winners lands you in month-old auctions. Here's what actually works in 2026 and what to stop doing.</p>
+
+<h2>Methods that stopped working</h2>
+
+<h3>1. Top-100 store scraping</h3>
+<p>Copying products from top-100 Shopify store lists = entering markets already saturated. By the time a store hits any "top 100" list, ad budget concentration has priced out newcomers. Signal is 2-3 months late.</p>
+
+<h3>2. Single ad channel spy</h3>
+<p>Ad spy tools show what's running <em>right now</em>. By the time an ad appears at scale, first movers have 2-week margin lead. Auction competition already priced them out.</p>
+
+<h3>3. AliExpress "hot products" browsing</h3>
+<p>The AliExpress hot product list = supplier's own promotional ranking. Not demand signal, just supplier availability. Following it = supplier concentration risk.</p>
+
+<h3>4. Influencer trend reports</h3>
+<p>Monthly PDF trend reports from ecom Twitter accounts = 4-6 week lag. By the time it's in a report, execution phase already ended.</p>
+
+<h2>Methods that work in 2026</h2>
+
+<h3>1. Cross-store overlap detection</h3>
+<p>Track how many independent Shopify stores stock the same product simultaneously. Rate of growth (not absolute count) reveals rising products before ad channels notice.</p>
+
+<div class="box">
+  <strong>Why this works:</strong> Shopify merchants add products faster than ad channels amplify them. When 30 stores add the same item in 7 days, something is happening — either supplier push or organic trend. Either way, 1-2 weeks before mainstream discovery.
+</div>
+
+<h3>2. Perceptual image hashing over text matching</h3>
+<p>Same product, different stores = different SKUs, different titles, sometimes different photo angles. Text-based matching misses 40-60% of overlaps. Image hashing (pHash) catches visually identical products regardless of metadata.</p>
+
+<h3>3. Momentum-weighted ranking (not absolute)</h3>
+<p>Absolute store count favors saturated products. Momentum = rate of change. A cluster going 30 → 60 → 90 stores/week ranks higher than 500 → 505 → 510. The former has margin left, the latter doesn't.</p>
+
+<h3>4. Price spread as demand signal</h3>
+<p>Tight price spread (e.g., $22-$26 across 60 stores) = supplier concentration, entry-late. Wide price spread ($12-$28 across same 60 stores) = organic entry, room for margin differentiation.</p>
+
+<h3>5. Age decay in scoring</h3>
+<p>Clusters older than 8 weeks lose scoring weight. Trends have half-lives. A cluster peaking at week 6 gives longer entry window than one peaking at week 24.</p>
+
+<h2>Toolchain checklist</h2>
+
+<p>What a 2026 Shopify product research stack needs:</p>
+
+<ul>
+  <li><strong>Cross-store data source</strong> — ideally 1,000+ stores indexed weekly</li>
+  <li><strong>Image-based clustering</strong> — pHash or perceptual hashing, not title matching</li>
+  <li><strong>Momentum ranking</strong> — rate of change, not raw count</li>
+  <li><strong>Price spread visibility</strong> — reveals supplier vs organic signal</li>
+  <li><strong>Weekly cadence</strong> — matches Shopify update rhythm, not daily noise</li>
+  <li><strong>Category filters</strong> — narrow to your niche without losing signal</li>
+</ul>
+
+<h2>What to stop reading</h2>
+
+<ul>
+  <li>Monthly "top 10 trending" blog posts — lag time = irrelevant by publish date</li>
+  <li>"Winning products" YouTube compilations — clickbait, not research</li>
+  <li>Ecom forum "leak" threads — outdated or fabricated</li>
+  <li>AI-generated trend prediction tools — no real signal, just pattern matching over old data</li>
+</ul>
+
+<h2>How StoreScope fits this stack</h2>
+
+<p>StoreScope indexes ~1,400 Shopify stores weekly, groups products via perceptual image hashing, and ranks by Storm Score V2 (momentum-weighted EMA + Kalman gating + age decay). Cross-store overlap by design.</p>
+
+<p><strong>Sample data</strong> (May 2026 snapshot, weekly refresh activates after 10 email signups):</p>
+<p><a href="https://ddookim.github.io/storescope/outreach/evidence/top5-2026-06-01.html">See top clusters →</a></p>
+
+<h2>Get the weekly digest</h2>
+
+<a href="https://ddookim.github.io/storescope/#pricing?utm_source=blog&utm_campaign=research-2026" class="cta">Start 7-day free trial →</a>
+
+<p style="margin-top: 48px; padding-top: 24px; border-top: 1px solid #E2E8F0; font-size: 0.85rem; color: #6B655F;">
+StoreScope · Shopify cross-store product intelligence · <a href="mailto:support@storescope.com">support@storescope.com</a>
+</p>
+
+</body>
+</html>
