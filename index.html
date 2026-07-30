@@ -3675,6 +3675,8 @@
       en: {
         nav_features: "Features",
         nav_blog: "Blog",
+        hero_or_prefix: "or",
+        hero_xray_link: "try X-Ray on any store — free →",
         counter_label_stores: "Shopify stores indexed",
         counter_label_products: "Products tracked",
         counter_label_clusters: "Active clusters",
@@ -4111,6 +4113,8 @@
       ko: {
         nav_features: "기능",
         nav_blog: "블로그",
+        hero_or_prefix: "또는",
+        hero_xray_link: "X-Ray 로 스토어 분석 — 무료 →",
         counter_label_stores: "인덱스된 Shopify 스토어",
         counter_label_products: "추적 중인 상품",
         counter_label_clusters: "활성 클러스터",
@@ -4523,6 +4527,8 @@
       ja: {
         nav_features: "機能",
         nav_blog: "ブログ",
+        hero_or_prefix: "または",
+        hero_xray_link: "任意のストアをX-Rayで分析 — 無料 →",
         counter_label_stores: "インデックス済みShopifyストア",
         counter_label_products: "追跡中の商品",
         counter_label_clusters: "アクティブクラスター",
@@ -5081,13 +5087,9 @@
   </h1>
   <p class="hero-sub" data-i18n="hero_sub">We watch 1,400 Shopify stores and surface the products spreading across them — every Monday morning, before mainstream discovery kicks in.</p>
 
-  <div class="hero-ctas">
-    <a href="#xray" class="btn-hero-primary">
-      <span data-i18n="hero_cta_primary">Try X-Ray on any store</span>
-      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px;margin-left:6px;opacity:0.9" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-    </a>
-    <a href="#pricing" class="hero-secondary-link" data-i18n="hero_cta_secondary">See pricing →</a>
-  </div>
+  <!-- FIX 2026-07-30 D+59 (design red team CRIT R3): 3 competing CTAs 제거.
+       기존: btn-hero-primary + See pricing + email form = attention split.
+       현재: email form (validation phase primary) + Try X-Ray secondary text link. -->
 
   <!-- UPGRADE 2026-07-29: above-fold email capture (2026 SaaS pattern: single-field CTA = 15-120% conversion lift).
        Netlify Forms 연동 (100 submissions/mo 무료, spam honeypot 자동, support@storescope.com 알림). -->
@@ -5117,6 +5119,12 @@
       <span>✓ <span data-i18n="hero_email_trust_3">Unsubscribe anytime</span></span>
     </div>
   </form>
+
+  <!-- Secondary action — text link, low visual weight (single-CTA rule 유지) -->
+  <p class="hero-secondary-action" style="text-align:center;margin:8px auto 18px;font-size:13.5px;color:var(--muted-2);">
+    <span data-i18n="hero_or_prefix">or</span>
+    <a href="#xray" data-i18n="hero_xray_link" style="color:#4338ca;text-decoration:underline;text-decoration-color:rgba(67,56,202,0.35);text-underline-offset:3px;font-weight:600;margin-left:4px;">try X-Ray on any store — free →</a>
+  </p>
 
   <!-- UPGRADE 2026-06-08: hero-alerts 제거 — 3D dashboard mockup이 동일 가치 제공 (제품 시각).
        이전: alerts + mockup 동시 표시 = 시각 중복. 이제 mockup 단독으로 hero 시각 통일. -->
