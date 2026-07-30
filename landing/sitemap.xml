@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- StoreScope sitemap — D+22 라운드 R2. GH Pages canonical URL 기반. -->
+<!-- StoreScope sitemap — D+22 라운드 R2 + D+58 blog 확장 (patio11 SEO 지적). GH Pages canonical URL. -->
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://ddookim.github.io/storescope/</loc>
-    <lastmod>2026-06-23</lastmod>
+    <lastmod>2026-07-29</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
     <xhtml:link xmlns:xhtml="http://www.w3.org/1999/xhtml" rel="alternate" hreflang="en" href="https://ddookim.github.io/storescope/?lang=en"/>
@@ -13,20 +13,39 @@
   </url>
   <url>
     <loc>https://ddookim.github.io/storescope/landing/privacy.html</loc>
-    <lastmod>2026-06-23</lastmod>
+    <lastmod>2026-07-29</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
   <url>
     <loc>https://ddookim.github.io/storescope/landing/terms.html</loc>
-    <lastmod>2026-06-23</lastmod>
+    <lastmod>2026-07-29</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
   <url>
     <loc>https://ddookim.github.io/storescope/landing/refund.html</loc>
-    <lastmod>2026-06-23</lastmod>
+    <lastmod>2026-07-29</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
+  </url>
+  <!-- SEO blog pages (2026-07-29 D+58 patio11 지적: content SEO = 6개월 지연 자산) -->
+  <url>
+    <loc>https://ddookim.github.io/storescope/blog/shopify-trending-products-tool.html</loc>
+    <lastmod>2026-07-29</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://ddookim.github.io/storescope/blog/find-winning-products-before-ads.html</loc>
+    <lastmod>2026-07-29</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://ddookim.github.io/storescope/blog/1400-shopify-store-index-how-it-works.html</loc>
+    <lastmod>2026-07-29</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
 </urlset>

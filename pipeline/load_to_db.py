@@ -135,8 +135,10 @@ def _collect_domains(clusters_data: dict) -> set[str]:
             domain = json.loads(raw[:200]).get("domain")  # 앞 200바이트만 파싱
             if domain:
                 domains.add(domain)
-        except Exception:
-            pass
+        except Exception as _e:
+            # FIX 2026-07-29 CodeQL: JSON parse 실패 = 데이터 손상, skip 유지 but 로그로 가시화
+            import logging as _lg
+            _lg.getLogger(__name__).debug("domain parse skip: %s", type(_e).__name__)
     return domains
 
 

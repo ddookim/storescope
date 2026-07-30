@@ -246,7 +246,7 @@ def main(dry_run: bool = False) -> int:
                     level="CRITICAL",
                 )
             except Exception:
-                pass
+                _log.warning("send_alert 실패 (non-fatal, alert 채널 down)", exc_info=True)  # FIX 2026-07-29 CodeQL: empty except 가시화
             return 0  # workflow non-block 유지, alert 로 가시화
 
     # Crash recovery — stale pending 자동 unlock (Gemini review_v2 HIGH)
@@ -271,7 +271,7 @@ def main(dry_run: bool = False) -> int:
                     level="CRITICAL",
                 )
             except Exception:
-                pass
+                _log.warning("send_alert 실패 (non-fatal, alert 채널 down)", exc_info=True)  # FIX 2026-07-29 CodeQL: empty except 가시화
         return 0  # non-block: workflow 성공 유지
 
     # weekly_digest generate 는 plan별 1회만 (모든 starter 가 같은 HTML, pro 도 동일)
@@ -346,7 +346,7 @@ def main(dry_run: bool = False) -> int:
                     level="CRITICAL",
                 )
             except Exception:
-                pass
+                _log.warning("send_alert 실패 (non-fatal, alert 채널 down)", exc_info=True)  # FIX 2026-07-29 CodeQL: empty except 가시화
         return 1
 
     # ── Batch alert (Gemini HIGH) ────────────────────────────
@@ -369,7 +369,7 @@ def main(dry_run: bool = False) -> int:
                 level="WARNING",
             )
         except Exception:
-            pass
+            _log.warning("send_alert 실패 (non-fatal, alert 채널 down)", exc_info=True)  # FIX 2026-07-29 CodeQL: empty except 가시화
 
     return 0
 

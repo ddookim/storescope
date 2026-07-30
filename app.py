@@ -85,7 +85,7 @@ if _IS_PROD and not _GA_ID:
         import sentry_sdk as _sentry_sdk
         _sentry_sdk.capture_message("GA_MEASUREMENT_ID missing in prod", level="warning")
     except Exception:
-        pass
+        logging.debug("sentry_sdk 미설치 (optional dep, non-fatal)")  # FIX 2026-07-29 CodeQL: empty except 가시화
 
 st.set_page_config(
     page_title="StoreScope — Store X-Ray",

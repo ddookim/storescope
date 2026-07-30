@@ -86,7 +86,7 @@ def get_conn():
         try:
             p.putconn(conn, close=True)
         except Exception:
-            pass
+            logger.debug("dead conn close failed (non-fatal, pool 재구축)", exc_info=True)  # FIX 2026-07-29 CodeQL: empty except 가시화
         conn = p.getconn()
         # 2회 fail = pool 자체 오염 → 호출자에게 raise (try/except 잡혀서 alert).
         if not _is_conn_alive(conn):

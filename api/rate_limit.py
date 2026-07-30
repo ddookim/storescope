@@ -15,11 +15,6 @@ Main app + admin router 등 여러 파일에서 동일 limiter 인스턴스 공�
 from slowapi import Limiter
 from slowapi.util import get_remote_address as _slowapi_get_remote_address
 
-try:
-    from starlette.requests import Request
-except ImportError:  # pragma: no cover
-    Request = None  # type: ignore
-
 
 def get_remote_address(request):
     """X-Forwarded-For 대응 remote address helper.

@@ -37,7 +37,7 @@ if _SENTRY_DSN:
 # 이전: main.py 만 소유 → admin_routes.py 순환 임포트 불가 → /admin/* unrate-limited (backend red team CRIT).
 from slowapi import _rate_limit_exceeded_handler
 from slowapi.errors import RateLimitExceeded
-from api.rate_limit import limiter, get_remote_address  # 공용 인스턴스 재사용
+from api.rate_limit import limiter  # 공용 인스턴스 재사용 (get_remote_address = limiter 내부 사용)
 
 RATE_LIMIT_TRENDING  = os.environ.get("RATE_LIMIT_TRENDING",  "60/minute")
 RATE_LIMIT_LEADS     = os.environ.get("RATE_LIMIT_LEADS",      "5/minute")

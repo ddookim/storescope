@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Technical breakdown of the 1,400-Shopify-store product index behind StoreScope: crawl pattern, perceptual hashing (pHash), clustering, Storm Score V2 momentum ranking, weekly refresh cycle.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://ddookim.github.io/storescope/blog/1400-shopify-store-index-how-it-works.html">
+<title>How the 1,400 Shopify Store Index Works — Technical Deep Dive | StoreScope</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%234F46E5'/%3E%3Cpath d='M9 20l5-5 4 4 5-6' stroke='%23fff' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3E%3C/svg%3E">
+<style>
+  body { font-family: -apple-system, "Inter", sans-serif; max-width: 720px; margin: 0 auto; padding: 60px 24px; color: #1C1917; line-height: 1.65; background: #F9F8F6; }
+  h1 { font-size: 2.2rem; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 0.6rem; line-height: 1.15; }
+  h2 { font-size: 1.35rem; font-weight: 700; margin-top: 2.4rem; margin-bottom: 0.6rem; }
+  h3 { font-size: 1.1rem; font-weight: 700; margin-top: 1.6rem; margin-bottom: 0.4rem; }
+  p { margin-bottom: 1rem; color: #3F3B37; }
+  a { color: #4338ca; text-decoration: underline; text-decoration-color: rgba(67,56,202,0.3); text-underline-offset: 3px; }
+  .meta { color: #6B655F; font-size: 0.9rem; margin-bottom: 2rem; }
+  ul, ol { margin: 1rem 0 1rem 1.6rem; }
+  li { margin-bottom: 0.4rem; color: #3F3B37; }
+  code { background: #F3F1EE; padding: 2px 6px; border-radius: 4px; font-family: "SF Mono", monospace; font-size: 0.9em; color: #4338ca; }
+  pre { background: #1C1917; color: #E2E8F0; padding: 16px; border-radius: 8px; overflow-x: auto; font-family: "SF Mono", monospace; font-size: 0.85rem; line-height: 1.5; margin: 16px 0; }
+  .cta { display: inline-block; background: linear-gradient(135deg, #4F46E5 0%, #3730A3 100%); color: #fff; padding: 14px 28px; border-radius: 10px; font-weight: 700; text-decoration: none; margin-top: 24px; }
+  .metric { display: inline-block; background: #F3F1EE; padding: 4px 10px; border-radius: 4px; font-weight: 700; color: #4338ca; margin: 0 4px; }
+</style>
+</head>
+<body>
+
+<p class="meta">Published 2026-07-29 · 7 min read · <a href="https://ddookim.github.io/storescope/">← StoreScope</a></p>
+
+<h1>How the 1,400 Shopify Store Index Works — Technical Deep Dive</h1>
+
+<p>Under the StoreScope UI is a data pipeline that turns raw <code>/products.json</code> feeds from ~1,400 Shopify stores into a weekly ranked list of trending product clusters. Here's the full path.</p>
+
+<h2>Stage 1 — Store discovery</h2>
+
+<p>The index starts with a hand-curated seed list of Shopify stores, expanded weekly by 3 sources:</p>
+
+<ul>
+  <li>Public store directories that publish Shopify-hosted URLs</li>
+  <li>Cross-reference through supplier catalogs (a store carrying supplier X often shares other stores)</li>
+  <li>Manual QA — merchants with private stores or noindex are excluded per robots.txt</li>
+</ul>
+
+<p>Current: <span class="metric">1,400+ active stores</span>. Coverage bias: US/EU/AU focus (Shopify's primary markets), retail categories (fashion, tech accessories, home, fitness).</p>
+
+<h2>Stage 2 — Product feed crawl</h2>
+
+<p>Each store exposes <code>/products.json</code> — a public JSON endpoint Shopify provides for storefront APIs. StoreScope's crawler:</p>
+
+<pre>curl_cffi AsyncSession (Chrome TLS fingerprint)
++ asyncio.Semaphore(CONCURRENCY=15)
++ robots.txt respect (per RFC 9309)
++ 20s timeout per request
++ retry with exponential backoff on 429/503</pre>
+
+<p>Result: <span class="metric">140,000+ product records</span> per weekly cycle. No auth bypass, no scraping — public endpoint only. Any merchant can block via robots.txt (respected).</p>
+
+<h2>Stage 3 — Perceptual image hashing (pHash)</h2>
+
+<p>Same product across stores often has:</p>
+
+<ul>
+  <li>Different titles (translated / rewritten)</li>
+  <li>Different SKU numbers (per-store)</li>
+  <li>Different pricing (per-store margin)</li>
+  <li>But <strong>same physical item image</strong> (from same supplier)</li>
+</ul>
+
+<p>Text matching fails on this. Image hashing succeeds. StoreScope uses perceptual hashing (pHash) which is robust to:</p>
+
+<ul>
+  <li>Small resolution changes (Shopify's srcset variants)</li>
+  <li>Compression artifacts (JPEG quality differences)</li>
+  <li>Watermarks, minor crops</li>
+  <li>Color shifts within 10-15% (different lighting)</li>
+</ul>
+
+<p>Hamming distance ≤ 6 (out of 64-bit hash) treats images as same product.</p>
+
+<h2>Stage 4 — Clustering</h2>
+
+<p>Products with matching pHash form a cluster. Each cluster tracks:</p>
+
+<ul>
+  <li>Store count (distinct stores carrying the product)</li>
+  <li>Price min/max/median across stores</li>
+  <li>First seen date (cluster age)</li>
+  <li>Week-over-week store delta (growth rate)</li>
+</ul>
+
+<p>Current: <span class="metric">1,600+ active clusters</span> (product groups with ≥ 2 stores).</p>
+
+<h2>Stage 5 — Storm Score V2 ranking</h2>
+
+<p>The ranking is where StoreScope differs from bestseller lists. Storm Score V2 combines:</p>
+
+<pre>Storm Score = w1 · log(store_count)
+            + w2 · momentum(EMA + Kalman-gated)
+            + w3 · age_decay(exp(-λt))</pre>
+
+<h3>Momentum via Kalman-gated EMA</h3>
+
+<p>Simple exponentially-weighted moving average of weekly deltas gets skewed by outlier weeks (Black Friday spikes, data errors). Kalman filter innovation gating rejects outliers before smoothing:</p>
+
+<pre>innovation = |Δ_current - Δ_prediction|
+if innovation > 3σ: reject as outlier
+else: update EMA</pre>
+
+<p>Result: momentum score reflects <strong>real trend velocity</strong>, not noise.</p>
+
+<h3>Age decay</h3>
+
+<p>Clusters older than 8 weeks (peaks already known) get exponentially discounted:</p>
+
+<pre>age_factor = exp(-0.15 · weeks_since_first_seen)</pre>
+
+<p>Result: rising 4-week-old clusters outrank saturated 6-month-old giants.</p>
+
+<h2>Stage 6 — Weekly digest generation</h2>
+
+<p>Every Monday at 9 AM UTC (subscriber's timezone-normalized):</p>
+
+<ol>
+  <li>Query top N clusters by Storm Score (N=20 Starter, unlimited Pro)</li>
+  <li>Attach: representative image, store count, price spread, week delta, momentum score</li>
+  <li>Link: all stores carrying each cluster (for margin research)</li>
+  <li>SMTP send with unsubscribe token (HMAC-SHA256, 8-byte)</li>
+</ol>
+
+<h2>Compliance</h2>
+
+<ul>
+  <li><strong>robots.txt respected</strong> — merchants can opt out</li>
+  <li><strong>Public data only</strong> — same as any shopper sees</li>
+  <li><strong>No PII stored</strong> — product data + store domain, nothing else</li>
+  <li><strong>GDPR</strong> — subscriber email + weekly digest consent (opt-in), unsubscribe 1-click</li>
+  <li><strong>Korea 정보통신망법 §50</strong> — unsubscribe link in every email footer</li>
+</ul>
+
+<h2>What the data can and can't tell you</h2>
+
+<h3>Can:</h3>
+<ul>
+  <li>Which products are being tested at scale (cluster growth signal)</li>
+  <li>Category trends over time (rolling snapshots)</li>
+  <li>Supplier concentration (many stores + tight price spread)</li>
+  <li>Entry timing (rising vs peaked)</li>
+</ul>
+
+<h3>Can't:</h3>
+<ul>
+  <li>Individual store's sales volume (public feed doesn't expose)</li>
+  <li>Ad spend / customer acquisition cost (not in product data)</li>
+  <li>Fulfillment quality / return rates (private data)</li>
+  <li>Real-time trend detection (weekly refresh only)</li>
+</ul>
+
+<h2>Get access to the weekly ranked list</h2>
+
+<a href="https://ddookim.github.io/storescope/#pricing?utm_source=blog&utm_campaign=how-it-works" class="cta">Start 14-day free trial →</a>
+
+<p style="margin-top: 48px; padding-top: 24px; border-top: 1px solid #E2E8F0; font-size: 0.85rem; color: #6B655F;">
+StoreScope · Shopify cross-store product intelligence · <a href="mailto:support@storescope.com">support@storescope.com</a>
+</p>
+
+</body>
+</html>

@@ -37,8 +37,7 @@ from pipeline.alerting import send_alert
 # N회 처리하면 subscription.activated → N개 API 키 발급되는 매출/보안 결함.
 # DB UNIQUE PRIMARY KEY(event_id) 위반 시 ON CONFLICT DO NOTHING으로 멱등 보장.
 # migrations/2026_06_04_paddle_idempotency.sql 선행 적용 필수.
-import random as _random
-_DEDUPE_CALL_COUNT = 0  # 자가 청소 카운터
+_DEDUPE_CALL_COUNT = 0  # 자가 청소 카운터 (unused _random import 제거 2026-07-29 CodeQL)
 
 
 def _is_duplicate_event(event_id: str, event_type: str) -> bool:

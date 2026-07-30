@@ -251,7 +251,7 @@ def send_xray_report(to_email: str, domain: Optional[str] = None) -> bool:
                     level="CRITICAL",
                 )
             except Exception:
-                pass
+                _log.warning("send_alert 실패 (non-fatal, alert 채널 down)", exc_info=True)  # FIX 2026-07-29 CodeQL: empty except 가시화
         else:
             # 개발 환경: 콘솔 stub
             _log.warning("[XRAY EMAIL STUB] To=%s Domain=%s", to_email, domain)
@@ -284,5 +284,5 @@ def send_xray_report(to_email: str, domain: Optional[str] = None) -> bool:
                 level="CRITICAL",
             )
         except Exception:
-            pass
+            _log.warning("send_alert 실패 (non-fatal, alert 채널 down)", exc_info=True)  # FIX 2026-07-29 CodeQL: empty except 가시화
         return False
