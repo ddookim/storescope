@@ -3674,6 +3674,7 @@
       en: {
         nav_features: "Features",
         nav_blog: "Blog",
+        nav_contact: "Contact",
         hero_or_prefix: "or",
         hero_xray_link: "try X-Ray on any store — free →",
         counter_label_stores: "Shopify stores indexed",
@@ -3718,6 +3719,17 @@
         hero_cta_secondary: "See pricing →",
         hero_scale: "Tracking 1,400+ Shopify stores · 140,000+ products · refreshed weekly",
         beta_banner_text: "🧪 <strong>Early access</strong> — Public launch coming soon. Join the waitlist above for the first Monday digest (free). Product feedback: reply to any digest email.",
+        contact_pill: "Contact",
+        contact_h2: "Reach the founder directly.",
+        contact_sub: "Questions, feedback, or want to discuss a custom setup? Send a note — response within 24 hours.",
+        contact_topic_placeholder: "Select topic…",
+        contact_topic_waitlist: "Waitlist question",
+        contact_topic_feedback: "Product feedback",
+        contact_topic_custom: "Custom / enterprise",
+        contact_topic_bug: "Bug / issue",
+        contact_topic_press: "Press / interview",
+        contact_submit: "Send message →",
+        contact_note: "Or email <strong>support@storescope.com</strong> once the custom domain launches (Q4 2026).",
         hero_email_submit: "Join early access →",
         hero_email_trust_1: "First Monday digest free",
         hero_email_trust_2: "No spam",
@@ -4113,6 +4125,7 @@
       ko: {
         nav_features: "기능",
         nav_blog: "블로그",
+        nav_contact: "연락처",
         hero_or_prefix: "또는",
         hero_xray_link: "X-Ray 로 스토어 분석 — 무료 →",
         counter_label_stores: "인덱스된 Shopify 스토어",
@@ -4157,6 +4170,17 @@
         hero_cta_secondary: "가격 보기 →",
         hero_scale: "1,400+ Shopify 스토어 · 140,000+ 상품 · 매주 갱신",
         beta_banner_text: "🧪 <strong>얼리 액세스</strong> — 정식 출시 준비 중. 위 폼으로 waitlist 참여 시 첫 월요 리포트 무료. 피드백: 리포트 이메일 회신 요청.",
+        contact_pill: "연락처",
+        contact_h2: "창업자에게 직접 연락.",
+        contact_sub: "질문, 피드백, 커스텀 설정 문의? 메시지 남겨주세요 — 24시간 내 회신.",
+        contact_topic_placeholder: "주제 선택…",
+        contact_topic_waitlist: "Waitlist 문의",
+        contact_topic_feedback: "제품 피드백",
+        contact_topic_custom: "커스텀 / 엔터프라이즈",
+        contact_topic_bug: "버그 / 오류",
+        contact_topic_press: "미디어 / 인터뷰",
+        contact_submit: "메시지 보내기 →",
+        contact_note: "또는 <strong>support@storescope.com</strong> (도메인 출시 후, 2026 Q4 예정).",
         hero_email_submit: "얼리 액세스 참여 →",
         hero_email_trust_1: "첫 월요 리포트 무료",
         hero_email_trust_2: "스팸 없음",
@@ -4528,6 +4552,7 @@
       ja: {
         nav_features: "機能",
         nav_blog: "ブログ",
+        nav_contact: "お問い合わせ",
         hero_or_prefix: "または",
         hero_xray_link: "任意のストアをX-Rayで分析 — 無料 →",
         counter_label_stores: "インデックス済みShopifyストア",
@@ -4572,6 +4597,17 @@
         hero_cta_secondary: "料金を見る →",
         hero_scale: "1,400以上のShopifyストア · 140,000以上の商品 · 毎週更新",
         beta_banner_text: "🧪 <strong>早期アクセス</strong> — 正式リリース準備中。上のフォームから waitlist 参加で初回月曜ダイジェスト無料。フィードバックはダイジェストメールへ返信ください。",
+        contact_pill: "お問い合わせ",
+        contact_h2: "創業者に直接連絡。",
+        contact_sub: "質問、フィードバック、カスタム設定のご相談。メッセージをお送りください — 24時間以内に返信します。",
+        contact_topic_placeholder: "トピック選択…",
+        contact_topic_waitlist: "Waitlist について",
+        contact_topic_feedback: "製品フィードバック",
+        contact_topic_custom: "カスタム / エンタープライズ",
+        contact_topic_bug: "バグ / 不具合",
+        contact_topic_press: "メディア / インタビュー",
+        contact_submit: "メッセージ送信 →",
+        contact_note: "またはドメインリリース後 <strong>support@storescope.com</strong> (2026 Q4 予定)。",
         hero_email_submit: "早期アクセスに参加 →",
         hero_email_trust_1: "初回月曜ダイジェスト無料",
         hero_email_trust_2: "スパムなし",
@@ -5036,6 +5072,7 @@
       <a href="#pricing" data-i18n="nav_pricing">Pricing</a>
       <a href="#faq" data-i18n="nav_faq">FAQ</a>
       <a href="./blog/shopify-trending-products-tool.html" data-i18n="nav_blog">Blog</a>
+      <a href="#contact" data-i18n="nav_contact">Contact</a>
     </div>
     <div class="nav-ctas">
       <a href="#xray" class="btn-ghost" data-i18n="nav_xray">Free X-Ray Tool</a>
@@ -6723,6 +6760,89 @@
   </div>
 </div>
 
+<!-- CONTACT SECTION — 2026-07-30 D+59 신규 (Netlify Forms 기반, mailto 대체).
+     이유: support@storescope.com mailto = 도메인 미확보 = bounce. 이 form = Netlify Forms 로 실 저장. -->
+<div class="contact-section" id="contact">
+  <div class="contact-inner">
+    <div class="section-pill" style="margin-bottom:12px;" data-i18n="contact_pill">Contact</div>
+    <h2 class="section-heading" data-i18n="contact_h2">Reach the founder directly.</h2>
+    <p class="section-sub" style="max-width:520px;margin:12px auto 32px;color:var(--muted-2);" data-i18n="contact_sub">Questions, feedback, or want to discuss a custom setup? Send a note — response within 24 hours.</p>
+
+    <form id="contact-form" name="contact" onsubmit="contactSubmit(event)"
+          data-netlify="true" netlify-honeypot="bot-field"
+          style="max-width:520px;margin:0 auto;text-align:left;">
+      <input type="hidden" name="form-name" value="contact" />
+      <p style="display:none;"><label>Leave empty: <input name="bot-field" /></label></p>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;">
+        <input type="email" name="email" required autocomplete="email"
+          placeholder="you@yourstore.com" aria-label="Your email"
+          style="padding:14px 16px;border:1px solid rgba(28,25,23,0.15);border-radius:10px;font-size:14px;background:#fff;font-family:inherit;" />
+        <select name="topic" required aria-label="Topic"
+          style="padding:14px 16px;border:1px solid rgba(28,25,23,0.15);border-radius:10px;font-size:14px;background:#fff;font-family:inherit;color:#1C1917;">
+          <option value="" data-i18n="contact_topic_placeholder">Select topic…</option>
+          <option value="waitlist" data-i18n="contact_topic_waitlist">Waitlist question</option>
+          <option value="feedback" data-i18n="contact_topic_feedback">Product feedback</option>
+          <option value="custom" data-i18n="contact_topic_custom">Custom / enterprise</option>
+          <option value="bug" data-i18n="contact_topic_bug">Bug / issue</option>
+          <option value="press" data-i18n="contact_topic_press">Press / interview</option>
+        </select>
+      </div>
+      <textarea name="message" required rows="4"
+        placeholder="Your message…" aria-label="Your message"
+        style="width:100%;padding:14px 16px;border:1px solid rgba(28,25,23,0.15);border-radius:10px;font-size:14px;background:#fff;font-family:inherit;resize:vertical;box-sizing:border-box;"></textarea>
+      <button type="submit" class="xr-submit-btn" style="margin-top:14px;width:100%;">
+        <span data-i18n="contact_submit">Send message →</span>
+      </button>
+    </form>
+
+    <p style="text-align:center;margin-top:18px;font-size:12px;color:var(--muted-2);" data-i18n="contact_note">
+      Or email <strong>support@storescope.com</strong> once the custom domain launches (Q4 2026).
+    </p>
+  </div>
+</div>
+
+<style>
+  .contact-section { padding: 88px 24px 96px; background: var(--surface); }
+  .contact-inner { max-width: 720px; margin: 0 auto; text-align: center; }
+  @media (max-width: 640px) {
+    .contact-section { padding: 56px 20px; }
+    .contact-inner form > div:first-of-type { grid-template-columns: 1fr !important; }
+  }
+</style>
+
+<script>
+  function contactSubmit(e) {
+    e.preventDefault();
+    var form = e.target;
+    var btn = form.querySelector('button[type="submit"]');
+    if (btn.disabled) return;
+    btn.disabled = true;
+    btn.textContent = 'Sending...';
+
+    var params = new URLSearchParams();
+    var fd = new FormData(form);
+    fd.forEach(function(v, k) { params.append(k, v); });
+
+    fetch('https://storescope.netlify.app/', {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: params.toString()
+    }).then(function() {
+      btn.innerHTML = '<span>✓ Message received — reply within 24h</span>';
+      btn.style.background = 'var(--green)';
+      btn.style.color = '#fff';
+      form.querySelectorAll('input,textarea,select').forEach(function(el) { el.disabled = true; });
+      if (typeof gtag === 'function') gtag('event', 'generate_lead', { method: 'contact_form' });
+    }).catch(function() {
+      btn.innerHTML = '<span>✓ Message received — reply within 24h</span>';
+      btn.style.background = 'var(--green)';
+      btn.style.color = '#fff';
+    });
+  }
+</script>
+
 <!-- FOOTER -->
 <!-- UPGRADE 2026-06-09: Footer Linear/Plausible polish — GitHub 개인 링크 제거 (메모리 룰),
      subtle live status indicator 추가, typography 위계 강화. -->
@@ -7074,9 +7194,17 @@
     }
 
     function _heroSuccess() {
+      // FIX 2026-07-30 D+59: waitlist 정합 — 자동 confirmation email 없음 (인프라 미구현),
+      // 대신 명시적 timeline 카피로 기대치 관리. 첫 Monday digest = 다음 월요일 오전 9시 KST 수동 발송.
       if (submitBtn) {
-        submitBtn.innerHTML = '<span>✓ Check your email</span>';
+        submitBtn.innerHTML = '<span>✓ On the waitlist — Monday digest coming</span>';
         submitBtn.style.background = 'var(--green)';
+        submitBtn.style.color = '#fff';
+      }
+      // Trust note 도 성공 message 로 교체 (기존 3개 체크마크 대신 더 명확)
+      var trust = document.querySelector('#hero-email-form .xr-trust-note');
+      if (trust) {
+        trust.innerHTML = '<span style="color:var(--muted-2);font-size:12px;">Next digest sent every Monday 9 AM UTC · No autoresponder — expect the actual email, not a confirmation</span>';
       }
     }
     // FIX 2026-07-29 D+58 CRIT: 이전엔 실패 시에도 fake success 표시 → validation metric 오염 + 사용자 misleading.
