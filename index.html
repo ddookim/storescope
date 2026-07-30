@@ -173,7 +173,7 @@
             "priceCurrency": "USD",
             "availability": "https://schema.org/InStock",
             "url": "https://ddookim.github.io/storescope/#pricing",
-            "description": "Monday digest top 20, X-Ray any Shopify store, Trend Score, price spread, email support",
+            "description": "Monday digest top 20, X-Ray any Shopify store, Storm Score, price spread, email support",
             "category": "SaaS subscription"
           },
           {
@@ -193,7 +193,7 @@
         "mainEntity": [
           { "@type": "Question", "name": "How do I access my account after payment?", "acceptedAnswer": { "@type": "Answer", "text": "Right after payment, you receive a confirmation email with your dashboard link and access credentials. Manage or cancel anytime via the Paddle billing link." } },
           { "@type": "Question", "name": "Where does StoreScope's data come from?", "acceptedAnswer": { "@type": "Answer", "text": "StoreScope only indexes publicly available product data via Shopify's open /products.json endpoint. We comply with robots.txt and offer merchant opt-out." } },
-          { "@type": "Question", "name": "What is the Trend Score?", "acceptedAnswer": { "@type": "Answer", "text": "Trend Score (0–100) combines week-over-week store adoption rate, total store count, and growth velocity. 80+ signals strong momentum. Updated weekly." } },
+          { "@type": "Question", "name": "What is the Storm Score?", "acceptedAnswer": { "@type": "Answer", "text": "Storm Score (0–100) combines week-over-week store adoption rate, total store count, and growth velocity. 80+ signals strong momentum. Updated weekly." } },
           { "@type": "Question", "name": "How often is the data updated?", "acceptedAnswer": { "@type": "Answer", "text": "The full index is refreshed weekly. Trending snapshots accumulate over time, building historical trend data." } },
           { "@type": "Question", "name": "Is monitoring competitor stores legal?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. StoreScope only reads publicly listed product pages — the same pages any customer sees. No private data, no auth bypass." } },
           { "@type": "Question", "name": "Can I cancel anytime?", "acceptedAnswer": { "@type": "Answer", "text": "Yes — cancel any time from your Paddle billing portal. Cancel during the 7-day trial and you are not charged." } },
@@ -564,8 +564,8 @@
     .dashboard-bg {
       background: #0a0d19 !important;
       --white: #e2dff5;
-      --muted: #5c5480;
-      --muted-2: #9d94bf;
+      --muted: #9B93BF;      /* FIX 2026-07-30 D+59: #5c5480 2.8:1 on #0a0d19 fail → #9B93BF 5.1:1 pass */
+      --muted-2: #B8B0DC;    /* WCAG AA on dark bg */
       --border: rgba(255,255,255,0.07);
       --surface: #0d1018;
     }
@@ -936,7 +936,7 @@
     .trust-inner { max-width: 960px; margin: 0 auto; }
     .trust-tagline {
       font-size: 10.5px; font-weight: 700; letter-spacing: 1.8px;
-      color: rgba(120,113,108,0.7); text-transform: uppercase;
+      color: #6B655F; text-transform: uppercase;
       margin-bottom: 36px;
     }
     .trust-logos {
@@ -960,7 +960,7 @@
     }
     .trust-logo-role {
       font-size: 9.5px; font-weight: 600; text-transform: uppercase;
-      letter-spacing: 0.7px; color: rgba(120,113,108,0.7); margin-top: 3px;
+      letter-spacing: 0.7px; color: #6B655F; margin-top: 3px;
     }
     @media (max-width: 640px) {
       .trust-logo-item { padding: 12px 20px; }
@@ -3631,6 +3631,7 @@
     window.STORESCOPE_I18N = {
       en: {
         nav_features: "Features",
+        nav_blog: "Blog",
         nav_how: "How it works",
         nav_pricing: "Pricing",
         nav_faq: "FAQ",
@@ -4038,6 +4039,7 @@
       },
       ko: {
         nav_features: "기능",
+        nav_blog: "블로그",
         nav_how: "작동 원리",
         nav_pricing: "가격",
         nav_faq: "자주 묻는 질문",
@@ -4054,7 +4056,7 @@
         hero_email_submit: "샘플 데이터 받기 →",
         hero_email_trust_1: "주간 리포트",
         hero_email_trust_2: "스팸 없음",
-        hero_email_trust_3: "1클릭 구독취소",
+        hero_email_trust_3: "1클릭 구독 해지",
         hero_trust_line: "독립 · 부트스트랩 · 얼리 액세스 프리뷰",
         lang_switch_label: "언어",
         xr_url_error: "Shopify 스토어 URL을 입력하세요 — 예: example.myshopify.com",
@@ -4092,7 +4094,7 @@
         feature_export_desc: "Pro 플랜: 주간 랭킹 전체를 CSV로 다운로드. 팀 미팅에 1클릭으로 가져가세요.",
 
         // FIX 2026-07-29 D+58 CRIT: how_pill/step*_desc 중복 정리 — 두 번째 세트 (line ~4355) 가 last-wins.
-        how_h2: "1,400개 스토어에서 당신의 shortlist까지.",
+        how_h2: "1,400개 스토어에서 당신의 후보 리스트까지.",
         how_step1_h3: "1. 매주 1,400개 Shopify 스토어 스캔",
         how_step2_h3: "2. 이미지 해시로 동일 상품 클러스터링",
         how_step3_h3: "3. 누적이 아닌 모멘텀으로 점수화",
@@ -4371,7 +4373,7 @@
         pricing_trust_badges_label: "전 세계 안전 결제",
         bento_rank_eyebrow_v2: "주간 트렌드 랭킹",
         bento_rank_h3_v2: "다음 주 베스트셀러를 이번 월요일에 포착.",
-        bento_rank_body_v2: "1,400+ 스토어 전반 확산 속도로 0-100점 산정. 80+ 필터로 이번 주 shortlist 확인 — 보통 대중 광고 노출 1-2주 전.",
+        bento_rank_body_v2: "1,400+ 스토어 전반 확산 속도로 0-100점 산정. 80+ 필터로 이번 주 후보 리스트 확인 — 보통 대중 광고 노출 1-2주 전.",
         bento_rank_caption_v2: "이번 주 톱 트렌딩 상품",
         bento_api_eyebrow_v2: "Direct API",
         bento_api_h3_v2: "트렌딩 데이터를 본인의 도구로.",
@@ -4421,6 +4423,7 @@
       },
       ja: {
         nav_features: "機能",
+        nav_blog: "ブログ",
         nav_how: "しくみ",
         nav_pricing: "料金",
         nav_faq: "よくある質問",
@@ -4754,7 +4757,7 @@
         pricing_trust_badges_label: "世界中で安全・利用可能",
         bento_rank_eyebrow_v2: "週次トレンドランキング",
         bento_rank_h3_v2: "来週のベストセラーを今週月曜に発見。",
-        bento_rank_body_v2: "1,400+ストア全体の拡散速度で0-100点を採点。80+でフィルタすると今週のshortlistが見え、通常、大衆広告露出の1-2週間前です。",
+        bento_rank_body_v2: "1,400+ストア全体の拡散速度で0-100点を採点。80+でフィルタすると今週の候補リストが見え、通常、大衆広告露出の1-2週間前です。",
         bento_rank_caption_v2: "今週のトップトレンド商品",
         bento_api_eyebrow_v2: "Direct API",
         bento_api_h3_v2: "トレンドデータを自分のツールに。",
@@ -4901,6 +4904,7 @@
       <a href="#how-it-works" data-i18n="nav_how">How it works</a>
       <a href="#pricing" data-i18n="nav_pricing">Pricing</a>
       <a href="#faq" data-i18n="nav_faq">FAQ</a>
+      <a href="./blog/shopify-trending-products-tool.html" data-i18n="nav_blog">Blog</a>
     </div>
     <div class="nav-ctas">
       <a href="#xray" class="btn-ghost" data-i18n="nav_xray">Free X-Ray Tool</a>
@@ -4959,7 +4963,7 @@
   </div>
 
   <!-- UPGRADE 2026-07-29: above-fold email capture (2026 SaaS pattern: single-field CTA = 15-120% conversion lift).
-       Netlify Forms 연동 (100 submissions/mo 무료, spam honeypot 자동, dodo32032@gmail.com 알림). -->
+       Netlify Forms 연동 (100 submissions/mo 무료, spam honeypot 자동, support@storescope.com 알림). -->
   <form id="hero-email-form" name="hero-email-form" onsubmit="heroEmailSubmit(event)"
         data-netlify="true" netlify-honeypot="bot-field"
         style="max-width:500px;margin:4px auto 18px;">
@@ -6785,9 +6789,9 @@
       }
     }
 
-    // FIX 2026-07-29 D+58: Netlify Forms endpoint (100 subs/mo 무료, honeypot spam 방어, 이메일 알림).
-    // GH Pages 원본 페이지에서 cross-origin POST → storescope.netlify.app.
-    // form-encoded body (Netlify Forms 요구 스펙), form-name 필수.
+    // FIX 2026-07-30 D+59 (design red team): Cross-origin CORS 는 opaque response 이므로 network fail 판정 = false-negative 위험.
+    // Patrick McKenzie "never show error on lead form" 정합 — X-Ray form 과 동일 정책 (always-success + admin 측 fail 가시화).
+    // mode:'no-cors' = opaque response, 서버는 정상 수신하지만 브라우저는 응답 못 봄. UI 는 항상 success.
     var params = new URLSearchParams();
     params.append('form-name', 'hero-email-form');
     params.append('email', email);
@@ -6796,25 +6800,20 @@
 
     fetch('https://storescope.netlify.app/', {
       method: 'POST',
+      mode: 'no-cors',
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
       body: params.toString()
-    }).then(function(r) {
-      // Netlify Forms: 200 = accepted (HTML success page or 200 OK)
-      if (!r.ok && r.status !== 0) {
-        console.error('[netlify-form] hero non-2xx', r.status);
-        if (typeof gtag === 'function') {
-          gtag('event', 'exception', { description: 'hero_netlify_' + r.status, fatal: false });
-        }
-        _heroFailure('server error');
-        return;
-      }
+    }).then(function(_r) {
+      // no-cors mode = opaque response, always resolve. Success 표시 (Patrick McKenzie 룰).
       _heroSuccess();
     }).catch(function(err) {
-      console.error('[netlify-form] hero network fail', err);
+      // 실 network error (offline, DNS fail) 만 catch. UI 는 여전히 success (lead 재입력 방지),
+      // 단 GA 로 admin 측 가시화 유지.
+      console.error('[netlify-form] hero network fail (opaque)', err);
       if (typeof gtag === 'function') {
-        gtag('event', 'exception', { description: 'hero_netlify_network_fail', fatal: false });
+        gtag('event', 'exception', { description: 'hero_netlify_offline', fatal: false });
       }
-      _heroFailure('network error');
+      _heroSuccess();
     });
   }
 
