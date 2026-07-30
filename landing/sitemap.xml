@@ -25,7 +25,27 @@
   </url>
   <url>
     <loc>https://ddookim.github.io/storescope/landing/refund.html</loc>
-    <lastmod>2026-07-29</lastmod>
+    <lastmod>2026-07-31</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+    <xhtml:link xmlns:xhtml="http://www.w3.org/1999/xhtml" rel="alternate" hreflang="ko" href="https://ddookim.github.io/storescope/landing/refund-ko.html"/>
+  </url>
+  <!-- KO sub pages (2026-07-31 D+60 신규, 전자상거래법 §13/§17 대응) -->
+  <url>
+    <loc>https://ddookim.github.io/storescope/landing/privacy-ko.html</loc>
+    <lastmod>2026-07-31</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+  </url>
+  <url>
+    <loc>https://ddookim.github.io/storescope/landing/terms-ko.html</loc>
+    <lastmod>2026-07-31</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+  </url>
+  <url>
+    <loc>https://ddookim.github.io/storescope/landing/refund-ko.html</loc>
+    <lastmod>2026-07-31</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
