@@ -3717,8 +3717,9 @@
         hero_cta_primary: "Try X-Ray on any store",
         hero_cta_secondary: "See pricing →",
         hero_scale: "Tracking 1,400+ Shopify stores · 140,000+ products · refreshed weekly",
-        hero_email_submit: "Get sample data →",
-        hero_email_trust_1: "Weekly digest",
+        beta_banner_text: "🧪 <strong>Early access</strong> — Public launch coming soon. Join the waitlist above for the first Monday digest (free). Product feedback: reply to any digest email.",
+        hero_email_submit: "Join early access →",
+        hero_email_trust_1: "First Monday digest free",
         hero_email_trust_2: "No spam",
         hero_email_trust_3: "Unsubscribe anytime",
         hero_trust_line: "Independent · Bootstrapped · Early access preview",
@@ -4155,8 +4156,9 @@
         hero_cta_primary: "X-Ray로 스토어 분석",
         hero_cta_secondary: "가격 보기 →",
         hero_scale: "1,400+ Shopify 스토어 · 140,000+ 상품 · 매주 갱신",
-        hero_email_submit: "샘플 데이터 받기 →",
-        hero_email_trust_1: "주간 리포트",
+        beta_banner_text: "🧪 <strong>얼리 액세스</strong> — 정식 출시 준비 중. 위 폼으로 waitlist 참여 시 첫 월요 리포트 무료. 피드백: 리포트 이메일 회신 요청.",
+        hero_email_submit: "얼리 액세스 참여 →",
+        hero_email_trust_1: "첫 월요 리포트 무료",
         hero_email_trust_2: "스팸 없음",
         hero_email_trust_3: "1클릭 구독 해지",
         hero_trust_line: "독립 · 부트스트랩 · 얼리 액세스 프리뷰",
@@ -4569,8 +4571,9 @@
         hero_cta_primary: "任意のストアをX-Rayで分析",
         hero_cta_secondary: "料金を見る →",
         hero_scale: "1,400以上のShopifyストア · 140,000以上の商品 · 毎週更新",
-        hero_email_submit: "サンプルを取得 →",
-        hero_email_trust_1: "週次ダイジェスト",
+        beta_banner_text: "🧪 <strong>早期アクセス</strong> — 正式リリース準備中。上のフォームから waitlist 参加で初回月曜ダイジェスト無料。フィードバックはダイジェストメールへ返信ください。",
+        hero_email_submit: "早期アクセスに参加 →",
+        hero_email_trust_1: "初回月曜ダイジェスト無料",
         hero_email_trust_2: "スパムなし",
         hero_email_trust_3: "いつでも解除可",
         hero_trust_line: "独立系 · ブートストラップ · 早期アクセスプレビュー",
@@ -5003,17 +5006,13 @@
   </script>
 </head>
 <body>
-<!-- D+29 open beta: sandbox 모드 상단 sticky 배너 — 실 결제 X + 피드백 채널 명시 -->
-<div id="ss-beta-banner" class="ss-beta-banner" hidden>
-  🧪 <strong>오픈 베타</strong> — 실 결제 X (test card <code style="background:rgba(0,0,0,0.06);padding:1px 5px;border-radius:3px">4242 4242 4242 4242</code>). 버그 / 피드백: <a href="mailto:support@storescope.com?subject=StoreScope%20beta%20feedback">support@storescope.com</a> · 정식 출시 알림 받기: 아래 가격 표 → 이메일 입력
+<!-- D+59 Early access banner (2026-07-30 FIX: 항상 표시, waitlist framing 정합). 표시광고법 §3 준수. -->
+<div id="ss-beta-banner" class="ss-beta-banner">
+  <span data-i18n="beta_banner_text">🧪 <strong>Early access</strong> — Public launch coming soon. Join the waitlist above for the first Monday digest (free). Product feedback: reply to any digest email.</span>
 </div>
 <script>
   (function() {
-    if (window.STORESCOPE_PADDLE_ENV === 'sandbox') {
-      document.body.classList.add('ss-beta-on');
-      var b = document.getElementById('ss-beta-banner');
-      if (b) b.hidden = false;
-    }
+    document.body.classList.add('ss-beta-on');  // banner 항상 표시 (FIX 2026-07-30: waitlist 상태 명시)
   })();
 </script>
 
