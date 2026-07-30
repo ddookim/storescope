@@ -4757,6 +4757,17 @@
       if (window.STORESCOPE_REFRESH_XR_STEPS) {
         window.STORESCOPE_REFRESH_XR_STEPS();
       }
+      // 2026-07-31 D+60: Legal 페이지 링크 언어 기반 분기 (전자상거래법 §13/§17 대응).
+      // KO 사용자 → refund-ko.html, privacy-ko.html, terms-ko.html.
+      // JA/EN → 기존 EN 페이지 (JA 번역 없음, defer).
+      document.querySelectorAll('.footer-legal-link').forEach(function(a) {
+        var legal = a.dataset.legal;  // 'privacy' | 'terms' | 'refund'
+        if (lang === 'ko') {
+          a.setAttribute('href', './landing/' + legal + '-ko.html');
+        } else {
+          a.setAttribute('href', './landing/' + legal + '.html');
+        }
+      });
     };
 
     // Auto-detect on load: URL ?lang= > localStorage > browser default (en/ko/ja만 지원)
@@ -6611,9 +6622,10 @@
     </div>
     <div class="footer-col">
       <h3 data-i18n="footer_col_legal">Legal</h3>
-      <a href="./landing/privacy.html" data-i18n="footer_link_privacy">Privacy</a>
-      <a href="./landing/terms.html" data-i18n="footer_link_terms">Terms</a>
-      <a href="./landing/refund.html" data-i18n="footer_link_refund">Refund</a>
+      <!-- 2026-07-31 D+60: KO sub pages 추가 (전자상거래법 §13/§17 대응). lang 기반 자동 분기. -->
+      <a href="./landing/privacy.html" class="footer-legal-link" data-legal="privacy" data-i18n="footer_link_privacy">Privacy</a>
+      <a href="./landing/terms.html" class="footer-legal-link" data-legal="terms" data-i18n="footer_link_terms">Terms</a>
+      <a href="./landing/refund.html" class="footer-legal-link" data-legal="refund" data-i18n="footer_link_refund">Refund</a>
     </div>
   </div>
   <div class="footer-bottom">
