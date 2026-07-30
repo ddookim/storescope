@@ -98,15 +98,21 @@
   </script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>StoreScope — Shopify product trends, a week early</title>
-  <meta name="description" content="StoreScope scans 1,400+ Shopify stores weekly and ranks the products gaining adoption — 7 to 14 days before they trend on ads. 140k+ products indexed. Free 7-day trial, no card required." />
+  <meta name="description" content="StoreScope scans 1,400+ Shopify stores weekly and ranks the products gaining adoption — 1-2 weeks before mainstream discovery. 140k+ products indexed. Free 7-day trial, no card required." />
   <meta name="robots" content="index, follow, max-image-preview:large" />
   <meta name="theme-color" content="#4F46E5" />
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="StoreScope" />
   <meta property="og:locale" content="en_US" />
+  <meta property="og:locale:alternate" content="ko_KR" />
+  <meta property="og:locale:alternate" content="ja_JP" />
   <meta property="og:url" content="https://ddookim.github.io/storescope/" />
+  <link rel="alternate" hreflang="en" href="https://ddookim.github.io/storescope/?lang=en" />
+  <link rel="alternate" hreflang="ko" href="https://ddookim.github.io/storescope/?lang=ko" />
+  <link rel="alternate" hreflang="ja" href="https://ddookim.github.io/storescope/?lang=ja" />
+  <link rel="alternate" hreflang="x-default" href="https://ddookim.github.io/storescope/" />
   <meta property="og:title" content="StoreScope — Shopify product trends, a week early" />
-  <meta property="og:description" content="1,400+ Shopify stores, scanned weekly. Every Monday morning: a ranked list of products gaining adoption — 7 to 14 days before they trend on ads." />
+  <meta property="og:description" content="1,400+ Shopify stores, scanned weekly. Every Monday morning: a ranked list of products gaining adoption — 1-2 weeks before mainstream discovery." />
   <meta property="og:image" content="https://ddookim.github.io/storescope/landing/og-image.png" />
   <meta property="og:image:type" content="image/png" />
   <meta property="og:image:width" content="1200" />
@@ -114,7 +120,7 @@
   <meta property="og:image:alt" content="StoreScope — Shopify Product Intelligence dashboard" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="StoreScope — Shopify product trends, a week early" />
-  <meta name="twitter:description" content="1,400+ Shopify stores, scanned weekly. Every Monday morning: a ranked list of products gaining adoption — 7 to 14 days before they trend on ads." />
+  <meta name="twitter:description" content="1,400+ Shopify stores, scanned weekly. Every Monday morning: a ranked list of products gaining adoption — 1-2 weeks before mainstream discovery." />
   <meta name="twitter:image" content="https://ddookim.github.io/storescope/landing/og-image.png" />
 
   <!-- Security headers (meta-equivalent) — OWASP CSP Cheat Sheet + web.dev + Paddle 공식 CSP guide
@@ -2047,6 +2053,43 @@
     }
     @media (max-width: 640px) { .hero-scale-note { font-size: 12px; max-width: 320px; } }
 
+    /* Hero live counters (2026-07-30 D+59) — 상승 애니메이션 + WCAG contrast pass */
+    .hero-counters {
+      display: flex; justify-content: center; align-items: baseline;
+      gap: 20px; flex-wrap: wrap;
+      margin: 8px auto 4px;
+      max-width: 640px;
+      padding: 4px 8px;
+    }
+    .hero-counter { display: flex; flex-direction: column; align-items: center; gap: 2px; min-width: 92px; }
+    .hero-counter-num {
+      font-family: 'Inter', -apple-system, sans-serif;
+      font-size: clamp(20px, 2.4vw, 28px);
+      font-weight: 900; letter-spacing: -0.02em;
+      background: linear-gradient(135deg, #4F46E5, #3730A3);
+      -webkit-background-clip: text; background-clip: text;
+      -webkit-text-fill-color: transparent; color: transparent;
+      line-height: 1.1;
+      font-variant-numeric: tabular-nums;
+    }
+    .hero-counter-label {
+      font-size: 11px; color: var(--muted-2);
+      letter-spacing: 0.4px; text-transform: uppercase;
+      font-weight: 600;
+    }
+    .hero-counter-sep {
+      color: var(--muted); font-size: 20px; font-weight: 200;
+      opacity: 0.5;
+    }
+    @media (max-width: 640px) {
+      .hero-counters { gap: 12px; }
+      .hero-counter { min-width: 80px; }
+      .hero-counter-sep { display: none; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .hero-counter-num { transition: none !important; }
+    }
+
     /* ── INTEGRATIONS STRIP ── */
     .int-strip { padding: 18px 24px; border-bottom: 1px solid var(--border); }
     .int-strip-inner {
@@ -3632,6 +3675,16 @@
       en: {
         nav_features: "Features",
         nav_blog: "Blog",
+        counter_label_stores: "Shopify stores indexed",
+        counter_label_products: "Products tracked",
+        counter_label_clusters: "Active clusters",
+        compliance_label: "Compliance & data practices",
+        compliance_gdpr: "GDPR ready",
+        compliance_pipa: "Korea PIPA aligned",
+        compliance_uptime: "Weekly refresh cadence",
+        compliance_public_data: "Public /products.json only",
+        compliance_robots: "robots.txt respected",
+        compliance_opt_out: "1-click merchant opt-out",
         cmp_pill: "Different approach",
         cmp_h2: "Why cross-store beats single-store ranking.",
         cmp_sub: "Two ways to rank Shopify products. One tells you what's already peaked. The other tells you what's about to.",
@@ -4058,6 +4111,16 @@
       ko: {
         nav_features: "기능",
         nav_blog: "블로그",
+        counter_label_stores: "인덱스된 Shopify 스토어",
+        counter_label_products: "추적 중인 상품",
+        counter_label_clusters: "활성 클러스터",
+        compliance_label: "컴플라이언스 및 데이터 취급",
+        compliance_gdpr: "GDPR 대응",
+        compliance_pipa: "한국 PIPA 정합",
+        compliance_uptime: "매주 갱신 주기",
+        compliance_public_data: "공개 /products.json 만",
+        compliance_robots: "robots.txt 준수",
+        compliance_opt_out: "1클릭 머천트 옵트아웃",
         cmp_pill: "다른 접근",
         cmp_h2: "왜 크로스 스토어가 단일 스토어 랭킹보다 나은가.",
         cmp_sub: "Shopify 상품을 랭킹하는 두 방식. 하나는 이미 정점을 지난 것을 알려주고, 다른 하나는 앞으로 올 것을 알려줍니다.",
@@ -4460,6 +4523,16 @@
       ja: {
         nav_features: "機能",
         nav_blog: "ブログ",
+        counter_label_stores: "インデックス済みShopifyストア",
+        counter_label_products: "追跡中の商品",
+        counter_label_clusters: "アクティブクラスター",
+        compliance_label: "コンプライアンス・データ取り扱い",
+        compliance_gdpr: "GDPR対応",
+        compliance_pipa: "韓国PIPA準拠",
+        compliance_uptime: "毎週更新サイクル",
+        compliance_public_data: "公開/products.jsonのみ",
+        compliance_robots: "robots.txt遵守",
+        compliance_opt_out: "1クリック マーチャントオプトアウト",
         cmp_pill: "異なるアプローチ",
         cmp_h2: "なぜクロスストアが単一ストアランキングより優れているか。",
         cmp_sub: "Shopify商品をランキングする2つの方法。1つはすでにピークを過ぎたものを示し、もう1つは今から来るものを示します。",
@@ -5047,7 +5120,24 @@
 
   <!-- UPGRADE 2026-06-08: hero-alerts 제거 — 3D dashboard mockup이 동일 가치 제공 (제품 시각).
        이전: alerts + mockup 동시 표시 = 시각 중복. 이제 mockup 단독으로 hero 시각 통일. -->
-  <p class="hero-scale-note" data-i18n="hero_scale">Tracking 1,400+ Shopify stores · 140,000+ products · refreshed weekly</p>
+  <!-- Live counter (2026-07-30 D+59 경쟁력 upgrade): 정적 문장 → 시각적 카운터로 상승감 -->
+  <div class="hero-counters" aria-label="Index statistics">
+    <div class="hero-counter">
+      <span class="hero-counter-num" data-target="1400" data-suffix="+">0</span>
+      <span class="hero-counter-label" data-i18n="counter_label_stores">Shopify stores indexed</span>
+    </div>
+    <div class="hero-counter-sep" aria-hidden="true">·</div>
+    <div class="hero-counter">
+      <span class="hero-counter-num" data-target="140000" data-suffix="+">0</span>
+      <span class="hero-counter-label" data-i18n="counter_label_products">Products tracked</span>
+    </div>
+    <div class="hero-counter-sep" aria-hidden="true">·</div>
+    <div class="hero-counter">
+      <span class="hero-counter-num" data-target="1600" data-suffix="+">0</span>
+      <span class="hero-counter-label" data-i18n="counter_label_clusters">Active clusters</span>
+    </div>
+  </div>
+  <p class="hero-scale-note" data-i18n="hero_scale" style="display:none;">Tracking 1,400+ Shopify stores · 140,000+ products · refreshed weekly</p>
   <p class="hero-trust-line" style="text-align:center;font-size:12px;color:var(--muted-2);margin-top:6px;letter-spacing:0.6px;text-transform:uppercase;font-weight:600;">
     <!-- FIX 2026-07-29 D+58 HIGH: --muted (#A8A29E 2.38:1 vs cream) WCAG AA fail. --muted-2 (#78716C 4.6:1) 통과. -->
     <span data-i18n="hero_trust_line">Independent · Bootstrapped · Early access preview</span>
@@ -6459,8 +6549,79 @@
       </div>
     </div>
 
+    <!-- COMPLIANCE ROW — 2026-07-30 D+59 신규 (경쟁력 upgrade: legal/data 신뢰 신호) -->
+    <div class="compliance-badges">
+      <span class="compliance-label" data-i18n="compliance_label">Compliance & data practices</span>
+      <div class="compliance-row">
+        <div class="cbadge">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          <span class="cbadge-label" data-i18n="compliance_gdpr">GDPR ready</span>
+        </div>
+        <div class="cbadge">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+          <span class="cbadge-label" data-i18n="compliance_pipa">Korea PIPA aligned</span>
+        </div>
+        <div class="cbadge">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          <span class="cbadge-label" data-i18n="compliance_uptime">Weekly refresh cadence</span>
+        </div>
+        <div class="cbadge">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+          <span class="cbadge-label" data-i18n="compliance_public_data">Public /products.json only</span>
+        </div>
+        <div class="cbadge">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          <span class="cbadge-label" data-i18n="compliance_robots">robots.txt respected</span>
+        </div>
+        <div class="cbadge">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+          <span class="cbadge-label" data-i18n="compliance_opt_out">1-click merchant opt-out</span>
+        </div>
+      </div>
+    </div>
+
   </div>
 </div>
+
+<style>
+  .compliance-badges {
+    margin-top: 24px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255,255,255,0.12);
+    text-align: center;
+  }
+  .compliance-label {
+    font-size: 10.5px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 1.4px; color: rgba(255,255,255,0.55);
+    display: block; margin-bottom: 16px;
+  }
+  .compliance-row {
+    display: flex; justify-content: center; align-items: center;
+    flex-wrap: wrap; gap: 10px 14px;
+    max-width: 800px; margin: 0 auto;
+  }
+  .cbadge {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 6px 12px;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.10);
+    border-radius: 100px;
+    color: rgba(255,255,255,0.72);
+    font-size: 11.5px; font-weight: 600;
+    letter-spacing: 0.1px;
+    transition: background 0.15s ease, border-color 0.15s ease;
+  }
+  .cbadge:hover {
+    background: rgba(255,255,255,0.08);
+    border-color: rgba(255,255,255,0.18);
+    color: rgba(255,255,255,0.9);
+  }
+  .cbadge svg { flex-shrink: 0; opacity: 0.85; }
+  @media (max-width: 640px) {
+    .compliance-row { gap: 6px 8px; }
+    .cbadge { font-size: 10.5px; padding: 5px 10px; }
+  }
+</style>
 
 <!-- UPGRADE 2026-06-08: "What makes us different" — 강점 중심 (경쟁사 직거명 없음).
      Linear/Stripe/Vercel 패턴: 자신의 가치만 명확히 설명, 남 비교 안 함. -->
@@ -7053,6 +7214,51 @@
       }
     });
   })();
+
+  /* Hero live counter — 2026-07-30 D+59 경쟁력 upgrade.
+     IntersectionObserver 로 viewport 진입 시 count-up. prefers-reduced-motion 존중. */
+  document.addEventListener('DOMContentLoaded', function() {
+    var counters = document.querySelectorAll('.hero-counter-num[data-target]');
+    if (counters.length === 0) return;
+    var reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    function formatNum(n) {
+      if (n >= 1000) return (n / 1000).toFixed(0) + 'k';
+      return String(n);
+    }
+    function animateCounter(el) {
+      var target = parseInt(el.getAttribute('data-target'), 10) || 0;
+      var suffix = el.getAttribute('data-suffix') || '';
+      if (reducedMotion) {
+        el.textContent = formatNum(target) + suffix;
+        return;
+      }
+      var duration = 1400; // ms
+      var start = performance.now();
+      function tick(now) {
+        var progress = Math.min((now - start) / duration, 1);
+        // easeOutCubic
+        var eased = 1 - Math.pow(1 - progress, 3);
+        var current = Math.floor(eased * target);
+        el.textContent = formatNum(current) + (progress === 1 ? suffix : '');
+        if (progress < 1) requestAnimationFrame(tick);
+      }
+      requestAnimationFrame(tick);
+    }
+    if ('IntersectionObserver' in window) {
+      var io = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) {
+            animateCounter(entry.target);
+            io.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.5 });
+      counters.forEach(function(c) { io.observe(c); });
+    } else {
+      counters.forEach(animateCounter);
+    }
+  });
 
   /* GA4 CTA tracking — D+20 L2.B: gtag 가드 (uBlock/Brave/GDPR 차단 방어) */
   document.addEventListener('DOMContentLoaded', function() {
