@@ -51,6 +51,12 @@
   </url>
   <!-- SEO blog pages (2026-07-29 D+58 patio11 지적: content SEO = 6개월 지연 자산) -->
   <url>
+    <loc>https://ddookim.github.io/storescope/blog/</loc>
+    <lastmod>2026-08-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://ddookim.github.io/storescope/blog/shopify-trending-products-tool.html</loc>
     <lastmod>2026-07-29</lastmod>
     <changefreq>monthly</changefreq>
