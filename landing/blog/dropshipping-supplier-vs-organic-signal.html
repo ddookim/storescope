@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="How to tell supplier-driven product pushes from organic demand in dropshipping — using cross-store price spread, cluster growth rate, and age analysis to avoid saturated markets.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://ddookim.github.io/storescope/blog/dropshipping-supplier-vs-organic-signal.html">
+<title>Supplier Push vs Organic Demand — Reading Shopify Cluster Signals | StoreScope</title>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Supplier Push vs Organic Demand — Reading Shopify Cluster Signals",
+  "description": "How to tell supplier-driven product pushes from organic demand in dropshipping — using cross-store price spread, cluster growth rate, and age analysis to avoid saturated markets.",
+  "url": "https://ddookim.github.io/storescope/blog/dropshipping-supplier-vs-organic-signal.html",
+  "datePublished": "2026-07-30",
+  "dateModified": "2026-07-30",
+  "author": { "@type": "Organization", "name": "StoreScope" },
+  "publisher": { "@type": "Organization", "name": "StoreScope", "logo": { "@type": "ImageObject", "url": "https://ddookim.github.io/storescope/landing/og-image.png" } },
+  "mainEntityOfPage": { "@type": "WebPage", "@id": "https://ddookim.github.io/storescope/blog/dropshipping-supplier-vs-organic-signal.html" }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://ddookim.github.io/storescope/" },
+    { "@type": "ListItem", "position": 2, "name": "Blog", "item": "https://ddookim.github.io/storescope/blog/" },
+    { "@type": "ListItem", "position": 3, "name": "Supplier Push vs Organic Demand", "item": "https://ddookim.github.io/storescope/blog/dropshipping-supplier-vs-organic-signal.html" }
+  ]
+}
+</script>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%234F46E5'/%3E%3Cpath d='M9 20l5-5 4 4 5-6' stroke='%23fff' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3E%3C/svg%3E">
+<style>
+  body { font-family: -apple-system, "Inter", sans-serif; max-width: 720px; margin: 0 auto; padding: 60px 24px; color: #1C1917; line-height: 1.65; background: #F9F8F6; }
+  h1 { font-size: 2.2rem; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 0.6rem; line-height: 1.15; }
+  h2 { font-size: 1.35rem; font-weight: 700; margin-top: 2.4rem; margin-bottom: 0.6rem; }
+  h3 { font-size: 1.1rem; font-weight: 700; margin-top: 1.6rem; margin-bottom: 0.4rem; }
+  p { margin-bottom: 1rem; color: #3F3B37; }
+  a { color: #4338ca; text-decoration: underline; text-decoration-color: rgba(67,56,202,0.3); text-underline-offset: 3px; }
+  .meta { color: #6B655F; font-size: 0.9rem; margin-bottom: 2rem; }
+  ul, ol { margin: 1rem 0 1rem 1.6rem; }
+  li { margin-bottom: 0.4rem; color: #3F3B37; }
+  code { background: #F3F1EE; padding: 2px 6px; border-radius: 4px; font-family: "SF Mono", monospace; font-size: 0.9em; color: #4338ca; }
+  blockquote { border-left: 3px solid #4F46E5; padding-left: 16px; margin: 1.5rem 0; color: #57534E; font-style: italic; }
+  .cta { display: inline-block; background: linear-gradient(135deg, #4F46E5 0%, #3730A3 100%); color: #fff; padding: 14px 28px; border-radius: 10px; font-weight: 700; text-decoration: none; margin-top: 24px; }
+  .cta:hover { transform: translateY(-1px); box-shadow: 0 8px 24px rgba(79,70,229,0.25); }
+  table { border-collapse: collapse; width: 100%; margin: 1.5rem 0; }
+  th, td { text-align: left; padding: 12px 16px; border-bottom: 1px solid #E2E8F0; }
+  th { background: #F3F1EE; font-weight: 700; }
+</style>
+</head>
+<body>
+
+<p class="meta">Published 2026-07-30 · 6 min read · <a href="https://ddookim.github.io/storescope/">← StoreScope</a></p>
+
+<h1>Supplier Push vs Organic Demand — Reading Shopify Cluster Signals</h1>
+
+<p>A cluster of 200 Shopify stores stocking the same product looks like a huge trend. Sometimes it is. Sometimes it's just a supplier promotion pushed to 200 merchants in a two-week window. The difference matters — one has margin, the other doesn't.</p>
+
+<p>Here's how to tell them apart using cross-store overlap data.</p>
+
+<h2>Signal 1: Cluster growth curve shape</h2>
+
+<h3>Supplier push pattern</h3>
+<ul>
+  <li>10 → 200 stores in 2-3 weeks (steep step function)</li>
+  <li>Growth rate collapses after initial burst</li>
+  <li>All stores adopting via same supplier (Alibaba, CJDropshipping, etc.)</li>
+</ul>
+
+<h3>Organic demand pattern</h3>
+<ul>
+  <li>20 → 30 → 45 → 65 stores over 4-6 weeks (compounding growth)</li>
+  <li>Growth rate sustained or accelerating</li>
+  <li>Diverse supplier origins (different manufacturers/regions)</li>
+</ul>
+
+<blockquote>
+Rule of thumb: if week-over-week growth doubles for 3+ consecutive weeks, it's organic. If it spikes then plateaus, it's supplier-driven.
+</blockquote>
+
+<h2>Signal 2: Price spread across stores</h2>
+
+<h3>Supplier push = tight price spread</h3>
+<p>All stores buying from same supplier at same wholesale = same MSRP band. $22-$26 across 200 stores. No margin room for latecomers.</p>
+
+<h3>Organic demand = wide price spread</h3>
+<p>Stores sourcing from different manufacturers, using different markup strategies. $12-$28 across same store count = room to differentiate on price or positioning.</p>
+
+<h2>Signal 3: Cluster age × growth</h2>
+
+<p>A 4-week-old cluster growing = still early. A 4-month-old cluster with same growth rate = late-stage, imminent saturation.</p>
+
+<table>
+  <thead>
+    <tr><th>Cluster age</th><th>Growth pattern</th><th>Verdict</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>2-4 weeks</td><td>Accelerating</td><td>Early organic — best entry</td></tr>
+    <tr><td>2-4 weeks</td><td>Spike-then-flat</td><td>Supplier push — verify unit economics first</td></tr>
+    <tr><td>6-10 weeks</td><td>Accelerating</td><td>Real category trend — wide entry window</td></tr>
+    <tr><td>6-10 weeks</td><td>Flat</td><td>Late-stage — avoid new entry</td></tr>
+    <tr><td>12+ weeks</td><td>Any</td><td>Saturated — margins compressed</td></tr>
+  </tbody>
+</table>
+
+<h2>Signal 4: Category coherence</h2>
+
+<h3>Supplier push</h3>
+<p>Products cluster in random categories — supplier pushes whatever they have inventory on. Adopters take it regardless of niche fit.</p>
+
+<h3>Organic demand</h3>
+<p>Products cluster in coherent categories with seasonal or cultural drivers. Fitness accessories in January. Halloween decor in October. Football jerseys in June. Predictable, structural.</p>
+
+<h2>Concrete example from May 2026 snapshot</h2>
+
+<h3>Case A: Wrist rest cluster (660 stores)</h3>
+<ul>
+  <li>Growth: 400 → 660 stores in 3 weeks (steep step)</li>
+  <li>Price spread: $22-$26 (tight)</li>
+  <li>Category: office accessories (broad, no seasonal driver)</li>
+  <li><strong>Verdict: supplier push. Avoid new entry unless custom differentiation.</strong></li>
+</ul>
+
+<h3>Case B: Adjustable phone stand cluster (38 stores)</h3>
+<ul>
+  <li>Growth: 22 → 30 → 38 stores over 4 weeks (compounding)</li>
+  <li>Price spread: $16-$28 (wide)</li>
+  <li>Category: tech accessories (evergreen)</li>
+  <li><strong>Verdict: organic trend. 4-6 week entry window.</strong></li>
+</ul>
+
+<h2>How to check this without doing 200 store audits manually</h2>
+
+<p>Cross-store data source + growth curve visualization + price spread analytics. StoreScope's weekly digest surfaces this per cluster automatically.</p>
+
+<p><a href="https://ddookim.github.io/storescope/outreach/evidence/top5-2026-06-01.html">See sample data →</a></p>
+
+<h2>Get the weekly digest</h2>
+
+<a href="https://ddookim.github.io/storescope/#pricing?utm_source=blog&utm_campaign=supplier-vs-organic" class="cta">Start 7-day free trial →</a>
+
+<p style="margin-top: 48px; padding-top: 24px; border-top: 1px solid #E2E8F0; font-size: 0.85rem; color: #6B655F;">
+StoreScope · Shopify cross-store product intelligence · <a href="mailto:support@storescope.com">support@storescope.com</a>
+</p>
+
+</body>
+</html>

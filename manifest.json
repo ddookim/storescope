@@ -1,0 +1,38 @@
+{
+  "name": "StoreScope — Shopify Cross-Store Intelligence",
+  "short_name": "StoreScope",
+  "description": "Cross-store Shopify product intelligence. 1,400+ stores indexed weekly. Storm Score momentum ranking.",
+  "start_url": "/?utm_source=pwa",
+  "display": "standalone",
+  "orientation": "portrait",
+  "theme_color": "#4F46E5",
+  "background_color": "#F9F8F6",
+  "lang": "en",
+  "categories": ["business", "productivity", "shopping"],
+  "icons": [
+    {
+      "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'%3E%3Crect width='192' height='192' rx='42' fill='%234F46E5'/%3E%3Cpath d='M54 120l30-30 24 24 30-36' stroke='%23fff' stroke-width='16' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3E%3C/svg%3E",
+      "sizes": "192x192",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' rx='112' fill='%234F46E5'/%3E%3Cpath d='M144 320l80-80 64 64 80-96' stroke='%23fff' stroke-width='42' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3E%3C/svg%3E",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Join waitlist",
+      "url": "/#hero-email-form",
+      "description": "Sign up for the first Monday digest"
+    },
+    {
+      "name": "Contact",
+      "url": "/#contact",
+      "description": "Send feedback or questions"
+    }
+  ]
+}
