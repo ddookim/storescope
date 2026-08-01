@@ -8,7 +8,7 @@ on:
   push:
     branches: [main]
     paths:
-      - 'landing/index.html'
+      - 'landing/**'
       - 'outreach/evidence/**'
   workflow_dispatch:
 
@@ -44,8 +44,14 @@ jobs:
           git worktree add /tmp/gh-pages-wt gh-pages
 
           # 파일 sync (main → gh-pages)
+          # 2026-08-01 확장: manifest, robots, sitemap, sub pages, blog directory 모두 sync
           cp landing/index.html /tmp/gh-pages-wt/index.html
-          cp landing/index.html /tmp/gh-pages-wt/landing/index.html
+          mkdir -p /tmp/gh-pages-wt/landing
+          cp -r landing/* /tmp/gh-pages-wt/landing/
+          # Root SEO 파일도 복사 (Netlify 정합)
+          cp landing/robots.txt /tmp/gh-pages-wt/robots.txt 2>/dev/null || true
+          cp landing/sitemap.xml /tmp/gh-pages-wt/sitemap.xml 2>/dev/null || true
+          cp landing/manifest.json /tmp/gh-pages-wt/manifest.json 2>/dev/null || true
           mkdir -p /tmp/gh-pages-wt/outreach/evidence
           if [ -d outreach/evidence ]; then
             cp -r outreach/evidence/* /tmp/gh-pages-wt/outreach/evidence/ 2>/dev/null || true
@@ -58,7 +64,7 @@ jobs:
             exit 0
           fi
 
-          git add index.html landing/index.html outreach/evidence/ 2>/dev/null || git add -A
+          git add -A
           git commit -m "chore: landing deploy $(date -u +%Y-%m-%d) (auto-sync from ${GITHUB_SHA:0:7})"
           git push origin gh-pages
 

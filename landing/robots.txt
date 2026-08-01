@@ -1,11 +1,30 @@
-# StoreScope robots.txt — D+22 라운드 R2
+# StoreScope robots.txt — 2026-08-01 D+61 update
 # Source pattern: robotstxt.org spec + Google Search Central guide
 
 User-agent: *
 Allow: /
+
 # StoreScope 자체가 Shopify /products.json 를 정직하게 읽음 — landing 자체는 모든 크롤러 허용
+
+# 404 페이지 noindex (robots meta noindex 와 함께 이미 적용됨)
+Disallow: /404.html
 Disallow: /landing/404.html
 
-# 404 페이지 noindex — robots meta noindex 와 함께 (이미 적용됨)
+# Bad-bot 차단 (colocated with policy 관련 defensive rule)
+User-agent: GPTBot
+Disallow: /
 
+User-agent: CCBot
+Disallow: /
+
+User-agent: anthropic-ai
+Disallow: /
+
+# 크롤 예산 최적화: 이미지/폰트/스크립트 크롤 delay
+User-agent: *
+Crawl-delay: 1
+
+# Sitemap 위치 (dual host 대응)
+Sitemap: https://storescope.netlify.app/sitemap.xml
 Sitemap: https://ddookim.github.io/storescope/sitemap.xml
+Sitemap: https://ddookim.github.io/storescope/landing/sitemap.xml
