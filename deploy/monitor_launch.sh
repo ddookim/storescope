@@ -14,6 +14,8 @@ FORM_ID="6a69f8418830ee0008b52453"
 STATE_FILE="/tmp/storescope_launch_state.txt"
 # Non-organic filter: exclude test emails + known user personal accounts (D+8 correction)
 NON_ORGANIC_REGEX='@example\.com|doyeon2328@'
+# HN Algolia search — auth-free, tracks Show HN metric
+HN_ALGOLIA_URL='https://hn.algolia.com/api/v1/search?query=StoreScope&tags=show_hn'
 
 _snapshot() {
     local ts=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
@@ -32,6 +34,21 @@ _snapshot() {
     echo "  IH-attributed (?ref=ih): $ih_refs"
     echo "  Latest email: ${last_email:-none}"
     echo "  Latest IP: ${last_ip:-none}"
+
+    # HN Algolia — polls Show HN posts mentioning StoreScope (no auth needed)
+    # Algolia fuzzy-matches (StarScope, StoryScape 등) — Python 에서 exact 'storescope' 문자열 필터
+    local hn_json=$(curl -sf --max-time 5 "$HN_ALGOLIA_URL" 2>/dev/null || echo '{"hits":[]}')
+    local hn_hits=$(echo "$hn_json" | python3 -c "
+import sys, json
+try:
+    d = json.load(sys.stdin); hits = d.get('hits', [])
+    exact = [h for h in hits if 'storescope' in (h.get('title','') + ' ' + h.get('url','')).lower()]
+    if not exact: print('  HN Show HN (storescope): not submitted yet')
+    else:
+        for h in exact[:3]:
+            print(f\"  HN | pts={h.get('points',0):>3} comments={h.get('num_comments',0):>3} | {h.get('title','')[:55]}\")
+except Exception: print('  HN Algolia poll failed')" 2>/dev/null)
+    echo "$hn_hits"
 
     # State delta
     if [ -f "$STATE_FILE" ]; then
