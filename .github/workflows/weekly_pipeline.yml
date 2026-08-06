@@ -16,9 +16,10 @@ on:
     - cron: "0 23 * * 0"  # 일요일 23:00 UTC
   workflow_dispatch:       # 수동 트리거 허용 (디버깅 + 첫 실행용)
 
-# SEC: 최소 권한 — checkout + pipeline 실행만, write 권한 불필요.
+# SEC: DB-less 모드 (NEON_DB_URL 미설정) 에서만 data/*.json 커밋 back 필요.
+# DB 모드에서는 read 만으로 충분 (data 는 DB 로 이동).
 permissions:
-  contents: read
+  contents: write
 
 # 동시 실행 차단 — 동일 시간에 두 잡이 안 돌게.
 concurrency:
@@ -37,6 +38,10 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+        with:
+          # DB-less 모드에서 data/*.json commit back 하려면 push 권한이 있는 token 필요.
+          # 기본 GITHUB_TOKEN 은 persist-credentials=true 로 자동 wire 되지만 명시.
+          persist-credentials: true
 
       - name: Setup Python 3.11
         uses: actions/setup-python@v5
@@ -49,16 +54,33 @@ jobs:
           pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Run pipeline (crawl + cluster + load)
+      - name: Run pipeline (DB-less crawl+cluster if NEON_DB_URL empty)
         run: |
-          # Droplet 단계(0, 5) 건너뛰고 1~4만 실행 (Neon 환경)
-          python run_pipeline.py --from 1 || PIPELINE_EXIT=$?
-          if [ -n "${PIPELINE_EXIT:-}" ] && [ "$PIPELINE_EXIT" -ne 0 ]; then
-            echo "::error::Pipeline failed with exit $PIPELINE_EXIT"
-            exit "$PIPELINE_EXIT"
+          # DATABASE_URL 없으면 --to 3 (crawl+cluster only, JSON output). 있으면 full 1~4.
+          if [ -z "${DATABASE_URL:-}" ]; then
+            echo "::notice::DATABASE_URL 미설정 → DB-less 모드 (steps 1-3 만 실행, data/*.json 커밋 back)"
+            python run_pipeline.py --from 1 --to 3
+          else
+            echo "::notice::DATABASE_URL 설정됨 → full 모드 (steps 1-4)"
+            python run_pipeline.py --from 1
           fi
 
-      - name: Health check after pipeline
+      - name: Commit fresh data (DB-less mode only)
+        if: success() && env.DATABASE_URL == ''
+        run: |
+          git config user.name  "storescope-bot"
+          git config user.email "bot@storescope.local"
+          git add data/trending.json data/clusters.json 2>/dev/null || true
+          if git diff --cached --quiet; then
+            echo "::notice::No data changes to commit"
+          else
+            git commit -m "chore(data): weekly refresh $(date -u +%F) [skip ci]"
+            git push origin HEAD:main
+            echo "::notice::Fresh data pushed to main"
+          fi
+
+      - name: Health check after pipeline (DB 모드만)
+        if: success() && env.DATABASE_URL != ''
         run: |
           python -c "
           import os, psycopg2
@@ -74,8 +96,8 @@ jobs:
           print('Health check PASS')
           "
 
-      - name: Send weekly digest emails (D+29 wiring)
-        if: success()
+      - name: Send weekly digest emails (DB 모드만, D+29 wiring)
+        if: success() && env.DATABASE_URL != ''
         env:
           SMTP_HOST: ${{ secrets.SMTP_HOST }}
           SMTP_PORT: ${{ secrets.SMTP_PORT }}

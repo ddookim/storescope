@@ -8,7 +8,11 @@ StoreScope — 전체 파이프라인 실행 (subprocess 격리)
     python run_pipeline.py              # 전체 실행 (0→5)
     python run_pipeline.py --step 2     # 특정 단계만
     python run_pipeline.py --from 3     # 3단계부터 재개 (Droplet 이미 켜진 경우)
+    python run_pipeline.py --to 3       # 3단계까지만 (Neon 없이 crawl+cluster only)
+    python run_pipeline.py --from 1 --to 3  # 1~3만 (GH Actions DB-less 모드)
 """
+
+from __future__ import annotations
 
 import argparse
 import os
@@ -50,15 +54,19 @@ def _run_step(idx: int, name: str, cmd: list[str]) -> None:
     print(f"  완료 ({elapsed:.1f}초)", flush=True)
 
 
-def run_all(from_step: int = 0) -> None:
+def run_all(from_step: int = 0, to_step: int | None = None) -> None:
     total = len(STEPS)
+    last = to_step if to_step is not None else total - 1
     for idx, (name, cmd) in enumerate(STEPS):
         if idx < from_step:
             print(f"  STEP {idx} 건너뜀 (--from {from_step})", flush=True)
             continue
+        if idx > last:
+            print(f"  STEP {idx} 건너뜀 (--to {last})", flush=True)
+            continue
         _run_step(idx, name, cmd)
 
-    print(f"\n전체 파이프라인 완료 ({from_step}~{total - 1}단계)", flush=True)
+    print(f"\n전체 파이프라인 완료 ({from_step}~{last}단계)", flush=True)
 
 
 def run_single(step: int) -> None:
@@ -71,13 +79,17 @@ def run_single(step: int) -> None:
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="StoreScope 파이프라인 실행기")
-    group = parser.add_mutually_exclusive_group()
-    group.add_argument("--step", type=int, metavar="N", help="특정 단계만 실행 (0~5)")
-    group.add_argument("--from", type=int, metavar="N", dest="from_step",
-                       help="N단계부터 끝까지 실행 (실패 후 재개용)")
+    parser.add_argument("--step", type=int, metavar="N", help="특정 단계만 실행 (0~5)")
+    parser.add_argument("--from", type=int, metavar="N", dest="from_step",
+                       help="N단계부터 실행 (실패 후 재개용)")
+    parser.add_argument("--to", type=int, metavar="N", dest="to_step",
+                       help="N단계까지만 실행 (DB 없이 crawl+cluster only 모드용)")
     args = parser.parse_args()
 
     if args.step is not None:
+        if args.from_step is not None or args.to_step is not None:
+            print("--step 과 --from/--to 는 동시 사용 불가", flush=True)
+            sys.exit(2)
         run_single(args.step)
     else:
-        run_all(from_step=args.from_step or 0)
+        run_all(from_step=args.from_step or 0, to_step=args.to_step)
