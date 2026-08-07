@@ -67,11 +67,19 @@ SMTP_TIMEOUT      = 10
 TRENDING_PATH     = _HERE / "data" / "trending.json"
 SENT_LOG_PATH     = _HERE / "data" / "sent_log.json"
 
-# Non-organic + wholesale filter (D+8 audit findings)
+# Non-organic + quality filters (D+8 audit — H1 signal quality remediation)
 NON_ORGANIC_EMAILS = ("@example.com", "doyeon2328@")
-WHOLESALE_TITLE_PATTERNS = ("davines", "polo 998", "pvc white end cap")  # known-issue brands
-MIN_STORE_COUNT   = 3         # F2: singleton/pair 배제
-TOP_N_CLUSTERS    = 10        # digest 표시 개수
+WHOLESALE_TITLE_PATTERNS = (
+    "davines", "polo 998", "pvc white end cap", "safety sign",
+    "jutebeutel", "novena", "sticky notes", "beanie", "stoppers",
+)  # Known-junk from D+8 real-data spot-check
+MIN_STORE_COUNT     = int(os.environ.get("DIGEST_MIN_STORES", "5"))     # ≥5 stores = real distribution
+MIN_PRODUCT_COUNT   = int(os.environ.get("DIGEST_MIN_PRODUCTS", "20"))  # ≥20 dupes = real spread
+MIN_PRICE           = float(os.environ.get("DIGEST_MIN_PRICE", "5"))    # <$5 = giveaway/junk
+MAX_PRICE           = float(os.environ.get("DIGEST_MAX_PRICE", "200"))  # >$200 = luxury tail
+ENGLISH_ONLY        = os.environ.get("DIGEST_ENGLISH_ONLY", "true").lower() == "true"
+TOP_N_CLUSTERS      = int(os.environ.get("DIGEST_TOP_N", "10"))
+MIN_CLUSTERS_TO_SEND = int(os.environ.get("DIGEST_MIN_CLUSTERS", "3"))   # <3 qualifying → skip week
 
 
 def _iso_week() -> str:
@@ -125,21 +133,52 @@ def _save_sent_log(log: dict) -> None:
 
 
 # ── content ─────────────────────────────────────────────────
-def _load_top_clusters() -> list[dict]:
+def _price_float(p) -> float | None:
+    """price 는 str '2.99' 또는 float 또는 None. sanity: 반환 float or None."""
+    if p is None:
+        return None
+    try:
+        return float(p)
+    except (TypeError, ValueError):
+        return None
+
+
+def _cluster_passes_filter(c: dict) -> tuple[bool, str]:
+    """returns (pass, reason_if_reject)."""
+    if c.get("store_count", 0) < MIN_STORE_COUNT:
+        return False, f"stores<{MIN_STORE_COUNT}"
+    if c.get("product_count", 0) < MIN_PRODUCT_COUNT:
+        return False, f"products<{MIN_PRODUCT_COUNT}"
+    price = _price_float(c.get("representative_price"))
+    if price is None or price < MIN_PRICE or price > MAX_PRICE:
+        return False, f"price_out_of_range({price})"
+    title = (c.get("representative_title") or "").lower()
+    if not title.strip():
+        return False, "empty_title"
+    if any(pat in title for pat in WHOLESALE_TITLE_PATTERNS):
+        return False, "wholesale_pattern"
+    if ENGLISH_ONLY and not all(ord(ch) < 128 for ch in title):
+        return False, "non_ascii"
+    return True, ""
+
+
+def _load_top_clusters() -> tuple[list[dict], dict]:
+    """Returns (top_clusters, filter_stats)."""
     if not TRENDING_PATH.exists():
         _log.error("trending.json 없음 — pipeline 미실행")
-        return []
+        return [], {}
     clusters = json.loads(TRENDING_PATH.read_text())
+    stats = {"total": len(clusters), "passed": 0, "reject_reasons": {}}
     filtered = []
     for c in clusters:
-        if c.get("store_count", 0) < MIN_STORE_COUNT:
-            continue
-        title = (c.get("representative_title") or "").lower()
-        if any(pat in title for pat in WHOLESALE_TITLE_PATTERNS):
-            continue
-        filtered.append(c)
+        ok, reason = _cluster_passes_filter(c)
+        if ok:
+            filtered.append(c)
+            stats["passed"] += 1
+        else:
+            stats["reject_reasons"][reason] = stats["reject_reasons"].get(reason, 0) + 1
     filtered.sort(key=lambda c: c.get("store_count", 0), reverse=True)
-    return filtered[:TOP_N_CLUSTERS]
+    return filtered[:TOP_N_CLUSTERS], stats
 
 
 # ── HMAC unsubscribe (api/main.py 와 동일 로직) ───────────
@@ -166,7 +205,7 @@ def _render_html(clusters: list[dict], week: str, unsub_link: str) -> str:
         rows.append(f"""
             <tr>
               <td style="padding:12px 8px;border-bottom:1px solid #E5E5E5;color:#57534E;font-weight:600;">{i}</td>
-              <td style="padding:12px 8px;border-bottom:1px solid #E5E5E5;color:#1C1917;">{title}</td>
+              <td style="padding:12px 8px;border-bottom:1px solid #E5E5E5;color:#1C1917;">{title}<br><span style="color:#A29E98;font-size:12px">{products} product variants</span></td>
               <td style="padding:12px 8px;border-bottom:1px solid #E5E5E5;color:#57534E;text-align:right;">{stores}</td>
               <td style="padding:12px 8px;border-bottom:1px solid #E5E5E5;color:#57534E;text-align:right;">${price}</td>
             </tr>""")
@@ -226,12 +265,15 @@ def main(dry_run: bool = False, limit: int | None = None) -> int:
     if limit:
         subs = subs[:limit]
 
-    clusters = _load_top_clusters()
-    _log.info("Qualifying clusters: %d (threshold=%d, wholesale filter=%d patterns)",
-              len(clusters), MIN_STORE_COUNT, len(WHOLESALE_TITLE_PATTERNS))
+    clusters, fstats = _load_top_clusters()
+    _log.info("Filter stats: total=%d passed=%d rejects=%s",
+              fstats.get("total", 0), fstats.get("passed", 0), fstats.get("reject_reasons", {}))
+    _log.info("Qualifying clusters: %d (thresholds: stores≥%d products≥%d price=$%s-$%s english_only=%s)",
+              len(clusters), MIN_STORE_COUNT, MIN_PRODUCT_COUNT, MIN_PRICE, MAX_PRICE, ENGLISH_ONLY)
 
-    if not clusters:
-        _log.warning("No content — pipeline may not have run. Aborting.")
+    if len(clusters) < MIN_CLUSTERS_TO_SEND:
+        _log.warning("Only %d qualifying clusters (< MIN_CLUSTERS_TO_SEND=%d) — skipping this week's send",
+                     len(clusters), MIN_CLUSTERS_TO_SEND)
         return 0
 
     sent_log = _load_sent_log()

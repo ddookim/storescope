@@ -65,18 +65,39 @@ jobs:
             python run_pipeline.py --from 1
           fi
 
-      - name: Commit fresh data (DB-less mode only)
+      - name: Send JSON digest (DB-less mode, dry-run default)
+        if: success() && env.DATABASE_URL == ''
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_FORM_ID: ${{ secrets.NETLIFY_FORM_ID }}
+          SMTP_HOST: ${{ secrets.SMTP_HOST }}
+          SMTP_PORT: ${{ secrets.SMTP_PORT }}
+          SMTP_USER: ${{ secrets.SMTP_USER }}
+          SMTP_PASS: ${{ secrets.SMTP_PASS }}
+          SMTP_FROM: ${{ secrets.SMTP_FROM }}
+          ADMIN_SECRET: ${{ secrets.ADMIN_SECRET }}
+          BASE_URL: ${{ secrets.BASE_URL }}
+          # Kill-switch env: set STORESCOPE_DIGEST_DRY_RUN=false in repo variables to enable real send
+          DRY_RUN_FLAG: ${{ vars.STORESCOPE_DIGEST_DRY_RUN != 'false' && '--dry-run' || '' }}
+        run: |
+          # SMTP env 미설정 시 코드가 auto dry-run + CRITICAL alert. workflow 성공 유지.
+          # sent_log.json 은 다음 commit 스텝에서 함께 push.
+          python services/send_json_digest.py $DRY_RUN_FLAG || {
+            echo "::warning::send_json_digest exited non-zero — see log above"
+          }
+
+      - name: Commit fresh data + sent_log (DB-less mode only)
         if: success() && env.DATABASE_URL == ''
         run: |
           git config user.name  "storescope-bot"
           git config user.email "bot@storescope.local"
-          git add data/trending.json data/clusters.json 2>/dev/null || true
+          git add data/trending.json data/clusters.json data/sent_log.json 2>/dev/null || true
           if git diff --cached --quiet; then
             echo "::notice::No data changes to commit"
           else
             git commit -m "chore(data): weekly refresh $(date -u +%F) [skip ci]"
             git push origin HEAD:main
-            echo "::notice::Fresh data pushed to main"
+            echo "::notice::Fresh data + sent_log pushed to main"
           fi
 
       - name: Health check after pipeline (DB 모드만)
