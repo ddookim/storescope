@@ -53,15 +53,20 @@ logging.basicConfig(
 )
 
 # ── config ──────────────────────────────────────────────────
-NETLIFY_TOKEN     = os.environ.get("NETLIFY_AUTH_TOKEN", "")
-NETLIFY_FORM_ID   = os.environ.get("NETLIFY_FORM_ID", "6a69f8418830ee0008b52453")
-SMTP_HOST         = os.environ.get("SMTP_HOST", "")
-SMTP_PORT         = int(os.environ.get("SMTP_PORT", "587"))
-SMTP_USER         = os.environ.get("SMTP_USER", "")
-SMTP_PASS         = os.environ.get("SMTP_PASS", "")
-FROM_EMAIL        = os.environ.get("SMTP_FROM", "noreply@storescope.com")
-BASE_URL          = os.environ.get("BASE_URL", "https://ddookim.github.io/storescope").rstrip("/")
-_UNSUB_SECRET     = os.environ.get("ADMIN_SECRET") or os.environ.get("PADDLE_WEBHOOK_SECRET", "")
+# GitHub secrets can be set to empty string ("") — os.environ.get() returns "" not default.
+# Use `or fallback` pattern to coerce empty strings to defaults before int() conversion.
+def _env(name: str, default: str = "") -> str:
+    return os.environ.get(name) or default
+
+NETLIFY_TOKEN     = _env("NETLIFY_AUTH_TOKEN")
+NETLIFY_FORM_ID   = _env("NETLIFY_FORM_ID", "6a69f8418830ee0008b52453")
+SMTP_HOST         = _env("SMTP_HOST")
+SMTP_PORT         = int(_env("SMTP_PORT", "587"))
+SMTP_USER         = _env("SMTP_USER")
+SMTP_PASS         = _env("SMTP_PASS")
+FROM_EMAIL        = _env("SMTP_FROM", "noreply@storescope.com")
+BASE_URL          = _env("BASE_URL", "https://ddookim.github.io/storescope").rstrip("/")
+_UNSUB_SECRET     = _env("ADMIN_SECRET") or _env("PADDLE_WEBHOOK_SECRET")
 SMTP_TIMEOUT      = 10
 
 TRENDING_PATH     = _HERE / "data" / "trending.json"
@@ -73,13 +78,13 @@ WHOLESALE_TITLE_PATTERNS = (
     "davines", "polo 998", "pvc white end cap", "safety sign",
     "jutebeutel", "novena", "sticky notes", "beanie", "stoppers",
 )  # Known-junk from D+8 real-data spot-check
-MIN_STORE_COUNT     = int(os.environ.get("DIGEST_MIN_STORES", "5"))     # ≥5 stores = real distribution
-MIN_PRODUCT_COUNT   = int(os.environ.get("DIGEST_MIN_PRODUCTS", "20"))  # ≥20 dupes = real spread
-MIN_PRICE           = float(os.environ.get("DIGEST_MIN_PRICE", "5"))    # <$5 = giveaway/junk
-MAX_PRICE           = float(os.environ.get("DIGEST_MAX_PRICE", "200"))  # >$200 = luxury tail
-ENGLISH_ONLY        = os.environ.get("DIGEST_ENGLISH_ONLY", "true").lower() == "true"
-TOP_N_CLUSTERS      = int(os.environ.get("DIGEST_TOP_N", "10"))
-MIN_CLUSTERS_TO_SEND = int(os.environ.get("DIGEST_MIN_CLUSTERS", "3"))   # <3 qualifying → skip week
+MIN_STORE_COUNT     = int(_env("DIGEST_MIN_STORES", "5"))     # ≥5 stores = real distribution
+MIN_PRODUCT_COUNT   = int(_env("DIGEST_MIN_PRODUCTS", "20"))  # ≥20 dupes = real spread
+MIN_PRICE           = float(_env("DIGEST_MIN_PRICE", "5"))    # <$5 = giveaway/junk
+MAX_PRICE           = float(_env("DIGEST_MAX_PRICE", "200"))  # >$200 = luxury tail
+ENGLISH_ONLY        = _env("DIGEST_ENGLISH_ONLY", "true").lower() == "true"
+TOP_N_CLUSTERS      = int(_env("DIGEST_TOP_N", "10"))
+MIN_CLUSTERS_TO_SEND = int(_env("DIGEST_MIN_CLUSTERS", "3"))   # <3 qualifying → skip week
 
 
 def _iso_week() -> str:
