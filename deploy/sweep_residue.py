@@ -32,6 +32,7 @@ EXCLUDE = [
     'SS', '@', 'app.storescope', 'http', 'href',
     'GDPR', 'VAT', 'MoR', 'Powered by', 'Hetzner', 'PRO', 'NEW', 'BETA',
     'Log in',  # data-i18n="nav_login" 적용됨, mailto link 너무 길어 sweep window 못 잡음
+    'Leave empty',  # Netlify Forms honeypot label — display:none via parent style, invisible to users
 ]
 
 seen = set()

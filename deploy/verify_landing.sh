@@ -81,14 +81,17 @@ else
     mark_fail "Schema.org JSON-LD 파싱 실패"
 fi
 
-# 6. 파일 사이즈 — D+24: visible 100% sweep 반영해 320-365KB
+# 6. 파일 사이즈 임계 갱신 이력:
+#    D+24: 320-365KB (visible 100% sweep 반영)
+#    D+72: 320-395KB (D+58 SEO 5-blog + Article schema + WCAG 확장 + i18n 322 keys 자연 증가 반영)
+#    > 395KB 초과 시 재검토 (컴포넌트 부풀림 vs 필수 SEO/i18n 증가 판정)
 SIZE=$(wc -c < "$FILE")
 if [ "$SIZE" -lt 180000 ]; then
-    mark_warn "파일 사이즈 $SIZE byte — 너무 작음 (예상 320-365KB), 의도치 않게 컴포넌트 손실 가능"
-elif [ "$SIZE" -gt 365000 ]; then
-    mark_warn "파일 사이즈 $SIZE byte — 너무 큼 (예상 320-365KB), 디자인 빼는 방향 룰 위배 가능"
+    mark_warn "파일 사이즈 $SIZE byte — 너무 작음 (예상 320-395KB), 의도치 않게 컴포넌트 손실 가능"
+elif [ "$SIZE" -gt 395000 ]; then
+    mark_warn "파일 사이즈 $SIZE byte — 너무 큼 (예상 320-395KB), 디자인 빼는 방향 룰 재검토 필요"
 else
-    mark_pass "파일 사이즈 $SIZE byte (정상 범위)"
+    mark_pass "파일 사이즈 $SIZE byte (정상 범위 320-395KB)"
 fi
 
 # 7. 외부 의존 부활 차단
