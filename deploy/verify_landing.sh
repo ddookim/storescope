@@ -98,17 +98,15 @@ else
     mark_pass "formsubmit.co 외부 의존 0건"
 fi
 
-# 8. Hero CTA primary = X-Ray (라인 grep + 다음 2줄 컨텍스트)
-HERO_CTA_NEXT=$(grep -A2 'class="hero-ctas"' "$FILE" | head -10)
-if echo "$HERO_CTA_NEXT" | grep -q 'btn-hero-primary' && echo "$HERO_CTA_NEXT" | grep -q "X-Ray"; then
-    mark_pass "Hero primary CTA = X-Ray (마스터플랜 KPI 정합)"
+# 8. Hero primary CTA 존재 검증 — D+58 3-CTA 정리 후 새 구조:
+#    hero-email-form (primary email capture) + hero_xray_link secondary text link.
+#    이전 `class="hero-ctas"` 지표는 obsolete (32380bf 에서 제거).
+HERO_EMAIL_FORM=$(grep -c 'id="hero-email-form"' "$FILE" || true)
+HERO_XRAY_LINK=$(grep -c 'hero_xray_link' "$FILE" || true)
+if [ "$HERO_EMAIL_FORM" -ge 1 ] && [ "$HERO_XRAY_LINK" -ge 1 ]; then
+    mark_pass "Hero above-fold email capture + X-Ray secondary link (D+58 single-CTA rule)"
 else
-    # 더 단순한 fallback: hero-ctas div 직후 첫 a/button이 X-Ray로 시작하는지
-    if grep -B1 -A4 'class="hero-ctas"' "$FILE" | head -8 | grep -q "X-Ray a competitor"; then
-        mark_pass "Hero primary CTA = X-Ray (마스터플랜 KPI 정합)"
-    else
-        mark_warn "Hero primary CTA가 X-Ray가 아닐 가능성 — 마스터플랜 STEP 1 KPI 위반 가능"
-    fi
+    mark_warn "Hero 구조 예상과 다름 (email form=$HERO_EMAIL_FORM, xray link=$HERO_XRAY_LINK)"
 fi
 
 # 9. 가짜 promo / scarcity 차단
