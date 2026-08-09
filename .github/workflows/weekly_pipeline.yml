@@ -96,12 +96,21 @@ jobs:
       - name: Commit fresh data + sent_log (DB-less mode only)
         if: success() && env.DATABASE_URL == ''
         run: |
-          # WARN: data/*.json 은 .gitignore 에 포함됨 (초기 커밋 시 too-large 우려).
+          # WARN: data/*.json 은 .gitignore 에 포함됨 (초기 커밋 too-large 우려).
           # DB-less 모드에서는 이게 유일한 데이터 소스 → git add -f 로 강제 트래킹.
-          # Trending.json size 실측 813KB, clusters.json 6.3MB → GH 리포지토리 크기 무리 없음.
+          #
+          # CRITICAL fix: `git add -f a b c` 는 c 가 missing 이면 exit 128 로
+          # 전체 실패 (b1d0039 실패 원인). 파일별 조건부 add 로 회피.
           git config user.name  "storescope-bot"
           git config user.email "bot@storescope.local"
-          git add -f data/trending.json data/clusters.json data/sent_log.json 2>/dev/null || true
+          for f in data/trending.json data/clusters.json data/sent_log.json; do
+            if [ -f "$f" ]; then
+              git add -f "$f"
+              echo "  staged: $f ($(wc -c < "$f") bytes)"
+            else
+              echo "  skip missing: $f"
+            fi
+          done
           if git diff --cached --quiet; then
             echo "::notice::No data changes to commit"
           else
