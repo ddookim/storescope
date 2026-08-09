@@ -1,0 +1,65 @@
+name: Python tests (unit + integration)
+
+# StoreScope 백엔드 테스트 — 16 test files 이 3개월 존재만 하고 CI 실행 X (D+11 발견).
+# 매 push + PR 마다 실행. 실패 시 workflow fail (main branch protection 대응).
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'api/**'
+      - 'pipeline/**'
+      - 'services/**'
+      - 'tests/**'
+      - 'requirements.txt'
+      - '.github/workflows/tests.yml'
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: tests-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  pytest:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      PYTHONUNBUFFERED: "1"
+      # Test 환경 값 — conftest.py 가 부재 시 defaults 채움.
+      DATABASE_URL: "postgresql://localhost/storescope_test"
+      ADMIN_SECRET: "test_admin_secret_min_32_chars_here_lololol"
+      PADDLE_WEBHOOK_SECRET: "test_webhook_secret"
+      PADDLE_PRO_PRICE_ID: "pri_pro_test"
+      PADDLE_STARTER_PRICE_ID: "pri_starter_test"
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: "pip"
+
+      - name: Install dependencies
+        run: |
+          pip install --upgrade pip
+          pip install -r requirements.txt pytest
+
+      - name: Run tests (excluding DB-integration)
+        run: |
+          # DB 없는 unit + logic 테스트만 실행 (postgres 서비스 컨테이너 없이).
+          # DB integration 테스트는 명시적으로 skip 표기 안 되어 있음 → 필요 시 별도 job 추가.
+          python -m pytest tests/ \
+            --tb=short \
+            --ignore=tests/test_paddle_webhook_integration.py \
+            -q \
+            || {
+              CODE=$?
+              echo "::warning::pytest exit $CODE — 실패한 테스트가 있음. logs 확인 필요."
+              exit $CODE
+            }
