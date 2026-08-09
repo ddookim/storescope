@@ -55,10 +55,12 @@ SYSTEM_VARS = {
     "PORT",                  # Render 자동 주입
     "RENDER",                # Render 자동 주입
     "RENDER_SERVICE_NAME",   # Render 자동 주입 (Sentry environment 식별)
+    "RENDER_GIT_COMMIT",     # Render 자동 주입 (Sentry release 태깅)
     "DATABASE_URL",          # sync: false (사용자 입력) — 코드에서 사용 + render.yaml에 명시
     "PYTHONPATH",            # 환경 설정
     "PATH", "HOME", "USER",
     "LOG_LEVEL",             # logging.basicConfig 용, 실 사용자가 launch 시 설정 안 함 (default OK)
+    "GITHUB_ACTIONS",        # GH Actions 자동 주입 (CI 감지용, prod 무관)
 }
 
 # Operational scripts 전용 (production web service 무관 — 일상 운영 시점 사용)

@@ -267,7 +267,7 @@ def main(dry_run: bool = False) -> int:
                 send_alert(
                     f"Weekly digest 발송 skip — SMTP 미설정\n"
                     f"week: {week}\n"
-                    f"조치: SMTP_HOST/USER/PASS/FROM env 설정",
+                    f"조치: SMTP_HOST/USER/PASS/FROM 환경변수 설정",
                     level="CRITICAL",
                 )
             except Exception:

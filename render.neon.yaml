@@ -88,6 +88,13 @@ services:
         value: 10/minute
       - key: RATE_LIMIT_FRESHNESS
         value: 30/minute
+      # D+11 gap fix: api/main.py 사용 중 (ADMIN_SECRET brute-force 방어).
+      - key: RATE_LIMIT_ADMIN
+        value: 5/minute
+      # D+11 gap fix: services/xray_report.py, paddle_routes.py, send_weekly_digests.py
+      # 사용 중 (이메일 CTA + Paddle successUrl). default GH Pages URL.
+      - key: BASE_URL
+        value: https://ddookim.github.io/storescope
 
   - type: web
     name: storescope-app
