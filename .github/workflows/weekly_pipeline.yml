@@ -96,9 +96,12 @@ jobs:
       - name: Commit fresh data + sent_log (DB-less mode only)
         if: success() && env.DATABASE_URL == ''
         run: |
+          # WARN: data/*.json 은 .gitignore 에 포함됨 (초기 커밋 시 too-large 우려).
+          # DB-less 모드에서는 이게 유일한 데이터 소스 → git add -f 로 강제 트래킹.
+          # Trending.json size 실측 813KB, clusters.json 6.3MB → GH 리포지토리 크기 무리 없음.
           git config user.name  "storescope-bot"
           git config user.email "bot@storescope.local"
-          git add data/trending.json data/clusters.json data/sent_log.json 2>/dev/null || true
+          git add -f data/trending.json data/clusters.json data/sent_log.json 2>/dev/null || true
           if git diff --cached --quiet; then
             echo "::notice::No data changes to commit"
           else
