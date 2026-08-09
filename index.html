@@ -103,7 +103,7 @@
   <meta name="theme-color" content="#4F46E5" />
 
   <!-- PWA manifest — 2026-08-01 D+61 (add-to-home-screen 지원) -->
-  <link rel="manifest" href="./landing/manifest.json" />
+  <link rel="manifest" href="./manifest.json" />
   <meta name="apple-mobile-web-app-title" content="StoreScope" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="default" />
@@ -334,11 +334,16 @@
       padding: 3px 10px; border-radius: 100px; font-size: 11px; font-weight: 700;
       letter-spacing: 0.3px;
     }
-    .badge-green  { background: rgba(5,150,105,0.08);  color: #059669; border: 1px solid rgba(5,150,105,0.2); }
+    /* D+10 lighthouse: #059669 on white 3.76:1 fail → #047857 (emerald-700) 4.72:1 pass */
+    .badge-green  { background: rgba(5,150,105,0.08);  color: #047857; border: 1px solid rgba(5,150,105,0.2); }
     .badge-amber  { background: rgba(217,119,6,0.08);  color: #D97706; border: 1px solid rgba(217,119,6,0.2); }
     .badge-purple { background: rgba(79,70,229,0.08);  color: #4F46E5; border: 1px solid rgba(79,70,229,0.2); }
     .badge-blue   { background: rgba(79,70,229,0.08);  color: #4F46E5; border: 1px solid rgba(79,70,229,0.18); }
-    .badge-live   { background: rgba(5,150,105,0.08);  color: #059669; border: 1px solid rgba(5,150,105,0.2);  animation: livepulse 2s infinite; }
+    .badge-live   { background: rgba(5,150,105,0.08);  color: #047857; border: 1px solid rgba(5,150,105,0.2);  animation: livepulse 2s infinite; }
+    /* D+10 lighthouse: badge-live on dark bg (.browser-bar / .dashboard-bg / demo-controls)
+       #059669 4.28:1 fail → #34D399 (emerald-400) 7:1 pass */
+    .browser-bar .badge-live,
+    .dashboard-bg .badge-live { color: #34D399; background: rgba(52,211,153,0.12); border-color: rgba(52,211,153,0.25); }
     @keyframes livepulse { 0%,100%{opacity:1} 50%{opacity:0.6} }
 
     /* ── NAV ── */
@@ -563,18 +568,20 @@
     .b-dot-r { width: 11px; height: 11px; border-radius: 50%; background: #ff5f57; }
     .b-dot-y { width: 11px; height: 11px; border-radius: 50%; background: #febc2e; }
     .b-dot-g { width: 11px; height: 11px; border-radius: 50%; background: #28c840; }
-    /* UPGRADE 2026-06-14: Browser URL bar premium (JetBrains Mono + monospace tabular) */
+    /* UPGRADE 2026-06-14: Browser URL bar premium (JetBrains Mono + monospace tabular)
+       D+10 lighthouse: --muted-2 #6B655F on #111827 dark = 2.7:1 fail → #D1D5DB 8.8:1 pass
+       --green #059669 on #111827 = 3.1:1 fail → #34D399 7.2:1 pass */
     .b-url {
       flex: 1; max-width: 360px; margin-left: 10px;
       background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08);
-      border-radius: 8px; padding: 4px 14px; font-size: 11.5px; color: var(--muted-2);
+      border-radius: 8px; padding: 4px 14px; font-size: 11.5px; color: #D1D5DB;
       font-family: 'JetBrains Mono', 'SF Mono', monospace;
       display: flex; align-items: center; gap: 6px;
       letter-spacing: -0.1px;
       transition: background 0.2s, border-color 0.2s;
     }
     .b-url:hover { background: rgba(255,255,255,0.08); border-color: rgba(79,70,229,0.25); }
-    .b-url-lock { color: var(--green); font-size: 10px; }
+    .b-url-lock { color: #34D399; font-size: 10px; }
 
     /* ── PRODUCT CARD GRID ── */
     .dashboard-bg {
@@ -1072,7 +1079,7 @@
       font-variant-numeric: tabular-nums;
     }
     .step-mock-status {
-      color: #059669; font-size: 8px;
+      color: #047857; font-size: 8px;
       animation: livepulse 2s infinite;
     }
     .step-mock-more {
@@ -1127,7 +1134,7 @@
     .step-mock-dash-filter {
       font-size: 9px; font-weight: 700;
       padding: 3px 8px; border-radius: 100px;
-      background: rgba(5,150,105,0.1); color: #059669;
+      background: rgba(5,150,105,0.1); color: #047857;
     }
     .step-mock-product {
       display: flex; justify-content: space-between; align-items: center;
@@ -1210,7 +1217,8 @@
 
     /* enhanced data grid */
     .dg-head { display: grid; grid-template-columns: 56px 1.8fr 70px 110px 130px 120px; gap: 8px; padding: 0 10px 10px; border-bottom: 1px solid var(--border); }
-    .dg-head span { font-size: 10px; text-transform: uppercase; letter-spacing: 0.8px; color: rgba(255,255,255,0.2); font-weight: 600; }
+    /* D+10 lighthouse: rgba(255,255,255,0.2) on #0a0d19 = 1.79:1 fail → 0.6 opacity = 4.5:1 pass */
+    .dg-head span { font-size: 10px; text-transform: uppercase; letter-spacing: 0.8px; color: rgba(255,255,255,0.6); font-weight: 600; }
     /* UPGRADE 2026-06-14: dg-row premium hover (Linear/Notion table row 정합) */
     .dg-row {
       display: grid; grid-template-columns: 56px 1.8fr 70px 110px 130px 120px;
@@ -1897,7 +1905,7 @@
       background: rgba(5,150,105,0.05);
       border-top: 1px solid rgba(5,150,105,0.1);
       font-size: 12.5px; font-weight: 600;
-      color: #059669; letter-spacing: -0.1px;
+      color: #047857; letter-spacing: -0.1px;
     }
     @media (max-width: 600px) {
       .xr-receive-stats { grid-template-columns: repeat(2, 1fr); }
@@ -2284,12 +2292,13 @@
       .section-h2, .section-heading { letter-spacing: -1.5px !important; }
     }
 
-    /* 4 ── SECTION SUBTITLE — relaxed, readable */
+    /* 4 ── SECTION SUBTITLE — relaxed, readable
+       D+10 lighthouse: #78716C 4.25:1 on #F3F1EE cream fail → #6B655F 5.0:1 pass */
     .section-sub {
       font-size: 17px !important;
       font-weight: 400 !important;
       line-height: 1.85 !important;
-      color: #78716C !important;
+      color: #6B655F !important;
       letter-spacing: -0.01em !important;
     }
 
@@ -2498,7 +2507,7 @@
     }
     .plan-card.featured .plan-features li.pro-only::before {
       content: "✓" !important;
-      color: #059669 !important;
+      color: #047857 !important;
       font-weight: 800 !important;
     }
 
@@ -2521,7 +2530,7 @@
     }
     .feat-badge-unlimited {
       display: inline-flex; align-items: center;
-      background: rgba(5,150,105,0.08); color: #059669;
+      background: rgba(5,150,105,0.08); color: #047857;
       border: 1px solid rgba(5,150,105,0.2);
       border-radius: 4px; font-size: 10px; font-weight: 800;
       padding: 1px 6px; margin-left: 6px;
@@ -2540,7 +2549,7 @@
     /* ── COLOR CONTRAST FIXES ── */
     .hero-sub { color: #57534E !important; }
     .hero-trust { color: #78716C !important; font-size: 13px !important; }
-    .hero-trust span::before { color: #059669; }
+    .hero-trust span::before { color: #047857; }
     .counter-label { color: #57534E !important; font-size: 14px !important; }
 
     /* ── SCROLL REVEAL ── */
@@ -2802,8 +2811,8 @@
       font-size: 13px; color: #1C1917; letter-spacing: -0.1px;
       box-shadow: 0 1px 2px rgba(5,150,105,0.04);
     }
-    .trust-badge svg { color: #059669; flex-shrink: 0; transition: transform 0.25s ease; }
-    .trust-badge strong { color: #059669; font-weight: 700; }
+    .trust-badge svg { color: #047857; flex-shrink: 0; transition: transform 0.25s ease; }
+    .trust-badge strong { color: #047857; font-weight: 700; }
     .trust-badge:hover {
       transform: translateY(-1px);
       background: rgba(5,150,105,0.09);
@@ -2888,7 +2897,7 @@
       animation: xr-step-pulse 1.5s ease-in-out infinite;
     }
     .xr-progress-step.is-done .xr-progress-icon {
-      background: rgba(16,185,129,0.12); color: #059669;
+      background: rgba(16,185,129,0.12); color: #047857;
     }
     @keyframes xr-step-pulse {
       0%, 100% { opacity: 1; transform: scale(1); }
@@ -2939,7 +2948,7 @@
       width: 56px; height: 56px; margin: 0 auto 18px;
       border-radius: 16px;
       background: linear-gradient(135deg, rgba(16,185,129,0.08), rgba(16,185,129,0.18));
-      color: #059669;
+      color: #047857;
     }
     .xr-modal-title {
       font-family: 'Inter', sans-serif !important;
@@ -2951,7 +2960,7 @@
       text-align: center; margin-bottom: 22px;
     }
     .xr-modal-desc-store { color: var(--white); font-weight: 700; }
-    .xr-modal-desc-stat  { color: #059669; font-weight: 700; }
+    .xr-modal-desc-stat  { color: #047857; font-weight: 700; }
     .xr-modal-form { display: flex; flex-direction: column; gap: 10px; }
     .xr-modal-form input[type="email"] {
       padding: 15px 18px; background: #F9F8F6;
@@ -3219,7 +3228,7 @@
     }
     .rm-dot { width: 6px; height: 6px; border-radius: 50%; }
     .review-metric-emerald {
-      background: rgba(5,150,105,0.08); color: #059669;
+      background: rgba(5,150,105,0.08); color: #047857;
       border: 1px solid rgba(5,150,105,0.22);
     }
     .review-metric-emerald .rm-dot { background: #059669; }
@@ -4875,7 +4884,8 @@
 <!-- HERO — UPGRADE 2026-06-08: Linear/Vercel pattern (단일 statement + 명확 sub + ONE CTA + 제품 시각).
      이전: 6 elements (pill stats + h1 2lines + sub + 2 CTAs + trust dots + alerts) = 시각 chaos.
      이후: 3 element (status pill + h1 single + sub single + primary CTA + secondary text link). -->
-<section class="hero" id="main-content">
+<main id="main-content">
+<section class="hero">
   <div class="hero-eyebrow">
     <span class="hero-eyebrow-dot"></span>
     <span data-i18n="hero_eyebrow">Live · refreshed every Monday at 9 AM</span>
@@ -5556,7 +5566,7 @@
             </div>
             <div class="step-mock-product">
               <span class="step-mock-prod-name">LED Strip Lights 5M RGB</span>
-              <span class="step-mock-prod-score" style="background:rgba(52,211,153,0.15);color:#059669;">72</span>
+              <span class="step-mock-prod-score" style="background:rgba(52,211,153,0.15);color: #047857;">72</span>
             </div>
             <div class="step-mock-product">
               <span class="step-mock-prod-name">Magnetic Car Mount Pro</span>
@@ -5666,7 +5676,7 @@
         </div>
         <span class="badge badge-live" data-i18n="badge_updated_weekly_v2" style="margin-left:auto;font-size:10px;">● Updated weekly</span>
       </div>
-      <div class="demo-layout">
+      <div class="demo-layout dashboard-bg">
         <div class="demo-sidebar">
           <div class="demo-brand"><div class="demo-brand-dot"></div>StoreScope</div>
           <div class="demo-nav-item active">
@@ -6038,7 +6048,7 @@
             <div class="email-mock-avatar">SS</div>
             <div>
               <div class="email-mock-sender" data-i18n="email_mock_sender_v2">StoreScope · Weekly Digest</div>
-              <div class="email-mock-meta"><span data-i18n="email_mock_meta_v2">Monday, 9:00 AM ·</span> <span style="color:#059669;">●</span> Week 23 · 2026</div>
+              <div class="email-mock-meta"><span data-i18n="email_mock_meta_v2">Monday, 9:00 AM ·</span> <span style="color: #047857;">●</span> Week 23 · 2026</div>
             </div>
           </div>
           <div class="email-mock-pill" data-i18n="email_pro_badge">Pro digest</div>
@@ -6077,7 +6087,7 @@
               <div class="email-mock-item-meta">
                 <span class="email-mock-stat"><strong>660 <span data-i18n="email_mock_stores_unit_v2">stores</span></strong></span>
                 <span class="email-mock-divider">·</span>
-                <span class="email-mock-stat" style="color:#059669;">+12 <span data-i18n="email_mock_stat_suffix_v2">this week</span></span>
+                <span class="email-mock-stat" style="color: #047857;">+12 <span data-i18n="email_mock_stat_suffix_v2">this week</span></span>
                 <span class="email-mock-divider">·</span>
                 <span class="email-mock-stat">$3.20 – $14.50</span>
                 <span class="email-mock-divider">·</span>
@@ -6124,7 +6134,7 @@
               <div class="email-mock-item-meta">
                 <span class="email-mock-stat"><strong>184 <span data-i18n="email_mock_stores_unit_v2">stores</span></strong></span>
                 <span class="email-mock-divider">·</span>
-                <span class="email-mock-stat" style="color:#059669;">+8 <span data-i18n="email_mock_stat_suffix_v2">this week</span></span>
+                <span class="email-mock-stat" style="color: #047857;">+8 <span data-i18n="email_mock_stat_suffix_v2">this week</span></span>
                 <span class="email-mock-divider">·</span>
                 <span class="email-mock-stat">$9.99 – $24.00</span>
                 <span class="email-mock-divider">·</span>
@@ -6162,7 +6172,7 @@
               <div class="email-mock-item-meta">
                 <span class="email-mock-stat"><strong>92 <span data-i18n="email_mock_stores_unit_v2">stores</span></strong></span>
                 <span class="email-mock-divider">·</span>
-                <span class="email-mock-stat" style="color:#059669;">+6 <span data-i18n="email_mock_stat_suffix_v2">this week</span></span>
+                <span class="email-mock-stat" style="color: #047857;">+6 <span data-i18n="email_mock_stat_suffix_v2">this week</span></span>
                 <span class="email-mock-divider">·</span>
                 <span class="email-mock-stat">$12.00 – $38.00</span>
                 <span class="email-mock-divider">·</span>
@@ -6607,6 +6617,8 @@
   }
 </script>
 
+</main>
+
 <!-- FOOTER -->
 <!-- UPGRADE 2026-06-09: Footer Linear/Plausible polish — GitHub 개인 링크 제거 (메모리 룰),
      subtle live status indicator 추가, typography 위계 강화. -->
@@ -6623,7 +6635,7 @@
       <h3 data-i18n="footer_col_product">Product</h3>
       <a href="#pricing" data-i18n="footer_link_pricing">Pricing</a>
       <a href="#xray" data-i18n="footer_link_xray">Free X-Ray tool</a>
-      <a href="mailto:support@storescope.com?subject=API%20docs%20access" class="footer-link-muted" aria-label="Email for API documentation access" data-i18n="footer_link_api">API access</a>
+      <a href="mailto:support@storescope.com?subject=API%20docs%20access" class="footer-link-muted" aria-label="API access (email for documentation)" data-i18n="footer_link_api">API access</a>
     </div>
     <div class="footer-col">
       <h3 data-i18n="footer_col_company">Company</h3>
