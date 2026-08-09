@@ -66,11 +66,17 @@ jobs:
           # reportlab: test_xss_email_templates 의 PDF 생성 테스트용 (프로덕션 dep 아님, dev only).
           pip install -r requirements.txt pytest reportlab
 
-      - name: Apply schema migrations
+      - name: Apply base schema + migrations
         run: |
-          # tests/conftest.py 는 스키마 없이 raw 쿼리 → migrations/ SQL 순차 적용.
-          for sql in migrations/*.sql; do
-            [ -f "$sql" ] && psql -h localhost -U postgres -d storescope_test -f "$sql" 2>&1 | tail -3
+          # 1. Base DDL — scripts/init_db.sql (CREATE TABLE 정의).
+          psql -h localhost -U postgres -d storescope_test -f scripts/init_db.sql -v ON_ERROR_STOP=1
+          # 2. Migrations 순차 적용 — 각 파일 별개 트랜잭션 (하나 실패해도 다음 진행 X).
+          for sql in $(ls migrations/*.sql | sort); do
+            echo "=== $sql ==="
+            psql -h localhost -U postgres -d storescope_test -f "$sql" -v ON_ERROR_STOP=1 || {
+              echo "::warning::migration $sql 실패 — 이후 마이그레이션 건너뜀"
+              break
+            }
           done
 
       - name: Run tests
