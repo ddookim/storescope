@@ -325,8 +325,10 @@ else
 fi
 
 # 32. Live Demo + Email Preview section pill/badge data-i18n (dark section visible labels)
-DEMO_EMAIL_I18N=$(grep -oE 'data-i18n="(demo_pill|email_preview_pill|email_pro_badge|email_chart_label|email_subject_label|email_preview_sub|demo_h2)"' "$FILE" | wc -l | tr -d ' ')
-if [ "$DEMO_EMAIL_I18N" -ge 7 ]; then
+# D+11 fix: email_chart_label, email_subject_label 은 dict/DOM 어디에도 없음 (2주 stale).
+# 실 존재 5개 키만 검증. 이전 threshold >=7 은 존재 안 하는 키에 대한 요구로 만성 WARN.
+DEMO_EMAIL_I18N=$(grep -oE 'data-i18n="(demo_pill|email_preview_pill|email_pro_badge|email_preview_sub|demo_h2)"' "$FILE" | wc -l | tr -d ' ')
+if [ "$DEMO_EMAIL_I18N" -ge 5 ]; then
     mark_pass "Live Demo + Email Preview data-i18n $DEMO_EMAIL_I18N건 (dark section labels)"
 else
     mark_warn "Live Demo + Email Preview data-i18n $DEMO_EMAIL_I18N건 — pill/badge 영어 잔재"
