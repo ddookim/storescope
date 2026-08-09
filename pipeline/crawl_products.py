@@ -24,9 +24,13 @@ from pathlib import Path
 
 from curl_cffi.requests import AsyncSession
 
-STORES_FILE = Path("data/shopify_stores.txt")
-OUTPUT_DIR  = Path("data/products")
-REPORT_FILE = Path("data/crawl_report.json")
+# D+10 finding: shopify_stores.txt = 100% abandoned .myshopify.com trial 서브도메인.
+# Curated list (실 활동 DTC brands, 로컬 curl 검증됨) 우선 사용.
+_CURATED_FILE = Path("data/curated_shopify_stores.txt")
+_LEGACY_FILE  = Path("data/shopify_stores.txt")
+STORES_FILE   = _CURATED_FILE if _CURATED_FILE.exists() else _LEGACY_FILE
+OUTPUT_DIR    = Path("data/products")
+REPORT_FILE   = Path("data/crawl_report.json")
 
 CONCURRENCY     = 15   # 동시 요청 상한 — Semaphore로 제어
 REQUEST_TIMEOUT = 15
@@ -236,7 +240,7 @@ def load_domains() -> list[str]:
 def main():
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
     domains = load_domains()
-    print(f"크롤링 시작: {len(domains)}개 스토어")
+    print(f"크롤링 시작: {len(domains)}개 스토어 (seed: {STORES_FILE.name})")
     print(f"동시 요청: {CONCURRENCY}개 | 타임아웃: {REQUEST_TIMEOUT}초 | TLS: {IMPERSONATE}\n")
 
     start = time.time()
