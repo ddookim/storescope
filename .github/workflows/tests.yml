@@ -11,10 +11,13 @@ on:
       - 'pipeline/**'
       - 'services/**'
       - 'tests/**'
+      - 'migrations/**'
+      - 'scripts/init_db.sql'
       - 'requirements.txt'
       - '.github/workflows/tests.yml'
   pull_request:
     branches: [main]
+  workflow_dispatch:
 
 permissions:
   contents: read
