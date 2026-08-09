@@ -21,6 +21,8 @@ CREATE INDEX IF NOT EXISTS idx_trend_snapshots_cluster_recent
     ON trend_snapshots(cluster_id, snapshot_at DESC);
 
 -- pipeline 4-week history bulk lookup 가속.
+-- D+11 fix: 이전 partial index `WHERE snapshot_at > NOW() - INTERVAL '5 weeks'` 는
+-- NOW() 가 STABLE (not IMMUTABLE) 이라 postgres 가 거부. 게다가 partial index 는
+-- CREATE 시점 값에 고정되므로 시간 흐르면 무효. 대신 full index — query 측에서 필터.
 CREATE INDEX IF NOT EXISTS idx_trend_snapshots_recent_window
-    ON trend_snapshots(snapshot_at DESC)
-    WHERE snapshot_at > NOW() - INTERVAL '5 weeks';
+    ON trend_snapshots(snapshot_at DESC);
