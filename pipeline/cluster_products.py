@@ -404,13 +404,42 @@ def cluster_by_bktree(records: list[ProductRecord]) -> dict[str, list[dict]]:
     for i in range(n):
         clusters_raw[find(i)].append(i)
 
+    # D+11 quality gate: pHash 매치 + title 겹침 검증 (false positive 배제).
+    # DTC 브랜드는 각각 unique 상품 → 백그라운드/각도 유사한 pro-shot 이미지가
+    # 우연히 낮은 Hamming distance 로 매칭될 수 있음 (실제 상품 다름).
+    # 실측 (D+11): 100% DTC seed 에서 pHash-only cluster 49개 중 title 겹침 ≥ 10% = 0건.
+    # Title token intersection / union ≥ 0.20 요구 (Jaccard, stopword 제거 후).
+    import re as _re
+    _STOP = {"the","and","for","with","pack","set","pcs","gift","boxed","new","co",
+             "collection","edition","piece","pieces","size","color","colour"}
+    def _tokens(t: str) -> set[str]:
+        return set(_re.findall(r"[a-z0-9]{3,}", (t or "").lower())) - _STOP
+    def _title_jaccard(tokens_list: list[set[str]]) -> float:
+        non_empty = [t for t in tokens_list if t]
+        if len(non_empty) < 2:
+            return 0.0
+        inter = set.intersection(*non_empty)
+        union = set.union(*non_empty)
+        return len(inter) / len(union) if union else 0.0
+
+    MIN_TITLE_JACCARD = 0.20
+
     result: dict[str, list[dict]] = {}
+    rejected_title_mismatch = 0
     for root, members in clusters_raw.items():
         if len(members) < 2:
             continue
         if len({records[i].domain for i in members}) < 2:
             continue
+        titles_tokens = [_tokens(records[i].title) for i in members]
+        jacc = _title_jaccard(titles_tokens)
+        if jacc < MIN_TITLE_JACCARD:
+            rejected_title_mismatch += 1
+            continue
         result[records[root].image_hash] = [asdict(records[i]) for i in members]
+
+    if rejected_title_mismatch:
+        print(f"  title-jaccard 필터: {rejected_title_mismatch}개 클러스터 배제 (< {MIN_TITLE_JACCARD})", flush=True)
 
     return result
 
