@@ -1,0 +1,222 @@
+[
+  {
+    "domain": "inkbox.com",
+    "title": "Reminiscence",
+    "handle": "reminiscence",
+    "product_type": "Semi-Permanent Tattoo",
+    "vendor": "Ceargone",
+    "published_at": "2026-08-07T12:09:57-07:00",
+    "price": 18.0,
+    "image_url": "https://cdn.shopify.com/s/files/1/0721/3075/6678/files/OD-IB01003-IB-4.0-4.0.jpg?v=1786110759",
+    "age_days": 2.6
+  },
+  {
+    "domain": "inkbox.com",
+    "title": "Remembrance",
+    "handle": "remembrance",
+    "product_type": "Semi-Permanent Tattoo",
+    "vendor": "Ceargone",
+    "published_at": "2026-08-07T12:09:56-07:00",
+    "price": 18.0,
+    "image_url": "https://cdn.shopify.com/s/files/1/0721/3075/6678/files/OD-IB01002-IB-4.0-4.0.jpg?v=1786110734",
+    "age_days": 2.6
+  },
+  {
+    "domain": "inkbox.com",
+    "title": "Memorial",
+    "handle": "memorial",
+    "product_type": "Semi-Permanent Tattoo",
+    "vendor": "Ceargone",
+    "published_at": "2026-08-07T12:09:27-07:00",
+    "price": 18.0,
+    "image_url": "https://cdn.shopify.com/s/files/1/0721/3075/6678/files/OD-IB01000-IB-4.0-4.0.jpg?v=1786110631",
+    "age_days": 2.6
+  },
+  {
+    "domain": "inkbox.com",
+    "title": "Melancholy",
+    "handle": "melancholy",
+    "product_type": "Semi-Permanent Tattoo",
+    "vendor": "Ceargone",
+    "published_at": "2026-08-07T12:09:24-07:00",
+    "price": 18.0,
+    "image_url": "https://cdn.shopify.com/s/files/1/0721/3075/6678/files/OD-IB00998-IB-4.0-4.0.jpg?v=1786110529",
+    "age_days": 2.6
+  },
+  {
+    "domain": "inkbox.com",
+    "title": "Crescimento",
+    "handle": "crescimento",
+    "product_type": "Semi-Permanent Tattoo",
+    "vendor": "Ceargone",
+    "published_at": "2026-08-07T12:09:23-07:00",
+    "price": 20.0,
+    "image_url": "https://cdn.shopify.com/s/files/1/0721/3075/6678/files/OD-IB00997-IB-6.0-3.0.jpg?v=1786110577",
+    "age_days": 2.6
+  },
+  {
+    "domain": "peets.com",
+    "title": "Dark Med Light Bundle with Gift Box",
+    "handle": "dark-med-light-bundle-with-gift-box",
+    "product_type": "Bundle",
+    "vendor": "Peet's Coffee",
+    "published_at": "2026-08-07T12:25:26-07:00",
+    "price": 64.85,
+    "image_url": "https://cdn.shopify.com/s/files/1/0319/0764/3436/files/Designer_1.png?v=1778021445",
+    "age_days": 2.6
+  },
+  {
+    "domain": "taylorstitch.com",
+    "title": "The Regenerative Cotton Tee in Saffron",
+    "handle": "regenerative-cotton-tee-in-saffron-2608",
+    "product_type": "Knits",
+    "vendor": "Taylor Stitch",
+    "published_at": "2026-08-07T09:48:58-07:00",
+    "price": 55.0,
+    "image_url": "https://cdn.shopify.com/s/files/1/0070/1922/files/instock_m_q326_regenerative-cotton-tee-saffron_portrait_001.jpg?v=1785875554",
+    "age_days": 2.7
+  },
+  {
+    "domain": "taylorstitch.com",
+    "title": "The Regenerative Cotton Tee in Faded Pine",
+    "handle": "regenerative-cotton-tee-in-faded-pine-2608",
+    "product_type": "Knits",
+    "vendor": "Taylor Stitch",
+    "published_at": "2026-08-07T09:48:42-07:00",
+    "price": 55.0,
+    "image_url": "https://cdn.shopify.com/s/files/1/0070/1922/files/instock_m_q326_regenerative-cotton-tee-faded-pine_portrait_001.jpg?v=1785862341",
+    "age_days": 2.7
+  },
+  {
+    "domain": "taylorstitch.com",
+    "title": "The Regenerative Cotton Tee in Soil",
+    "handle": "regenerative-cotton-tee-in-soil-2608",
+    "product_type": "Knits",
+    "vendor": "Taylor Stitch",
+    "published_at": "2026-08-07T09:48:22-07:00",
+    "price": 55.0,
+    "image_url": "https://cdn.shopify.com/s/files/1/0070/1922/files/instock_m_q326_regenerative-cotton-tee-soil_portrait_001.jpg?v=1785875289",
+    "age_days": 2.7
+  },
+  {
+    "domain": "taylorstitch.com",
+    "title": "The Cutter Overshirt in Lighthouse Check",
+    "handle": "cutter-overshirt-in-lighthouse-check-2608",
+    "product_type": "Wovens",
+    "vendor": "Taylor Stitch",
+    "published_at": "2026-08-07T09:29:23-07:00",
+    "price": 178.0,
+    "image_url": "https://cdn.shopify.com/s/files/1/0070/1922/files/Q326_the-cutter-overshirt-lighthouse-check_pdp_compressed_01.jpg?v=1785950990",
+    "age_days": 2.8
+  },
+  {
+    "domain": "taylorstitch.com",
+    "title": "The Cutter Overshirt in Canal Check",
+    "handle": "cutter-overshirt-in-canal-check-2608",
+    "product_type": "Wovens",
+    "vendor": "Taylor Stitch",
+    "published_at": "2026-08-07T09:28:18-07:00",
+    "price": 178.0,
+    "image_url": "https://cdn.shopify.com/s/files/1/0070/1922/files/Q326_the-cutter-overshirt-canal-check_pdp_compressed_01.jpg?v=1785948038",
+    "age_days": 2.8
+  },
+  {
+    "domain": "sundaycitizen.com",
+    "title": "Cotton Mist Stitched Quilt",
+    "handle": "cotton-mist-stitched-quilt",
+    "product_type": "Comforters",
+    "vendor": "Sunday Citizen",
+    "published_at": "2026-08-06T17:46:26-04:00",
+    "price": 270.0,
+    "image_url": "https://cdn.shopify.com/s/files/1/0079/1923/9266/files/sunday-citizen-cloud-cotton-stitch-quilt-misty-blue-off-white-1.jpg?v=1785872777",
+    "age_days": 3.5
+  },
+  {
+    "domain": "sundaycitizen.com",
+    "title": "Coastal Cotton Mist Sham Set",
+    "handle": "coastal-cotton-mist-sham-set",
+    "product_type": "Shams",
+    "vendor": "Sunday Citizen",
+    "published_at": "2026-08-06T17:46:24-04:00",
+    "price": 72.0,
+    "image_url": "https://cdn.shopify.com/s/files/1/0079/1923/9266/files/sunday-citizen-coastal-cotton-mist-sham-set-taupe-off-white-2_1.jpg?v=1785862235",
+    "age_days": 3.5
+  },
+  {
+    "domain": "sundaycitizen.com",
+    "title": "Coastal Cotton Mist Top Sheet",
+    "handle": "coastal-cotton-mist-top-sheet",
+    "product_type": "Sheets",
+    "vendor": "Sunday Citizen",
+    "published_at": "2026-08-06T17:46:22-04:00",
+    "price": 95.0,
+    "image_url": "https://cdn.shopify.com/s/files/1/0079/1923/9266/files/sunday-citizen-coastal-cotton-mist-top-sheet-off-white-1.jpg?v=1785861075",
+    "age_days": 3.5
+  },
+  {
+    "domain": "sundaycitizen.com",
+    "title": "Coastal Cotton Mist Pillowcase Set",
+    "handle": "coastal-cotton-mist-pillowcases",
+    "product_type": "Pillowcase Sets",
+    "vendor": "Sunday Citizen",
+    "published_at": "2026-08-06T17:46:20-04:00",
+    "price": 68.0,
+    "image_url": "https://cdn.shopify.com/s/files/1/0079/1923/9266/files/sunday-citizen-coastal-cotton-mist-pillowcase-taupe-off-white-1.jpg?v=1785860821",
+    "age_days": 3.5
+  },
+  {
+    "domain": "sundaycitizen.com",
+    "title": "Coastal Reversible Cotton Mist Duvet Cover",
+    "handle": "coastal-reversible-cotton-mist-duvet-cover",
+    "product_type": "Duvet Covers",
+    "vendor": "Sunday Citizen",
+    "published_at": "2026-08-06T17:46:18-04:00",
+    "price": 200.0,
+    "image_url": "https://cdn.shopify.com/s/files/1/0079/1923/9266/files/sunday-citizen-coastal-reversible-cotton-mist-duvet-cover-taupe-off-white-icon.jpg?v=1786046293",
+    "age_days": 3.5
+  },
+  {
+    "domain": "sundaycitizen.com",
+    "title": "Salvia Cotton Mist Sham Set",
+    "handle": "salvia-cotton-mist-sham-set",
+    "product_type": "Shams",
+    "vendor": "Sunday Citizen",
+    "published_at": "2026-08-06T17:46:16-04:00",
+    "price": 72.0,
+    "image_url": "https://cdn.shopify.com/s/files/1/0079/1923/9266/files/sunday-citizen-salvia-cotton-mist-sham-set-light-sage-off-white-1.jpg?v=1785846864",
+    "age_days": 3.5
+  },
+  {
+    "domain": "sundaycitizen.com",
+    "title": "Cotton Mist Fitted Sheet",
+    "handle": "cotton-mist-fitted-sheet",
+    "product_type": "Sheets",
+    "vendor": "Sunday Citizen",
+    "published_at": "2026-08-06T17:46:14-04:00",
+    "price": 110.0,
+    "image_url": "https://cdn.shopify.com/s/files/1/0079/1923/9266/files/sunday-citizen-salvia-cotton-mist-fitted-sheet-light-sage-off-white-1_1.jpg?v=1785848630",
+    "age_days": 3.5
+  },
+  {
+    "domain": "sundaycitizen.com",
+    "title": "Salvia Cotton Mist Top Sheet",
+    "handle": "salvia-cotton-mist-top-sheet",
+    "product_type": "Sheets",
+    "vendor": "Sunday Citizen",
+    "published_at": "2026-08-06T17:46:12-04:00",
+    "price": 95.0,
+    "image_url": "https://cdn.shopify.com/s/files/1/0079/1923/9266/files/sunday-citizen-salvia-cotton-mist-top-sheet-light-sage-off-white-1.jpg?v=1785848504",
+    "age_days": 3.5
+  },
+  {
+    "domain": "sundaycitizen.com",
+    "title": "Salvia Reversible Cotton Mist Pillowcase Set",
+    "handle": "salvia-reversible-cotton-mist-pillowcase-set",
+    "product_type": "Pillowcase Sets",
+    "vendor": "Sunday Citizen",
+    "published_at": "2026-08-06T17:46:10-04:00",
+    "price": 68.0,
+    "image_url": "https://cdn.shopify.com/s/files/1/0079/1923/9266/files/sunday-citizen-salvia-cotton-mist-pillowcases-light-sage-off-white-icon-1.jpg?v=1785941997",
+    "age_days": 3.5
+  }
+]
