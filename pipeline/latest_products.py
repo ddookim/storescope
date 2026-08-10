@@ -401,7 +401,7 @@ def _write_weekly_blog(products: list[dict], categories: list[dict], now: dateti
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="This Week in DTC Shopify launches — Week {week}. Top category: {h(top_cat['product_type'])} ({top_cat['product_count']} new items). {len(products)} products indexed from 50+ curated DTC brands. Price range \${min_price:.0f}-\${max_price:.0f}, median \${med_price:.2f}.">
+<meta name="description" content="This Week in DTC Shopify launches — Week {week}. Top category: {h(top_cat['product_type'])} ({top_cat['product_count']} new items). {len(products)} products indexed from 50+ curated DTC brands. Price range ${min_price:.0f}-${max_price:.0f}, median ${med_price:.2f}.">
 <meta name="robots" content="index, follow">
 <link rel="canonical" href="https://ddookim.github.io/storescope/blog/{filename}">
 <title>This Week in DTC · {week} — {h(top_cat['product_type'])} Lead | StoreScope</title>
