@@ -1,77 +1,77 @@
 {
-  "generated_at": "2026-08-10T12:01:52.568018+00:00",
+  "generated_at": "2026-08-10T12:58:22.947310+00:00",
   "week": "2026-W33",
   "total_products_before_dedupe": null,
-  "total_after_dedupe": 871,
+  "total_after_dedupe": 1535,
   "top_products_returned": 20,
   "categories": [
     {
-      "product_type": "Semi-Permanent Tattoo",
-      "product_count": 192,
-      "vendor_count": 25,
+      "product_type": "Bottoms",
+      "product_count": 134,
+      "vendor_count": 2,
       "top_vendors": [
-        "Aimee Isabel",
-        "Britney Olivares",
-        "Burgercat"
-      ]
-    },
-    {
-      "product_type": "Bundle",
-      "product_count": 66,
-      "vendor_count": 1,
-      "top_vendors": [
-        "Peak Design"
-      ]
-    },
-    {
-      "product_type": "Dresses",
-      "product_count": 42,
-      "vendor_count": 1,
-      "top_vendors": [
-        "Fashion Nova"
-      ]
-    },
-    {
-      "product_type": "Bags",
-      "product_count": 40,
-      "vendor_count": 1,
-      "top_vendors": [
-        "Peak Design"
-      ]
-    },
-    {
-      "product_type": "Jewelry",
-      "product_count": 28,
-      "vendor_count": 1,
-      "top_vendors": [
-        "Fashion Nova"
-      ]
-    },
-    {
-      "product_type": "Knits",
-      "product_count": 22,
-      "vendor_count": 1,
-      "top_vendors": [
+        "Everlane",
         "Taylor Stitch"
       ]
     },
     {
-      "product_type": "Sheets",
-      "product_count": 19,
+      "product_type": "Sweaters",
+      "product_count": 118,
       "vendor_count": 2,
       "top_vendors": [
-        "Brooklinen",
-        "Sunday Citizen"
+        "Everlane",
+        "Taylor Stitch"
       ]
     },
     {
-      "product_type": "Accessories",
-      "product_count": 17,
-      "vendor_count": 5,
+      "product_type": "Knit Tops",
+      "product_count": 112,
+      "vendor_count": 1,
       "top_vendors": [
-        "BAMKO",
-        "Fashion Nova",
-        "Kocreators"
+        "Everlane"
+      ]
+    },
+    {
+      "product_type": "Denim",
+      "product_count": 79,
+      "vendor_count": 1,
+      "top_vendors": [
+        "Everlane"
+      ]
+    },
+    {
+      "product_type": "Uncategorized",
+      "product_count": 76,
+      "vendor_count": 6,
+      "top_vendors": [
+        "Everlane",
+        "Gymshark | Be a visionary.",
+        "Outdoor Voices"
+      ]
+    },
+    {
+      "product_type": "Dresses",
+      "product_count": 72,
+      "vendor_count": 2,
+      "top_vendors": [
+        "Everlane",
+        "Outdoor Voices"
+      ]
+    },
+    {
+      "product_type": "Shirting",
+      "product_count": 59,
+      "vendor_count": 1,
+      "top_vendors": [
+        "Everlane"
+      ]
+    },
+    {
+      "product_type": "Woven Tops",
+      "product_count": 59,
+      "vendor_count": 1,
+      "top_vendors": [
+        "Everlane"
       ]
     }
   ]
