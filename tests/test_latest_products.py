@@ -7,15 +7,9 @@ from __future__ import annotations
 
 import json
 from datetime import datetime, timedelta, timezone
-from pathlib import Path
-
-import pytest
 
 from pipeline.latest_products import (
     LOOKBACK_DAYS,
-    MAX_PER_TYPE,
-    MAX_PER_VENDOR,
-    MIN_TITLE_LEN,
     _dedupe_by_title_domain,
     _diversity_cap,
     _extract_products,

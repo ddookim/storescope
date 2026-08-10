@@ -42,9 +42,6 @@ MAX_PER_VENDOR     = 2      # D+11: 편중 방지 (5x 같은 브랜드 방지, U
 MAX_PER_TYPE       = 4      # D+11: product_type 편중 방지 (Semi-Permanent 5개 등)
 
 
-_ISO_CLEAN = re.compile(r"([+-]\d{2}):?(\d{2})$")
-
-
 def _parse_iso(s: str) -> datetime | None:
     if not s:
         return None
@@ -131,7 +128,6 @@ def _update_sitemap_lastmod(now: datetime) -> None:
     weekly_url = f"https://ddookim.github.io/storescope/blog/weekly-{week}.html"
     text = SITEMAP_FILE.read_text()
 
-    import re
     # 1. Root URL entry (index).
     text = re.sub(
         r"(<loc>https://ddookim\.github\.io/storescope/</loc>\s*<lastmod>)[^<]*(</lastmod>)",
@@ -309,7 +305,6 @@ def _update_blog_index() -> None:
         return
 
     # Parse title + description from each weekly file (첫 <h1> + first cat_row).
-    import re
     entries: list[str] = []
     for wf in weekly_files:
         try:
