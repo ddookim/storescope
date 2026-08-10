@@ -560,7 +560,7 @@ def _write_sample_html(products: list[dict], categories: list[dict], now: dateti
     from html import escape as h
     week = f"{now.isocalendar().year}-W{now.isocalendar().week:02d}"
 
-    # D+12 grid cards for prominent image view (top 12 with big square images).
+    # D+12 grid cards — 실 Shopify product page 로 링크 (competitive parity+).
     cards = []
     for p in products[:12]:
         title = h(p.get("title") or "Untitled")[:80]
@@ -570,12 +570,17 @@ def _write_sample_html(products: list[dict], categories: list[dict], now: dateti
         age = p.get("age_days", "?")
         img_url = h(p.get("image_url") or "")
         cat_slug = re.sub(r'[^a-z0-9]+', '-', (p.get('product_type') or 'other').lower()).strip('-')[:30] or 'other'
+        # 실 Shopify product URL — {domain}/products/{handle} 표준.
+        domain = h(p.get("domain") or "")
+        handle = h(p.get("handle") or "")
+        product_url = f"https://{domain}/products/{handle}" if domain and handle else "#"
         img_html = (
             f'<img class="pd-card-img" src="{img_url}" alt="{title}" loading="lazy" decoding="async" onerror="this.style.background=\'#F3F1EE\';this.style.opacity=\'0\'">'
             if img_url else '<div class="pd-card-img"></div>'
         )
+        # target=_blank + rel=noreferrer noopener = privacy + 우리 페이지 유지.
         cards.append(f'''
-      <a class="pd-card" data-cat="{cat_slug}" href="#p{products.index(p)+1}">
+      <a class="pd-card" data-cat="{cat_slug}" href="{product_url}" target="_blank" rel="noreferrer noopener">
         {img_html}
         <div class="pd-card-body">
           <div class="pd-card-title">{title}</div>
@@ -586,10 +591,10 @@ def _write_sample_html(products: list[dict], categories: list[dict], now: dateti
           </div>
         </div>
       </a>''')
-    grid_html = f'''<div class="pd-section-label">Latest launches · visual</div>
+    grid_html = f'''<div class="pd-section-label">Latest launches · visual (click to view on brand's site)</div>
 <div class="pd-grid">{"".join(cards)}</div>''' if cards else ''
 
-    # D+12 (경쟁사 대비 upgrade): product image thumbnails + category filter data-attr.
+    # D+12 (경쟁사 대비 upgrade): product image thumbnails + 실 Shopify page 링크.
     rows = []
     for i, p in enumerate(products[:20], 1):
         title = h(p.get("title") or "Untitled")[:100]
@@ -599,19 +604,26 @@ def _write_sample_html(products: list[dict], categories: list[dict], now: dateti
         price_str = f"${price:.2f}" if isinstance(price, (int, float)) and price > 0 else "—"
         age = p.get("age_days", "?")
         img_url = h(p.get("image_url") or "")
+        domain = h(p.get("domain") or "")
+        handle = h(p.get("handle") or "")
+        product_url = f"https://{domain}/products/{handle}" if domain and handle else ""
         # loading=lazy + async decode: perf; onerror hides broken images gracefully.
         img_html = (
             f'<img src="{img_url}" alt="{title}" loading="lazy" decoding="async" '
             f'class="pd-thumb" onerror="this.style.display=\'none\'">'
             if img_url else '<div class="pd-thumb-placeholder">—</div>'
         )
-        # data-cat used by filter tabs (CSS-only, no JS deps).
+        # Product title 도 실 브랜드 페이지로 링크 (external, target=_blank).
+        title_html = (
+            f'<a href="{product_url}" target="_blank" rel="noreferrer noopener" style="color:#1C1917;text-decoration:none;border-bottom:1px dotted #A29E98">{title}</a>'
+            if product_url else title
+        )
         cat_slug = re.sub(r'[^a-z0-9]+', '-', (p.get('product_type') or 'other').lower()).strip('-')[:30] or 'other'
         rows.append(f"""
       <tr class="pd-row" data-cat="{cat_slug}">
         <td class="pd-idx">{i}</td>
         <td class="pd-thumb-cell">{img_html}</td>
-        <td class="pd-info"><strong>{title}</strong><br><span class="meta">{vendor} · {ptype}</span></td>
+        <td class="pd-info"><strong>{title_html}</strong><br><span class="meta">{vendor} · {ptype}</span></td>
         <td class="right">{age}d</td>
         <td class="right">{price_str}</td>
       </tr>""")
