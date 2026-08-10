@@ -232,7 +232,7 @@ def _render_html(clusters: list[dict], week: str, unsub_link: str) -> str:
 </table>
 
 <p style="color:#78716C;font-size:12px;margin-top:32px;border-top:1px solid #E5E5E5;padding-top:16px">
-  StoreScope crawls 40+ curated DTC brands weekly. Signal quality: clusters with ≥{MIN_STORE_COUNT} stores.
+  StoreScope crawls 50+ curated DTC brands weekly. Signal quality: clusters with ≥{MIN_STORE_COUNT} stores.
   <br><a href="{unsub_link}" style="color:#78716C">Unsubscribe</a> · <a href="{BASE_URL}" style="color:#4338ca">View on web</a>
 </p>
 </body></html>"""
@@ -269,7 +269,7 @@ def _render_latest_html(products: list[dict], week: str, unsub_link: str) -> str
     return f"""<!doctype html>
 <html><body style="font-family:-apple-system,system-ui,sans-serif;max-width:600px;margin:0 auto;padding:24px;color:#1C1917;background:#F9F8F6">
 <h1 style="font-size:22px;letter-spacing:-0.02em;margin:0 0 4px">StoreScope Weekly · {week}</h1>
-<p style="color:#78716C;margin:0 0 24px;font-size:14px">Newest {len(products)} products across 40+ curated DTC brands (last 30 days)</p>
+<p style="color:#78716C;margin:0 0 24px;font-size:14px">Newest {len(products)} products across 50+ curated DTC brands (last 30 days)</p>
 
 <table style="width:100%;border-collapse:collapse;margin:16px 0;font-size:14px">
   <thead><tr style="background:#F3F1EE">
@@ -289,7 +289,7 @@ def _render_latest_html(products: list[dict], week: str, unsub_link: str) -> str
 
 
 def _render_latest_text(products: list[dict], week: str, unsub_link: str) -> str:
-    lines = [f"StoreScope Weekly · {week}", f"Newest {len(products)} products across 40+ curated DTC brands", ""]
+    lines = [f"StoreScope Weekly · {week}", f"Newest {len(products)} products across 50+ curated DTC brands", ""]
     for i, p in enumerate(products, 1):
         title = (p.get("title") or "Untitled")[:60]
         vendor = p.get("vendor") or "?"

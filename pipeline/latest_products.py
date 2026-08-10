@@ -360,7 +360,7 @@ def _write_sample_html(products: list[dict], categories: list[dict], now: dateti
 <main>
 <span class="badge">Live sample · {week}</span>
 <h1>What subscribers actually get</h1>
-<p class="intro">This is the actual weekly digest generated from our pipeline. {len(products)} newest product launches across 40+ curated DTC Shopify brands, sorted by newest first. No mock, no filler. Auto-updated every Monday.</p>
+<p class="intro">This is the actual weekly digest generated from our pipeline. {len(products)} newest product launches across 50+ curated DTC Shopify brands, sorted by newest first. No mock, no filler. Auto-updated every Monday.</p>
 {cat_chips}
 <table>
   <thead><tr>
