@@ -3796,7 +3796,7 @@
         hero_eyebrow: "Live · refreshed every Monday at 9 AM",
         hero_h1_line1: "Shopify product trends,",
         hero_h1_line2: "a week early.",
-        hero_sub: "We watch 50 curated DTC brands and surface the products spreading across them — every Monday morning, before mainstream discovery kicks in.",
+        hero_sub: "We watch 50+ curated DTC brands and surface their newest product launches — every Monday morning, sorted by freshness, with vendor and category diversity built-in.",
         hero_scale: "Tracking 50+ curated DTC brands · 5,000+ products · refreshed weekly",
         beta_banner_text: "🧪 <strong>Early access</strong> — Public launch coming soon. Join the waitlist above for the first Monday digest (free). Product feedback: reply to any digest email.",
         contact_pill: "Contact",
@@ -4164,7 +4164,7 @@
         hero_eyebrow: "실시간 · 매주 월요일 오전 9시 갱신",
         hero_h1_line1: "Shopify 상품 트렌드,",
         hero_h1_line2: "일주일 먼저.",
-        hero_sub: "엄선 50개 DTC 브랜드를 매주 분석해 빠르게 퍼지는 상품을 찾아냅니다 — 대중 시장이 인지하기 전에.",
+        hero_sub: "엄선 50+ DTC 브랜드의 신제품 런칭을 매주 월요일 아침 정리 — 벤더·카테고리 다양성 자동 반영, 신선도 순 정렬.",
         hero_scale: "엄선 50개+ DTC 브랜드 · 5,000+ 상품 · 매주 갱신",
         beta_banner_text: "🧪 <strong>얼리 액세스</strong> — 정식 출시 준비 중. 위 폼으로 waitlist 참여 시 첫 월요 리포트 무료. 피드백: 리포트 이메일 회신 요청.",
         contact_pill: "연락처",
@@ -4505,7 +4505,7 @@
         hero_eyebrow: "ライブ · 毎週月曜午前9時に更新",
         hero_h1_line1: "Shopify商品のトレンドを",
         hero_h1_line2: "1週間早く。",
-        hero_sub: "厳選50のDTCブランドを毎週分析し、急速に広がっている商品をお届けします — 主流市場が認識する前に。",
+        hero_sub: "厳選50+のDTCブランドの新製品を毎週月曜朝にお届け — ベンダー・カテゴリの多様性を自動反映、新鮮度順。",
         hero_scale: "厳選50以上のDTCブランド · 5,000以上の商品 · 毎週更新",
         beta_banner_text: "🧪 <strong>早期アクセス</strong> — 正式リリース準備中。上のフォームから waitlist 参加で初回月曜ダイジェスト無料。フィードバックはダイジェストメールへ返信ください。",
         contact_pill: "お問い合わせ",
@@ -7040,14 +7040,15 @@
       // FIX 2026-07-30 D+59: waitlist 정합 — 자동 confirmation email 없음 (인프라 미구현),
       // 대신 명시적 timeline 카피로 기대치 관리. 첫 Monday digest = 다음 월요일 오전 9시 KST 수동 발송.
       if (submitBtn) {
-        submitBtn.innerHTML = '<span>✓ On the waitlist — Monday digest coming</span>';
+        submitBtn.innerHTML = '<span>✓ On the list · digest sample here now</span>';
         submitBtn.style.background = 'var(--green)';
         submitBtn.style.color = '#fff';
       }
-      // Trust note 도 성공 message 로 교체 (기존 3개 체크마크 대신 더 명확)
+      // D+12 honesty: SMTP 미배포 상태 → 실 digest 발송 안 됨. 대신 sample page 즉시 안내.
+      // 이전 "Next digest sent every Monday 9 AM UTC" = 배포 안 된 상태에서 misleading.
       var trust = document.querySelector('#hero-email-form .xr-trust-note');
       if (trust) {
-        trust.innerHTML = '<span style="color:var(--muted-2);font-size:12px;">Next digest sent every Monday 9 AM UTC · No autoresponder — expect the actual email, not a confirmation</span>';
+        trust.innerHTML = '<span style="color:var(--muted-2);font-size:12px;">See what you\'ll get: <a href="./digest-sample.html?ref=signup" style="color:#4338ca;text-decoration:underline">this week\'s live digest</a> · Real launches start once we hit 5+ signups.</span>';
       }
     }
     // FIX 2026-07-29 D+58 CRIT: 이전엔 실패 시에도 fake success 표시 → validation metric 오염 + 사용자 misleading.
