@@ -1,55 +1,39 @@
 {
-  "generated_at": "2026-08-10T16:23:19.663047+00:00",
+  "generated_at": "2026-08-10T16:38:45.086829+00:00",
   "week": "2026-W33",
   "total_products_before_dedupe": null,
-  "total_after_dedupe": 1484,
+  "total_after_dedupe": 1106,
   "top_products_returned": 20,
   "categories": [
     {
-      "product_type": "Bottoms",
-      "product_count": 126,
-      "vendor_count": 1,
+      "product_type": "Sweaters",
+      "product_count": 92,
+      "vendor_count": 2,
       "top_vendors": [
-        "Everlane"
+        "Everlane",
+        "Taylor Stitch"
       ]
     },
     {
-      "product_type": "Sweaters",
-      "product_count": 117,
-      "vendor_count": 1,
+      "product_type": "Bottoms",
+      "product_count": 82,
+      "vendor_count": 2,
       "top_vendors": [
-        "Everlane"
+        "Everlane",
+        "Taylor Stitch"
       ]
     },
     {
       "product_type": "Knit Tops",
-      "product_count": 112,
+      "product_count": 63,
       "vendor_count": 1,
       "top_vendors": [
         "Everlane"
-      ]
-    },
-    {
-      "product_type": "Denim",
-      "product_count": 79,
-      "vendor_count": 1,
-      "top_vendors": [
-        "Everlane"
-      ]
-    },
-    {
-      "product_type": "Uncategorized",
-      "product_count": 76,
-      "vendor_count": 6,
-      "top_vendors": [
-        "Everlane",
-        "Gymshark | Be a visionary.",
-        "Outdoor Voices"
       ]
     },
     {
       "product_type": "Dresses",
-      "product_count": 72,
+      "product_count": 60,
       "vendor_count": 2,
       "top_vendors": [
         "Everlane",
@@ -57,8 +41,26 @@
       ]
     },
     {
+      "product_type": "Uncategorized",
+      "product_count": 56,
+      "vendor_count": 5,
+      "top_vendors": [
+        "Everlane",
+        "Gymshark | Be a visionary.",
+        "Outdoor Voices"
+      ]
+    },
+    {
+      "product_type": "Denim",
+      "product_count": 48,
+      "vendor_count": 1,
+      "top_vendors": [
+        "Everlane"
+      ]
+    },
+    {
       "product_type": "Shirting",
-      "product_count": 59,
+      "product_count": 45,
       "vendor_count": 1,
       "top_vendors": [
         "Everlane"
@@ -66,7 +68,7 @@
     },
     {
       "product_type": "Woven Tops",
-      "product_count": 59,
+      "product_count": 45,
       "vendor_count": 1,
       "top_vendors": [
         "Everlane"
