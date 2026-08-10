@@ -1,5 +1,16 @@
 [
   {
+    "domain": "outdoorvoices.com",
+    "title": "TechSweat Move Free Tank",
+    "handle": "w-techsweat-move-free-tank-new-blue",
+    "product_type": "Tanks",
+    "vendor": "Outdoor Voices",
+    "published_at": "2026-08-10T15:32:34-04:00",
+    "price": 24.97,
+    "image_url": "https://cdn.shopify.com/s/files/1/0190/1390/files/W301459-TSW-DPU_TechSweat_Move_Free_Tank_Deep_Ultramarine_302_V2_40a9cd65-f03d-4141-95b5-03216512326c.jpg?v=1762269683",
+    "age_days": 0.0
+  },
+  {
     "domain": "everlane.com",
     "title": "Tissue Boatneck Top | Grey",
     "handle": "womens-everlight-boatneck-top-grey",
@@ -8,7 +19,7 @@
     "published_at": "2026-08-10T10:47:44-07:00",
     "price": 68.0,
     "image_url": "https://cdn.shopify.com/s/files/1/0623/7916/3734/files/2026-07-19_F-T-TIS-BOAT-LS-GREY_flat.jpg?v=1786384059",
-    "age_days": 0.0
+    "age_days": 0.1
   },
   {
     "domain": "everlane.com",
@@ -19,7 +30,7 @@
     "published_at": "2026-08-10T10:47:13-07:00",
     "price": 74.0,
     "image_url": "https://cdn.shopify.com/s/files/1/0623/7916/3734/files/2026-07-19_F-T-TIS-BOAT-LS-BCHST_flat.jpg?v=1786383998",
-    "age_days": 0.0
+    "age_days": 0.1
   },
   {
     "domain": "liquiddeath.com",
@@ -33,6 +44,17 @@
     "age_days": 0.2
   },
   {
+    "domain": "taylorstitch.com",
+    "title": "The Crawford Crew Sweater in Charcoal",
+    "handle": "crawford-crew-sweater-in-charcoal-2607",
+    "product_type": "Sweaters",
+    "vendor": "Taylor Stitch",
+    "published_at": "2026-08-10T07:15:01-07:00",
+    "price": 178.0,
+    "image_url": "https://cdn.shopify.com/s/files/1/0070/1922/files/instock_m_q326_crawford-crew-charcoal_portrait_001.jpg?v=1783544377",
+    "age_days": 0.2
+  },
+  {
     "domain": "truebotanicals.com",
     "title": "Mindful Mama Starter Set",
     "handle": "new-mindful-mama-kit",
@@ -41,7 +63,7 @@
     "published_at": "2026-08-09T18:26:16-07:00",
     "price": 99.0,
     "image_url": "https://cdn.shopify.com/s/files/1/0545/1009/files/3x4_7a960fe3-d6c1-4c77-8d19-5b2e1beef6ba.png?v=1785947965",
-    "age_days": 0.7
+    "age_days": 0.8
   },
   {
     "domain": "truebotanicals.com",
@@ -52,7 +74,7 @@
     "published_at": "2026-08-09T17:59:41-07:00",
     "price": 54.0,
     "image_url": "https://cdn.shopify.com/s/files/1/0545/1009/files/LipidLip10.png?v=1785280960",
-    "age_days": 0.7
+    "age_days": 0.8
   },
   {
     "domain": "mackweldon.com",
@@ -63,7 +85,7 @@
     "published_at": "2026-08-08T23:08:44-04:00",
     "price": 96.9,
     "image_url": "https://cdn.shopify.com/s/files/1/0078/6825/2273/files/0701_LIVE_3pack-Airknitx_Cotton_BB_2.png?v=1785248296",
-    "age_days": 1.6
+    "age_days": 1.7
   },
   {
     "domain": "mackweldon.com",
@@ -74,7 +96,7 @@
     "published_at": "2026-08-08T23:07:51-04:00",
     "price": 96.9,
     "image_url": "https://cdn.shopify.com/s/files/1/0078/6825/2273/files/0701_LIVE_3pack-AirknitxCottonBB_w-fly_3.png?v=1785251347",
-    "age_days": 1.6
+    "age_days": 1.7
   },
   {
     "domain": "colourpop.com",
@@ -85,7 +107,7 @@
     "published_at": "2026-08-08T18:06:53-07:00",
     "price": 35.0,
     "image_url": "https://cdn.shopify.com/s/files/1/1338/0845/files/Aurora-Struck-Palette-Into-with-UC.jpg?v=1693429053",
-    "age_days": 1.7
+    "age_days": 1.8
   },
   {
     "domain": "liquiddeath.com",
@@ -96,7 +118,18 @@
     "published_at": "2026-08-07T10:03:38-07:00",
     "price": 35.0,
     "image_url": "https://cdn.shopify.com/s/files/1/0079/4289/7737/files/DeathWesternHat_White_3-4Wide_4876_2048x2048_a3283c59-aa23-4e61-a8ed-9150d662202b.webp?v=1785901561",
-    "age_days": 3.0
+    "age_days": 3.1
+  },
+  {
+    "domain": "taylorstitch.com",
+    "title": "The Regenerative Cotton Tee in Saffron",
+    "handle": "regenerative-cotton-tee-in-saffron-2608",
+    "product_type": "Knits",
+    "vendor": "Taylor Stitch",
+    "published_at": "2026-08-07T09:48:58-07:00",
+    "price": 55.0,
+    "image_url": "https://cdn.shopify.com/s/files/1/0070/1922/files/instock_m_q326_regenerative-cotton-tee-saffron_portrait_001.jpg?v=1785875554",
+    "age_days": 3.1
   },
   {
     "domain": "colourpop.com",
@@ -132,91 +165,58 @@
     "age_days": 4.1
   },
   {
-    "domain": "outdoorvoices.com",
-    "title": "The Exercise 3\" Skort",
-    "handle": "w-the-exercise-3in-skort-blueberry",
-    "product_type": "Skorts/Skirts",
-    "vendor": "Outdoor Voices",
-    "published_at": "2026-08-06T08:35:22-04:00",
-    "price": 47.99,
-    "image_url": "https://cdn.shopify.com/s/files/1/0190/1390/files/W701427-WTS-BLB_The_Exercise_3in_Skort_Blueberry_030_crop_5b78d1af-95d2-43f5-a138-7b4d15666fa7.jpg?v=1759272329",
+    "domain": "fentybeauty.com",
+    "title": "Sun Stalk'r Instant Warmth Bronzer — Chai Latte",
+    "handle": "sun-stalkr-instant-warmth-bronzer-chai-latte",
+    "product_type": "Blushes & Bronzers",
+    "vendor": "Fenty Beauty",
+    "published_at": "2026-08-06T08:01:16-07:00",
+    "price": 38.0,
+    "image_url": "https://cdn.shopify.com/s/files/1/0341/3458/9485/files/FB_SUM26_T2PRODUCT_ECOMM_SUNSTALKR_BRONZER_SHADE-EXT_CHAI_LATTE_1200X1500_72DPI.jpg?v=1785174396",
     "age_days": 4.2
   },
   {
-    "domain": "outdoorvoices.com",
-    "title": "Volley Dress",
-    "handle": "w-the-volley-dress-sea-green",
-    "product_type": "Dresses",
-    "vendor": "Outdoor Voices",
-    "published_at": "2026-08-06T08:34:41-04:00",
-    "price": 74.99,
-    "image_url": "https://cdn.shopify.com/s/files/1/0190/1390/files/W402143-BIT-SEN_The_Volley_Dress_Sea_Green_014_2a69219a-30cc-4178-b208-a0c8c69c807a.jpg?v=1742254668",
+    "domain": "fentybeauty.com",
+    "title": "Sun Stalk'r Instant Warmth Bronzer — Mocha Mamii",
+    "handle": "sun-stalkr-instant-warmth-bronzer-mocha-mamii",
+    "product_type": "Blushes & Bronzers",
+    "vendor": "Fenty Beauty",
+    "published_at": "2026-08-06T08:01:08-07:00",
+    "price": 38.0,
+    "image_url": "https://cdn.shopify.com/s/files/1/0341/3458/9485/files/FB_SUM26_T2PRODUCT_ECOMM_SUNSTALKR_BRONZER_SHADE-EXT_MOCHA_MAMII_1200X1500_72DPI.jpg?v=1785174550",
     "age_days": 4.2
   },
   {
-    "domain": "gymshark.com",
-    "title": "Gymshark Train Track Jacket - Espresso Brown",
-    "handle": "gymshark-train-track-jacket-jackets-outerwear-brown-aw26",
-    "product_type": "Mens Jackets / Outerwear",
-    "vendor": "Gymshark | Be a visionary.",
-    "published_at": "2026-08-06T01:00:00-07:00",
-    "price": 50.0,
-    "image_url": "https://cdn.shopify.com/s/files/1/0156/6146/files/GoodTrainWovenTrack_NONHOODGSEspressoBrownA5B7Y_NDJ1_0224.jpg?v=1785918703",
-    "age_days": 4.4
+    "domain": "deathwishcoffee.com",
+    "title": "Bodum Portable French Press",
+    "handle": "bodum-portable-french-press",
+    "product_type": "Storage & Brewing",
+    "vendor": "BODUM",
+    "published_at": "2026-08-06T08:53:20-04:00",
+    "price": 30.0,
+    "image_url": "https://cdn.shopify.com/s/files/1/0271/7209/files/DeathWishCoffee_August2026_Product_CoffeePress_Back_Web.jpg?v=1785957522",
+    "age_days": 4.3
   },
   {
-    "domain": "gymshark.com",
-    "title": "Gymshark Train Hooded Track Jacket - Heavy Blue",
-    "handle": "gymshark-train-hooded-track-jacket-jackets-outerwear-blue-aw26",
-    "product_type": "Mens Jackets / Outerwear",
-    "vendor": "Gymshark | Be a visionary.",
-    "published_at": "2026-08-06T01:00:00-07:00",
-    "price": 56.0,
-    "image_url": "https://cdn.shopify.com/s/files/1/0156/6146/files/GoodTrainWovenTrack_HOODGSHeavyBlueA5C9S_UCTN_0254.jpg?v=1785853542",
-    "age_days": 4.4
+    "domain": "deathwishcoffee.com",
+    "title": "Liquid Lunch Collector's Bundle",
+    "handle": "liquid-lunch-collectors-box",
+    "product_type": "Accessories",
+    "vendor": "BAMKO",
+    "published_at": "2026-08-06T08:52:03-04:00",
+    "price": 45.0,
+    "image_url": "https://cdn.shopify.com/s/files/1/0271/7209/files/DTC_Lunchbox_Render_A1.jpg?v=1785876822",
+    "age_days": 4.3
   },
   {
-    "domain": "mudwtr.com",
-    "title": "PSL Bundle",
-    "handle": "psl-bundle",
-    "product_type": "",
-    "vendor": "MUD\\WTR",
-    "published_at": "2026-08-05T14:07:36-04:00",
-    "price": 40.0,
-    "image_url": "https://cdn.shopify.com/s/files/1/0137/9434/5014/files/PSL_1.jpg?v=1785358217",
-    "age_days": 5.0
-  },
-  {
-    "domain": "everlane.com",
-    "title": "PackageProtect with Onward",
-    "handle": "onward-package-protection",
-    "product_type": "Insurance",
-    "vendor": "Onward",
-    "published_at": "2026-08-04T15:11:41-07:00",
-    "price": 0.98,
-    "image_url": "https://cdn.shopify.com/s/files/1/0623/7916/3734/files/onward-product-image.png?v=1757533751",
-    "age_days": 5.8
-  },
-  {
-    "domain": "supergoop.com",
-    "title": "Bride & Shine SPF 8 Pack",
-    "handle": "bride-shine-spf-set",
-    "product_type": "",
-    "vendor": "Supergoop!",
-    "published_at": "2026-08-02T16:43:52-04:00",
-    "price": 167.0,
-    "image_url": "https://cdn.shopify.com/s/files/1/1503/5658/files/Bachelorette_Bulk_VB_Mini_Sunrise_01_a_0685ace5-920b-4387-af31-217ec71cca11.png?v=1742245509",
-    "age_days": 7.9
-  },
-  {
-    "domain": "supergoop.com",
-    "title": "SPF! Canvas Tote Bag",
-    "handle": "spf-canvas-tote-bag",
-    "product_type": "Merch",
-    "vendor": "Supergoop!",
-    "published_at": "2026-08-02T16:43:33-04:00",
+    "domain": "deathwishcoffee.com",
+    "title": "Caffeine Catalyst LED Dry Erase Board",
+    "handle": "caffeine-catalyst-led-dry-erase-board",
+    "product_type": "Accessories",
+    "vendor": "Planet Apparel",
+    "published_at": "2026-08-06T08:51:51-04:00",
     "price": 15.0,
-    "image_url": "https://cdn.shopify.com/s/files/1/1503/5658/files/SPFCanvasToteBag_Img1_46b87bf4-2d1f-446b-ae36-a7100c49a081.jpg?v=1716989781",
-    "age_days": 7.9
+    "image_url": "https://cdn.shopify.com/s/files/1/0271/7209/files/DeathWishCoffee_August2026_Product_LedWhiteboard_Drawing_web.jpg?v=1785876560",
+    "age_days": 4.3
   }
 ]
