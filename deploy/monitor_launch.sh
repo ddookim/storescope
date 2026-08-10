@@ -26,8 +26,12 @@ _snapshot() {
     local last_email=$(echo "$raw" | grep -oE '"email": *"[^"]+"' | head -1 | cut -d'"' -f4)
     local last_ip=$(echo "$raw" | grep -oE '"ip": *"[^"]+"' | head -1 | cut -d'"' -f4)
 
+    # D-Day 자동 계산 (new D0 = 2026-07-30)
+    local d0=$(date -j -f "%Y-%m-%d" "2026-07-30" +%s 2>/dev/null || date -d "2026-07-30" +%s)
+    local now_s=$(date +%s)
+    local dplus=$(( (now_s - d0) / 86400 ))
     echo "═══════════════════════════════════════════════════════"
-    echo "  📊 StoreScope Launch Monitor — $ts (D+8, IH channel reset)"
+    echo "  📊 StoreScope Launch Monitor — $ts (D+$dplus from new D0 2026-07-30)"
     echo "═══════════════════════════════════════════════════════"
     echo "  Total submissions:  $count"
     echo "  Organic submissions: $organic  (excludes @example.com + user test)"
@@ -64,24 +68,41 @@ except Exception: print('  HN Algolia poll failed')" 2>/dev/null)
     fi
     echo "$count" > "$STATE_FILE"
 
-    # Kill switch alerts — organic-only (D+8 correction: total count includes user test)
-    if [ "$organic" -eq 0 ]; then
-        echo ""
-        echo "  ⏳ Organic signup = 0 — IH channel test in flight"
-        echo "  → D+10 (2026-08-09) checkpoint: organic ≥ 3 to continue"
-    elif [ "$organic" -ge 10 ]; then
-        echo ""
-        echo "  🎉 KILL SWITCH: 10+ organic signups — Neon+Render wire-up trigger"
-        echo "  → 다음 액션: bash deploy/launch_phase1.sh \"\$NEON_URL\""
-    elif [ "$organic" -ge 5 ]; then
-        echo ""
-        echo "  📈 5+ organic — new D+14 kill switch PASSED (green)"
-    elif [ "$organic" -ge 3 ]; then
-        echo ""
-        echo "  📊 3+ organic — D+10 IH channel PASSED, HN Show HN at D+11"
+    # Kill switch alerts — organic-only + D+day 자동 반영
+    echo ""
+    echo "  ── Kill switch schedule (new D0 = 2026-07-30) ──"
+    if [ "$dplus" -ge 30 ]; then
+        if [ "$organic" -lt 15 ]; then
+            echo "  🚨 D+$dplus / D+30 KILL SWITCH FIRED — organic $organic < 15 + paid 0. 이행 실험 2."
+        else
+            echo "  🎉 D+$dplus / D+30 PASSED — organic $organic ≥ 15. Continue."
+        fi
+    elif [ "$dplus" -ge 14 ]; then
+        if [ "$organic" -lt 10 ]; then
+            echo "  🚨 D+$dplus / D+14 organic < 10 — 대안 검토 (kill 후보). $((30 - dplus))일 남음 → D+30."
+        else
+            echo "  ✅ D+$dplus / D+14 PASSED — organic $organic ≥ 10. On track."
+        fi
+    elif [ "$dplus" -ge 10 ]; then
+        if [ "$organic" -lt 3 ]; then
+            echo "  🚨 D+$dplus / D+10 organic < 3 — D+14 kill 후보 궤도. $((14 - dplus))일 남음."
+        else
+            echo "  ✅ D+$dplus / D+10 PASSED — organic $organic ≥ 3."
+        fi
+    elif [ "$dplus" -ge 7 ]; then
+        if [ "$organic" -lt 5 ]; then
+            echo "  🚨 D+$dplus / D+7 organic < 5 — hook 재작성 or channel 변경 검토."
+        else
+            echo "  ✅ D+$dplus / D+7 PASSED — organic $organic ≥ 5."
+        fi
     else
-        echo ""
-        echo "  ⚠ Organic $organic < 3 — D+10 checkpoint red zone"
+        echo "  ⏳ D+$dplus — kill switch 아직 전. Reddit/IH 발행 결과 대기."
+    fi
+    # 다음 checkpoint 정보
+    if [ "$dplus" -lt 14 ]; then
+        echo "  → 다음 checkpoint: D+14 (2026-08-13) — organic ≥ 10 필요, $((14 - dplus))일 남음"
+    elif [ "$dplus" -lt 30 ]; then
+        echo "  → 다음 checkpoint: D+30 (2026-08-29) — organic ≥ 15 필요, $((30 - dplus))일 남음"
     fi
     echo "═══════════════════════════════════════════════════════"
 }
