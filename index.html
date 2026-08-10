@@ -401,10 +401,11 @@
     .badge-purple { background: rgba(79,70,229,0.08);  color: #4F46E5; border: 1px solid rgba(79,70,229,0.2); }
     .badge-blue   { background: rgba(79,70,229,0.08);  color: #4F46E5; border: 1px solid rgba(79,70,229,0.18); }
     .badge-live   { background: rgba(5,150,105,0.08);  color: #047857; border: 1px solid rgba(5,150,105,0.2);  animation: livepulse 2s infinite; }
-    /* D+10 lighthouse: badge-live on dark bg (.browser-bar / .dashboard-bg / demo-controls)
-       #059669 4.28:1 fail → #34D399 (emerald-400) 7:1 pass */
+    /* D+10 lighthouse: badge-live on dark bg → #34D399.
+       D+12 lighthouse: 실측 compositing 4.49 (bg alpha 12% + border 25%) → 4.5:1 미달.
+       #34D399 → #6EE7B7 (emerald-300, brighter) = ~9:1 pass 여유. */
     .browser-bar .badge-live,
-    .dashboard-bg .badge-live { color: #34D399; background: rgba(52,211,153,0.12); border-color: rgba(52,211,153,0.25); }
+    .dashboard-bg .badge-live { color: #6EE7B7; background: rgba(52,211,153,0.12); border-color: rgba(52,211,153,0.25); }
     @keyframes livepulse { 0%,100%{opacity:1} 50%{opacity:0.6} }
 
     /* ── NAV ── */
@@ -6700,7 +6701,7 @@
       <a href="#pricing" data-i18n="footer_link_pricing">Pricing</a>
       <a href="#xray" data-i18n="footer_link_xray">Free X-Ray tool</a>
       <a href="./digest-sample.html" data-i18n="footer_link_digest_sample">This week's digest sample</a>
-      <a href="mailto:support@storescope.com?subject=API%20docs%20access" class="footer-link-muted" aria-label="API access (email for documentation)" data-i18n="footer_link_api">API access</a>
+      <a href="mailto:support@storescope.com?subject=API%20docs%20access" class="footer-link-muted" data-i18n="footer_link_api">API access</a>
     </div>
     <div class="footer-col">
       <h3 data-i18n="footer_col_company">Company</h3>
