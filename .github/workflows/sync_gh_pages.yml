@@ -52,6 +52,11 @@ jobs:
           cp landing/robots.txt /tmp/gh-pages-wt/robots.txt 2>/dev/null || true
           cp landing/sitemap.xml /tmp/gh-pages-wt/sitemap.xml 2>/dev/null || true
           cp landing/manifest.json /tmp/gh-pages-wt/manifest.json 2>/dev/null || true
+          # D+12 bug fix: 404.html root 필수 (GH Pages 는 root/404.html 만 custom 404 로 사용).
+          # 이전엔 landing/404.html 만 있어 nonexistent path 시 generic GH 404 반환.
+          cp landing/404.html /tmp/gh-pages-wt/404.html 2>/dev/null || true
+          # D+12: og-image.png root 도 (호환성; 일부 크롤러 root 우선 fetch).
+          cp landing/og-image.png /tmp/gh-pages-wt/og-image.png 2>/dev/null || true
           # D+11: digest-sample.html 도 root (canonical URL 정합)
           if [ -f landing/digest-sample.html ]; then
             cp landing/digest-sample.html /tmp/gh-pages-wt/digest-sample.html
