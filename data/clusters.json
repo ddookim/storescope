@@ -1,1 +1,22 @@
-{}
+{
+  "eac5953e68e1354c": [
+    {
+      "domain": "liquiddeath.com",
+      "product_id": 7210580902097,
+      "title": "Vicious Death Hat",
+      "price": "35.00",
+      "image_url": "https://cdn.shopify.com/s/files/1/0079/4289/7737/files/web-91-ViciousDeathHat_Black_FrontAngle_2048x2048_1282d015-614d-44bc-aed7-08a968f84a84.jpg",
+      "image_hash": "eac1953e4ac1356d",
+      "handle": "vicious-death-hat-black"
+    },
+    {
+      "domain": "tentree.com",
+      "product_id": 8462674460858,
+      "title": "Sasquatch Peak Hat",
+      "price": "45.00",
+      "image_url": "https://cdn.shopify.com/s/files/1/2341/3995/files/Black-Organic-Cotton-6-Panel-Low-Profile-Hat-TAU6255-5785_3.png",
+      "image_hash": "eac5953e68e1354c",
+      "handle": "sasquatch-peak-hat-meteorite-black-football"
+    }
+  ]
+}

@@ -1,8 +1,8 @@
 {
-  "generated_at": "2026-08-10T13:49:28.715610+00:00",
+  "generated_at": "2026-08-10T16:23:19.663047+00:00",
   "week": "2026-W33",
   "total_products_before_dedupe": null,
-  "total_after_dedupe": 1338,
+  "total_after_dedupe": 1484,
   "top_products_returned": 20,
   "categories": [
     {
@@ -38,6 +38,16 @@
       ]
     },
     {
+      "product_type": "Uncategorized",
+      "product_count": 76,
+      "vendor_count": 6,
+      "top_vendors": [
+        "Everlane",
+        "Gymshark | Be a visionary.",
+        "Outdoor Voices"
+      ]
+    },
+    {
       "product_type": "Dresses",
       "product_count": 72,
       "vendor_count": 2,
@@ -60,16 +70,6 @@
       "vendor_count": 1,
       "top_vendors": [
         "Everlane"
-      ]
-    },
-    {
-      "product_type": "Uncategorized",
-      "product_count": 57,
-      "vendor_count": 6,
-      "top_vendors": [
-        "Death Wish Coffee",
-        "Everlane",
-        "Gymshark | Be a visionary."
       ]
     }
   ]
