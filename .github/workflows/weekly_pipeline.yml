@@ -119,8 +119,20 @@ jobs:
             # 다른 workflows (tests, red_team, codeql) 는 path 필터로 자동 gate.
             git commit -m "chore(data): weekly refresh $(date -u +%F)"
             git push origin HEAD:main
-            echo "::notice::Fresh data + sent_log pushed to main (sync will trigger on landing/*)"
+            echo "::notice::Fresh data + sent_log pushed to main"
           fi
+
+      - name: Trigger sync workflow explicitly (bot push 는 chain 트리거 X)
+        if: success() && env.DATABASE_URL == ''
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          # GH 정책: GITHUB_TOKEN 로 push 한 commit 은 새 workflow chain 을 트리거하지 않음
+          # (infinite loop 방지). digest-sample.html 이 갱신되었지만 sync 자동 안 됨.
+          # → gh CLI 로 명시 dispatch.
+          gh workflow run sync_gh_pages.yml --repo ${{ github.repository }} || {
+            echo "::warning::sync_gh_pages 명시 트리거 실패 (다음 push 때 자동 sync)"
+          }
 
       - name: Health check after pipeline (DB 모드만)
         if: success() && env.DATABASE_URL != ''
