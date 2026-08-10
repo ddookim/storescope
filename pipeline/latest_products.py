@@ -562,6 +562,35 @@ def _write_sample_html(products: list[dict], categories: list[dict], now: dateti
     from html import escape as h
     week = f"{now.isocalendar().year}-W{now.isocalendar().week:02d}"
 
+    # D+12 grid cards for prominent image view (top 12 with big square images).
+    cards = []
+    for p in products[:12]:
+        title = h(p.get("title") or "Untitled")[:80]
+        vendor = h(p.get("vendor") or "—")
+        price = p.get("price")
+        price_str = f"${price:.2f}" if isinstance(price, (int, float)) and price > 0 else "—"
+        age = p.get("age_days", "?")
+        img_url = h(p.get("image_url") or "")
+        cat_slug = re.sub(r'[^a-z0-9]+', '-', (p.get('product_type') or 'other').lower()).strip('-')[:30] or 'other'
+        img_html = (
+            f'<img class="pd-card-img" src="{img_url}" alt="{title}" loading="lazy" decoding="async" onerror="this.style.background=\'#F3F1EE\';this.style.opacity=\'0\'">'
+            if img_url else '<div class="pd-card-img"></div>'
+        )
+        cards.append(f'''
+      <a class="pd-card" data-cat="{cat_slug}" href="#p{products.index(p)+1}">
+        {img_html}
+        <div class="pd-card-body">
+          <div class="pd-card-title">{title}</div>
+          <div class="pd-card-vendor">{vendor}</div>
+          <div class="pd-card-foot">
+            <span class="pd-card-price">{price_str}</span>
+            <span class="pd-card-age">{age}d</span>
+          </div>
+        </div>
+      </a>''')
+    grid_html = f'''<div class="pd-section-label">Latest launches · visual</div>
+<div class="pd-grid">{"".join(cards)}</div>''' if cards else ''
+
     # D+12 (경쟁사 대비 upgrade): product image thumbnails + category filter data-attr.
     rows = []
     for i, p in enumerate(products[:20], 1):
@@ -705,13 +734,24 @@ def _write_sample_html(products: list[dict], categories: list[dict], now: dateti
   .cat-grid {{ display: flex; flex-wrap: wrap; gap: 8px; }}
   .cat-chip {{ display: inline-block; padding: 8px 14px; background: #fff; border: 1px solid #E5E5E5; border-radius: 100px; font-size: 13px; color: #57534E; }}
   .cat-chip strong {{ color: #1C1917; font-weight: 700; margin-right: 4px; }}
-  /* D+12 경쟁사 대비 upgrade: product image thumbnails + filter tabs + CSV export */
+  /* D+12 경쟁사 대비 upgrade — visual grid ABOVE table (modern ecom research tool 표준) */
+  .pd-grid {{ display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 12px; margin: 20px 0 32px; }}
+  .pd-card {{ background: #fff; border: 1px solid #E5E5E5; border-radius: 12px; overflow: hidden; transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease; text-decoration: none; color: inherit; display: flex; flex-direction: column; }}
+  .pd-card:hover {{ transform: translateY(-2px); box-shadow: 0 8px 20px rgba(0,0,0,0.06); border-color: rgba(79,70,229,0.35); }}
+  .pd-card-img {{ width: 100%; aspect-ratio: 1 / 1; object-fit: cover; background: #F3F1EE; display: block; }}
+  .pd-card-body {{ padding: 10px 12px 12px; flex: 1; display: flex; flex-direction: column; gap: 4px; }}
+  .pd-card-title {{ font-size: 13px; font-weight: 700; color: #1C1917; line-height: 1.3; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }}
+  .pd-card-vendor {{ font-size: 11px; color: #78716C; }}
+  .pd-card-foot {{ display: flex; justify-content: space-between; align-items: center; margin-top: auto; padding-top: 4px; font-size: 12px; }}
+  .pd-card-price {{ font-weight: 700; color: #1C1917; }}
+  .pd-card-age {{ color: #78716C; font-size: 11px; padding: 2px 8px; background: #F3F1EE; border-radius: 100px; font-weight: 600; }}
+  /* Table view — 축소된 보조 정보 view */
   .pd-thumb {{ width: 56px; height: 56px; border-radius: 8px; object-fit: cover; background: #F3F1EE; display: block; }}
   .pd-thumb-placeholder {{ width: 56px; height: 56px; border-radius: 8px; background: #F3F1EE; display: flex; align-items: center; justify-content: center; color: #A29E98; font-size: 20px; }}
   .pd-thumb-cell {{ width: 72px; padding: 10px 6px 10px 14px; }}
   .pd-info strong {{ display: block; margin-bottom: 3px; color: #1C1917; }}
   .pd-idx {{ color: #78716C; font-weight: 600; width: 32px; }}
-  .pd-filter {{ display: flex; align-items: center; gap: 12px; margin: 20px 0 8px; flex-wrap: wrap; }}
+  .pd-filter {{ display: flex; align-items: center; gap: 12px; margin: 24px 0 12px; flex-wrap: wrap; }}
   .pd-filter-label {{ font-size: 13px; font-weight: 600; color: #57534E; text-transform: uppercase; letter-spacing: 0.5px; }}
   .pd-tabs {{ display: flex; gap: 6px; flex-wrap: wrap; }}
   .pd-tab {{ background: #fff; border: 1px solid #E5E5E5; color: #57534E; padding: 6px 14px; border-radius: 100px; font-size: 12.5px; font-weight: 600; cursor: pointer; transition: all 0.15s ease; }}
@@ -720,7 +760,8 @@ def _write_sample_html(products: list[dict], categories: list[dict], now: dateti
   .pd-export {{ margin-left: auto; display: inline-flex; align-items: center; gap: 6px; padding: 6px 14px; background: #F3F1EE; border: 1px solid #E5E5E5; border-radius: 100px; font-size: 12.5px; font-weight: 600; color: #57534E; text-decoration: none; }}
   .pd-export:hover {{ background: #E5E5E5; }}
   .pd-row {{ transition: opacity 0.15s ease; }}
-  .pd-row.pd-hidden {{ display: none; }}
+  .pd-row.pd-hidden, .pd-card.pd-hidden {{ display: none; }}
+  .pd-section-label {{ font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: #78716C; margin: 32px 0 8px; }}
 </style>
 </head>
 <body>
@@ -733,6 +774,10 @@ def _write_sample_html(products: list[dict], categories: list[dict], now: dateti
 <p class="intro">This is the actual weekly digest generated from our pipeline. {len(products)} newest product launches across 50+ curated DTC Shopify brands, sorted by newest first. No mock, no filler. Auto-updated every Monday.</p>
 {cat_chips}
 {filter_tabs}
+
+{grid_html}
+
+<div class="pd-section-label">Full list · table view</div>
 <table>
   <thead><tr>
     <th>#</th>
@@ -754,9 +799,9 @@ def _write_sample_html(products: list[dict], categories: list[dict], now: dateti
       var cat = btn.getAttribute('data-cat');
       document.querySelectorAll('.pd-tab').forEach(function(b) {{ b.classList.remove('pd-tab-active'); }});
       btn.classList.add('pd-tab-active');
-      document.querySelectorAll('.pd-row').forEach(function(row) {{
-        var match = cat === 'all' || row.getAttribute('data-cat') === cat;
-        row.classList.toggle('pd-hidden', !match);
+      document.querySelectorAll('.pd-row, .pd-card').forEach(function(el) {{
+        var match = cat === 'all' || el.getAttribute('data-cat') === cat;
+        el.classList.toggle('pd-hidden', !match);
       }});
     }});
   }});
