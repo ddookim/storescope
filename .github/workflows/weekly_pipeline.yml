@@ -103,7 +103,7 @@ jobs:
           # 전체 실패 (b1d0039 실패 원인). 파일별 조건부 add 로 회피.
           git config user.name  "storescope-bot"
           git config user.email "bot@storescope.local"
-          for f in data/trending.json data/clusters.json data/latest_products.json data/sent_log.json landing/digest-sample.html; do
+          for f in data/trending.json data/clusters.json data/latest_products.json data/latest_products_meta.json data/sent_log.json landing/digest-sample.html; do
             if [ -f "$f" ]; then
               git add -f "$f"
               echo "  staged: $f ($(wc -c < "$f") bytes)"
