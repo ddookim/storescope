@@ -26,7 +26,10 @@ from pathlib import Path
 _HERE = Path(__file__).resolve().parent.parent
 PRODUCTS_DIR    = _HERE / "data" / "products"
 OUTPUT_FILE     = _HERE / "data" / "latest_products.json"
+META_FILE       = _HERE / "data" / "latest_products_meta.json"  # category summary + stats
 SAMPLE_HTML     = _HERE / "landing" / "digest-sample.html"  # D+11: SEO + demo asset
+
+CATEGORY_TOP_N  = 8  # digest 표시 카테고리 개수
 
 TOP_N              = 20     # digest 표시 개수
 LOOKBACK_DAYS      = 30     # 30일 이내 published 만 대상 (fresh signal)
@@ -111,6 +114,33 @@ def _dedupe_by_title_domain(products: list[dict]) -> list[dict]:
     return unique
 
 
+def _category_summary(all_recent_products: list[dict]) -> list[dict]:
+    """product_type 별 카테고리 신제품 수 + unique vendor 수 계산.
+
+    Input: 30일 window filtered + dedupe 통과한 모든 상품 (top_N slice 이전).
+    Output: [{product_type, product_count, vendor_count, top_vendors}, ...]
+        sorted by product_count DESC.
+    "" or "Uncategorized" 는 별도 표기.
+    """
+    from collections import defaultdict
+    by_type: dict[str, list[dict]] = defaultdict(list)
+    for p in all_recent_products:
+        t = (p.get("product_type") or "Uncategorized").strip() or "Uncategorized"
+        by_type[t].append(p)
+
+    summaries: list[dict] = []
+    for ptype, items in by_type.items():
+        vendors = list({p.get("vendor", "") for p in items if p.get("vendor")})
+        summaries.append({
+            "product_type": ptype[:60],
+            "product_count": len(items),
+            "vendor_count": len(vendors),
+            "top_vendors": sorted(vendors)[:3],
+        })
+    summaries.sort(key=lambda s: (-s["product_count"], -s["vendor_count"]))
+    return summaries[:CATEGORY_TOP_N]
+
+
 def _diversity_cap(products: list[dict], max_per_vendor: int, max_per_type: int) -> list[dict]:
     """Round-robin 스타일 다양성 필터.
 
@@ -149,6 +179,10 @@ def main() -> None:
     products = _dedupe_by_title_domain(products)
     print(f"  dedupe 후: {len(products):,}개")
 
+    # Category summary — computed BEFORE diversity cap (전체 signal 반영).
+    categories = _category_summary(products)
+    print(f"  categories: {len(categories)}개 (top {CATEGORY_TOP_N})")
+
     # Sort: newest first (published_at DESC → age_days ASC).
     products.sort(key=lambda p: p["age_days"])
     # D+11 diversity: prevent 5x same vendor / 4x same product_type in top output.
@@ -159,16 +193,32 @@ def main() -> None:
     OUTPUT_FILE.write_text(json.dumps(top, ensure_ascii=False, indent=2))
     print(f"  → {OUTPUT_FILE} ({len(top)}개, top {TOP_N})")
 
+    # Meta: category summary + generation stats (별도 파일, backward compat).
+    META_FILE.write_text(json.dumps({
+        "generated_at": now.isoformat(),
+        "week": f"{now.isocalendar().year}-W{now.isocalendar().week:02d}",
+        "total_products_before_dedupe": None,   # (extract 시 num 있으면 채움 — 지금은 stub)
+        "total_after_dedupe": len(products),
+        "top_products_returned": len(top),
+        "categories": categories,
+    }, ensure_ascii=False, indent=2))
+    print(f"  → {META_FILE}")
+
     if top:
         print("\n=== 상위 5개 최신 상품 ===")
         for i, p in enumerate(top[:5], 1):
             print(f"  {i}. [{p['age_days']}d] {p['title'][:60]}")
             print(f"     {p['vendor']} · {p['product_type']} · ${p['price'] or '—'}")
 
-    _write_sample_html(top, now)
+    if categories:
+        print("\n=== Category summary ===")
+        for c in categories[:5]:
+            print(f"  {c['product_type'][:40]:<40} · {c['product_count']:>3} products · {c['vendor_count']} vendors")
+
+    _write_sample_html(top, categories, now)
 
 
-def _write_sample_html(products: list[dict], now: datetime) -> None:
+def _write_sample_html(products: list[dict], categories: list[dict], now: datetime) -> None:
     """Regenerate landing/digest-sample.html — SEO + demo asset (D+11).
 
     사용자가 landing 방문 시 '실제로 받는 digest 는 뭐?' 궁금증 해결.
@@ -193,6 +243,21 @@ def _write_sample_html(products: list[dict], now: datetime) -> None:
         <td class="right">{price_str}</td>
       </tr>""")
     table = "".join(rows) or '<tr><td colspan=4 style="padding:24px;text-align:center;color:#78716C">No qualifying products this week. Digest skipped.</td></tr>'
+
+    # Category chips (D+11) — displayed above product table.
+    cat_chips = ""
+    if categories:
+        chips = []
+        for c in categories:
+            n = c.get("product_count", 0)
+            v = c.get("vendor_count", 0)
+            ptype = h(c.get("product_type") or "?")[:40]
+            chips.append(f'<span class="cat-chip"><strong>{ptype}</strong> · {n} new · {v} brands</span>')
+        cat_chips = f'''
+<section class="cat-section">
+  <h2>Hot categories this week</h2>
+  <div class="cat-grid">{"".join(chips)}</div>
+</section>'''
 
     html_out = f"""<!DOCTYPE html>
 <html lang="en">
@@ -223,6 +288,11 @@ def _write_sample_html(products: list[dict], now: datetime) -> None:
   .cta-box a {{ display: inline-block; background: linear-gradient(135deg, #4F46E5 0%, #3730A3 100%); color: #fff; padding: 12px 28px; border-radius: 10px; font-weight: 700; text-decoration: none; }}
   footer {{ margin-top: 48px; padding-top: 24px; border-top: 1px solid #E5E5E5; font-size: 0.85rem; color: #6B655F; text-align: center; }}
   footer a {{ color: #4338ca; text-decoration: underline; text-underline-offset: 3px; }}
+  .cat-section {{ margin: 32px 0 8px; }}
+  .cat-section h2 {{ font-size: 1.05rem; font-weight: 700; margin: 0 0 12px; color: #1C1917; }}
+  .cat-grid {{ display: flex; flex-wrap: wrap; gap: 8px; }}
+  .cat-chip {{ display: inline-block; padding: 8px 14px; background: #fff; border: 1px solid #E5E5E5; border-radius: 100px; font-size: 13px; color: #57534E; }}
+  .cat-chip strong {{ color: #1C1917; font-weight: 700; margin-right: 4px; }}
 </style>
 </head>
 <body>
@@ -233,7 +303,7 @@ def _write_sample_html(products: list[dict], now: datetime) -> None:
 <span class="badge">Live sample · {week}</span>
 <h1>What subscribers actually get</h1>
 <p class="intro">This is the actual weekly digest generated from our pipeline. {len(products)} newest product launches across 40+ curated DTC Shopify brands, sorted by newest first. No mock, no filler. Auto-updated every Monday.</p>
-
+{cat_chips}
 <table>
   <thead><tr>
     <th>#</th>
