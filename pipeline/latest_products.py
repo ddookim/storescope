@@ -31,6 +31,7 @@ HISTORY_DIR     = _HERE / "data" / "history"                    # D+11: weekly s
 SAMPLE_HTML     = _HERE / "landing" / "digest-sample.html"  # D+11: SEO + demo asset
 SITEMAP_FILE    = _HERE / "landing" / "sitemap.xml"        # D+11: auto lastmod update
 RSS_FILE        = _HERE / "landing" / "feed.xml"           # D+11: RSS/Atom subscription
+BLOG_DIR        = _HERE / "landing" / "blog"                 # D+12: 매주 SEO blog post
 
 CATEGORY_TOP_N  = 8  # digest 표시 카테고리 개수
 
@@ -118,19 +119,20 @@ def _dedupe_by_title_domain(products: list[dict]) -> list[dict]:
 
 
 def _update_sitemap_lastmod(now: datetime) -> None:
-    """digest-sample.html + index lastmod → 오늘 날짜.
+    """digest-sample.html + index + weekly blog lastmod → 오늘 날짜.
 
     Google 은 sitemap lastmod 를 crawl priority signal 로 사용 (freshness).
-    매주 pipeline 실행 시 auto-update 하면 새 콘텐츠 반영 accelerate.
+    매주 pipeline 실행 시 auto-update + weekly blog entry 추가.
     """
     if not SITEMAP_FILE.exists():
         return
     today = now.strftime("%Y-%m-%d")
+    week = f"{now.isocalendar().year}-W{now.isocalendar().week:02d}"
+    weekly_url = f"https://ddookim.github.io/storescope/blog/weekly-{week}.html"
     text = SITEMAP_FILE.read_text()
 
-    # Update index.html + digest-sample.html lastmod. Other URLs (privacy, terms, blog) 유지.
     import re
-    # 1. Root URL entry (index) — first <loc> matches.
+    # 1. Root URL entry (index).
     text = re.sub(
         r"(<loc>https://ddookim\.github\.io/storescope/</loc>\s*<lastmod>)[^<]*(</lastmod>)",
         rf"\g<1>{today}\g<2>", text, count=1,
@@ -140,8 +142,19 @@ def _update_sitemap_lastmod(now: datetime) -> None:
         r"(<loc>https://ddookim\.github\.io/storescope/digest-sample\.html</loc>\s*<lastmod>)[^<]*(</lastmod>)",
         rf"\g<1>{today}\g<2>", text, count=1,
     )
+    # 3. Weekly blog entry — insert before </urlset> if not present.
+    if weekly_url not in text:
+        new_entry = f"""  <!-- Weekly auto-generated analysis -->
+  <url>
+    <loc>{weekly_url}</loc>
+    <lastmod>{today}</lastmod>
+    <changefreq>never</changefreq>
+    <priority>0.7</priority>
+  </url>
+</urlset>"""
+        text = text.replace("</urlset>", new_entry)
     SITEMAP_FILE.write_text(text)
-    print(f"  → sitemap lastmod = {today}")
+    print(f"  → sitemap lastmod = {today} + weekly entry (week={week})")
 
 
 def _save_historical_snapshot(now: datetime) -> None:
@@ -272,6 +285,151 @@ def main() -> None:
 
     _write_sample_html(top, categories, now)
     _write_rss_feed(top, categories, now)
+    _write_weekly_blog(top, categories, now)
+
+
+def _write_weekly_blog(products: list[dict], categories: list[dict], now: datetime) -> None:
+    """Auto-generate landing/blog/weekly-YYYY-WNN.html — SEO compound content.
+
+    매주 실행 시 새 blog post 생성 → Google 크롤 → indexed URL 증가 →
+    long-tail keyword 유입 (e.g. "new DTC clothing launches August").
+    Distribution 채널 없이도 organic search 유입 가능.
+    """
+    from html import escape as h
+    week = f"{now.isocalendar().year}-W{now.isocalendar().week:02d}"
+    filename = f"weekly-{week}.html"
+    fpath = BLOG_DIR / filename
+
+    # Skip 중복 (같은 주 이미 생성된 경우).
+    if fpath.exists():
+        print(f"  → blog skip (already exists): {filename}")
+        return
+
+    # Insights: top category + vendor + price range
+    if not categories or not products:
+        print(f"  → blog skip (no content): categories={len(categories)}, products={len(products)}")
+        return
+
+    top_cat = categories[0]
+    prices = [p.get("price") for p in products if isinstance(p.get("price"), (int, float)) and p.get("price") > 0]
+    med_price = sorted(prices)[len(prices)//2] if prices else 0
+    max_price = max(prices) if prices else 0
+    min_price = min(prices) if prices else 0
+
+    # Category chips + product rows.
+    cat_rows = "".join(
+        f"<li><strong>{h(c.get('product_type') or '')}</strong> — {c.get('product_count', 0)} new items across {c.get('vendor_count', 0)} vendor(s)</li>"
+        for c in categories
+    )
+    product_rows = "".join(
+        f"""      <tr>
+        <td>{i}</td>
+        <td><strong>{h(p.get('title') or 'Untitled')[:80]}</strong><br><span style="color:#78716C;font-size:12px">{h(p.get('vendor') or '—')} · {h(p.get('product_type') or '')}</span></td>
+        <td style="text-align:right">${p.get('price', 0):.2f}</td>
+        <td style="text-align:right">{p.get('age_days', '?')}d</td>
+      </tr>"""
+        for i, p in enumerate(products[:10], 1)
+        if isinstance(p.get("price"), (int, float))
+    )
+    date_str = now.strftime("%Y-%m-%d")
+    date_pretty = now.strftime("%B %d, %Y")
+
+    html_out = f"""<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="This Week in DTC Shopify launches — Week {week}. Top category: {h(top_cat['product_type'])} ({top_cat['product_count']} new items). {len(products)} products indexed from 50+ curated DTC brands. Price range \${min_price:.0f}-\${max_price:.0f}, median \${med_price:.2f}.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://ddookim.github.io/storescope/blog/{filename}">
+<title>This Week in DTC · {week} — {h(top_cat['product_type'])} Lead | StoreScope</title>
+
+<!-- OG + Article schema for SEO -->
+<meta property="og:title" content="This Week in DTC · {week} — StoreScope" />
+<meta property="og:description" content="Top category: {h(top_cat['product_type'])}. {len(products)} new DTC brand launches. Fashion, beauty, home." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://ddookim.github.io/storescope/blog/{filename}" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="This Week in DTC · {week}" />
+<meta name="twitter:description" content="{h(top_cat['product_type'])} lead with {top_cat['product_count']} new items. {len(products)} total." />
+<script type="application/ld+json">
+{{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "This Week in DTC · {week} — {h(top_cat['product_type'])} Lead",
+  "description": "Weekly analysis of DTC Shopify brand product launches. Week {week}.",
+  "url": "https://ddookim.github.io/storescope/blog/{filename}",
+  "datePublished": "{date_str}",
+  "dateModified": "{date_str}",
+  "author": {{"@type": "Organization", "name": "StoreScope"}},
+  "publisher": {{
+    "@type": "Organization", "name": "StoreScope",
+    "logo": {{"@type": "ImageObject", "url": "https://ddookim.github.io/storescope/landing/og-image.png"}}
+  }},
+  "mainEntityOfPage": {{"@type": "WebPage", "@id": "https://ddookim.github.io/storescope/blog/{filename}"}}
+}}
+</script>
+
+<style>
+  body {{ font-family: -apple-system, "Inter", sans-serif; max-width: 720px; margin: 0 auto; padding: 60px 24px; color: #1C1917; line-height: 1.65; background: #F9F8F6; }}
+  .breadcrumb {{ font-size: 0.85rem; color: #6B655F; margin-bottom: 24px; }}
+  .breadcrumb a {{ color: #4338ca; text-decoration: underline; text-decoration-color: rgba(67,56,202,0.35); text-underline-offset: 3px; }}
+  h1 {{ font-size: 2rem; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 0.4rem; line-height: 1.15; }}
+  .meta {{ color: #78716C; font-size: 0.9rem; margin-bottom: 24px; }}
+  h2 {{ font-size: 1.3rem; font-weight: 700; margin-top: 32px; }}
+  .lede {{ font-size: 1.05rem; color: #3F3B37; margin-bottom: 24px; }}
+  ul {{ padding-left: 20px; }}
+  ul li {{ margin-bottom: 8px; }}
+  table {{ width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 14px; background: #fff; border-radius: 10px; overflow: hidden; }}
+  th, td {{ text-align: left; padding: 12px 14px; border-bottom: 1px solid #E5E5E5; vertical-align: top; }}
+  th {{ background: #F3F1EE; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.5px; color: #57534E; }}
+  td:first-child, th:first-child {{ width: 30px; color: #78716C; }}
+  .cta-box {{ margin-top: 40px; padding: 28px; background: linear-gradient(135deg, rgba(79,70,229,0.06), rgba(79,70,229,0.02)); border: 1px solid rgba(79,70,229,0.15); border-radius: 12px; text-align: center; }}
+  .cta-box a {{ display: inline-block; background: linear-gradient(135deg, #4F46E5 0%, #3730A3 100%); color: #fff; padding: 10px 22px; border-radius: 8px; font-weight: 700; text-decoration: none; }}
+  footer {{ margin-top: 40px; padding-top: 20px; border-top: 1px solid #E5E5E5; font-size: 0.85rem; color: #6B655F; }}
+  footer a {{ color: #4338ca; text-decoration: underline; text-underline-offset: 3px; }}
+</style>
+</head>
+<body>
+
+<div class="breadcrumb"><a href="../">Home</a> · <a href="./">Blog</a> · Week {week}</div>
+
+<main>
+<h1>This Week in DTC · {week}</h1>
+<p class="meta">Published {date_pretty} · Auto-generated from 50+ curated DTC Shopify brands</p>
+
+<p class="lede"><strong>{h(top_cat['product_type'])}</strong> lead this week with {top_cat['product_count']} new launches across {top_cat['vendor_count']} vendor(s). {len(products)} total new products, price range <strong>${min_price:.0f}–${max_price:.0f}</strong> (median <strong>${med_price:.2f}</strong>).</p>
+
+<h2>Hot categories · last 30 days</h2>
+<ul>{cat_rows}</ul>
+
+<h2>Top 10 latest launches</h2>
+<table>
+  <thead><tr>
+    <th>#</th>
+    <th>Product</th>
+    <th style="text-align:right">Price</th>
+    <th style="text-align:right">Age</th>
+  </tr></thead>
+  <tbody>{product_rows}</tbody>
+</table>
+
+<div class="cta-box">
+  <p><strong>Get this every Monday.</strong><br>Real DTC brand launches, updated weekly. No fluff.</p>
+  <a href="../?ref=weekly-{week}#hero">Subscribe →</a>
+</div>
+
+<footer>
+  Signal source: Shopify /products.json across curated DTC brands, 30-day published window, vendor + category diversity capped.
+  <br><a href="./">← All weekly analyses</a>
+</footer>
+</main>
+</body>
+</html>
+"""
+    BLOG_DIR.mkdir(parents=True, exist_ok=True)
+    fpath.write_text(html_out)
+    print(f"  → {fpath} ({len(html_out)} chars)")
 
 
 def _write_rss_feed(products: list[dict], categories: list[dict], now: datetime) -> None:
