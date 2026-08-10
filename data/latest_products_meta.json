@@ -1,34 +1,52 @@
 {
-  "generated_at": "2026-08-10T12:58:22.947310+00:00",
+  "generated_at": "2026-08-10T13:07:19.545285+00:00",
   "week": "2026-W33",
   "total_products_before_dedupe": null,
-  "total_after_dedupe": 1535,
+  "total_after_dedupe": 1851,
   "top_products_returned": 20,
   "categories": [
     {
-      "product_type": "Bottoms",
-      "product_count": 134,
+      "product_type": "Sweaters",
+      "product_count": 127,
       "vendor_count": 2,
       "top_vendors": [
         "Everlane",
-        "Taylor Stitch"
+        "Fashion Nova"
       ]
     },
     {
-      "product_type": "Sweaters",
-      "product_count": 118,
-      "vendor_count": 2,
+      "product_type": "Bottoms",
+      "product_count": 126,
+      "vendor_count": 1,
+      "top_vendors": [
+        "Everlane"
+      ]
+    },
+    {
+      "product_type": "Dresses",
+      "product_count": 124,
+      "vendor_count": 3,
       "top_vendors": [
         "Everlane",
-        "Taylor Stitch"
+        "Fashion Nova",
+        "Outdoor Voices"
       ]
     },
     {
       "product_type": "Knit Tops",
-      "product_count": 112,
+      "product_count": 122,
+      "vendor_count": 2,
+      "top_vendors": [
+        "Everlane",
+        "Fashion Nova"
+      ]
+    },
+    {
+      "product_type": "Jewelry",
+      "product_count": 82,
       "vendor_count": 1,
       "top_vendors": [
-        "Everlane"
+        "Fashion Nova"
       ]
     },
     {
@@ -40,38 +58,22 @@
       ]
     },
     {
-      "product_type": "Uncategorized",
-      "product_count": 76,
+      "product_type": "Shoes",
+      "product_count": 78,
       "vendor_count": 6,
       "top_vendors": [
-        "Everlane",
-        "Gymshark | Be a visionary.",
-        "Outdoor Voices"
-      ]
-    },
-    {
-      "product_type": "Dresses",
-      "product_count": 72,
-      "vendor_count": 2,
-      "top_vendors": [
-        "Everlane",
-        "Outdoor Voices"
-      ]
-    },
-    {
-      "product_type": "Shirting",
-      "product_count": 59,
-      "vendor_count": 1,
-      "top_vendors": [
-        "Everlane"
+        "ASICS",
+        "Fashion Nova",
+        "Jacques Solovière"
       ]
     },
     {
       "product_type": "Woven Tops",
-      "product_count": 59,
-      "vendor_count": 1,
+      "product_count": 70,
+      "vendor_count": 2,
       "top_vendors": [
-        "Everlane"
+        "Everlane",
+        "Fashion Nova"
       ]
     }
   ]

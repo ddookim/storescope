@@ -8,7 +8,7 @@
     "published_at": "2026-08-09T21:40:06-07:00",
     "price": 138.0,
     "image_url": "https://cdn.shopify.com/s/files/1/0623/7916/3734/files/2026-08-09_F-BTM-UTW-WIDE-PNT-TNVY_01.jpg?v=1786041914",
-    "age_days": 0.3
+    "age_days": 0.4
   },
   {
     "domain": "everlane.com",
@@ -19,29 +19,18 @@
     "published_at": "2026-08-09T21:40:06-07:00",
     "price": 138.0,
     "image_url": "https://cdn.shopify.com/s/files/1/0623/7916/3734/files/2026-08-09_F-BTM-UTW-TWST-BAREL-BNE_01_86ed7687-214e-4b90-964a-4b40dfb840a7.jpg?v=1786039411",
-    "age_days": 0.3
+    "age_days": 0.4
   },
   {
-    "domain": "truebotanicals.com",
-    "title": "Mindful Mama Starter Set",
-    "handle": "new-mindful-mama-kit",
-    "product_type": "Skincare Sets",
-    "vendor": "True Botanicals",
-    "published_at": "2026-08-09T18:26:16-07:00",
-    "price": 99.0,
-    "image_url": "https://cdn.shopify.com/s/files/1/0545/1009/files/3x4_7a960fe3-d6c1-4c77-8d19-5b2e1beef6ba.png?v=1785947965",
-    "age_days": 0.5
-  },
-  {
-    "domain": "truebotanicals.com",
-    "title": "Mindful Mama Belly & Body Oil",
-    "handle": "mindful-mama-belly-body-oil",
-    "product_type": "Body Care",
-    "vendor": "True Botanicals",
-    "published_at": "2026-08-09T17:59:41-07:00",
-    "price": 54.0,
-    "image_url": "https://cdn.shopify.com/s/files/1/0545/1009/files/LipidLip10.png?v=1785280960",
-    "age_days": 0.5
+    "domain": "fashionnova.com",
+    "title": "Meant To Be 2 Piece Bracelet Set - Gold",
+    "handle": "meant-to-be-2-piece-bracelet-set-fncolorname-gold",
+    "product_type": "Jewelry",
+    "vendor": "Fashion Nova",
+    "published_at": "2026-08-09T00:23:32-07:00",
+    "price": 6.99,
+    "image_url": "https://cdn.shopify.com/s/files/1/0293/9277/files/TBLH85807_Gold_JR_V1.jpg?v=1786259196",
+    "age_days": 1.2
   },
   {
     "domain": "colourpop.com",
@@ -55,26 +44,15 @@
     "age_days": 1.5
   },
   {
-    "domain": "parachutehome.com",
-    "title": "Percale Duvet Cover Set - Bone TW/XL",
-    "handle": "percale-duvet-cover-set-bone-tw-xl",
-    "product_type": "",
-    "vendor": "Parachute Home",
-    "published_at": "2026-08-07T14:10:48-07:00",
-    "price": 279.0,
-    "image_url": "https://cdn.shopify.com/s/files/1/0396/8269/files/percale-duvet-cover-set-bone-_f-q_k-ck__01_f75c9aa9-0972-45a7-b812-184ad79c6a5f.jpg?v=1762839021",
-    "age_days": 2.7
-  },
-  {
-    "domain": "parachutehome.com",
-    "title": "Percale Sheet Set - Bone TW/XL",
-    "handle": "percale-sheet-set-bone-tw-xl",
-    "product_type": "",
-    "vendor": "Parachute Home",
-    "published_at": "2026-08-07T14:10:25-07:00",
-    "price": 239.0,
-    "image_url": "https://cdn.shopify.com/s/files/1/0396/8269/files/percale-sheet-set-bone-_f-q_k-ck__01_517dafce-e62e-4c1b-a013-19be499b3574.jpg?v=1762839014",
-    "age_days": 2.7
+    "domain": "fashionnova.com",
+    "title": "Casting Clover Spells Necklace - Burgundy/combo",
+    "handle": "casting-clover-spells-necklace-fncolorname-burgundy-combo",
+    "product_type": "Jewelry",
+    "vendor": "Fashion Nova",
+    "published_at": "2026-08-07T16:25:19-07:00",
+    "price": 8.99,
+    "image_url": "https://cdn.shopify.com/s/files/1/0293/9277/files/TROY11793_Burgundy_combo_SL_V1.jpg?v=1784759467",
+    "age_days": 2.6
   },
   {
     "domain": "liquiddeath.com",
@@ -88,26 +66,59 @@
     "age_days": 2.8
   },
   {
-    "domain": "taylorstitch.com",
-    "title": "The Regenerative Cotton Tee in Saffron",
-    "handle": "regenerative-cotton-tee-in-saffron-2608",
-    "product_type": "Knits",
-    "vendor": "Taylor Stitch",
-    "published_at": "2026-08-07T09:48:58-07:00",
-    "price": 55.0,
-    "image_url": "https://cdn.shopify.com/s/files/1/0070/1922/files/instock_m_q326_regenerative-cotton-tee-saffron_portrait_001.jpg?v=1785875554",
-    "age_days": 2.8
+    "domain": "toddsnyder.com",
+    "title": "Jacques Solovière Hairy Loafer",
+    "handle": "jacques-soloviere-new-loafer-in-nat-brown-hairybrown",
+    "product_type": "Shoes",
+    "vendor": "Jacques Solovière",
+    "published_at": "2026-08-07T09:48:27-04:00",
+    "price": 433.0,
+    "image_url": "https://cdn.shopify.com/s/files/1/0186/1574/files/WARMJACN84_BROWN_1_R.jpg?v=1786110485",
+    "age_days": 3.0
   },
   {
-    "domain": "taylorstitch.com",
-    "title": "The Regenerative Cotton Tee in Faded Pine",
-    "handle": "regenerative-cotton-tee-in-faded-pine-2608",
-    "product_type": "Knits",
-    "vendor": "Taylor Stitch",
-    "published_at": "2026-08-07T09:48:42-07:00",
-    "price": 55.0,
-    "image_url": "https://cdn.shopify.com/s/files/1/0070/1922/files/instock_m_q326_regenerative-cotton-tee-faded-pine_portrait_001.jpg?v=1785862341",
-    "age_days": 2.8
+    "domain": "toddsnyder.com",
+    "title": "ASICS GEL-NYC Sneaker",
+    "handle": "asics-gel-nyc-in-white-midnightwhite",
+    "product_type": "Shoes",
+    "vendor": "ASICS",
+    "published_at": "2026-08-07T09:44:09-04:00",
+    "price": 150.0,
+    "image_url": "https://cdn.shopify.com/s/files/1/0186/1574/files/1203A383_118_SR_RT_GLB_R.jpg?v=1786049836",
+    "age_days": 3.0
+  },
+  {
+    "domain": "toddsnyder.com",
+    "title": "Bennett Winch Trifold",
+    "handle": "bennett-winch-trifold-olive-nylonolive",
+    "product_type": "TS ACCESSORIES",
+    "vendor": "Bennett Winch",
+    "published_at": "2026-08-07T09:42:49-04:00",
+    "price": 1500.0,
+    "image_url": "https://cdn.shopify.com/s/files/1/0186/1574/files/BennettWinch_Trifold_Olive_Back_R.jpg?v=1786050254",
+    "age_days": 3.0
+  },
+  {
+    "domain": "toddsnyder.com",
+    "title": "Bennett Winch Weekender Bag",
+    "handle": "bennett-winch-canvas-weekender-sandsand",
+    "product_type": "TS ACCESSORIES",
+    "vendor": "Bennett Winch",
+    "published_at": "2026-08-07T09:42:17-04:00",
+    "price": 1650.0,
+    "image_url": "https://cdn.shopify.com/s/files/1/0186/1574/files/Weekender_Sand_Front_R.jpg?v=1786050384",
+    "age_days": 3.0
+  },
+  {
+    "domain": "toddsnyder.com",
+    "title": "Jacques Solovière Serge Monk Strap Shoe",
+    "handle": "jacques-soloviere-serge-monk-strap-in-brownbrown",
+    "product_type": "Shoes",
+    "vendor": "Jacques Solovière",
+    "published_at": "2026-08-07T09:41:57-04:00",
+    "price": 497.0,
+    "image_url": "https://cdn.shopify.com/s/files/1/0186/1574/files/PERMSERG62_BROWN_1_R.jpg?v=1786050806",
+    "age_days": 3.0
   },
   {
     "domain": "colourpop.com",
@@ -165,6 +176,17 @@
     "age_days": 4.0
   },
   {
+    "domain": "toddsnyder.com",
+    "title": "Italian Wool-Silk Medallion Tie",
+    "handle": "medallion-tieolive",
+    "product_type": "TS ACCESSORIES",
+    "vendor": "Todd Snyder",
+    "published_at": "2026-08-06T09:42:06-04:00",
+    "price": 148.0,
+    "image_url": "https://cdn.shopify.com/s/files/1/0186/1574/files/AC154944_OLIVE_1_R_2.jpg?v=1786023557",
+    "age_days": 4.0
+  },
+  {
     "domain": "gymshark.com",
     "title": "Gymshark Train Track Jacket - Espresso Brown",
     "handle": "gymshark-train-track-jacket-jackets-outerwear-brown-aw26",
@@ -185,28 +207,6 @@
     "price": 56.0,
     "image_url": "https://cdn.shopify.com/s/files/1/0156/6146/files/GoodTrainWovenTrack_HOODGSHeavyBlueA5C9S_UCTN_0254.jpg?v=1785853542",
     "age_days": 4.2
-  },
-  {
-    "domain": "tentree.com",
-    "title": "TreeBlend Baker T-Shirt",
-    "handle": "treeblend-baker-t-shirt-cottage-red-heather",
-    "product_type": "Mens",
-    "vendor": "tentree",
-    "published_at": "2026-08-05T13:34:18-07:00",
-    "price": 45.0,
-    "image_url": "https://cdn.shopify.com/s/files/1/2341/3995/files/Red-Treeblend-Regular-Fit-Crew-Neck-T-shirt-TCM1869-6298_2.jpg?v=1784935758",
-    "age_days": 4.7
-  },
-  {
-    "domain": "tentree.com",
-    "title": "TreeBlend Baker Hooded Longsleeve",
-    "handle": "treeblend-baker-hooded-longsleeve-red-chestnut-heather",
-    "product_type": "Mens",
-    "vendor": "tentree",
-    "published_at": "2026-08-05T13:32:41-07:00",
-    "price": 68.0,
-    "image_url": "https://cdn.shopify.com/s/files/1/2341/3995/files/Red-Treeblend-Hooded-Longlseeve-T-Shirt-TCM6513-6294_4.png?v=1784935717",
-    "age_days": 4.7
   },
   {
     "domain": "everlane.com",
