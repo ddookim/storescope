@@ -52,6 +52,10 @@ jobs:
           cp landing/robots.txt /tmp/gh-pages-wt/robots.txt 2>/dev/null || true
           cp landing/sitemap.xml /tmp/gh-pages-wt/sitemap.xml 2>/dev/null || true
           cp landing/manifest.json /tmp/gh-pages-wt/manifest.json 2>/dev/null || true
+          # D+11: digest-sample.html 도 root (canonical URL 정합)
+          if [ -f landing/digest-sample.html ]; then
+            cp landing/digest-sample.html /tmp/gh-pages-wt/digest-sample.html
+          fi
           mkdir -p /tmp/gh-pages-wt/outreach/evidence
           if [ -d outreach/evidence ]; then
             cp -r outreach/evidence/* /tmp/gh-pages-wt/outreach/evidence/ 2>/dev/null || true
