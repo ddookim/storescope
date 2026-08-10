@@ -1,26 +1,24 @@
 {
-  "generated_at": "2026-08-10T13:27:30.945179+00:00",
+  "generated_at": "2026-08-10T13:49:28.715610+00:00",
   "week": "2026-W33",
   "total_products_before_dedupe": null,
-  "total_after_dedupe": 1557,
+  "total_after_dedupe": 1338,
   "top_products_returned": 20,
   "categories": [
     {
       "product_type": "Bottoms",
-      "product_count": 127,
-      "vendor_count": 2,
+      "product_count": 126,
+      "vendor_count": 1,
       "top_vendors": [
-        "Everlane",
-        "Lunya"
+        "Everlane"
       ]
     },
     {
       "product_type": "Sweaters",
-      "product_count": 118,
-      "vendor_count": 2,
+      "product_count": 117,
+      "vendor_count": 1,
       "top_vendors": [
-        "Everlane",
-        "Lunya"
+        "Everlane"
       ]
     },
     {
@@ -41,11 +39,10 @@
     },
     {
       "product_type": "Dresses",
-      "product_count": 74,
-      "vendor_count": 3,
+      "product_count": 72,
+      "vendor_count": 2,
       "top_vendors": [
         "Everlane",
-        "Lunya",
         "Outdoor Voices"
       ]
     },
@@ -67,12 +64,12 @@
     },
     {
       "product_type": "Uncategorized",
-      "product_count": 56,
-      "vendor_count": 5,
+      "product_count": 57,
+      "vendor_count": 6,
       "top_vendors": [
+        "Death Wish Coffee",
         "Everlane",
-        "Gymshark | Be a visionary.",
-        "Outdoor Voices"
+        "Gymshark | Be a visionary."
       ]
     }
   ]
