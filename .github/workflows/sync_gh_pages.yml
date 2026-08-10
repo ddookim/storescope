@@ -64,6 +64,12 @@ jobs:
           if [ -f landing/feed.xml ]; then
             cp landing/feed.xml /tmp/gh-pages-wt/feed.xml
           fi
+          # D+12 fix: blog/ 도 root — sitemap 의 /storescope/blog/* URL 이 3개월간 404 였던 원인.
+          # (기존 landing/blog/index.html + 5 posts + D+12 weekly-YYYY-WNN.html)
+          if [ -d landing/blog ]; then
+            mkdir -p /tmp/gh-pages-wt/blog
+            cp -r landing/blog/* /tmp/gh-pages-wt/blog/
+          fi
           mkdir -p /tmp/gh-pages-wt/outreach/evidence
           if [ -d outreach/evidence ]; then
             cp -r outreach/evidence/* /tmp/gh-pages-wt/outreach/evidence/ 2>/dev/null || true
