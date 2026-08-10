@@ -117,6 +117,39 @@
         document.body.insertBefore(banner, document.body.firstChild);
       });
     })();
+
+    // D+11 Live overlay — demo dashboard rows 을 실 latest_products.json 상위 N개로 교체.
+    // Fetch 실패/파일 부재/JSON 파손 시 hardcoded fallback 유지 (silent).
+    (function overlayDemoDashboard() {
+      document.addEventListener('DOMContentLoaded', function() {
+        try {
+          var origFetch = window._origFetch || window.fetch;
+          origFetch('./latest_products.json').then(function(r) {
+            if (!r.ok) throw 0;
+            return r.json();
+          }).then(function(items) {
+            if (!Array.isArray(items) || items.length === 0) return;
+            var rows = document.querySelectorAll('.dg-row');
+            var top = items.slice(0, rows.length);
+            for (var i = 0; i < top.length; i++) {
+              var p = top[i];
+              var row = rows[i];
+              var nameEl = row.querySelector('.dg-name');
+              var catEl  = row.querySelector('.dg-cat');
+              var priceEl = row.querySelector('.dg-price');
+              if (nameEl && p.title) nameEl.textContent = (p.title || '').substring(0, 60);
+              if (catEl && p.product_type) {
+                catEl.textContent = p.product_type;
+                catEl.removeAttribute('data-i18n');   // 실 데이터 우선, i18n override 방지
+              }
+              if (priceEl && typeof p.price === 'number' && p.price > 0) {
+                priceEl.textContent = '$' + p.price.toFixed(2);
+              }
+            }
+          }).catch(function() { /* silent fallback */ });
+        } catch(e) { /* silent */ }
+      });
+    })();
   </script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>StoreScope — Shopify product trends, a week early</title>
