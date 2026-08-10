@@ -60,6 +60,10 @@ jobs:
           if [ -f landing/latest_products.json ]; then
             cp landing/latest_products.json /tmp/gh-pages-wt/latest_products.json
           fi
+          # D+11: RSS feed 도 root (autodiscovery + Feedly 등 reader 표준)
+          if [ -f landing/feed.xml ]; then
+            cp landing/feed.xml /tmp/gh-pages-wt/feed.xml
+          fi
           mkdir -p /tmp/gh-pages-wt/outreach/evidence
           if [ -d outreach/evidence ]; then
             cp -r outreach/evidence/* /tmp/gh-pages-wt/outreach/evidence/ 2>/dev/null || true

@@ -107,7 +107,7 @@ jobs:
           git config user.email "bot@storescope.local"
           # D+11: mirror data/latest_products.json → landing/ so gh-pages serves it (mock demo dynamic fetch 대상).
           cp data/latest_products.json landing/latest_products.json 2>/dev/null || true
-          for f in data/trending.json data/clusters.json data/latest_products.json data/latest_products_meta.json data/sent_log.json landing/digest-sample.html landing/latest_products.json landing/sitemap.xml; do
+          for f in data/trending.json data/clusters.json data/latest_products.json data/latest_products_meta.json data/sent_log.json landing/digest-sample.html landing/latest_products.json landing/sitemap.xml landing/feed.xml; do
             if [ -f "$f" ]; then
               git add -f "$f"
               echo "  staged: $f ($(wc -c < "$f") bytes)"

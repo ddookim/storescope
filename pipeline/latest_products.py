@@ -30,6 +30,7 @@ META_FILE       = _HERE / "data" / "latest_products_meta.json"  # category summa
 HISTORY_DIR     = _HERE / "data" / "history"                    # D+11: weekly snapshots for WoW delta
 SAMPLE_HTML     = _HERE / "landing" / "digest-sample.html"  # D+11: SEO + demo asset
 SITEMAP_FILE    = _HERE / "landing" / "sitemap.xml"        # D+11: auto lastmod update
+RSS_FILE        = _HERE / "landing" / "feed.xml"           # D+11: RSS/Atom subscription
 
 CATEGORY_TOP_N  = 8  # digest 표시 카테고리 개수
 
@@ -270,6 +271,71 @@ def main() -> None:
     _update_sitemap_lastmod(now)
 
     _write_sample_html(top, categories, now)
+    _write_rss_feed(top, categories, now)
+
+
+def _write_rss_feed(products: list[dict], categories: list[dict], now: datetime) -> None:
+    """RSS 2.0 feed at landing/feed.xml — email 없이 subscription 채널.
+
+    Reader (Feedly/Inoreader/etc) → 매주 새 top 20 items push.
+    Also SEO signal (Google 크롤러 는 feed 를 freshness 근거로 사용).
+    """
+    from html import escape as h
+    from email.utils import format_datetime  # RFC 822 date format
+    week = f"{now.isocalendar().year}-W{now.isocalendar().week:02d}"
+    week_pub = format_datetime(now)
+
+    items_xml = []
+    for i, p in enumerate(products[:20], 1):
+        title = h(p.get("title") or "Untitled")[:120]
+        vendor = h(p.get("vendor") or "")
+        ptype = h(p.get("product_type") or "")
+        price = p.get("price")
+        price_str = f"${price:.2f}" if isinstance(price, (int, float)) and price > 0 else "—"
+        age = p.get("age_days", "?")
+        pub = p.get("published_at", "")
+        # Parse published_at → RFC 822.
+        try:
+            dt = datetime.fromisoformat(pub) if pub else now
+            pub_rfc = format_datetime(dt)
+        except Exception:
+            pub_rfc = week_pub
+        # unique GUID = domain + handle (stable across weeks).
+        guid = h(f"{p.get('domain','')}#{p.get('handle','')}"[:100])
+        item_link = f"https://ddookim.github.io/storescope/digest-sample.html#p{i}"
+        items_xml.append(f"""
+    <item>
+      <title>{title}</title>
+      <link>{item_link}</link>
+      <guid isPermaLink="false">{guid}</guid>
+      <pubDate>{pub_rfc}</pubDate>
+      <description>{vendor} · {ptype} · {price_str} · {age}d old</description>
+      <category>{ptype}</category>
+    </item>""")
+
+    cat_summary = ", ".join(
+        f"{c['product_type']} ({c['product_count']})"
+        for c in categories[:5]
+    )
+
+    rss = f"""<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>StoreScope Weekly · {week}</title>
+    <link>https://ddookim.github.io/storescope/digest-sample.html</link>
+    <atom:link href="https://ddookim.github.io/storescope/feed.xml" rel="self" type="application/rss+xml"/>
+    <description>Newest DTC brand product launches from 50+ curated Shopify brands. Updated every Monday. Hot: {cat_summary}.</description>
+    <language>en-us</language>
+    <lastBuildDate>{week_pub}</lastBuildDate>
+    <pubDate>{week_pub}</pubDate>
+    <ttl>10080</ttl>
+    <generator>StoreScope pipeline/latest_products.py</generator>{"".join(items_xml)}
+  </channel>
+</rss>
+"""
+    RSS_FILE.parent.mkdir(parents=True, exist_ok=True)
+    RSS_FILE.write_text(rss)
+    print(f"  → {RSS_FILE} ({len(products)} items)")
 
 
 def _write_sample_html(products: list[dict], categories: list[dict], now: datetime) -> None:
