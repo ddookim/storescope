@@ -1,5 +1,27 @@
 [
   {
+    "domain": "outerknown.com",
+    "title": "Station Suit Shortall - Outerworn",
+    "handle": "station-suit-shortall-_c9qvssqjx-resale",
+    "product_type": "Jumpsuits",
+    "vendor": "Trove",
+    "published_at": "2026-08-09T12:30:18-07:00",
+    "price": 130.0,
+    "image_url": "https://cdn.shopify.com/s/files/1/2445/4975/files/2130107_Station_Suit_Shortall_PCH_7_2b9d9710-e3aa-4e5b-aa32-6f750d412a8f.jpg?v=1786303812",
+    "age_days": 0.7
+  },
+  {
+    "domain": "outerknown.com",
+    "title": "Sur Zip Hoodie - Outerworn",
+    "handle": "sur-zip-hoodie-wpr_pnyw3-resale",
+    "product_type": "Loungewear Tops",
+    "vendor": "Trove",
+    "published_at": "2026-08-09T12:30:18-07:00",
+    "price": 90.0,
+    "image_url": "https://cdn.shopify.com/s/files/1/2445/4975/files/1250024_SurZipHoodie_slt_f1_aa7f83c1-d79a-40d1-a40e-7a7dd8d9ec4e.jpg?v=1786303809",
+    "age_days": 0.7
+  },
+  {
     "domain": "fashionnova.com",
     "title": "Meant To Be 2 Piece Bracelet Set - Gold",
     "handle": "meant-to-be-2-piece-bracelet-set-fncolorname-gold",
@@ -55,15 +77,26 @@
     "age_days": 2.7
   },
   {
-    "domain": "liquiddeath.com",
-    "title": "Death Western Hat",
-    "handle": "death-western-hat",
-    "product_type": "Hat",
-    "vendor": "Liquid Death",
-    "published_at": "2026-08-07T10:03:38-07:00",
-    "price": 35.0,
-    "image_url": "https://cdn.shopify.com/s/files/1/0079/4289/7737/files/DeathWesternHat_White_3-4Wide_4876_2048x2048_a3283c59-aa23-4e61-a8ed-9150d662202b.webp?v=1785901561",
-    "age_days": 2.8
+    "domain": "outerknown.com",
+    "title": "Twill Trail Short - FINAL SALE",
+    "handle": "twill-trail-short-washed-black",
+    "product_type": "Non-Denim Bottoms",
+    "vendor": "OK Mens",
+    "published_at": "2026-08-07T10:47:39-07:00",
+    "price": 59.0,
+    "image_url": "https://cdn.shopify.com/s/files/1/2445/4975/files/1710052_Twill_Trail_Short_WCK_3391.jpg?v=1714497224",
+    "age_days": 2.7
+  },
+  {
+    "domain": "peets.com",
+    "title": "Dark Med Light Bundle with Gift Box",
+    "handle": "dark-med-light-bundle-with-gift-box",
+    "product_type": "Bundle",
+    "vendor": "Peet's Coffee",
+    "published_at": "2026-08-07T12:25:26-07:00",
+    "price": 64.85,
+    "image_url": "https://cdn.shopify.com/s/files/1/0319/0764/3436/files/Designer_1.png?v=1778021445",
+    "age_days": 2.7
   },
   {
     "domain": "lunya.co",
@@ -110,25 +143,58 @@
     "age_days": 2.8
   },
   {
-    "domain": "thirdlove.com",
-    "title": "T-Shirt Bra, Only $49",
-    "handle": "best-selling-bras",
-    "product_type": "Kit",
-    "vendor": "Thirdlove",
-    "published_at": "2026-08-06T16:43:57-07:00",
-    "price": 49.0,
-    "image_url": "https://cdn.shopify.com/s/files/1/0305/6249/products/BSC22_247ClassicTShirtBra_Taupe_1000169_HERO_41169f79-06a8-43ae-b41a-6a829cd1a941.jpg?v=1762275566",
+    "domain": "outerknown.com",
+    "title": "The Sideline Club Pant",
+    "handle": "the-sideline-club-pant-peppercorn",
+    "product_type": "Loungewear Bottoms",
+    "vendor": "OK Womens",
+    "published_at": "2026-08-06T15:50:09-07:00",
+    "price": 98.0,
+    "image_url": "https://cdn.shopify.com/s/files/1/2445/4975/files/2250014_The-Sideline-Club-Hoodie_Peppercorn_PPC_2620024_The-Sideline-Club-Pant_Peppercorn_PPC_11092.jpg?v=1785359014",
     "age_days": 3.5
   },
   {
-    "domain": "thirdlove.com",
-    "title": "24/7® Classic T-Shirt Bra, 2/$99 ($144 Value)",
-    "handle": "the-24-7-bra-kit-1",
-    "product_type": "Kit",
-    "vendor": "Thirdlove",
-    "published_at": "2026-08-06T16:41:41-07:00",
-    "price": 99.0,
-    "image_url": "https://cdn.shopify.com/s/files/1/0305/6249/products/1-24_7T-ShirtBraKit_ColorUpdate.jpg?v=1762272064",
+    "domain": "outerknown.com",
+    "title": "The Sideline Club Hoodie",
+    "handle": "the-sideline-club-hoodie-peppercorn",
+    "product_type": "Loungewear Tops",
+    "vendor": "OK Womens",
+    "published_at": "2026-08-06T15:50:06-07:00",
+    "price": 98.0,
+    "image_url": "https://cdn.shopify.com/s/files/1/2445/4975/files/2250014_The-Sideline-Club-Hoodie_Peppercorn_PPC_2620024_The-Sideline-Club-Pant_Peppercorn_PPC_11064.jpg?v=1785358970",
+    "age_days": 3.5
+  },
+  {
+    "domain": "outerknown.com",
+    "title": "The Team Hoodie",
+    "handle": "the-team-hoodie-washed-black-journey-fish",
+    "product_type": "Loungewear Tops",
+    "vendor": "OK Mens",
+    "published_at": "2026-08-06T15:49:43-07:00",
+    "price": 88.0,
+    "image_url": "https://cdn.shopify.com/s/files/1/2445/4975/files/1250050_The_Team_Hoodie_WBJ_0795.jpg?v=1785341247",
+    "age_days": 3.5
+  },
+  {
+    "domain": "outerknown.com",
+    "title": "The Beachcomber Relaxed Jean",
+    "handle": "the-beachcomber-relaxed-jean-washed-black",
+    "product_type": "Denim Bottoms",
+    "vendor": "Ok Unisex",
+    "published_at": "2026-08-06T15:49:23-07:00",
+    "price": 168.0,
+    "image_url": "https://cdn.shopify.com/s/files/1/2445/4975/files/3630010_The-Beachcomber-Relaxed-Jean_Washed-Black_WCK_3020_PDP_Crop_1_copy1.jpg?v=1785971297",
+    "age_days": 3.5
+  },
+  {
+    "domain": "outerknown.com",
+    "title": "The Craftsman Jean",
+    "handle": "the-craftsman-jean-standard-blue",
+    "product_type": "Denim Bottoms",
+    "vendor": "OK Unisex",
+    "published_at": "2026-08-06T15:49:21-07:00",
+    "price": 198.0,
+    "image_url": "https://cdn.shopify.com/s/files/1/2445/4975/files/3630011_The-Craftsman-Jean_Standard-Blue_SRQ_6903_PDP_Cropcopy1.jpg?v=1785971250",
     "age_days": 3.5
   },
   {
@@ -152,71 +218,5 @@
     "price": 270.0,
     "image_url": "https://cdn.shopify.com/s/files/1/0079/1923/9266/files/sunday-citizen-cloud-cotton-stitch-quilt-misty-blue-off-white-1.jpg?v=1785872777",
     "age_days": 3.6
-  },
-  {
-    "domain": "sundaycitizen.com",
-    "title": "Coastal Cotton Mist Sham Set",
-    "handle": "coastal-cotton-mist-sham-set",
-    "product_type": "Shams",
-    "vendor": "Sunday Citizen",
-    "published_at": "2026-08-06T17:46:24-04:00",
-    "price": 72.0,
-    "image_url": "https://cdn.shopify.com/s/files/1/0079/1923/9266/files/sunday-citizen-coastal-cotton-mist-sham-set-taupe-off-white-2_1.jpg?v=1785862235",
-    "age_days": 3.6
-  },
-  {
-    "domain": "inkbox.com",
-    "title": "Whatever Will Be, Will Be",
-    "handle": "whatever-will-be-will-be",
-    "product_type": "Semi-Permanent Tattoo",
-    "vendor": "Tara Royle",
-    "published_at": "2026-08-06T09:33:49-07:00",
-    "price": 18.0,
-    "image_url": "https://cdn.shopify.com/s/files/1/0721/3075/6678/files/OD-IB00996-IB-5.0-2.0.jpg?v=1786026560",
-    "age_days": 3.8
-  },
-  {
-    "domain": "inkbox.com",
-    "title": "Reminder To Live",
-    "handle": "reminder-to-live",
-    "product_type": "Semi-Permanent Tattoo",
-    "vendor": "Tara Royle",
-    "published_at": "2026-08-06T09:33:48-07:00",
-    "price": 18.0,
-    "image_url": "https://cdn.shopify.com/s/files/1/0721/3075/6678/files/OD-IB00995-IB-5.0-2.0.jpg?v=1786026534",
-    "age_days": 3.8
-  },
-  {
-    "domain": "fentybeauty.com",
-    "title": "Sun Stalk'r Instant Warmth Bronzer — Chai Latte",
-    "handle": "sun-stalkr-instant-warmth-bronzer-chai-latte",
-    "product_type": "Blushes & Bronzers",
-    "vendor": "Fenty Beauty",
-    "published_at": "2026-08-06T08:01:16-07:00",
-    "price": 38.0,
-    "image_url": "https://cdn.shopify.com/s/files/1/0341/3458/9485/files/FB_SUM26_T2PRODUCT_ECOMM_SUNSTALKR_BRONZER_SHADE-EXT_CHAI_LATTE_1200X1500_72DPI.jpg?v=1785174396",
-    "age_days": 3.9
-  },
-  {
-    "domain": "fentybeauty.com",
-    "title": "Sun Stalk'r Instant Warmth Bronzer — Mocha Mamii",
-    "handle": "sun-stalkr-instant-warmth-bronzer-mocha-mamii",
-    "product_type": "Blushes & Bronzers",
-    "vendor": "Fenty Beauty",
-    "published_at": "2026-08-06T08:01:08-07:00",
-    "price": 38.0,
-    "image_url": "https://cdn.shopify.com/s/files/1/0341/3458/9485/files/FB_SUM26_T2PRODUCT_ECOMM_SUNSTALKR_BRONZER_SHADE-EXT_MOCHA_MAMII_1200X1500_72DPI.jpg?v=1785174550",
-    "age_days": 3.9
-  },
-  {
-    "domain": "deathwishcoffee.com",
-    "title": "Bodum Portable French Press",
-    "handle": "bodum-portable-french-press",
-    "product_type": "Storage & Brewing",
-    "vendor": "BODUM",
-    "published_at": "2026-08-06T08:53:20-04:00",
-    "price": 30.0,
-    "image_url": "https://cdn.shopify.com/s/files/1/0271/7209/files/DeathWishCoffee_August2026_Product_CoffeePress_Back_Web.jpg?v=1785957522",
-    "age_days": 4.0
   }
 ]

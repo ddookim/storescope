@@ -1,8 +1,8 @@
 {
-  "generated_at": "2026-08-10T11:39:42.158047+00:00",
+  "generated_at": "2026-08-10T11:48:45.875328+00:00",
   "week": "2026-W33",
   "total_products_before_dedupe": null,
-  "total_after_dedupe": 1027,
+  "total_after_dedupe": 931,
   "top_products_returned": 20,
   "categories": [
     {
@@ -17,21 +17,20 @@
     },
     {
       "product_type": "Bundle",
-      "product_count": 67,
-      "vendor_count": 2,
+      "product_count": 66,
+      "vendor_count": 1,
       "top_vendors": [
-        "Peak Design",
-        "Peet's Coffee"
+        "Peak Design"
       ]
     },
     {
-      "product_type": "Dresses",
+      "product_type": "Bags",
       "product_count": 46,
-      "vendor_count": 3,
+      "vendor_count": 4,
       "top_vendors": [
-        "Fashion Nova",
-        "Lunya",
-        "Trove"
+        "DopplerMatte Flight Pouch",
+        "DopplerMatte Toiletry Kit",
+        "DopplerMatte Weekender"
       ]
     },
     {
@@ -43,11 +42,12 @@
       ]
     },
     {
-      "product_type": "Bags",
-      "product_count": 40,
-      "vendor_count": 1,
+      "product_type": "Dresses",
+      "product_count": 44,
+      "vendor_count": 2,
       "top_vendors": [
-        "Peak Design"
+        "Fashion Nova",
+        "Lunya"
       ]
     },
     {
