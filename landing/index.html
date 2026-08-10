@@ -286,10 +286,45 @@
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
+    // D+12 GDPR consent mode v2: 방문자 동의 전 모든 tracking 거부.
+    // 사용자가 명시 opt-in 하면 gtag('consent','update',{...}) 로 활성.
+    // 기본 denied → GA 는 cookie 미설정, ping 만 (분석 없음).
+    gtag('consent', 'default', {
+      'ad_storage': 'denied',
+      'ad_user_data': 'denied',
+      'ad_personalization': 'denied',
+      'analytics_storage': 'denied',
+      'wait_for_update': 500
+    });
     gtag('js', new Date());
     gtag('config', 'G-3YR22V5LW4', {
       'send_page_view': true,
-      'cookie_flags': 'SameSite=None;Secure'
+      'cookie_flags': 'SameSite=None;Secure',
+      'anonymize_ip': true
+    });
+    // Consent banner injection (lightweight, no library) — bottom-right, dismissable.
+    window.addEventListener('DOMContentLoaded', function() {
+      try {
+        if (localStorage.getItem('ss_consent') === 'accepted' || localStorage.getItem('ss_consent') === 'declined') {
+          if (localStorage.getItem('ss_consent') === 'accepted') {
+            gtag('consent', 'update', {'analytics_storage': 'granted'});
+          }
+          return;
+        }
+      } catch(e) {}
+      var el = document.createElement('div');
+      el.style.cssText = 'position:fixed;bottom:16px;right:16px;max-width:340px;background:#1C1917;color:#F5F5F4;padding:14px 16px;border-radius:10px;font:14px/1.4 -apple-system,system-ui,sans-serif;box-shadow:0 8px 24px rgba(0,0,0,0.2);z-index:99999;';
+      el.innerHTML = '<div style="margin-bottom:8px">We use analytics cookies to understand traffic. <a href="./landing/privacy.html" style="color:#A5B4FC;text-decoration:underline">Privacy</a></div><button id="ss-consent-accept" style="background:#4F46E5;color:#fff;border:0;padding:6px 14px;border-radius:6px;font-weight:600;cursor:pointer;margin-right:6px">Accept</button><button id="ss-consent-decline" style="background:transparent;color:#D6D3D1;border:1px solid #57534E;padding:6px 14px;border-radius:6px;font-weight:600;cursor:pointer">Decline</button>';
+      document.body.appendChild(el);
+      document.getElementById('ss-consent-accept').onclick = function() {
+        gtag('consent', 'update', {'analytics_storage': 'granted'});
+        try { localStorage.setItem('ss_consent','accepted'); } catch(e){}
+        el.remove();
+      };
+      document.getElementById('ss-consent-decline').onclick = function() {
+        try { localStorage.setItem('ss_consent','declined'); } catch(e){}
+        el.remove();
+      };
     });
   </script>
 
