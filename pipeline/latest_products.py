@@ -30,6 +30,8 @@ OUTPUT_FILE  = _HERE / "data" / "latest_products.json"
 TOP_N              = 20     # digest 표시 개수
 LOOKBACK_DAYS      = 30     # 30일 이내 published 만 대상 (fresh signal)
 MIN_TITLE_LEN      = 8      # placeholder/junk 제외 ("Test", "Sample" 등)
+MAX_PER_VENDOR     = 2      # D+11: 편중 방지 (5x 같은 브랜드 방지, UX 이슈)
+MAX_PER_TYPE       = 4      # D+11: product_type 편중 방지 (Semi-Permanent 5개 등)
 
 
 _ISO_CLEAN = re.compile(r"([+-]\d{2}):?(\d{2})$")
@@ -108,6 +110,29 @@ def _dedupe_by_title_domain(products: list[dict]) -> list[dict]:
     return unique
 
 
+def _diversity_cap(products: list[dict], max_per_vendor: int, max_per_type: int) -> list[dict]:
+    """Round-robin 스타일 다양성 필터.
+
+    Input 은 age_days ASC 정렬 상태 가정. 각 vendor 최대 N개, product_type 최대 M개.
+    나머지 신제품이 다른 브랜드로 넘어가도록 유지.
+    """
+    from collections import Counter
+    vendor_count: Counter[str] = Counter()
+    type_count: Counter[str] = Counter()
+    picked: list[dict] = []
+    overflow: list[dict] = []
+    for p in products:
+        v = p.get("vendor", "") or "?"
+        t = p.get("product_type", "") or "?"
+        if vendor_count[v] >= max_per_vendor or type_count[t] >= max_per_type:
+            overflow.append(p)
+            continue
+        vendor_count[v] += 1
+        type_count[t] += 1
+        picked.append(p)
+    return picked + overflow  # overflow 는 뒤로 밀림 → top_N slice 로 자연 제외
+
+
 def main() -> None:
     if not PRODUCTS_DIR.exists():
         print(f"[SKIP] {PRODUCTS_DIR} 없음 — crawl 먼저 실행")
@@ -125,6 +150,8 @@ def main() -> None:
 
     # Sort: newest first (published_at DESC → age_days ASC).
     products.sort(key=lambda p: p["age_days"])
+    # D+11 diversity: prevent 5x same vendor / 4x same product_type in top output.
+    products = _diversity_cap(products, MAX_PER_VENDOR, MAX_PER_TYPE)
     top = products[:TOP_N]
 
     OUTPUT_FILE.parent.mkdir(parents=True, exist_ok=True)
