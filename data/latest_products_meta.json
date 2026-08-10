@@ -1,13 +1,13 @@
 {
-  "generated_at": "2026-08-10T11:57:10.410153+00:00",
+  "generated_at": "2026-08-10T12:01:52.568018+00:00",
   "week": "2026-W33",
   "total_products_before_dedupe": null,
-  "total_after_dedupe": 961,
+  "total_after_dedupe": 871,
   "top_products_returned": 20,
   "categories": [
     {
       "product_type": "Semi-Permanent Tattoo",
-      "product_count": 191,
+      "product_count": 192,
       "vendor_count": 25,
       "top_vendors": [
         "Aimee Isabel",
@@ -25,19 +25,10 @@
     },
     {
       "product_type": "Dresses",
-      "product_count": 46,
-      "vendor_count": 2,
-      "top_vendors": [
-        "Fashion Nova",
-        "Outdoor Voices"
-      ]
-    },
-    {
-      "product_type": "Mens",
-      "product_count": 46,
+      "product_count": 42,
       "vendor_count": 1,
       "top_vendors": [
-        "tentree"
+        "Fashion Nova"
       ]
     },
     {
@@ -49,29 +40,38 @@
       ]
     },
     {
-      "product_type": "Womens",
-      "product_count": 40,
+      "product_type": "Jewelry",
+      "product_count": 28,
       "vendor_count": 1,
       "top_vendors": [
-        "tentree"
+        "Fashion Nova"
+      ]
+    },
+    {
+      "product_type": "Knits",
+      "product_count": 22,
+      "vendor_count": 1,
+      "top_vendors": [
+        "Taylor Stitch"
+      ]
+    },
+    {
+      "product_type": "Sheets",
+      "product_count": 19,
+      "vendor_count": 2,
+      "top_vendors": [
+        "Brooklinen",
+        "Sunday Citizen"
       ]
     },
     {
       "product_type": "Accessories",
-      "product_count": 36,
-      "vendor_count": 6,
+      "product_count": 17,
+      "vendor_count": 5,
       "top_vendors": [
         "BAMKO",
         "Fashion Nova",
         "Kocreators"
-      ]
-    },
-    {
-      "product_type": "Bundles",
-      "product_count": 35,
-      "vendor_count": 1,
-      "top_vendors": [
-        "Mack Weldon"
       ]
     }
   ]
