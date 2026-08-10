@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="How StoreScope surfaces trending Shopify products 1-2 weeks before mainstream ad exposure — cross-store overlap detection via image hashing, ranked by momentum not raw store count.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://ddookim.github.io/storescope/blog/shopify-trending-products-tool.html">
+<title>Shopify Trending Products Tool — How Cross-Store Overlap Beats Bestseller Lists</title>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Shopify Trending Products Tool — How Cross-Store Overlap Beats Bestseller Lists",
+  "description": "How StoreScope surfaces trending Shopify products 1-2 weeks before mainstream ad exposure — cross-store overlap detection via image hashing, ranked by momentum not raw store count.",
+  "url": "https://ddookim.github.io/storescope/blog/shopify-trending-products-tool.html",
+  "datePublished": "2026-07-29",
+  "dateModified": "2026-07-29",
+  "author": { "@type": "Organization", "name": "StoreScope" },
+  "publisher": { "@type": "Organization", "name": "StoreScope", "logo": { "@type": "ImageObject", "url": "https://ddookim.github.io/storescope/landing/og-image.png" } },
+  "mainEntityOfPage": { "@type": "WebPage", "@id": "https://ddookim.github.io/storescope/blog/shopify-trending-products-tool.html" }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://ddookim.github.io/storescope/" },
+    { "@type": "ListItem", "position": 2, "name": "Blog", "item": "https://ddookim.github.io/storescope/blog/" },
+    { "@type": "ListItem", "position": 3, "name": "Shopify Trending Products Tool", "item": "https://ddookim.github.io/storescope/blog/shopify-trending-products-tool.html" }
+  ]
+}
+</script>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%234F46E5'/%3E%3Cpath d='M9 20l5-5 4 4 5-6' stroke='%23fff' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3E%3C/svg%3E">
+<style>
+  body { font-family: -apple-system, "Inter", sans-serif; max-width: 720px; margin: 0 auto; padding: 60px 24px; color: #1C1917; line-height: 1.65; background: #F9F8F6; }
+  h1 { font-size: 2.2rem; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 0.6rem; line-height: 1.15; }
+  h2 { font-size: 1.35rem; font-weight: 700; margin-top: 2.4rem; margin-bottom: 0.6rem; color: #1C1917; }
+  h3 { font-size: 1.1rem; font-weight: 700; margin-top: 1.6rem; margin-bottom: 0.4rem; }
+  p { margin-bottom: 1rem; color: #3F3B37; }
+  a { color: #4338ca; text-decoration: underline; text-decoration-color: rgba(67,56,202,0.3); text-underline-offset: 3px; }
+  a:hover { text-decoration-color: #4338ca; }
+  .meta { color: #6B655F; font-size: 0.9rem; margin-bottom: 2rem; }
+  ul, ol { margin: 1rem 0 1rem 1.6rem; }
+  li { margin-bottom: 0.4rem; color: #3F3B37; }
+  code { background: #F3F1EE; padding: 2px 6px; border-radius: 4px; font-family: "SF Mono", monospace; font-size: 0.9em; color: #4338ca; }
+  blockquote { border-left: 3px solid #4F46E5; padding-left: 16px; margin: 1.5rem 0; color: #57534E; font-style: italic; }
+  .cta { display: inline-block; background: linear-gradient(135deg, #4F46E5 0%, #3730A3 100%); color: #fff; padding: 14px 28px; border-radius: 10px; font-weight: 700; text-decoration: none; margin-top: 24px; }
+  .cta:hover { transform: translateY(-1px); box-shadow: 0 8px 24px rgba(79,70,229,0.25); }
+  table { border-collapse: collapse; width: 100%; margin: 1.5rem 0; }
+  th, td { text-align: left; padding: 12px 16px; border-bottom: 1px solid #E2E8F0; }
+  th { background: #F3F1EE; font-weight: 700; }
+</style>
+</head>
+<body>
+
+<main>
+
+<p class="meta">Published 2026-07-29 · 5 min read · <a href="https://ddookim.github.io/storescope/">← StoreScope</a></p>
+
+<h1>Shopify Trending Products Tool — How Cross-Store Overlap Beats Bestseller Lists</h1>
+
+<p>Most Shopify trend rankings sort by absolute store count or single-store sales velocity. That approach favors <strong>already-saturated products</strong> — the kind everyone has been running ads on for two months. By the time you find them, the margin is gone.</p>
+
+<p>A different angle: rank products by how <em>fast</em> they're spreading across stores you don't yet know about. That's the pattern layer, and it surfaces 1-2 weeks before mainstream ad channels catch on.</p>
+
+<h2>Why absolute store count is misleading</h2>
+
+<p>A product listed in 500 Shopify stores looks trending. But that number is a <strong>lagging indicator</strong>. By the time 500 merchants stock the same item, three things have happened:</p>
+
+<ol>
+  <li>Supply chain saturated (unit cost rising)</li>
+  <li>Ad auction competitive (CPC 2-3x)</li>
+  <li>Customer novelty decayed</li>
+</ol>
+
+<p>The interesting phase is the <em>rise</em>: 30 → 60 → 90 → 200 stores over a few weeks. That's when margin is highest and competition thinnest.</p>
+
+<h2>How cross-store overlap detection works</h2>
+
+<p>StoreScope crawls product feeds from ~40 curated DTC brands and groups visually similar products via <strong>perceptual image hashing (pHash)</strong>. Two products from different stores with the same physical item — different photo angles, different titles — get clustered together.</p>
+
+<h3>Storm Score V2 ranking</h3>
+
+<p>Each cluster gets a score 0-100 based on:</p>
+
+<ul>
+  <li><strong>Momentum (acceleration):</strong> not just growth, but rate of growth. A cluster going 10 → 20 → 40 stores/week ranks higher than 50 → 55 → 60.</li>
+  <li><strong>Log-scaled store count:</strong> diminishing returns above 100 stores (saturated).</li>
+  <li><strong>Age decay:</strong> clusters older than 8 weeks get discounted — trend already known.</li>
+</ul>
+
+<p>Kalman filter innovation gating removes outlier weeks (Black Friday spikes, single-store data errors) from the momentum calculation.</p>
+
+<h2>What "cross-store" reveals that single-store data doesn't</h2>
+
+<table>
+  <thead>
+    <tr><th>Signal</th><th>Single-store data says</th><th>Cross-store overlap says</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>1 store selling 500 units/week</td><td>Hot product 🔥</td><td>Marketing success (specific to that store's audience)</td></tr>
+    <tr><td>200 stores all stocking same item</td><td>N/A (invisible from any single store)</td><td>Supplier campaign OR real trend</td></tr>
+    <tr><td>30 stores this week, 60 next week</td><td>N/A</td><td>Rising cluster — investigate now</td></tr>
+    <tr><td>500 stores, all stagnant</td><td>Big market 💰</td><td>Saturated — margins gone</td></tr>
+  </tbody>
+</table>
+
+<h2>Sample: last snapshot's top clusters</h2>
+
+<p>From StoreScope's May 2026 snapshot (weekly refresh activates after 10 email signups on the landing page):</p>
+
+<ul>
+  <li><strong>Wrist rest cluster:</strong> 660 stores stocking near-identical $25 item. Read: supplier push, not organic demand — investigate margin structure before entry.</li>
+  <li><strong>First responders t-shirt:</strong> 113 stores, cluster growing 15% week-over-week. Read: seasonal (US May patriot events) + evergreen niche.</li>
+  <li><strong>Sticker packs:</strong> 30 stores, high-margin low-differentiation category. Fast cluster growth then fast decay — 4-week entry window.</li>
+</ul>
+
+<p><a href="https://ddookim.github.io/storescope/outreach/evidence/top5-2026-06-01.html">See the full sample list →</a></p>
+
+<h2>When cross-store rankings help vs when they don't</h2>
+
+<h3>Best fit for:</h3>
+<ul>
+  <li>Dropshippers evaluating whether to enter a category (want early signal, before ad channels notice)</li>
+  <li>Print-on-demand operators tracking design themes across stores</li>
+  <li>Category researchers wanting supplier-level visibility (which items are being pushed)</li>
+</ul>
+
+<h3>Not the right tool for:</h3>
+<ul>
+  <li>Optimizing an existing store's conversion rate (that's a store-level analytics question, not a market question)</li>
+  <li>Finding hyper-niche products with <5 stores globally (cluster detection needs signal)</li>
+  <li>Real-time trend detection (weekly refresh, not hourly)</li>
+</ul>
+
+<h2>Get the weekly digest</h2>
+
+<p>Every Monday morning: top trending clusters by Storm Score, week-over-week delta, price spread across stores, and links to all stores carrying each item. 7-day free trial + 14-day money-back window, no card required.</p>
+
+<a href="https://ddookim.github.io/storescope/#pricing?utm_source=blog&utm_campaign=trending-tool" class="cta">Get Monday's list →</a>
+
+<p style="margin-top: 48px; padding-top: 24px; border-top: 1px solid #E2E8F0; font-size: 0.85rem; color: #6B655F;">
+StoreScope · Shopify cross-store product intelligence · <a href="mailto:support@storescope.com">support@storescope.com</a>
+</p>
+
+</main>
+
+</body>
+</html>
