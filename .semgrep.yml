@@ -17,7 +17,15 @@ rules:
     severity: ERROR
     paths:
       include: ["landing/**", "outreach/**", "services/**", "*.md"]
-      exclude: [".semgrep.yml", "*.py"]
+      exclude:
+        - ".semgrep.yml"
+        - "*.py"
+        # D+12: pipeline-generated data mirror 실 DTC 상품 title.
+        # Summer Fridays "Body Essentials Duo | TikTok Exclusive" 등 브랜드 자체 마케팅.
+        - "landing/latest_products.json"
+        - "landing/feed.xml"
+        - "landing/digest-sample.html"
+        - "landing/blog/weekly-*.html"
 
   - id: no-brand-amazon
     pattern-regex: '\bAmazon\b'
