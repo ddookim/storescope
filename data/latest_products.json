@@ -8,7 +8,7 @@
     "published_at": "2026-08-07T12:09:57-07:00",
     "price": 18.0,
     "image_url": "https://cdn.shopify.com/s/files/1/0721/3075/6678/files/OD-IB01003-IB-4.0-4.0.jpg?v=1786110759",
-    "age_days": 2.6
+    "age_days": 2.7
   },
   {
     "domain": "inkbox.com",
@@ -19,51 +19,29 @@
     "published_at": "2026-08-07T12:09:56-07:00",
     "price": 18.0,
     "image_url": "https://cdn.shopify.com/s/files/1/0721/3075/6678/files/OD-IB01002-IB-4.0-4.0.jpg?v=1786110734",
-    "age_days": 2.6
+    "age_days": 2.7
   },
   {
-    "domain": "inkbox.com",
-    "title": "Memorial",
-    "handle": "memorial",
-    "product_type": "Semi-Permanent Tattoo",
-    "vendor": "Ceargone",
-    "published_at": "2026-08-07T12:09:27-07:00",
-    "price": 18.0,
-    "image_url": "https://cdn.shopify.com/s/files/1/0721/3075/6678/files/OD-IB01000-IB-4.0-4.0.jpg?v=1786110631",
-    "age_days": 2.6
+    "domain": "lunya.co",
+    "title": "Cottonsilk™ Pocket Henley",
+    "handle": "womens-cottonsilk-pocket-henley-oat-marl",
+    "product_type": "Sweaters",
+    "vendor": "Lunya",
+    "published_at": "2026-08-07T11:45:19-04:00",
+    "price": 228.0,
+    "image_url": "https://cdn.shopify.com/s/files/1/0267/0987/files/COZY_COTTON_SILK_POCKET_HENLEY_OAT_MARL-1_9734d18c-2970-4dd5-a007-3d7fd96c50b7.jpg?v=1762201235",
+    "age_days": 2.8
   },
   {
-    "domain": "inkbox.com",
-    "title": "Melancholy",
-    "handle": "melancholy",
-    "product_type": "Semi-Permanent Tattoo",
-    "vendor": "Ceargone",
-    "published_at": "2026-08-07T12:09:24-07:00",
-    "price": 18.0,
-    "image_url": "https://cdn.shopify.com/s/files/1/0721/3075/6678/files/OD-IB00998-IB-4.0-4.0.jpg?v=1786110529",
-    "age_days": 2.6
-  },
-  {
-    "domain": "inkbox.com",
-    "title": "Crescimento",
-    "handle": "crescimento",
-    "product_type": "Semi-Permanent Tattoo",
-    "vendor": "Ceargone",
-    "published_at": "2026-08-07T12:09:23-07:00",
-    "price": 20.0,
-    "image_url": "https://cdn.shopify.com/s/files/1/0721/3075/6678/files/OD-IB00997-IB-6.0-3.0.jpg?v=1786110577",
-    "age_days": 2.6
-  },
-  {
-    "domain": "peets.com",
-    "title": "Dark Med Light Bundle with Gift Box",
-    "handle": "dark-med-light-bundle-with-gift-box",
-    "product_type": "Bundle",
-    "vendor": "Peet's Coffee",
-    "published_at": "2026-08-07T12:25:26-07:00",
-    "price": 64.85,
-    "image_url": "https://cdn.shopify.com/s/files/1/0319/0764/3436/files/Designer_1.png?v=1778021445",
-    "age_days": 2.6
+    "domain": "lunya.co",
+    "title": "Washable Silk Travel Sleep Sack",
+    "handle": "washable-silk-travel-sleep-sack-waning-night",
+    "product_type": "Accessories",
+    "vendor": "Lunya",
+    "published_at": "2026-08-07T11:44:38-04:00",
+    "price": 298.0,
+    "image_url": "https://cdn.shopify.com/s/files/1/0267/0987/files/Washable-Silk-Sleep-Sack-1.jpg?v=1762202008",
+    "age_days": 2.8
   },
   {
     "domain": "taylorstitch.com",
@@ -74,7 +52,7 @@
     "published_at": "2026-08-07T09:48:58-07:00",
     "price": 55.0,
     "image_url": "https://cdn.shopify.com/s/files/1/0070/1922/files/instock_m_q326_regenerative-cotton-tee-saffron_portrait_001.jpg?v=1785875554",
-    "age_days": 2.7
+    "age_days": 2.8
   },
   {
     "domain": "taylorstitch.com",
@@ -85,39 +63,6 @@
     "published_at": "2026-08-07T09:48:42-07:00",
     "price": 55.0,
     "image_url": "https://cdn.shopify.com/s/files/1/0070/1922/files/instock_m_q326_regenerative-cotton-tee-faded-pine_portrait_001.jpg?v=1785862341",
-    "age_days": 2.7
-  },
-  {
-    "domain": "taylorstitch.com",
-    "title": "The Regenerative Cotton Tee in Soil",
-    "handle": "regenerative-cotton-tee-in-soil-2608",
-    "product_type": "Knits",
-    "vendor": "Taylor Stitch",
-    "published_at": "2026-08-07T09:48:22-07:00",
-    "price": 55.0,
-    "image_url": "https://cdn.shopify.com/s/files/1/0070/1922/files/instock_m_q326_regenerative-cotton-tee-soil_portrait_001.jpg?v=1785875289",
-    "age_days": 2.7
-  },
-  {
-    "domain": "taylorstitch.com",
-    "title": "The Cutter Overshirt in Lighthouse Check",
-    "handle": "cutter-overshirt-in-lighthouse-check-2608",
-    "product_type": "Wovens",
-    "vendor": "Taylor Stitch",
-    "published_at": "2026-08-07T09:29:23-07:00",
-    "price": 178.0,
-    "image_url": "https://cdn.shopify.com/s/files/1/0070/1922/files/Q326_the-cutter-overshirt-lighthouse-check_pdp_compressed_01.jpg?v=1785950990",
-    "age_days": 2.8
-  },
-  {
-    "domain": "taylorstitch.com",
-    "title": "The Cutter Overshirt in Canal Check",
-    "handle": "cutter-overshirt-in-canal-check-2608",
-    "product_type": "Wovens",
-    "vendor": "Taylor Stitch",
-    "published_at": "2026-08-07T09:28:18-07:00",
-    "price": 178.0,
-    "image_url": "https://cdn.shopify.com/s/files/1/0070/1922/files/Q326_the-cutter-overshirt-canal-check_pdp_compressed_01.jpg?v=1785948038",
     "age_days": 2.8
   },
   {
@@ -143,80 +88,135 @@
     "age_days": 3.5
   },
   {
-    "domain": "sundaycitizen.com",
-    "title": "Coastal Cotton Mist Top Sheet",
-    "handle": "coastal-cotton-mist-top-sheet",
-    "product_type": "Sheets",
-    "vendor": "Sunday Citizen",
-    "published_at": "2026-08-06T17:46:22-04:00",
-    "price": 95.0,
-    "image_url": "https://cdn.shopify.com/s/files/1/0079/1923/9266/files/sunday-citizen-coastal-cotton-mist-top-sheet-off-white-1.jpg?v=1785861075",
-    "age_days": 3.5
+    "domain": "fentybeauty.com",
+    "title": "Sun Stalk'r Instant Warmth Bronzer — Chai Latte",
+    "handle": "sun-stalkr-instant-warmth-bronzer-chai-latte",
+    "product_type": "Blushes & Bronzers",
+    "vendor": "Fenty Beauty",
+    "published_at": "2026-08-06T08:01:16-07:00",
+    "price": 38.0,
+    "image_url": "https://cdn.shopify.com/s/files/1/0341/3458/9485/files/FB_SUM26_T2PRODUCT_ECOMM_SUNSTALKR_BRONZER_SHADE-EXT_CHAI_LATTE_1200X1500_72DPI.jpg?v=1785174396",
+    "age_days": 3.8
   },
   {
-    "domain": "sundaycitizen.com",
-    "title": "Coastal Cotton Mist Pillowcase Set",
-    "handle": "coastal-cotton-mist-pillowcases",
-    "product_type": "Pillowcase Sets",
-    "vendor": "Sunday Citizen",
-    "published_at": "2026-08-06T17:46:20-04:00",
-    "price": 68.0,
-    "image_url": "https://cdn.shopify.com/s/files/1/0079/1923/9266/files/sunday-citizen-coastal-cotton-mist-pillowcase-taupe-off-white-1.jpg?v=1785860821",
-    "age_days": 3.5
+    "domain": "fentybeauty.com",
+    "title": "Sun Stalk'r Instant Warmth Bronzer — Mocha Mamii",
+    "handle": "sun-stalkr-instant-warmth-bronzer-mocha-mamii",
+    "product_type": "Blushes & Bronzers",
+    "vendor": "Fenty Beauty",
+    "published_at": "2026-08-06T08:01:08-07:00",
+    "price": 38.0,
+    "image_url": "https://cdn.shopify.com/s/files/1/0341/3458/9485/files/FB_SUM26_T2PRODUCT_ECOMM_SUNSTALKR_BRONZER_SHADE-EXT_MOCHA_MAMII_1200X1500_72DPI.jpg?v=1785174550",
+    "age_days": 3.8
   },
   {
-    "domain": "sundaycitizen.com",
-    "title": "Coastal Reversible Cotton Mist Duvet Cover",
-    "handle": "coastal-reversible-cotton-mist-duvet-cover",
-    "product_type": "Duvet Covers",
-    "vendor": "Sunday Citizen",
-    "published_at": "2026-08-06T17:46:18-04:00",
-    "price": 200.0,
-    "image_url": "https://cdn.shopify.com/s/files/1/0079/1923/9266/files/sunday-citizen-coastal-reversible-cotton-mist-duvet-cover-taupe-off-white-icon.jpg?v=1786046293",
-    "age_days": 3.5
+    "domain": "inkbox.com",
+    "title": "Whatever Will Be, Will Be",
+    "handle": "whatever-will-be-will-be",
+    "product_type": "Semi-Permanent Tattoo",
+    "vendor": "Tara Royle",
+    "published_at": "2026-08-06T09:33:49-07:00",
+    "price": 18.0,
+    "image_url": "https://cdn.shopify.com/s/files/1/0721/3075/6678/files/OD-IB00996-IB-5.0-2.0.jpg?v=1786026560",
+    "age_days": 3.8
   },
   {
-    "domain": "sundaycitizen.com",
-    "title": "Salvia Cotton Mist Sham Set",
-    "handle": "salvia-cotton-mist-sham-set",
-    "product_type": "Shams",
-    "vendor": "Sunday Citizen",
-    "published_at": "2026-08-06T17:46:16-04:00",
-    "price": 72.0,
-    "image_url": "https://cdn.shopify.com/s/files/1/0079/1923/9266/files/sunday-citizen-salvia-cotton-mist-sham-set-light-sage-off-white-1.jpg?v=1785846864",
-    "age_days": 3.5
+    "domain": "inkbox.com",
+    "title": "Reminder To Live",
+    "handle": "reminder-to-live",
+    "product_type": "Semi-Permanent Tattoo",
+    "vendor": "Tara Royle",
+    "published_at": "2026-08-06T09:33:48-07:00",
+    "price": 18.0,
+    "image_url": "https://cdn.shopify.com/s/files/1/0721/3075/6678/files/OD-IB00995-IB-5.0-2.0.jpg?v=1786026534",
+    "age_days": 3.8
   },
   {
-    "domain": "sundaycitizen.com",
-    "title": "Cotton Mist Fitted Sheet",
-    "handle": "cotton-mist-fitted-sheet",
-    "product_type": "Sheets",
-    "vendor": "Sunday Citizen",
-    "published_at": "2026-08-06T17:46:14-04:00",
-    "price": 110.0,
-    "image_url": "https://cdn.shopify.com/s/files/1/0079/1923/9266/files/sunday-citizen-salvia-cotton-mist-fitted-sheet-light-sage-off-white-1_1.jpg?v=1785848630",
-    "age_days": 3.5
+    "domain": "ridgewallet.com",
+    "title": "Ridge Power Bank - 10k mAh Bundle - Dark Harbor - 3-Pack",
+    "handle": "magnetic-power-bank-bundle-3-pack-dark-harbor",
+    "product_type": "Tech - Power Banks - Ridge Power Bank - 10k mAh Bundle - KIT",
+    "vendor": "Ridge",
+    "published_at": "2026-08-06T09:18:20-07:00",
+    "price": 159.0,
+    "image_url": "https://cdn.shopify.com/s/files/1/0613/6213/files/MagneticPowerbank-Bundle-DarkHarbor-THUMBNAIL1_3s_9e212e1f-440f-4570-af90-0fb21d822b74.jpg?v=1766100569",
+    "age_days": 3.8
   },
   {
-    "domain": "sundaycitizen.com",
-    "title": "Salvia Cotton Mist Top Sheet",
-    "handle": "salvia-cotton-mist-top-sheet",
-    "product_type": "Sheets",
-    "vendor": "Sunday Citizen",
-    "published_at": "2026-08-06T17:46:12-04:00",
-    "price": 95.0,
-    "image_url": "https://cdn.shopify.com/s/files/1/0079/1923/9266/files/sunday-citizen-salvia-cotton-mist-top-sheet-light-sage-off-white-1.jpg?v=1785848504",
-    "age_days": 3.5
+    "domain": "ridgewallet.com",
+    "title": "Ridge Power Bank - 10k mAh Bundle - Dark Harbor - 2-Pack",
+    "handle": "magnetic-power-bank-bundle-2-pack-dark-harbor",
+    "product_type": "Tech - Power Banks - Ridge Power Bank - 10k mAh Bundle - KIT",
+    "vendor": "Ridge",
+    "published_at": "2026-08-06T09:18:19-07:00",
+    "price": 139.0,
+    "image_url": "https://cdn.shopify.com/s/files/1/0613/6213/files/MagneticPowerbank-Bundle-DarkHarbor-THUMBNAIL2_b86e0f6a-e843-464a-adc7-5d63a7f5bdf0.jpg?v=1784212971",
+    "age_days": 3.8
   },
   {
-    "domain": "sundaycitizen.com",
-    "title": "Salvia Reversible Cotton Mist Pillowcase Set",
-    "handle": "salvia-reversible-cotton-mist-pillowcase-set",
-    "product_type": "Pillowcase Sets",
-    "vendor": "Sunday Citizen",
-    "published_at": "2026-08-06T17:46:10-04:00",
-    "price": 68.0,
-    "image_url": "https://cdn.shopify.com/s/files/1/0079/1923/9266/files/sunday-citizen-salvia-cotton-mist-pillowcases-light-sage-off-white-icon-1.jpg?v=1785941997",
-    "age_days": 3.5
+    "domain": "deathwishcoffee.com",
+    "title": "Bodum Portable French Press",
+    "handle": "bodum-portable-french-press",
+    "product_type": "Storage & Brewing",
+    "vendor": "BODUM",
+    "published_at": "2026-08-06T08:53:20-04:00",
+    "price": 30.0,
+    "image_url": "https://cdn.shopify.com/s/files/1/0271/7209/files/DeathWishCoffee_August2026_Product_CoffeePress_Back_Web.jpg?v=1785957522",
+    "age_days": 3.9
+  },
+  {
+    "domain": "deathwishcoffee.com",
+    "title": "Liquid Lunch Collector's Bundle",
+    "handle": "liquid-lunch-collectors-box",
+    "product_type": "Accessories",
+    "vendor": "BAMKO",
+    "published_at": "2026-08-06T08:52:03-04:00",
+    "price": 45.0,
+    "image_url": "https://cdn.shopify.com/s/files/1/0271/7209/files/DTC_Lunchbox_Render_A1.jpg?v=1785876822",
+    "age_days": 3.9
+  },
+  {
+    "domain": "deathwishcoffee.com",
+    "title": "Caffeine Catalyst LED Dry Erase Board",
+    "handle": "caffeine-catalyst-led-dry-erase-board",
+    "product_type": "Accessories",
+    "vendor": "Planet Apparel",
+    "published_at": "2026-08-06T08:51:51-04:00",
+    "price": 15.0,
+    "image_url": "https://cdn.shopify.com/s/files/1/0271/7209/files/DeathWishCoffee_August2026_Product_LedWhiteboard_Drawing_web.jpg?v=1785876560",
+    "age_days": 3.9
+  },
+  {
+    "domain": "deathwishcoffee.com",
+    "title": "Unbreakable Spirit Silicone Mug",
+    "handle": "unbreakable-spirit-silicone-mug",
+    "product_type": "On-The-Go Drinkware",
+    "vendor": "Silipint",
+    "published_at": "2026-08-06T08:51:38-04:00",
+    "price": 15.0,
+    "image_url": "https://cdn.shopify.com/s/files/1/0271/7209/files/DeathWishCoffee_August2026_Product_SiliPint_Front_Web.jpg?v=1785876704",
+    "age_days": 3.9
+  },
+  {
+    "domain": "fentybeauty.com",
+    "title": "Pink Links Lip Care + Cheek Trip Set",
+    "handle": "pink-links-lip-care-cheek-trip-set",
+    "product_type": "Lip Balms & Treatments",
+    "vendor": "Fenty Skin",
+    "published_at": "2026-08-05T16:19:36-07:00",
+    "price": 55.0,
+    "image_url": "https://cdn.shopify.com/s/files/1/0341/3458/9485/files/FB_20FS_SPR26_T2PRODUCT_EDITORIAL_LE-RAMADAN_PINK-LINK_1200X1500_72DPI.jpg?v=1785516047",
+    "age_days": 4.5
+  },
+  {
+    "domain": "fentybeauty.com",
+    "title": "Hydra Vizor Invisible Moisturizer Broad Spectrum SPF 30 Sunscreen Deluxe Sample",
+    "handle": "hydra-vizor-invisible-moisturizer-broad-spectrum-spf-30-sunscreen-deluxe-sample",
+    "product_type": "Sunscreen",
+    "vendor": "Fenty Skin",
+    "published_at": "2026-08-05T13:39:29-07:00",
+    "price": 1.5,
+    "image_url": "https://cdn.shopify.com/s/files/1/0341/3458/9485/products/FS_CORE_T2PRODUCT_SILO_FENTY_SKIN_HYDRA_VIZOR_SAMPLE_1200x1200_673b6f5b-6241-483f-ac5f-1cf3f5512a34.jpg?v=1762198735",
+    "age_days": 4.6
   }
 ]
