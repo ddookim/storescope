@@ -27,6 +27,7 @@ _HERE = Path(__file__).resolve().parent.parent
 PRODUCTS_DIR    = _HERE / "data" / "products"
 OUTPUT_FILE     = _HERE / "data" / "latest_products.json"
 META_FILE       = _HERE / "data" / "latest_products_meta.json"  # category summary + stats
+HISTORY_DIR     = _HERE / "data" / "history"                    # D+11: weekly snapshots for WoW delta
 SAMPLE_HTML     = _HERE / "landing" / "digest-sample.html"  # D+11: SEO + demo asset
 
 CATEGORY_TOP_N  = 8  # digest 표시 카테고리 개수
@@ -114,6 +115,25 @@ def _dedupe_by_title_domain(products: list[dict]) -> list[dict]:
     return unique
 
 
+def _save_historical_snapshot(now: datetime) -> None:
+    """Copy previous week's latest_products.json to data/history/ for future WoW delta.
+
+    Idempotent: 같은 주에 여러 번 실행돼도 하나만 저장.
+    Only copies if OUTPUT_FILE exists (직전 pipeline run 결과).
+    """
+    if not OUTPUT_FILE.exists():
+        return
+    HISTORY_DIR.mkdir(parents=True, exist_ok=True)
+    # Snapshot filename: history/YYYY-WNN.json (ISO week)
+    prev_week = f"{now.isocalendar().year}-W{now.isocalendar().week:02d}"
+    snap = HISTORY_DIR / f"{prev_week}.json"
+    # Idempotent: 이미 있으면 skip.
+    if snap.exists():
+        return
+    snap.write_text(OUTPUT_FILE.read_text())
+    print(f"  → history snapshot: {snap.name}")
+
+
 def _category_summary(all_recent_products: list[dict]) -> list[dict]:
     """product_type 별 카테고리 신제품 수 + unique vendor 수 계산.
 
@@ -171,6 +191,9 @@ def main() -> None:
         OUTPUT_FILE.parent.mkdir(parents=True, exist_ok=True)
         OUTPUT_FILE.write_text("[]")
         return
+
+    # D+11 history: 매주 snapshot 저장 → 향후 WoW delta 계산 가능.
+    _save_historical_snapshot(datetime.now(timezone.utc))
 
     now = datetime.now(timezone.utc)
     products = _extract_products(now)
@@ -252,10 +275,12 @@ def _write_sample_html(products: list[dict], categories: list[dict], now: dateti
             n = c.get("product_count", 0)
             v = c.get("vendor_count", 0)
             ptype = h(c.get("product_type") or "?")[:40]
-            chips.append(f'<span class="cat-chip"><strong>{ptype}</strong> · {n} new · {v} brands</span>')
+            brand_word = "brand" if v == 1 else "brands"
+            new_word = "new item" if n == 1 else "new items"
+            chips.append(f'<span class="cat-chip"><strong>{ptype}</strong> · {n} {new_word} · {v} {brand_word}</span>')
         cat_chips = f'''
 <section class="cat-section">
-  <h2>Hot categories this week</h2>
+  <h2>Hot categories · last {LOOKBACK_DAYS} days</h2>
   <div class="cat-grid">{"".join(chips)}</div>
 </section>'''
 

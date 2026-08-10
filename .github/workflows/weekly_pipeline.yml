@@ -113,6 +113,11 @@ jobs:
               echo "  skip missing: $f"
             fi
           done
+          # D+11 history snapshots (weekly WoW baseline). Directory 전체 강제 add.
+          if [ -d data/history ]; then
+            git add -f data/history/
+            echo "  staged: data/history/ ($(ls data/history/ 2>/dev/null | wc -l) snapshots)"
+          fi
           if git diff --cached --quiet; then
             echo "::notice::No data changes to commit"
           else
