@@ -1,13 +1,13 @@
 {
-  "generated_at": "2026-08-10T11:48:45.875328+00:00",
+  "generated_at": "2026-08-10T11:57:10.410153+00:00",
   "week": "2026-W33",
   "total_products_before_dedupe": null,
-  "total_after_dedupe": 931,
+  "total_after_dedupe": 961,
   "top_products_returned": 20,
   "categories": [
     {
       "product_type": "Semi-Permanent Tattoo",
-      "product_count": 192,
+      "product_count": 191,
       "vendor_count": 25,
       "top_vendors": [
         "Aimee Isabel",
@@ -24,13 +24,12 @@
       ]
     },
     {
-      "product_type": "Bags",
+      "product_type": "Dresses",
       "product_count": 46,
-      "vendor_count": 4,
+      "vendor_count": 2,
       "top_vendors": [
-        "DopplerMatte Flight Pouch",
-        "DopplerMatte Toiletry Kit",
-        "DopplerMatte Weekender"
+        "Fashion Nova",
+        "Outdoor Voices"
       ]
     },
     {
@@ -42,12 +41,11 @@
       ]
     },
     {
-      "product_type": "Dresses",
-      "product_count": 44,
-      "vendor_count": 2,
+      "product_type": "Bags",
+      "product_count": 40,
+      "vendor_count": 1,
       "top_vendors": [
-        "Fashion Nova",
-        "Lunya"
+        "Peak Design"
       ]
     },
     {
@@ -60,8 +58,8 @@
     },
     {
       "product_type": "Accessories",
-      "product_count": 37,
-      "vendor_count": 7,
+      "product_count": 36,
+      "vendor_count": 6,
       "top_vendors": [
         "BAMKO",
         "Fashion Nova",
@@ -69,11 +67,11 @@
       ]
     },
     {
-      "product_type": "Jewelry",
-      "product_count": 28,
+      "product_type": "Bundles",
+      "product_count": 35,
       "vendor_count": 1,
       "top_vendors": [
-        "Fashion Nova"
+        "Mack Weldon"
       ]
     }
   ]

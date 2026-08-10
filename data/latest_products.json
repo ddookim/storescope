@@ -1,5 +1,27 @@
 [
   {
+    "domain": "truebotanicals.com",
+    "title": "Mindful Mama Starter Set",
+    "handle": "new-mindful-mama-kit",
+    "product_type": "Skincare Sets",
+    "vendor": "True Botanicals",
+    "published_at": "2026-08-09T18:26:16-07:00",
+    "price": 99.0,
+    "image_url": "https://cdn.shopify.com/s/files/1/0545/1009/files/3x4_7a960fe3-d6c1-4c77-8d19-5b2e1beef6ba.png?v=1785947965",
+    "age_days": 0.4
+  },
+  {
+    "domain": "truebotanicals.com",
+    "title": "Mindful Mama Belly & Body Oil",
+    "handle": "mindful-mama-belly-body-oil",
+    "product_type": "Body Care",
+    "vendor": "True Botanicals",
+    "published_at": "2026-08-09T17:59:41-07:00",
+    "price": 54.0,
+    "image_url": "https://cdn.shopify.com/s/files/1/0545/1009/files/LipidLip10.png?v=1785280960",
+    "age_days": 0.5
+  },
+  {
     "domain": "fashionnova.com",
     "title": "Meant To Be 2 Piece Bracelet Set - Gold",
     "handle": "meant-to-be-2-piece-bracelet-set-fncolorname-gold",
@@ -11,6 +33,28 @@
     "age_days": 1.2
   },
   {
+    "domain": "mackweldon.com",
+    "title": "3-Pack AIRKNITˣ Cotton Boxer Briefs",
+    "handle": "3-pack-airknitˣ-cotton-boxer-briefs",
+    "product_type": "Underwear",
+    "vendor": "Mack Weldon",
+    "published_at": "2026-08-08T23:08:44-04:00",
+    "price": 96.9,
+    "image_url": "https://cdn.shopify.com/s/files/1/0078/6825/2273/files/0701_LIVE_3pack-Airknitx_Cotton_BB_2.png?v=1785248296",
+    "age_days": 1.4
+  },
+  {
+    "domain": "mackweldon.com",
+    "title": "3-Pack AIRKNITˣ Cotton Boxer Briefs - With Fly",
+    "handle": "3-pack-airknitˣ-cotton-boxer-briefs-with-fly",
+    "product_type": "Underwear",
+    "vendor": "Mack Weldon",
+    "published_at": "2026-08-08T23:07:51-04:00",
+    "price": 96.9,
+    "image_url": "https://cdn.shopify.com/s/files/1/0078/6825/2273/files/0701_LIVE_3pack-AirknitxCottonBB_w-fly_3.png?v=1785251347",
+    "age_days": 1.4
+  },
+  {
     "domain": "colourpop.com",
     "title": "Aurora Struck",
     "handle": "aurora-stuck-shadow-palette",
@@ -19,7 +63,7 @@
     "published_at": "2026-08-08T18:06:53-07:00",
     "price": 35.0,
     "image_url": "https://cdn.shopify.com/s/files/1/1338/0845/files/Aurora-Struck-Palette-Into-with-UC.jpg?v=1693429053",
-    "age_days": 1.4
+    "age_days": 1.5
   },
   {
     "domain": "fashionnova.com",
@@ -55,39 +99,6 @@
     "age_days": 2.7
   },
   {
-    "domain": "liquiddeath.com",
-    "title": "Death Western Hat",
-    "handle": "death-western-hat",
-    "product_type": "Hat",
-    "vendor": "Liquid Death",
-    "published_at": "2026-08-07T10:03:38-07:00",
-    "price": 35.0,
-    "image_url": "https://cdn.shopify.com/s/files/1/0079/4289/7737/files/DeathWesternHat_White_3-4Wide_4876_2048x2048_a3283c59-aa23-4e61-a8ed-9150d662202b.webp?v=1785901561",
-    "age_days": 2.8
-  },
-  {
-    "domain": "lunya.co",
-    "title": "Cottonsilk™ Pocket Henley",
-    "handle": "womens-cottonsilk-pocket-henley-oat-marl",
-    "product_type": "Sweaters",
-    "vendor": "Lunya",
-    "published_at": "2026-08-07T11:45:19-04:00",
-    "price": 228.0,
-    "image_url": "https://cdn.shopify.com/s/files/1/0267/0987/files/COZY_COTTON_SILK_POCKET_HENLEY_OAT_MARL-1_9734d18c-2970-4dd5-a007-3d7fd96c50b7.jpg?v=1762201235",
-    "age_days": 2.8
-  },
-  {
-    "domain": "lunya.co",
-    "title": "Washable Silk Travel Sleep Sack",
-    "handle": "washable-silk-travel-sleep-sack-waning-night",
-    "product_type": "Accessories",
-    "vendor": "Lunya",
-    "published_at": "2026-08-07T11:44:38-04:00",
-    "price": 298.0,
-    "image_url": "https://cdn.shopify.com/s/files/1/0267/0987/files/Washable-Silk-Sleep-Sack-1.jpg?v=1762202008",
-    "age_days": 2.8
-  },
-  {
     "domain": "taylorstitch.com",
     "title": "The Regenerative Cotton Tee in Saffron",
     "handle": "regenerative-cotton-tee-in-saffron-2608",
@@ -108,28 +119,6 @@
     "price": 55.0,
     "image_url": "https://cdn.shopify.com/s/files/1/0070/1922/files/instock_m_q326_regenerative-cotton-tee-faded-pine_portrait_001.jpg?v=1785862341",
     "age_days": 2.8
-  },
-  {
-    "domain": "thirdlove.com",
-    "title": "T-Shirt Bra, Only $49",
-    "handle": "best-selling-bras",
-    "product_type": "Kit",
-    "vendor": "Thirdlove",
-    "published_at": "2026-08-06T16:43:57-07:00",
-    "price": 49.0,
-    "image_url": "https://cdn.shopify.com/s/files/1/0305/6249/products/BSC22_247ClassicTShirtBra_Taupe_1000169_HERO_41169f79-06a8-43ae-b41a-6a829cd1a941.jpg?v=1762275566",
-    "age_days": 3.5
-  },
-  {
-    "domain": "thirdlove.com",
-    "title": "24/7® Classic T-Shirt Bra, 2/$99 ($144 Value)",
-    "handle": "the-24-7-bra-kit-1",
-    "product_type": "Kit",
-    "vendor": "Thirdlove",
-    "published_at": "2026-08-06T16:41:41-07:00",
-    "price": 99.0,
-    "image_url": "https://cdn.shopify.com/s/files/1/0305/6249/products/1-24_7T-ShirtBraKit_ColorUpdate.jpg?v=1762272064",
-    "age_days": 3.5
   },
   {
     "domain": "colourpop.com",
@@ -217,6 +206,17 @@
     "published_at": "2026-08-06T08:53:20-04:00",
     "price": 30.0,
     "image_url": "https://cdn.shopify.com/s/files/1/0271/7209/files/DeathWishCoffee_August2026_Product_CoffeePress_Back_Web.jpg?v=1785957522",
+    "age_days": 4.0
+  },
+  {
+    "domain": "deathwishcoffee.com",
+    "title": "Liquid Lunch Collector's Bundle",
+    "handle": "liquid-lunch-collectors-box",
+    "product_type": "Accessories",
+    "vendor": "BAMKO",
+    "published_at": "2026-08-06T08:52:03-04:00",
+    "price": 45.0,
+    "image_url": "https://cdn.shopify.com/s/files/1/0271/7209/files/DTC_Lunchbox_Render_A1.jpg?v=1785876822",
     "age_days": 4.0
   }
 ]
