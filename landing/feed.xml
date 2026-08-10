@@ -4,55 +4,39 @@
     <title>StoreScope Weekly · 2026-W33</title>
     <link>https://ddookim.github.io/storescope/digest-sample.html</link>
     <atom:link href="https://ddookim.github.io/storescope/feed.xml" rel="self" type="application/rss+xml"/>
-    <description>Newest DTC brand product launches from 50+ curated Shopify brands. Updated every Monday. Hot: Bottoms (127), Sweaters (117), Knit Tops (112), Denim (79), Uncategorized (77).</description>
+    <description>Newest DTC brand product launches from 50+ curated Shopify brands. Updated every Monday. Hot: Bottoms (127), Sweaters (117), Knit Tops (114), Denim (78), Dresses (71).</description>
     <language>en-us</language>
-    <lastBuildDate>Mon, 10 Aug 2026 17:29:11 +0000</lastBuildDate>
-    <pubDate>Mon, 10 Aug 2026 17:29:11 +0000</pubDate>
+    <lastBuildDate>Mon, 10 Aug 2026 17:52:25 +0000</lastBuildDate>
+    <pubDate>Mon, 10 Aug 2026 17:52:25 +0000</pubDate>
     <ttl>10080</ttl>
     <generator>StoreScope pipeline/latest_products.py</generator>
     <item>
-      <title>Utility Twill Barrel Pant | Black | Long</title>
+      <title>Tissue Boatneck Top | Grey</title>
       <link>https://ddookim.github.io/storescope/digest-sample.html#p1</link>
-      <guid isPermaLink="false">everlane.com#womens-utility-twill-barrel-pant-black-long</guid>
-      <pubDate>Mon, 10 Aug 2026 10:20:13 -0700</pubDate>
-      <description>Everlane · Bottoms · $138.00 · 0.0d old</description>
-      <category>Bottoms</category>
+      <guid isPermaLink="false">everlane.com#womens-everlight-boatneck-top-grey</guid>
+      <pubDate>Mon, 10 Aug 2026 10:47:44 -0700</pubDate>
+      <description>Everlane · Knit Tops · $68.00 · 0.0d old</description>
+      <category>Knit Tops</category>
     </item>
     <item>
-      <title>Baby Ball Spray</title>
+      <title>Tissue Boatneck Top | Beech</title>
       <link>https://ddookim.github.io/storescope/digest-sample.html#p2</link>
-      <guid isPermaLink="false">dollarshaveclub.com#baby-ball-spray</guid>
-      <pubDate>Mon, 10 Aug 2026 07:45:46 -0700</pubDate>
-      <description>Dollar Shave Club ·  · $10.00 · 0.1d old</description>
-      <category></category>
-    </item>
-    <item>
-      <title>Japanese Selvedge Big Chino</title>
-      <link>https://ddookim.github.io/storescope/digest-sample.html#p3</link>
-      <guid isPermaLink="false">toddsnyder.com#giant-fit-japanese-selvedge-chinokhaki</guid>
-      <pubDate>Mon, 10 Aug 2026 10:37:19 -0400</pubDate>
-      <description>Todd Snyder · Pants · $348.00 · 0.1d old</description>
-      <category>Pants</category>
+      <guid isPermaLink="false">everlane.com#womens-everlight-boatneck-top-beech</guid>
+      <pubDate>Mon, 10 Aug 2026 10:47:13 -0700</pubDate>
+      <description>Everlane · Knit Tops · $74.00 · 0.0d old</description>
+      <category>Knit Tops</category>
     </item>
     <item>
       <title>Tiki Torture Button-Up</title>
-      <link>https://ddookim.github.io/storescope/digest-sample.html#p4</link>
+      <link>https://ddookim.github.io/storescope/digest-sample.html#p3</link>
       <guid isPermaLink="false">liquiddeath.com#tiki-torture-button-up</guid>
       <pubDate>Mon, 10 Aug 2026 06:50:53 -0700</pubDate>
       <description>Liquid Death · Woven Shirt · $62.00 · 0.2d old</description>
       <category>Woven Shirt</category>
     </item>
     <item>
-      <title>Utility Seamed Wide-Leg Pant | Navy | Long</title>
-      <link>https://ddookim.github.io/storescope/digest-sample.html#p5</link>
-      <guid isPermaLink="false">everlane.com#womens-utility-seamed-wide-leg-pant-navy-long</guid>
-      <pubDate>Sun, 09 Aug 2026 21:40:06 -0700</pubDate>
-      <description>Everlane · Bottoms · $138.00 · 0.5d old</description>
-      <category>Bottoms</category>
-    </item>
-    <item>
       <title>Mindful Mama Starter Set</title>
-      <link>https://ddookim.github.io/storescope/digest-sample.html#p6</link>
+      <link>https://ddookim.github.io/storescope/digest-sample.html#p4</link>
       <guid isPermaLink="false">truebotanicals.com#new-mindful-mama-kit</guid>
       <pubDate>Sun, 09 Aug 2026 18:26:16 -0700</pubDate>
       <description>True Botanicals · Skincare Sets · $99.00 · 0.7d old</description>
@@ -60,11 +44,27 @@
     </item>
     <item>
       <title>Mindful Mama Belly &amp; Body Oil</title>
-      <link>https://ddookim.github.io/storescope/digest-sample.html#p7</link>
+      <link>https://ddookim.github.io/storescope/digest-sample.html#p5</link>
       <guid isPermaLink="false">truebotanicals.com#mindful-mama-belly-body-oil</guid>
       <pubDate>Sun, 09 Aug 2026 17:59:41 -0700</pubDate>
       <description>True Botanicals · Body Care · $54.00 · 0.7d old</description>
       <category>Body Care</category>
+    </item>
+    <item>
+      <title>3-Pack AIRKNITˣ Cotton Boxer Briefs</title>
+      <link>https://ddookim.github.io/storescope/digest-sample.html#p6</link>
+      <guid isPermaLink="false">mackweldon.com#3-pack-airknitˣ-cotton-boxer-briefs</guid>
+      <pubDate>Sat, 08 Aug 2026 23:08:44 -0400</pubDate>
+      <description>Mack Weldon · Underwear · $96.90 · 1.6d old</description>
+      <category>Underwear</category>
+    </item>
+    <item>
+      <title>3-Pack AIRKNITˣ Cotton Boxer Briefs - With Fly</title>
+      <link>https://ddookim.github.io/storescope/digest-sample.html#p7</link>
+      <guid isPermaLink="false">mackweldon.com#3-pack-airknitˣ-cotton-boxer-briefs-with-fly</guid>
+      <pubDate>Sat, 08 Aug 2026 23:07:51 -0400</pubDate>
+      <description>Mack Weldon · Underwear · $96.90 · 1.6d old</description>
+      <category>Underwear</category>
     </item>
     <item>
       <title>Aurora Struck</title>
@@ -75,88 +75,16 @@
       <category>Shadow Palette</category>
     </item>
     <item>
-      <title>Percale Duvet Cover Set - Bone TW/XL</title>
-      <link>https://ddookim.github.io/storescope/digest-sample.html#p9</link>
-      <guid isPermaLink="false">parachutehome.com#percale-duvet-cover-set-bone-tw-xl</guid>
-      <pubDate>Fri, 07 Aug 2026 14:10:48 -0700</pubDate>
-      <description>Parachute Home ·  · $279.00 · 2.8d old</description>
-      <category></category>
-    </item>
-    <item>
-      <title>Percale Sheet Set - Bone TW/XL</title>
-      <link>https://ddookim.github.io/storescope/digest-sample.html#p10</link>
-      <guid isPermaLink="false">parachutehome.com#percale-sheet-set-bone-tw-xl</guid>
-      <pubDate>Fri, 07 Aug 2026 14:10:25 -0700</pubDate>
-      <description>Parachute Home ·  · $239.00 · 2.8d old</description>
-      <category></category>
-    </item>
-    <item>
-      <title>Content: August Bed Category - Luxe</title>
-      <link>https://ddookim.github.io/storescope/digest-sample.html#p11</link>
-      <guid isPermaLink="false">brooklinen.com#content-august-bed-category-luxe</guid>
-      <pubDate>Fri, 07 Aug 2026 16:41:40 -0400</pubDate>
-      <description>Brooklinen · Content · — · 2.9d old</description>
-      <category>Content</category>
-    </item>
-    <item>
-      <title>Content: August Bed Category - Utility</title>
-      <link>https://ddookim.github.io/storescope/digest-sample.html#p12</link>
-      <guid isPermaLink="false">brooklinen.com#content-super-plush-2-0-august-bath-category-copy</guid>
-      <pubDate>Fri, 07 Aug 2026 16:36:08 -0400</pubDate>
-      <description>Brooklinen · Content · — · 2.9d old</description>
-      <category>Content</category>
-    </item>
-    <item>
       <title>Death Western Hat</title>
-      <link>https://ddookim.github.io/storescope/digest-sample.html#p13</link>
+      <link>https://ddookim.github.io/storescope/digest-sample.html#p9</link>
       <guid isPermaLink="false">liquiddeath.com#death-western-hat</guid>
       <pubDate>Fri, 07 Aug 2026 10:03:38 -0700</pubDate>
       <description>Liquid Death · Hat · $35.00 · 3.0d old</description>
       <category>Hat</category>
     </item>
     <item>
-      <title>Jacques Solovière Hairy Loafer</title>
-      <link>https://ddookim.github.io/storescope/digest-sample.html#p14</link>
-      <guid isPermaLink="false">toddsnyder.com#jacques-soloviere-new-loafer-in-nat-brown-hairybrown</guid>
-      <pubDate>Fri, 07 Aug 2026 09:48:27 -0400</pubDate>
-      <description>Jacques Solovière · Shoes · $433.00 · 3.2d old</description>
-      <category>Shoes</category>
-    </item>
-    <item>
-      <title>ASICS GEL-NYC Sneaker</title>
-      <link>https://ddookim.github.io/storescope/digest-sample.html#p15</link>
-      <guid isPermaLink="false">toddsnyder.com#asics-gel-nyc-in-white-midnightwhite</guid>
-      <pubDate>Fri, 07 Aug 2026 09:44:09 -0400</pubDate>
-      <description>ASICS · Shoes · $150.00 · 3.2d old</description>
-      <category>Shoes</category>
-    </item>
-    <item>
-      <title>Bennett Winch Trifold</title>
-      <link>https://ddookim.github.io/storescope/digest-sample.html#p16</link>
-      <guid isPermaLink="false">toddsnyder.com#bennett-winch-trifold-olive-nylonolive</guid>
-      <pubDate>Fri, 07 Aug 2026 09:42:49 -0400</pubDate>
-      <description>Bennett Winch · TS ACCESSORIES · $1500.00 · 3.2d old</description>
-      <category>TS ACCESSORIES</category>
-    </item>
-    <item>
-      <title>Bennett Winch Weekender Bag</title>
-      <link>https://ddookim.github.io/storescope/digest-sample.html#p17</link>
-      <guid isPermaLink="false">toddsnyder.com#bennett-winch-canvas-weekender-sandsand</guid>
-      <pubDate>Fri, 07 Aug 2026 09:42:17 -0400</pubDate>
-      <description>Bennett Winch · TS ACCESSORIES · $1650.00 · 3.2d old</description>
-      <category>TS ACCESSORIES</category>
-    </item>
-    <item>
-      <title>Jacques Solovière Serge Monk Strap Shoe</title>
-      <link>https://ddookim.github.io/storescope/digest-sample.html#p18</link>
-      <guid isPermaLink="false">toddsnyder.com#jacques-soloviere-serge-monk-strap-in-brownbrown</guid>
-      <pubDate>Fri, 07 Aug 2026 09:41:57 -0400</pubDate>
-      <description>Jacques Solovière · Shoes · $497.00 · 3.2d old</description>
-      <category>Shoes</category>
-    </item>
-    <item>
       <title>Heart Compact Mirror</title>
-      <link>https://ddookim.github.io/storescope/digest-sample.html#p19</link>
+      <link>https://ddookim.github.io/storescope/digest-sample.html#p10</link>
       <guid isPermaLink="false">colourpop.com#heart-mirror</guid>
       <pubDate>Thu, 06 Aug 2026 13:59:46 -0700</pubDate>
       <description>ColourPop · GWP · $12.00 · 3.9d old</description>
@@ -164,11 +92,83 @@
     </item>
     <item>
       <title>Ridge Power Bank - 10k mAh Bundle - Dark Harbor - 3-Pack</title>
-      <link>https://ddookim.github.io/storescope/digest-sample.html#p20</link>
+      <link>https://ddookim.github.io/storescope/digest-sample.html#p11</link>
       <guid isPermaLink="false">ridgewallet.com#magnetic-power-bank-bundle-3-pack-dark-harbor</guid>
       <pubDate>Thu, 06 Aug 2026 09:18:20 -0700</pubDate>
-      <description>Ridge · Tech - Power Banks - Ridge Power Bank - 10k mAh Bundle - KIT · $159.00 · 4.0d old</description>
+      <description>Ridge · Tech - Power Banks - Ridge Power Bank - 10k mAh Bundle - KIT · $159.00 · 4.1d old</description>
       <category>Tech - Power Banks - Ridge Power Bank - 10k mAh Bundle - KIT</category>
+    </item>
+    <item>
+      <title>Ridge Power Bank - 10k mAh Bundle - Dark Harbor - 2-Pack</title>
+      <link>https://ddookim.github.io/storescope/digest-sample.html#p12</link>
+      <guid isPermaLink="false">ridgewallet.com#magnetic-power-bank-bundle-2-pack-dark-harbor</guid>
+      <pubDate>Thu, 06 Aug 2026 09:18:19 -0700</pubDate>
+      <description>Ridge · Tech - Power Banks - Ridge Power Bank - 10k mAh Bundle - KIT · $139.00 · 4.1d old</description>
+      <category>Tech - Power Banks - Ridge Power Bank - 10k mAh Bundle - KIT</category>
+    </item>
+    <item>
+      <title>The Exercise 3&quot; Skort</title>
+      <link>https://ddookim.github.io/storescope/digest-sample.html#p13</link>
+      <guid isPermaLink="false">outdoorvoices.com#w-the-exercise-3in-skort-blueberry</guid>
+      <pubDate>Thu, 06 Aug 2026 08:35:22 -0400</pubDate>
+      <description>Outdoor Voices · Skorts/Skirts · $47.99 · 4.2d old</description>
+      <category>Skorts/Skirts</category>
+    </item>
+    <item>
+      <title>Volley Dress</title>
+      <link>https://ddookim.github.io/storescope/digest-sample.html#p14</link>
+      <guid isPermaLink="false">outdoorvoices.com#w-the-volley-dress-sea-green</guid>
+      <pubDate>Thu, 06 Aug 2026 08:34:41 -0400</pubDate>
+      <description>Outdoor Voices · Dresses · $74.99 · 4.2d old</description>
+      <category>Dresses</category>
+    </item>
+    <item>
+      <title>Gymshark Train Track Jacket - Espresso Brown</title>
+      <link>https://ddookim.github.io/storescope/digest-sample.html#p15</link>
+      <guid isPermaLink="false">gymshark.com#gymshark-train-track-jacket-jackets-outerwear-brown-aw26</guid>
+      <pubDate>Thu, 06 Aug 2026 01:00:00 -0700</pubDate>
+      <description>Gymshark | Be a visionary. · Mens Jackets / Outerwear · $50.00 · 4.4d old</description>
+      <category>Mens Jackets / Outerwear</category>
+    </item>
+    <item>
+      <title>Gymshark Train Hooded Track Jacket - Heavy Blue</title>
+      <link>https://ddookim.github.io/storescope/digest-sample.html#p16</link>
+      <guid isPermaLink="false">gymshark.com#gymshark-train-hooded-track-jacket-jackets-outerwear-blue-aw26</guid>
+      <pubDate>Thu, 06 Aug 2026 01:00:00 -0700</pubDate>
+      <description>Gymshark | Be a visionary. · Mens Jackets / Outerwear · $56.00 · 4.4d old</description>
+      <category>Mens Jackets / Outerwear</category>
+    </item>
+    <item>
+      <title>PSL Bundle</title>
+      <link>https://ddookim.github.io/storescope/digest-sample.html#p17</link>
+      <guid isPermaLink="false">mudwtr.com#psl-bundle</guid>
+      <pubDate>Wed, 05 Aug 2026 14:07:36 -0400</pubDate>
+      <description>MUD\WTR ·  · $40.00 · 5.0d old</description>
+      <category></category>
+    </item>
+    <item>
+      <title>PackageProtect with Onward</title>
+      <link>https://ddookim.github.io/storescope/digest-sample.html#p18</link>
+      <guid isPermaLink="false">everlane.com#onward-package-protection</guid>
+      <pubDate>Tue, 04 Aug 2026 15:11:41 -0700</pubDate>
+      <description>Onward · Insurance · $0.98 · 5.8d old</description>
+      <category>Insurance</category>
+    </item>
+    <item>
+      <title>Bride &amp; Shine SPF 8 Pack</title>
+      <link>https://ddookim.github.io/storescope/digest-sample.html#p19</link>
+      <guid isPermaLink="false">supergoop.com#bride-shine-spf-set</guid>
+      <pubDate>Sun, 02 Aug 2026 16:43:52 -0400</pubDate>
+      <description>Supergoop! ·  · $167.00 · 7.9d old</description>
+      <category></category>
+    </item>
+    <item>
+      <title>SPF! Canvas Tote Bag</title>
+      <link>https://ddookim.github.io/storescope/digest-sample.html#p20</link>
+      <guid isPermaLink="false">supergoop.com#spf-canvas-tote-bag</guid>
+      <pubDate>Sun, 02 Aug 2026 16:43:33 -0400</pubDate>
+      <description>Supergoop! · Merch · $15.00 · 7.9d old</description>
+      <category>Merch</category>
     </item>
   </channel>
 </rss>

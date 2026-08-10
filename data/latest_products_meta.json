@@ -1,8 +1,8 @@
 {
-  "generated_at": "2026-08-10T17:29:11.567919+00:00",
+  "generated_at": "2026-08-10T17:52:25.447124+00:00",
   "week": "2026-W33",
   "total_products_before_dedupe": null,
-  "total_after_dedupe": 1531,
+  "total_after_dedupe": 1332,
   "top_products_returned": 20,
   "categories": [
     {
@@ -23,7 +23,7 @@
     },
     {
       "product_type": "Knit Tops",
-      "product_count": 112,
+      "product_count": 114,
       "vendor_count": 1,
       "top_vendors": [
         "Everlane"
@@ -31,20 +31,10 @@
     },
     {
       "product_type": "Denim",
-      "product_count": 79,
+      "product_count": 78,
       "vendor_count": 1,
       "top_vendors": [
         "Everlane"
-      ]
-    },
-    {
-      "product_type": "Uncategorized",
-      "product_count": 77,
-      "vendor_count": 7,
-      "top_vendors": [
-        "Dollar Shave Club",
-        "Everlane",
-        "Gymshark | Be a visionary."
       ]
     },
     {
@@ -54,6 +44,16 @@
       "top_vendors": [
         "Everlane",
         "Outdoor Voices"
+      ]
+    },
+    {
+      "product_type": "Uncategorized",
+      "product_count": 61,
+      "vendor_count": 6,
+      "top_vendors": [
+        "Everlane",
+        "Gymshark | Be a visionary.",
+        "MUD\\WTR"
       ]
     },
     {
