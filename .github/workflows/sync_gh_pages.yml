@@ -56,6 +56,10 @@ jobs:
           if [ -f landing/digest-sample.html ]; then
             cp landing/digest-sample.html /tmp/gh-pages-wt/digest-sample.html
           fi
+          # D+11: latest_products.json 도 root (landing hero mock overlay 대상)
+          if [ -f landing/latest_products.json ]; then
+            cp landing/latest_products.json /tmp/gh-pages-wt/latest_products.json
+          fi
           mkdir -p /tmp/gh-pages-wt/outreach/evidence
           if [ -d outreach/evidence ]; then
             cp -r outreach/evidence/* /tmp/gh-pages-wt/outreach/evidence/ 2>/dev/null || true
