@@ -18,8 +18,10 @@ on:
 
 # SEC: DB-less 모드 (NEON_DB_URL 미설정) 에서만 data/*.json 커밋 back 필요.
 # DB 모드에서는 read 만으로 충분 (data 는 DB 로 이동).
+# D+11: actions:write — gh workflow run sync_gh_pages.yml (bot push chain 우회).
 permissions:
   contents: write
+  actions: write
 
 # 동시 실행 차단 — 동일 시간에 두 잡이 안 돌게.
 concurrency:
