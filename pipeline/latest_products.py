@@ -24,8 +24,9 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 _HERE = Path(__file__).resolve().parent.parent
-PRODUCTS_DIR = _HERE / "data" / "products"
-OUTPUT_FILE  = _HERE / "data" / "latest_products.json"
+PRODUCTS_DIR    = _HERE / "data" / "products"
+OUTPUT_FILE     = _HERE / "data" / "latest_products.json"
+SAMPLE_HTML     = _HERE / "landing" / "digest-sample.html"  # D+11: SEO + demo asset
 
 TOP_N              = 20     # digest 표시 개수
 LOOKBACK_DAYS      = 30     # 30일 이내 published 만 대상 (fresh signal)
@@ -163,6 +164,105 @@ def main() -> None:
         for i, p in enumerate(top[:5], 1):
             print(f"  {i}. [{p['age_days']}d] {p['title'][:60]}")
             print(f"     {p['vendor']} · {p['product_type']} · ${p['price'] or '—'}")
+
+    _write_sample_html(top, now)
+
+
+def _write_sample_html(products: list[dict], now: datetime) -> None:
+    """Regenerate landing/digest-sample.html — SEO + demo asset (D+11).
+
+    사용자가 landing 방문 시 '실제로 받는 digest 는 뭐?' 궁금증 해결.
+    Auto-updated every pipeline run (Monday 08:00 KST).
+    """
+    from html import escape as h
+    week = f"{now.isocalendar().year}-W{now.isocalendar().week:02d}"
+
+    rows = []
+    for i, p in enumerate(products[:20], 1):
+        title = h(p.get("title") or "Untitled")[:100]
+        vendor = h(p.get("vendor") or "—")
+        ptype = h(p.get("product_type") or "")
+        price = p.get("price")
+        price_str = f"${price:.2f}" if isinstance(price, (int, float)) and price > 0 else "—"
+        age = p.get("age_days", "?")
+        rows.append(f"""
+      <tr>
+        <td>{i}</td>
+        <td><strong>{title}</strong><br><span class="meta">{vendor} · {ptype}</span></td>
+        <td class="right">{age}d</td>
+        <td class="right">{price_str}</td>
+      </tr>""")
+    table = "".join(rows) or '<tr><td colspan=4 style="padding:24px;text-align:center;color:#78716C">No qualifying products this week. Digest skipped.</td></tr>'
+
+    html_out = f"""<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="StoreScope Weekly Sample — real digest from {week}. {len(products)} newest product launches across curated DTC Shopify brands. See the actual signal subscribers receive.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://ddookim.github.io/storescope/digest-sample.html">
+<title>Weekly Digest Sample · {week} — StoreScope</title>
+<style>
+  body {{ font-family: -apple-system, "Inter", sans-serif; max-width: 720px; margin: 0 auto; padding: 60px 24px; color: #1C1917; line-height: 1.65; background: #F9F8F6; }}
+  .breadcrumb {{ font-size: 0.85rem; color: #6B655F; margin-bottom: 24px; }}
+  .breadcrumb a {{ color: #4338ca; text-decoration: underline; text-decoration-color: rgba(67,56,202,0.35); text-underline-offset: 3px; }}
+  h1 {{ font-size: 2rem; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 0.4rem; line-height: 1.15; }}
+  .intro {{ color: #57534E; margin-bottom: 32px; }}
+  .badge {{ display: inline-block; padding: 4px 12px; background: rgba(79,70,229,0.08); color: #4338ca; font-size: 0.8rem; font-weight: 700; border-radius: 100px; margin-bottom: 20px; letter-spacing: 0.3px; }}
+  table {{ width: 100%; border-collapse: collapse; margin: 24px 0; font-size: 14px; background: #fff; border-radius: 12px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.04); }}
+  th, td {{ text-align: left; padding: 14px 16px; border-bottom: 1px solid #E5E5E5; vertical-align: top; }}
+  th {{ background: #F3F1EE; font-weight: 700; color: #57534E; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.5px; }}
+  td:first-child, th:first-child {{ width: 40px; color: #78716C; font-weight: 600; }}
+  td.right, th.right {{ text-align: right; white-space: nowrap; }}
+  td strong {{ color: #1C1917; font-weight: 600; display: block; }}
+  .meta {{ color: #78716C; font-size: 12px; }}
+  .cta-box {{ margin-top: 48px; padding: 32px; background: linear-gradient(135deg, rgba(79,70,229,0.06), rgba(79,70,229,0.02)); border: 1px solid rgba(79,70,229,0.15); border-radius: 14px; text-align: center; }}
+  .cta-box h2 {{ margin: 0 0 8px; font-size: 1.3rem; font-weight: 700; }}
+  .cta-box p {{ color: #6B655F; margin: 0 0 20px; font-size: 0.95rem; }}
+  .cta-box a {{ display: inline-block; background: linear-gradient(135deg, #4F46E5 0%, #3730A3 100%); color: #fff; padding: 12px 28px; border-radius: 10px; font-weight: 700; text-decoration: none; }}
+  footer {{ margin-top: 48px; padding-top: 24px; border-top: 1px solid #E5E5E5; font-size: 0.85rem; color: #6B655F; text-align: center; }}
+  footer a {{ color: #4338ca; text-decoration: underline; text-underline-offset: 3px; }}
+</style>
+</head>
+<body>
+
+<div class="breadcrumb"><a href="./">Home</a> · Digest Sample</div>
+
+<main>
+<span class="badge">Live sample · {week}</span>
+<h1>What subscribers actually get</h1>
+<p class="intro">This is the actual weekly digest generated from our pipeline. {len(products)} newest product launches across 40+ curated DTC Shopify brands, sorted by newest first. No mock, no filler. Auto-updated every Monday.</p>
+
+<table>
+  <thead><tr>
+    <th>#</th>
+    <th>Product</th>
+    <th class="right">Age</th>
+    <th class="right">Price</th>
+  </tr></thead>
+  <tbody>{table}
+  </tbody>
+</table>
+
+<div class="cta-box">
+  <h2>Want this every Monday?</h2>
+  <p>Drop your email on the site — no card, no fluff. Unsubscribe with one click.</p>
+  <a href="./?ref=digest-sample#hero">Get the Monday digest →</a>
+</div>
+
+<footer>
+  Signal source: Shopify /products.json across curated DTC brands, filtered for freshness (30-day window) with vendor and category diversity caps.
+  <br><a href="./">← Back to StoreScope</a>
+</footer>
+
+</main>
+</body>
+</html>
+"""
+    SAMPLE_HTML.parent.mkdir(parents=True, exist_ok=True)
+    SAMPLE_HTML.write_text(html_out)
+    print(f"  → {SAMPLE_HTML} ({len(html_out)} chars)")
 
 
 if __name__ == "__main__":
