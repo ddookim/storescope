@@ -1,13 +1,13 @@
 {
-  "generated_at": "2026-08-10T11:19:48.422602+00:00",
+  "generated_at": "2026-08-10T11:26:59.457221+00:00",
   "week": "2026-W33",
   "total_products_before_dedupe": null,
-  "total_after_dedupe": 769,
+  "total_after_dedupe": 615,
   "top_products_returned": 20,
   "categories": [
     {
       "product_type": "Semi-Permanent Tattoo",
-      "product_count": 191,
+      "product_count": 192,
       "vendor_count": 25,
       "top_vendors": [
         "Aimee Isabel",
@@ -25,21 +25,10 @@
     },
     {
       "product_type": "Bags",
-      "product_count": 46,
-      "vendor_count": 2,
+      "product_count": 40,
+      "vendor_count": 1,
       "top_vendors": [
-        "Gymshark | Be a visionary.",
         "Peak Design"
-      ]
-    },
-    {
-      "product_type": "Uncategorized",
-      "product_count": 45,
-      "vendor_count": 5,
-      "top_vendors": [
-        "Athletic Brewing Company",
-        "Death Wish Coffee",
-        "Fenty Skin"
       ]
     },
     {
@@ -51,30 +40,36 @@
       ]
     },
     {
-      "product_type": "Sheets",
-      "product_count": 19,
-      "vendor_count": 2,
-      "top_vendors": [
-        "Brooklinen",
-        "Sunday Citizen"
-      ]
-    },
-    {
-      "product_type": "Accessories",
-      "product_count": 17,
-      "vendor_count": 6,
-      "top_vendors": [
-        "BAMKO",
-        "Gymshark | Be a visionary.",
-        "Kocreators"
-      ]
-    },
-    {
       "product_type": "Wovens",
       "product_count": 17,
       "vendor_count": 1,
       "top_vendors": [
         "Taylor Stitch"
+      ]
+    },
+    {
+      "product_type": "Shorts",
+      "product_count": 14,
+      "vendor_count": 1,
+      "top_vendors": [
+        "Outdoor Voices"
+      ]
+    },
+    {
+      "product_type": "EDC - WALLET - RIDGE WALLET - SINGLE",
+      "product_count": 13,
+      "vendor_count": 2,
+      "top_vendors": [
+        "Ridge",
+        "The Ridge Wallet"
+      ]
+    },
+    {
+      "product_type": "Bundles",
+      "product_count": 13,
+      "vendor_count": 1,
+      "top_vendors": [
+        "Casper"
       ]
     }
   ]

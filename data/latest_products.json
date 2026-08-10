@@ -1,27 +1,5 @@
 [
   {
-    "domain": "brooklinen.com",
-    "title": "Content: August Bed Category - Luxe",
-    "handle": "content-august-bed-category-luxe",
-    "product_type": "Content",
-    "vendor": "Brooklinen",
-    "published_at": "2026-08-07T16:41:40-04:00",
-    "price": 0.0,
-    "image_url": "",
-    "age_days": 2.6
-  },
-  {
-    "domain": "brooklinen.com",
-    "title": "Content: August Bed Category - Utility",
-    "handle": "content-super-plush-2-0-august-bath-category-copy",
-    "product_type": "Content",
-    "vendor": "Brooklinen",
-    "published_at": "2026-08-07T16:36:08-04:00",
-    "price": 0.0,
-    "image_url": "",
-    "age_days": 2.6
-  },
-  {
     "domain": "inkbox.com",
     "title": "Reminiscence",
     "handle": "reminiscence",
@@ -42,28 +20,6 @@
     "price": 18.0,
     "image_url": "https://cdn.shopify.com/s/files/1/0721/3075/6678/files/OD-IB01002-IB-4.0-4.0.jpg?v=1786110734",
     "age_days": 2.7
-  },
-  {
-    "domain": "lunya.co",
-    "title": "Cottonsilk™ Pocket Henley",
-    "handle": "womens-cottonsilk-pocket-henley-oat-marl",
-    "product_type": "Sweaters",
-    "vendor": "Lunya",
-    "published_at": "2026-08-07T11:45:19-04:00",
-    "price": 228.0,
-    "image_url": "https://cdn.shopify.com/s/files/1/0267/0987/files/COZY_COTTON_SILK_POCKET_HENLEY_OAT_MARL-1_9734d18c-2970-4dd5-a007-3d7fd96c50b7.jpg?v=1762201235",
-    "age_days": 2.8
-  },
-  {
-    "domain": "lunya.co",
-    "title": "Washable Silk Travel Sleep Sack",
-    "handle": "washable-silk-travel-sleep-sack-waning-night",
-    "product_type": "Accessories",
-    "vendor": "Lunya",
-    "published_at": "2026-08-07T11:44:38-04:00",
-    "price": 298.0,
-    "image_url": "https://cdn.shopify.com/s/files/1/0267/0987/files/Washable-Silk-Sleep-Sack-1.jpg?v=1762202008",
-    "age_days": 2.8
   },
   {
     "domain": "taylorstitch.com",
@@ -110,28 +66,6 @@
     "age_days": 3.6
   },
   {
-    "domain": "fentybeauty.com",
-    "title": "Sun Stalk'r Instant Warmth Bronzer — Chai Latte",
-    "handle": "sun-stalkr-instant-warmth-bronzer-chai-latte",
-    "product_type": "Blushes & Bronzers",
-    "vendor": "Fenty Beauty",
-    "published_at": "2026-08-06T08:01:16-07:00",
-    "price": 38.0,
-    "image_url": "https://cdn.shopify.com/s/files/1/0341/3458/9485/files/FB_SUM26_T2PRODUCT_ECOMM_SUNSTALKR_BRONZER_SHADE-EXT_CHAI_LATTE_1200X1500_72DPI.jpg?v=1785174396",
-    "age_days": 3.8
-  },
-  {
-    "domain": "fentybeauty.com",
-    "title": "Sun Stalk'r Instant Warmth Bronzer — Mocha Mamii",
-    "handle": "sun-stalkr-instant-warmth-bronzer-mocha-mamii",
-    "product_type": "Blushes & Bronzers",
-    "vendor": "Fenty Beauty",
-    "published_at": "2026-08-06T08:01:08-07:00",
-    "price": 38.0,
-    "image_url": "https://cdn.shopify.com/s/files/1/0341/3458/9485/files/FB_SUM26_T2PRODUCT_ECOMM_SUNSTALKR_BRONZER_SHADE-EXT_MOCHA_MAMII_1200X1500_72DPI.jpg?v=1785174550",
-    "age_days": 3.8
-  },
-  {
     "domain": "inkbox.com",
     "title": "Whatever Will Be, Will Be",
     "handle": "whatever-will-be-will-be",
@@ -151,6 +85,28 @@
     "published_at": "2026-08-06T09:33:48-07:00",
     "price": 18.0,
     "image_url": "https://cdn.shopify.com/s/files/1/0721/3075/6678/files/OD-IB00995-IB-5.0-2.0.jpg?v=1786026534",
+    "age_days": 3.8
+  },
+  {
+    "domain": "ridgewallet.com",
+    "title": "Ridge Power Bank - 10k mAh Bundle - Dark Harbor - 3-Pack",
+    "handle": "magnetic-power-bank-bundle-3-pack-dark-harbor",
+    "product_type": "Tech - Power Banks - Ridge Power Bank - 10k mAh Bundle - KIT",
+    "vendor": "Ridge",
+    "published_at": "2026-08-06T09:18:20-07:00",
+    "price": 159.0,
+    "image_url": "https://cdn.shopify.com/s/files/1/0613/6213/files/MagneticPowerbank-Bundle-DarkHarbor-THUMBNAIL1_3s_9e212e1f-440f-4570-af90-0fb21d822b74.jpg?v=1766100569",
+    "age_days": 3.8
+  },
+  {
+    "domain": "ridgewallet.com",
+    "title": "Ridge Power Bank - 10k mAh Bundle - Dark Harbor - 2-Pack",
+    "handle": "magnetic-power-bank-bundle-2-pack-dark-harbor",
+    "product_type": "Tech - Power Banks - Ridge Power Bank - 10k mAh Bundle - KIT",
+    "vendor": "Ridge",
+    "published_at": "2026-08-06T09:18:19-07:00",
+    "price": 139.0,
+    "image_url": "https://cdn.shopify.com/s/files/1/0613/6213/files/MagneticPowerbank-Bundle-DarkHarbor-THUMBNAIL2_b86e0f6a-e843-464a-adc7-5d63a7f5bdf0.jpg?v=1784212971",
     "age_days": 3.8
   },
   {
@@ -198,25 +154,69 @@
     "age_days": 3.9
   },
   {
-    "domain": "gymshark.com",
-    "title": "Gymshark Train Track Jacket - Espresso Brown",
-    "handle": "gymshark-train-track-jacket-jackets-outerwear-brown-aw26",
-    "product_type": "Mens Jackets / Outerwear",
-    "vendor": "Gymshark | Be a visionary.",
-    "published_at": "2026-08-06T01:00:00-07:00",
-    "price": 50.0,
-    "image_url": "https://cdn.shopify.com/s/files/1/0156/6146/files/GoodTrainWovenTrack_NONHOODGSEspressoBrownA5B7Y_NDJ1_0224.jpg?v=1785918703",
-    "age_days": 4.1
+    "domain": "fentybeauty.com",
+    "title": "Sun Stalk'r Instant Warmth Bronzer — Chai Latte",
+    "handle": "sun-stalkr-instant-warmth-bronzer-chai-latte",
+    "product_type": "Blushes & Bronzers",
+    "vendor": "Fenty Beauty",
+    "published_at": "2026-08-06T08:01:16-07:00",
+    "price": 38.0,
+    "image_url": "https://cdn.shopify.com/s/files/1/0341/3458/9485/files/FB_SUM26_T2PRODUCT_ECOMM_SUNSTALKR_BRONZER_SHADE-EXT_CHAI_LATTE_1200X1500_72DPI.jpg?v=1785174396",
+    "age_days": 3.9
   },
   {
-    "domain": "gymshark.com",
-    "title": "Gymshark Train Hooded Track Jacket - Heavy Blue",
-    "handle": "gymshark-train-hooded-track-jacket-jackets-outerwear-blue-aw26",
-    "product_type": "Mens Jackets / Outerwear",
-    "vendor": "Gymshark | Be a visionary.",
-    "published_at": "2026-08-06T01:00:00-07:00",
-    "price": 56.0,
-    "image_url": "https://cdn.shopify.com/s/files/1/0156/6146/files/GoodTrainWovenTrack_HOODGSHeavyBlueA5C9S_UCTN_0254.jpg?v=1785853542",
-    "age_days": 4.1
+    "domain": "fentybeauty.com",
+    "title": "Sun Stalk'r Instant Warmth Bronzer — Mocha Mamii",
+    "handle": "sun-stalkr-instant-warmth-bronzer-mocha-mamii",
+    "product_type": "Blushes & Bronzers",
+    "vendor": "Fenty Beauty",
+    "published_at": "2026-08-06T08:01:08-07:00",
+    "price": 38.0,
+    "image_url": "https://cdn.shopify.com/s/files/1/0341/3458/9485/files/FB_SUM26_T2PRODUCT_ECOMM_SUNSTALKR_BRONZER_SHADE-EXT_MOCHA_MAMII_1200X1500_72DPI.jpg?v=1785174550",
+    "age_days": 3.9
+  },
+  {
+    "domain": "outdoorvoices.com",
+    "title": "The Exercise 3\" Skort",
+    "handle": "w-the-exercise-3in-skort-blueberry",
+    "product_type": "Skorts/Skirts",
+    "vendor": "Outdoor Voices",
+    "published_at": "2026-08-06T08:35:22-04:00",
+    "price": 47.99,
+    "image_url": "https://cdn.shopify.com/s/files/1/0190/1390/files/W701427-WTS-BLB_The_Exercise_3in_Skort_Blueberry_030_crop_5b78d1af-95d2-43f5-a138-7b4d15666fa7.jpg?v=1759272329",
+    "age_days": 4.0
+  },
+  {
+    "domain": "outdoorvoices.com",
+    "title": "Volley Dress",
+    "handle": "w-the-volley-dress-sea-green",
+    "product_type": "Dresses",
+    "vendor": "Outdoor Voices",
+    "published_at": "2026-08-06T08:34:41-04:00",
+    "price": 74.99,
+    "image_url": "https://cdn.shopify.com/s/files/1/0190/1390/files/W402143-BIT-SEN_The_Volley_Dress_Sea_Green_014_2a69219a-30cc-4178-b208-a0c8c69c807a.jpg?v=1742254668",
+    "age_days": 4.0
+  },
+  {
+    "domain": "fentybeauty.com",
+    "title": "Pink Links Lip Care + Cheek Trip Set",
+    "handle": "pink-links-lip-care-cheek-trip-set",
+    "product_type": "Lip Balms & Treatments",
+    "vendor": "Fenty Skin",
+    "published_at": "2026-08-05T16:19:36-07:00",
+    "price": 55.0,
+    "image_url": "https://cdn.shopify.com/s/files/1/0341/3458/9485/files/FB_20FS_SPR26_T2PRODUCT_EDITORIAL_LE-RAMADAN_PINK-LINK_1200X1500_72DPI.jpg?v=1785516047",
+    "age_days": 4.5
+  },
+  {
+    "domain": "fentybeauty.com",
+    "title": "Hydra Vizor Invisible Moisturizer Broad Spectrum SPF 30 Sunscreen Deluxe Sample",
+    "handle": "hydra-vizor-invisible-moisturizer-broad-spectrum-spf-30-sunscreen-deluxe-sample",
+    "product_type": "Sunscreen",
+    "vendor": "Fenty Skin",
+    "published_at": "2026-08-05T13:39:29-07:00",
+    "price": 1.5,
+    "image_url": "https://cdn.shopify.com/s/files/1/0341/3458/9485/products/FS_CORE_T2PRODUCT_SILO_FENTY_SKIN_HYDRA_VIZOR_SAMPLE_1200x1200_673b6f5b-6241-483f-ac5f-1cf3f5512a34.jpg?v=1762198735",
+    "age_days": 4.6
   }
 ]
