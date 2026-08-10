@@ -62,13 +62,16 @@ jobs:
           fi
 
           # 변경 여부 확인 + 커밋
+          # D+11 fix: 이전 'git diff --quiet' 는 UNTRACKED 파일 (신규 root file) 놓침
+          # → 신규 digest-sample.html root copy 후 'no changes' 오탐.
+          # git status --porcelain 는 tracked + untracked 모두 lines out.
           cd /tmp/gh-pages-wt
-          if git diff --quiet && git diff --cached --quiet; then
+          git add -A   # tracked + untracked 모두 stage
+          if git diff --cached --quiet; then
             echo "No changes to sync — skip commit"
             exit 0
           fi
 
-          git add -A
           git commit -m "chore: landing deploy $(date -u +%Y-%m-%d) (auto-sync from ${GITHUB_SHA:0:7})"
           git push origin gh-pages
 
