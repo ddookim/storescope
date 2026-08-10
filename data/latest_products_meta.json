@@ -1,8 +1,8 @@
 {
-  "generated_at": "2026-08-10T11:26:59.457221+00:00",
+  "generated_at": "2026-08-10T11:33:49.401428+00:00",
   "week": "2026-W33",
   "total_products_before_dedupe": null,
-  "total_after_dedupe": 615,
+  "total_after_dedupe": 727,
   "top_products_returned": 20,
   "categories": [
     {
@@ -25,10 +25,38 @@
     },
     {
       "product_type": "Bags",
+      "product_count": 46,
+      "vendor_count": 4,
+      "top_vendors": [
+        "DopplerMatte Flight Pouch",
+        "DopplerMatte Toiletry Kit",
+        "DopplerMatte Weekender"
+      ]
+    },
+    {
+      "product_type": "Mens",
+      "product_count": 46,
+      "vendor_count": 1,
+      "top_vendors": [
+        "tentree"
+      ]
+    },
+    {
+      "product_type": "Womens",
       "product_count": 40,
       "vendor_count": 1,
       "top_vendors": [
-        "Peak Design"
+        "tentree"
+      ]
+    },
+    {
+      "product_type": "Accessories",
+      "product_count": 31,
+      "vendor_count": 5,
+      "top_vendors": [
+        "BAMKO",
+        "Kocreators",
+        "Planet Apparel"
       ]
     },
     {
@@ -45,31 +73,6 @@
       "vendor_count": 1,
       "top_vendors": [
         "Taylor Stitch"
-      ]
-    },
-    {
-      "product_type": "Shorts",
-      "product_count": 14,
-      "vendor_count": 1,
-      "top_vendors": [
-        "Outdoor Voices"
-      ]
-    },
-    {
-      "product_type": "EDC - WALLET - RIDGE WALLET - SINGLE",
-      "product_count": 13,
-      "vendor_count": 2,
-      "top_vendors": [
-        "Ridge",
-        "The Ridge Wallet"
-      ]
-    },
-    {
-      "product_type": "Bundles",
-      "product_count": 13,
-      "vendor_count": 1,
-      "top_vendors": [
-        "Casper"
       ]
     }
   ]

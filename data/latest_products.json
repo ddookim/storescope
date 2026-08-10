@@ -1,5 +1,16 @@
 [
   {
+    "domain": "colourpop.com",
+    "title": "Aurora Struck",
+    "handle": "aurora-stuck-shadow-palette",
+    "product_type": "Shadow Palette",
+    "vendor": "ColourPop",
+    "published_at": "2026-08-08T18:06:53-07:00",
+    "price": 35.0,
+    "image_url": "https://cdn.shopify.com/s/files/1/1338/0845/files/Aurora-Struck-Palette-Into-with-UC.jpg?v=1693429053",
+    "age_days": 1.4
+  },
+  {
     "domain": "inkbox.com",
     "title": "Reminiscence",
     "handle": "reminiscence",
@@ -22,6 +33,17 @@
     "age_days": 2.7
   },
   {
+    "domain": "liquiddeath.com",
+    "title": "Death Western Hat",
+    "handle": "death-western-hat",
+    "product_type": "Hat",
+    "vendor": "Liquid Death",
+    "published_at": "2026-08-07T10:03:38-07:00",
+    "price": 35.0,
+    "image_url": "https://cdn.shopify.com/s/files/1/0079/4289/7737/files/DeathWesternHat_White_3-4Wide_4876_2048x2048_a3283c59-aa23-4e61-a8ed-9150d662202b.webp?v=1785901561",
+    "age_days": 2.8
+  },
+  {
     "domain": "taylorstitch.com",
     "title": "The Regenerative Cotton Tee in Saffron",
     "handle": "regenerative-cotton-tee-in-saffron-2608",
@@ -42,6 +64,17 @@
     "price": 55.0,
     "image_url": "https://cdn.shopify.com/s/files/1/0070/1922/files/instock_m_q326_regenerative-cotton-tee-faded-pine_portrait_001.jpg?v=1785862341",
     "age_days": 2.8
+  },
+  {
+    "domain": "colourpop.com",
+    "title": "Heart Compact Mirror",
+    "handle": "heart-mirror",
+    "product_type": "GWP",
+    "vendor": "ColourPop",
+    "published_at": "2026-08-06T13:59:46-07:00",
+    "price": 12.0,
+    "image_url": "https://cdn.shopify.com/s/files/1/1338/0845/files/HeartMirror-PDP.jpg?v=1777926371",
+    "age_days": 3.6
   },
   {
     "domain": "sundaycitizen.com",
@@ -85,28 +118,6 @@
     "published_at": "2026-08-06T09:33:48-07:00",
     "price": 18.0,
     "image_url": "https://cdn.shopify.com/s/files/1/0721/3075/6678/files/OD-IB00995-IB-5.0-2.0.jpg?v=1786026534",
-    "age_days": 3.8
-  },
-  {
-    "domain": "ridgewallet.com",
-    "title": "Ridge Power Bank - 10k mAh Bundle - Dark Harbor - 3-Pack",
-    "handle": "magnetic-power-bank-bundle-3-pack-dark-harbor",
-    "product_type": "Tech - Power Banks - Ridge Power Bank - 10k mAh Bundle - KIT",
-    "vendor": "Ridge",
-    "published_at": "2026-08-06T09:18:20-07:00",
-    "price": 159.0,
-    "image_url": "https://cdn.shopify.com/s/files/1/0613/6213/files/MagneticPowerbank-Bundle-DarkHarbor-THUMBNAIL1_3s_9e212e1f-440f-4570-af90-0fb21d822b74.jpg?v=1766100569",
-    "age_days": 3.8
-  },
-  {
-    "domain": "ridgewallet.com",
-    "title": "Ridge Power Bank - 10k mAh Bundle - Dark Harbor - 2-Pack",
-    "handle": "magnetic-power-bank-bundle-2-pack-dark-harbor",
-    "product_type": "Tech - Power Banks - Ridge Power Bank - 10k mAh Bundle - KIT",
-    "vendor": "Ridge",
-    "published_at": "2026-08-06T09:18:19-07:00",
-    "price": 139.0,
-    "image_url": "https://cdn.shopify.com/s/files/1/0613/6213/files/MagneticPowerbank-Bundle-DarkHarbor-THUMBNAIL2_b86e0f6a-e843-464a-adc7-5d63a7f5bdf0.jpg?v=1784212971",
     "age_days": 3.8
   },
   {
@@ -207,16 +218,5 @@
     "price": 55.0,
     "image_url": "https://cdn.shopify.com/s/files/1/0341/3458/9485/files/FB_20FS_SPR26_T2PRODUCT_EDITORIAL_LE-RAMADAN_PINK-LINK_1200X1500_72DPI.jpg?v=1785516047",
     "age_days": 4.5
-  },
-  {
-    "domain": "fentybeauty.com",
-    "title": "Hydra Vizor Invisible Moisturizer Broad Spectrum SPF 30 Sunscreen Deluxe Sample",
-    "handle": "hydra-vizor-invisible-moisturizer-broad-spectrum-spf-30-sunscreen-deluxe-sample",
-    "product_type": "Sunscreen",
-    "vendor": "Fenty Skin",
-    "published_at": "2026-08-05T13:39:29-07:00",
-    "price": 1.5,
-    "image_url": "https://cdn.shopify.com/s/files/1/0341/3458/9485/products/FS_CORE_T2PRODUCT_SILO_FENTY_SKIN_HYDRA_VIZOR_SAMPLE_1200x1200_673b6f5b-6241-483f-ac5f-1cf3f5512a34.jpg?v=1762198735",
-    "age_days": 4.6
   }
 ]
