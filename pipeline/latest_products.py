@@ -313,10 +313,8 @@ def _update_blog_index() -> None:
             continue
         # Title: <h1>This Week in DTC · YYYY-WNN</h1>
         m_title = re.search(r"<h1[^>]*>([^<]+)</h1>", text)
-        m_lead = re.search(r"<p class=\"lede\">([^<]+)", text)
         m_meta = re.search(r"Published ([^·]+)·", text)
         title = h((m_title.group(1) if m_title else wf.stem)).strip()[:120]
-        lead = h((m_lead.group(1) if m_lead else "")).strip()[:150] + "…" if m_lead else ""
         date = h((m_meta.group(1) if m_meta else "")).strip()[:20]
         entries.append(
             f'''  <a class="weekly-post" href="./{wf.name}">
