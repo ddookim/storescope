@@ -1,36 +1,25 @@
 [
   {
     "domain": "everlane.com",
-    "title": "Utility Twill Barrel Pant | Black | Long",
-    "handle": "womens-utility-twill-barrel-pant-black-long",
-    "product_type": "Bottoms",
+    "title": "Tissue Boatneck Top | Grey",
+    "handle": "womens-everlight-boatneck-top-grey",
+    "product_type": "Knit Tops",
     "vendor": "Everlane",
-    "published_at": "2026-08-10T10:20:13-07:00",
-    "price": 138.0,
-    "image_url": "https://cdn.shopify.com/s/files/1/0623/7916/3734/files/2026-08-09_F-BTM-UTW-TWST-BAREL-BLK_01_02af691c-03de-4a10-b248-5105ad904b06.jpg?v=1786039376",
+    "published_at": "2026-08-10T10:47:44-07:00",
+    "price": 68.0,
+    "image_url": "https://cdn.shopify.com/s/files/1/0623/7916/3734/files/2026-07-19_F-T-TIS-BOAT-LS-GREY_flat.jpg?v=1786384059",
     "age_days": 0.0
   },
   {
-    "domain": "dollarshaveclub.com",
-    "title": "Baby Ball Spray",
-    "handle": "baby-ball-spray",
-    "product_type": "",
-    "vendor": "Dollar Shave Club",
-    "published_at": "2026-08-10T07:45:46-07:00",
-    "price": 10.0,
-    "image_url": "",
-    "age_days": 0.1
-  },
-  {
-    "domain": "toddsnyder.com",
-    "title": "Japanese Selvedge Big Chino",
-    "handle": "giant-fit-japanese-selvedge-chinokhaki",
-    "product_type": "Pants",
-    "vendor": "Todd Snyder",
-    "published_at": "2026-08-10T10:37:19-04:00",
-    "price": 348.0,
-    "image_url": "https://cdn.shopify.com/s/files/1/0186/1574/files/SEPT26_PA073014_KHAKI_FL1_R.jpg?v=1786372622",
-    "age_days": 0.1
+    "domain": "everlane.com",
+    "title": "Tissue Boatneck Top | Beech",
+    "handle": "womens-everlight-boatneck-top-beech",
+    "product_type": "Knit Tops",
+    "vendor": "Everlane",
+    "published_at": "2026-08-10T10:47:13-07:00",
+    "price": 74.0,
+    "image_url": "https://cdn.shopify.com/s/files/1/0623/7916/3734/files/2026-07-19_F-T-TIS-BOAT-LS-BCHST_flat.jpg?v=1786383998",
+    "age_days": 0.0
   },
   {
     "domain": "liquiddeath.com",
@@ -42,17 +31,6 @@
     "price": 62.0,
     "image_url": "https://cdn.shopify.com/s/files/1/0079/4289/7737/files/TikiTourtureButtonUp_Blue_WideFront_4891_2048x2048_e529584d-e371-4459-b06f-4c14d3eccad0.webp?v=1785902363",
     "age_days": 0.2
-  },
-  {
-    "domain": "everlane.com",
-    "title": "Utility Seamed Wide-Leg Pant | Navy | Long",
-    "handle": "womens-utility-seamed-wide-leg-pant-navy-long",
-    "product_type": "Bottoms",
-    "vendor": "Everlane",
-    "published_at": "2026-08-09T21:40:06-07:00",
-    "price": 138.0,
-    "image_url": "https://cdn.shopify.com/s/files/1/0623/7916/3734/files/2026-08-09_F-BTM-UTW-WIDE-PNT-TNVY_01.jpg?v=1786041914",
-    "age_days": 0.5
   },
   {
     "domain": "truebotanicals.com",
@@ -77,6 +55,28 @@
     "age_days": 0.7
   },
   {
+    "domain": "mackweldon.com",
+    "title": "3-Pack AIRKNITˣ Cotton Boxer Briefs",
+    "handle": "3-pack-airknitˣ-cotton-boxer-briefs",
+    "product_type": "Underwear",
+    "vendor": "Mack Weldon",
+    "published_at": "2026-08-08T23:08:44-04:00",
+    "price": 96.9,
+    "image_url": "https://cdn.shopify.com/s/files/1/0078/6825/2273/files/0701_LIVE_3pack-Airknitx_Cotton_BB_2.png?v=1785248296",
+    "age_days": 1.6
+  },
+  {
+    "domain": "mackweldon.com",
+    "title": "3-Pack AIRKNITˣ Cotton Boxer Briefs - With Fly",
+    "handle": "3-pack-airknitˣ-cotton-boxer-briefs-with-fly",
+    "product_type": "Underwear",
+    "vendor": "Mack Weldon",
+    "published_at": "2026-08-08T23:07:51-04:00",
+    "price": 96.9,
+    "image_url": "https://cdn.shopify.com/s/files/1/0078/6825/2273/files/0701_LIVE_3pack-AirknitxCottonBB_w-fly_3.png?v=1785251347",
+    "age_days": 1.6
+  },
+  {
     "domain": "colourpop.com",
     "title": "Aurora Struck",
     "handle": "aurora-stuck-shadow-palette",
@@ -88,50 +88,6 @@
     "age_days": 1.7
   },
   {
-    "domain": "parachutehome.com",
-    "title": "Percale Duvet Cover Set - Bone TW/XL",
-    "handle": "percale-duvet-cover-set-bone-tw-xl",
-    "product_type": "",
-    "vendor": "Parachute Home",
-    "published_at": "2026-08-07T14:10:48-07:00",
-    "price": 279.0,
-    "image_url": "https://cdn.shopify.com/s/files/1/0396/8269/files/percale-duvet-cover-set-bone-_f-q_k-ck__01_f75c9aa9-0972-45a7-b812-184ad79c6a5f.jpg?v=1762839021",
-    "age_days": 2.8
-  },
-  {
-    "domain": "parachutehome.com",
-    "title": "Percale Sheet Set - Bone TW/XL",
-    "handle": "percale-sheet-set-bone-tw-xl",
-    "product_type": "",
-    "vendor": "Parachute Home",
-    "published_at": "2026-08-07T14:10:25-07:00",
-    "price": 239.0,
-    "image_url": "https://cdn.shopify.com/s/files/1/0396/8269/files/percale-sheet-set-bone-_f-q_k-ck__01_517dafce-e62e-4c1b-a013-19be499b3574.jpg?v=1762839014",
-    "age_days": 2.8
-  },
-  {
-    "domain": "brooklinen.com",
-    "title": "Content: August Bed Category - Luxe",
-    "handle": "content-august-bed-category-luxe",
-    "product_type": "Content",
-    "vendor": "Brooklinen",
-    "published_at": "2026-08-07T16:41:40-04:00",
-    "price": 0.0,
-    "image_url": "",
-    "age_days": 2.9
-  },
-  {
-    "domain": "brooklinen.com",
-    "title": "Content: August Bed Category - Utility",
-    "handle": "content-super-plush-2-0-august-bath-category-copy",
-    "product_type": "Content",
-    "vendor": "Brooklinen",
-    "published_at": "2026-08-07T16:36:08-04:00",
-    "price": 0.0,
-    "image_url": "",
-    "age_days": 2.9
-  },
-  {
     "domain": "liquiddeath.com",
     "title": "Death Western Hat",
     "handle": "death-western-hat",
@@ -141,61 +97,6 @@
     "price": 35.0,
     "image_url": "https://cdn.shopify.com/s/files/1/0079/4289/7737/files/DeathWesternHat_White_3-4Wide_4876_2048x2048_a3283c59-aa23-4e61-a8ed-9150d662202b.webp?v=1785901561",
     "age_days": 3.0
-  },
-  {
-    "domain": "toddsnyder.com",
-    "title": "Jacques Solovière Hairy Loafer",
-    "handle": "jacques-soloviere-new-loafer-in-nat-brown-hairybrown",
-    "product_type": "Shoes",
-    "vendor": "Jacques Solovière",
-    "published_at": "2026-08-07T09:48:27-04:00",
-    "price": 433.0,
-    "image_url": "https://cdn.shopify.com/s/files/1/0186/1574/files/WARMJACN84_BROWN_1_R.jpg?v=1786110485",
-    "age_days": 3.2
-  },
-  {
-    "domain": "toddsnyder.com",
-    "title": "ASICS GEL-NYC Sneaker",
-    "handle": "asics-gel-nyc-in-white-midnightwhite",
-    "product_type": "Shoes",
-    "vendor": "ASICS",
-    "published_at": "2026-08-07T09:44:09-04:00",
-    "price": 150.0,
-    "image_url": "https://cdn.shopify.com/s/files/1/0186/1574/files/1203A383_118_SR_RT_GLB_R.jpg?v=1786049836",
-    "age_days": 3.2
-  },
-  {
-    "domain": "toddsnyder.com",
-    "title": "Bennett Winch Trifold",
-    "handle": "bennett-winch-trifold-olive-nylonolive",
-    "product_type": "TS ACCESSORIES",
-    "vendor": "Bennett Winch",
-    "published_at": "2026-08-07T09:42:49-04:00",
-    "price": 1500.0,
-    "image_url": "https://cdn.shopify.com/s/files/1/0186/1574/files/BennettWinch_Trifold_Olive_Back_R.jpg?v=1786050254",
-    "age_days": 3.2
-  },
-  {
-    "domain": "toddsnyder.com",
-    "title": "Bennett Winch Weekender Bag",
-    "handle": "bennett-winch-canvas-weekender-sandsand",
-    "product_type": "TS ACCESSORIES",
-    "vendor": "Bennett Winch",
-    "published_at": "2026-08-07T09:42:17-04:00",
-    "price": 1650.0,
-    "image_url": "https://cdn.shopify.com/s/files/1/0186/1574/files/Weekender_Sand_Front_R.jpg?v=1786050384",
-    "age_days": 3.2
-  },
-  {
-    "domain": "toddsnyder.com",
-    "title": "Jacques Solovière Serge Monk Strap Shoe",
-    "handle": "jacques-soloviere-serge-monk-strap-in-brownbrown",
-    "product_type": "Shoes",
-    "vendor": "Jacques Solovière",
-    "published_at": "2026-08-07T09:41:57-04:00",
-    "price": 497.0,
-    "image_url": "https://cdn.shopify.com/s/files/1/0186/1574/files/PERMSERG62_BROWN_1_R.jpg?v=1786050806",
-    "age_days": 3.2
   },
   {
     "domain": "colourpop.com",
@@ -217,6 +118,105 @@
     "published_at": "2026-08-06T09:18:20-07:00",
     "price": 159.0,
     "image_url": "https://cdn.shopify.com/s/files/1/0613/6213/files/MagneticPowerbank-Bundle-DarkHarbor-THUMBNAIL1_3s_9e212e1f-440f-4570-af90-0fb21d822b74.jpg?v=1766100569",
-    "age_days": 4.0
+    "age_days": 4.1
+  },
+  {
+    "domain": "ridgewallet.com",
+    "title": "Ridge Power Bank - 10k mAh Bundle - Dark Harbor - 2-Pack",
+    "handle": "magnetic-power-bank-bundle-2-pack-dark-harbor",
+    "product_type": "Tech - Power Banks - Ridge Power Bank - 10k mAh Bundle - KIT",
+    "vendor": "Ridge",
+    "published_at": "2026-08-06T09:18:19-07:00",
+    "price": 139.0,
+    "image_url": "https://cdn.shopify.com/s/files/1/0613/6213/files/MagneticPowerbank-Bundle-DarkHarbor-THUMBNAIL2_b86e0f6a-e843-464a-adc7-5d63a7f5bdf0.jpg?v=1784212971",
+    "age_days": 4.1
+  },
+  {
+    "domain": "outdoorvoices.com",
+    "title": "The Exercise 3\" Skort",
+    "handle": "w-the-exercise-3in-skort-blueberry",
+    "product_type": "Skorts/Skirts",
+    "vendor": "Outdoor Voices",
+    "published_at": "2026-08-06T08:35:22-04:00",
+    "price": 47.99,
+    "image_url": "https://cdn.shopify.com/s/files/1/0190/1390/files/W701427-WTS-BLB_The_Exercise_3in_Skort_Blueberry_030_crop_5b78d1af-95d2-43f5-a138-7b4d15666fa7.jpg?v=1759272329",
+    "age_days": 4.2
+  },
+  {
+    "domain": "outdoorvoices.com",
+    "title": "Volley Dress",
+    "handle": "w-the-volley-dress-sea-green",
+    "product_type": "Dresses",
+    "vendor": "Outdoor Voices",
+    "published_at": "2026-08-06T08:34:41-04:00",
+    "price": 74.99,
+    "image_url": "https://cdn.shopify.com/s/files/1/0190/1390/files/W402143-BIT-SEN_The_Volley_Dress_Sea_Green_014_2a69219a-30cc-4178-b208-a0c8c69c807a.jpg?v=1742254668",
+    "age_days": 4.2
+  },
+  {
+    "domain": "gymshark.com",
+    "title": "Gymshark Train Track Jacket - Espresso Brown",
+    "handle": "gymshark-train-track-jacket-jackets-outerwear-brown-aw26",
+    "product_type": "Mens Jackets / Outerwear",
+    "vendor": "Gymshark | Be a visionary.",
+    "published_at": "2026-08-06T01:00:00-07:00",
+    "price": 50.0,
+    "image_url": "https://cdn.shopify.com/s/files/1/0156/6146/files/GoodTrainWovenTrack_NONHOODGSEspressoBrownA5B7Y_NDJ1_0224.jpg?v=1785918703",
+    "age_days": 4.4
+  },
+  {
+    "domain": "gymshark.com",
+    "title": "Gymshark Train Hooded Track Jacket - Heavy Blue",
+    "handle": "gymshark-train-hooded-track-jacket-jackets-outerwear-blue-aw26",
+    "product_type": "Mens Jackets / Outerwear",
+    "vendor": "Gymshark | Be a visionary.",
+    "published_at": "2026-08-06T01:00:00-07:00",
+    "price": 56.0,
+    "image_url": "https://cdn.shopify.com/s/files/1/0156/6146/files/GoodTrainWovenTrack_HOODGSHeavyBlueA5C9S_UCTN_0254.jpg?v=1785853542",
+    "age_days": 4.4
+  },
+  {
+    "domain": "mudwtr.com",
+    "title": "PSL Bundle",
+    "handle": "psl-bundle",
+    "product_type": "",
+    "vendor": "MUD\\WTR",
+    "published_at": "2026-08-05T14:07:36-04:00",
+    "price": 40.0,
+    "image_url": "https://cdn.shopify.com/s/files/1/0137/9434/5014/files/PSL_1.jpg?v=1785358217",
+    "age_days": 5.0
+  },
+  {
+    "domain": "everlane.com",
+    "title": "PackageProtect with Onward",
+    "handle": "onward-package-protection",
+    "product_type": "Insurance",
+    "vendor": "Onward",
+    "published_at": "2026-08-04T15:11:41-07:00",
+    "price": 0.98,
+    "image_url": "https://cdn.shopify.com/s/files/1/0623/7916/3734/files/onward-product-image.png?v=1757533751",
+    "age_days": 5.8
+  },
+  {
+    "domain": "supergoop.com",
+    "title": "Bride & Shine SPF 8 Pack",
+    "handle": "bride-shine-spf-set",
+    "product_type": "",
+    "vendor": "Supergoop!",
+    "published_at": "2026-08-02T16:43:52-04:00",
+    "price": 167.0,
+    "image_url": "https://cdn.shopify.com/s/files/1/1503/5658/files/Bachelorette_Bulk_VB_Mini_Sunrise_01_a_0685ace5-920b-4387-af31-217ec71cca11.png?v=1742245509",
+    "age_days": 7.9
+  },
+  {
+    "domain": "supergoop.com",
+    "title": "SPF! Canvas Tote Bag",
+    "handle": "spf-canvas-tote-bag",
+    "product_type": "Merch",
+    "vendor": "Supergoop!",
+    "published_at": "2026-08-02T16:43:33-04:00",
+    "price": 15.0,
+    "image_url": "https://cdn.shopify.com/s/files/1/1503/5658/files/SPFCanvasToteBag_Img1_46b87bf4-2d1f-446b-ae36-a7100c49a081.jpg?v=1716989781",
+    "age_days": 7.9
   }
 ]
