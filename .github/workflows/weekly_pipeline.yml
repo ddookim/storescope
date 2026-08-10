@@ -114,9 +114,12 @@ jobs:
           if git diff --cached --quiet; then
             echo "::notice::No data changes to commit"
           else
-            git commit -m "chore(data): weekly refresh $(date -u +%F) [skip ci]"
+            # D+11 fix: '[skip ci]' 제거 — landing/digest-sample.html 갱신 시
+            # sync_gh_pages workflow 트리거 필요 (skip 시 GH Pages 미반영).
+            # 다른 workflows (tests, red_team, codeql) 는 path 필터로 자동 gate.
+            git commit -m "chore(data): weekly refresh $(date -u +%F)"
             git push origin HEAD:main
-            echo "::notice::Fresh data + sent_log pushed to main"
+            echo "::notice::Fresh data + sent_log pushed to main (sync will trigger on landing/*)"
           fi
 
       - name: Health check after pipeline (DB 모드만)
