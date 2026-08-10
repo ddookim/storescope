@@ -129,7 +129,17 @@ jobs:
             # sync_gh_pages workflow 트리거 필요 (skip 시 GH Pages 미반영).
             # 다른 workflows (tests, red_team, codeql) 는 path 필터로 자동 gate.
             git commit -m "chore(data): weekly refresh $(date -u +%F)"
-            git push origin HEAD:main
+            # D+12 fix: race condition (main 이 pipeline 시작 후 fetch 사이에 갱신됨) →
+            # 첫 push 실패 시 rebase+retry (최대 3회).
+            for i in 1 2 3; do
+              if git push origin HEAD:main; then
+                echo "::notice::Push OK on attempt $i"
+                break
+              fi
+              echo "::warning::Push conflict attempt $i, rebasing..."
+              git fetch origin main
+              git rebase origin/main || { echo "::error::Rebase failed"; exit 1; }
+            done
             echo "::notice::Fresh data + sent_log pushed to main"
           fi
 
