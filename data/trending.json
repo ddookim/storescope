@@ -1,18 +1,1 @@
-[
-  {
-    "cluster_id": "eac5953e68e1354c",
-    "store_count": 2,
-    "product_count": 2,
-    "domains": [
-      "liquiddeath.com",
-      "tentree.com"
-    ],
-    "representative_title": "Vicious Death Hat",
-    "representative_price": "35.00",
-    "representative_image": "https://cdn.shopify.com/s/files/1/0079/4289/7737/files/web-91-ViciousDeathHat_Black_FrontAngle_2048x2048_1282d015-614d-44bc-aed7-08a968f84a84.jpg",
-    "price_range": {
-      "min": 35.0,
-      "max": 45.0
-    }
-  }
-]
+[]

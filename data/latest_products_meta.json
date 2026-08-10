@@ -1,8 +1,8 @@
 {
-  "generated_at": "2026-08-10T11:33:49.401428+00:00",
+  "generated_at": "2026-08-10T11:39:42.158047+00:00",
   "week": "2026-W33",
   "total_products_before_dedupe": null,
-  "total_after_dedupe": 727,
+  "total_after_dedupe": 1027,
   "top_products_returned": 20,
   "categories": [
     {
@@ -17,20 +17,21 @@
     },
     {
       "product_type": "Bundle",
-      "product_count": 66,
-      "vendor_count": 1,
+      "product_count": 67,
+      "vendor_count": 2,
       "top_vendors": [
-        "Peak Design"
+        "Peak Design",
+        "Peet's Coffee"
       ]
     },
     {
-      "product_type": "Bags",
+      "product_type": "Dresses",
       "product_count": 46,
-      "vendor_count": 4,
+      "vendor_count": 3,
       "top_vendors": [
-        "DopplerMatte Flight Pouch",
-        "DopplerMatte Toiletry Kit",
-        "DopplerMatte Weekender"
+        "Fashion Nova",
+        "Lunya",
+        "Trove"
       ]
     },
     {
@@ -39,6 +40,14 @@
       "vendor_count": 1,
       "top_vendors": [
         "tentree"
+      ]
+    },
+    {
+      "product_type": "Bags",
+      "product_count": 40,
+      "vendor_count": 1,
+      "top_vendors": [
+        "Peak Design"
       ]
     },
     {
@@ -51,28 +60,20 @@
     },
     {
       "product_type": "Accessories",
-      "product_count": 31,
-      "vendor_count": 5,
+      "product_count": 37,
+      "vendor_count": 7,
       "top_vendors": [
         "BAMKO",
-        "Kocreators",
-        "Planet Apparel"
+        "Fashion Nova",
+        "Kocreators"
       ]
     },
     {
-      "product_type": "Knits",
-      "product_count": 22,
+      "product_type": "Jewelry",
+      "product_count": 28,
       "vendor_count": 1,
       "top_vendors": [
-        "Taylor Stitch"
-      ]
-    },
-    {
-      "product_type": "Wovens",
-      "product_count": 17,
-      "vendor_count": 1,
-      "top_vendors": [
-        "Taylor Stitch"
+        "Fashion Nova"
       ]
     }
   ]

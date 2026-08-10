@@ -1,5 +1,38 @@
 [
   {
+    "domain": "outerknown.com",
+    "title": "Station Suit Shortall - Outerworn",
+    "handle": "station-suit-shortall-_c9qvssqjx-resale",
+    "product_type": "Jumpsuits",
+    "vendor": "Trove",
+    "published_at": "2026-08-09T12:30:18-07:00",
+    "price": 130.0,
+    "image_url": "https://cdn.shopify.com/s/files/1/2445/4975/files/2130107_Station_Suit_Shortall_PCH_7_2b9d9710-e3aa-4e5b-aa32-6f750d412a8f.jpg?v=1786303812",
+    "age_days": 0.7
+  },
+  {
+    "domain": "outerknown.com",
+    "title": "Sur Zip Hoodie - Outerworn",
+    "handle": "sur-zip-hoodie-wpr_pnyw3-resale",
+    "product_type": "Loungewear Tops",
+    "vendor": "Trove",
+    "published_at": "2026-08-09T12:30:18-07:00",
+    "price": 90.0,
+    "image_url": "https://cdn.shopify.com/s/files/1/2445/4975/files/1250024_SurZipHoodie_slt_f1_aa7f83c1-d79a-40d1-a40e-7a7dd8d9ec4e.jpg?v=1786303809",
+    "age_days": 0.7
+  },
+  {
+    "domain": "fashionnova.com",
+    "title": "Meant To Be 2 Piece Bracelet Set - Gold",
+    "handle": "meant-to-be-2-piece-bracelet-set-fncolorname-gold",
+    "product_type": "Jewelry",
+    "vendor": "Fashion Nova",
+    "published_at": "2026-08-09T00:23:32-07:00",
+    "price": 6.99,
+    "image_url": "https://cdn.shopify.com/s/files/1/0293/9277/files/TBLH85807_Gold_JR_V1.jpg?v=1786259196",
+    "age_days": 1.2
+  },
+  {
     "domain": "colourpop.com",
     "title": "Aurora Struck",
     "handle": "aurora-stuck-shadow-palette",
@@ -9,6 +42,17 @@
     "price": 35.0,
     "image_url": "https://cdn.shopify.com/s/files/1/1338/0845/files/Aurora-Struck-Palette-Into-with-UC.jpg?v=1693429053",
     "age_days": 1.4
+  },
+  {
+    "domain": "fashionnova.com",
+    "title": "Casting Clover Spells Necklace - Burgundy/combo",
+    "handle": "casting-clover-spells-necklace-fncolorname-burgundy-combo",
+    "product_type": "Jewelry",
+    "vendor": "Fashion Nova",
+    "published_at": "2026-08-07T16:25:19-07:00",
+    "price": 8.99,
+    "image_url": "https://cdn.shopify.com/s/files/1/0293/9277/files/TROY11793_Burgundy_combo_SL_V1.jpg?v=1784759467",
+    "age_days": 2.5
   },
   {
     "domain": "inkbox.com",
@@ -33,14 +77,47 @@
     "age_days": 2.7
   },
   {
-    "domain": "liquiddeath.com",
-    "title": "Death Western Hat",
-    "handle": "death-western-hat",
-    "product_type": "Hat",
-    "vendor": "Liquid Death",
-    "published_at": "2026-08-07T10:03:38-07:00",
-    "price": 35.0,
-    "image_url": "https://cdn.shopify.com/s/files/1/0079/4289/7737/files/DeathWesternHat_White_3-4Wide_4876_2048x2048_a3283c59-aa23-4e61-a8ed-9150d662202b.webp?v=1785901561",
+    "domain": "outerknown.com",
+    "title": "Twill Trail Short - FINAL SALE",
+    "handle": "twill-trail-short-washed-black",
+    "product_type": "Non-Denim Bottoms",
+    "vendor": "OK Mens",
+    "published_at": "2026-08-07T10:47:39-07:00",
+    "price": 59.0,
+    "image_url": "https://cdn.shopify.com/s/files/1/2445/4975/files/1710052_Twill_Trail_Short_WCK_3391.jpg?v=1714497224",
+    "age_days": 2.7
+  },
+  {
+    "domain": "peets.com",
+    "title": "Dark Med Light Bundle with Gift Box",
+    "handle": "dark-med-light-bundle-with-gift-box",
+    "product_type": "Bundle",
+    "vendor": "Peet's Coffee",
+    "published_at": "2026-08-07T12:25:26-07:00",
+    "price": 64.85,
+    "image_url": "https://cdn.shopify.com/s/files/1/0319/0764/3436/files/Designer_1.png?v=1778021445",
+    "age_days": 2.7
+  },
+  {
+    "domain": "lunya.co",
+    "title": "Cottonsilk™ Pocket Henley",
+    "handle": "womens-cottonsilk-pocket-henley-oat-marl",
+    "product_type": "Sweaters",
+    "vendor": "Lunya",
+    "published_at": "2026-08-07T11:45:19-04:00",
+    "price": 228.0,
+    "image_url": "https://cdn.shopify.com/s/files/1/0267/0987/files/COZY_COTTON_SILK_POCKET_HENLEY_OAT_MARL-1_9734d18c-2970-4dd5-a007-3d7fd96c50b7.jpg?v=1762201235",
+    "age_days": 2.8
+  },
+  {
+    "domain": "lunya.co",
+    "title": "Washable Silk Travel Sleep Sack",
+    "handle": "washable-silk-travel-sleep-sack-waning-night",
+    "product_type": "Accessories",
+    "vendor": "Lunya",
+    "published_at": "2026-08-07T11:44:38-04:00",
+    "price": 298.0,
+    "image_url": "https://cdn.shopify.com/s/files/1/0267/0987/files/Washable-Silk-Sleep-Sack-1.jpg?v=1762202008",
     "age_days": 2.8
   },
   {
@@ -66,6 +143,61 @@
     "age_days": 2.8
   },
   {
+    "domain": "outerknown.com",
+    "title": "The Sideline Club Pant",
+    "handle": "the-sideline-club-pant-peppercorn",
+    "product_type": "Loungewear Bottoms",
+    "vendor": "OK Womens",
+    "published_at": "2026-08-06T15:50:09-07:00",
+    "price": 98.0,
+    "image_url": "https://cdn.shopify.com/s/files/1/2445/4975/files/2250014_The-Sideline-Club-Hoodie_Peppercorn_PPC_2620024_The-Sideline-Club-Pant_Peppercorn_PPC_11092.jpg?v=1785359014",
+    "age_days": 3.5
+  },
+  {
+    "domain": "outerknown.com",
+    "title": "The Sideline Club Hoodie",
+    "handle": "the-sideline-club-hoodie-peppercorn",
+    "product_type": "Loungewear Tops",
+    "vendor": "OK Womens",
+    "published_at": "2026-08-06T15:50:06-07:00",
+    "price": 98.0,
+    "image_url": "https://cdn.shopify.com/s/files/1/2445/4975/files/2250014_The-Sideline-Club-Hoodie_Peppercorn_PPC_2620024_The-Sideline-Club-Pant_Peppercorn_PPC_11064.jpg?v=1785358970",
+    "age_days": 3.5
+  },
+  {
+    "domain": "outerknown.com",
+    "title": "The Team Hoodie",
+    "handle": "the-team-hoodie-washed-black-journey-fish",
+    "product_type": "Loungewear Tops",
+    "vendor": "OK Mens",
+    "published_at": "2026-08-06T15:49:43-07:00",
+    "price": 88.0,
+    "image_url": "https://cdn.shopify.com/s/files/1/2445/4975/files/1250050_The_Team_Hoodie_WBJ_0795.jpg?v=1785341247",
+    "age_days": 3.5
+  },
+  {
+    "domain": "outerknown.com",
+    "title": "The Beachcomber Relaxed Jean",
+    "handle": "the-beachcomber-relaxed-jean-washed-black",
+    "product_type": "Denim Bottoms",
+    "vendor": "Ok Unisex",
+    "published_at": "2026-08-06T15:49:23-07:00",
+    "price": 168.0,
+    "image_url": "https://cdn.shopify.com/s/files/1/2445/4975/files/3630010_The-Beachcomber-Relaxed-Jean_Washed-Black_WCK_3020_PDP_Crop_1_copy1.jpg?v=1785971297",
+    "age_days": 3.5
+  },
+  {
+    "domain": "outerknown.com",
+    "title": "The Craftsman Jean",
+    "handle": "the-craftsman-jean-standard-blue",
+    "product_type": "Denim Bottoms",
+    "vendor": "OK Unisex",
+    "published_at": "2026-08-06T15:49:21-07:00",
+    "price": 198.0,
+    "image_url": "https://cdn.shopify.com/s/files/1/2445/4975/files/3630011_The-Craftsman-Jean_Standard-Blue_SRQ_6903_PDP_Cropcopy1.jpg?v=1785971250",
+    "age_days": 3.5
+  },
+  {
     "domain": "colourpop.com",
     "title": "Heart Compact Mirror",
     "handle": "heart-mirror",
@@ -86,137 +218,5 @@
     "price": 270.0,
     "image_url": "https://cdn.shopify.com/s/files/1/0079/1923/9266/files/sunday-citizen-cloud-cotton-stitch-quilt-misty-blue-off-white-1.jpg?v=1785872777",
     "age_days": 3.6
-  },
-  {
-    "domain": "sundaycitizen.com",
-    "title": "Coastal Cotton Mist Sham Set",
-    "handle": "coastal-cotton-mist-sham-set",
-    "product_type": "Shams",
-    "vendor": "Sunday Citizen",
-    "published_at": "2026-08-06T17:46:24-04:00",
-    "price": 72.0,
-    "image_url": "https://cdn.shopify.com/s/files/1/0079/1923/9266/files/sunday-citizen-coastal-cotton-mist-sham-set-taupe-off-white-2_1.jpg?v=1785862235",
-    "age_days": 3.6
-  },
-  {
-    "domain": "inkbox.com",
-    "title": "Whatever Will Be, Will Be",
-    "handle": "whatever-will-be-will-be",
-    "product_type": "Semi-Permanent Tattoo",
-    "vendor": "Tara Royle",
-    "published_at": "2026-08-06T09:33:49-07:00",
-    "price": 18.0,
-    "image_url": "https://cdn.shopify.com/s/files/1/0721/3075/6678/files/OD-IB00996-IB-5.0-2.0.jpg?v=1786026560",
-    "age_days": 3.8
-  },
-  {
-    "domain": "inkbox.com",
-    "title": "Reminder To Live",
-    "handle": "reminder-to-live",
-    "product_type": "Semi-Permanent Tattoo",
-    "vendor": "Tara Royle",
-    "published_at": "2026-08-06T09:33:48-07:00",
-    "price": 18.0,
-    "image_url": "https://cdn.shopify.com/s/files/1/0721/3075/6678/files/OD-IB00995-IB-5.0-2.0.jpg?v=1786026534",
-    "age_days": 3.8
-  },
-  {
-    "domain": "deathwishcoffee.com",
-    "title": "Bodum Portable French Press",
-    "handle": "bodum-portable-french-press",
-    "product_type": "Storage & Brewing",
-    "vendor": "BODUM",
-    "published_at": "2026-08-06T08:53:20-04:00",
-    "price": 30.0,
-    "image_url": "https://cdn.shopify.com/s/files/1/0271/7209/files/DeathWishCoffee_August2026_Product_CoffeePress_Back_Web.jpg?v=1785957522",
-    "age_days": 3.9
-  },
-  {
-    "domain": "deathwishcoffee.com",
-    "title": "Liquid Lunch Collector's Bundle",
-    "handle": "liquid-lunch-collectors-box",
-    "product_type": "Accessories",
-    "vendor": "BAMKO",
-    "published_at": "2026-08-06T08:52:03-04:00",
-    "price": 45.0,
-    "image_url": "https://cdn.shopify.com/s/files/1/0271/7209/files/DTC_Lunchbox_Render_A1.jpg?v=1785876822",
-    "age_days": 3.9
-  },
-  {
-    "domain": "deathwishcoffee.com",
-    "title": "Caffeine Catalyst LED Dry Erase Board",
-    "handle": "caffeine-catalyst-led-dry-erase-board",
-    "product_type": "Accessories",
-    "vendor": "Planet Apparel",
-    "published_at": "2026-08-06T08:51:51-04:00",
-    "price": 15.0,
-    "image_url": "https://cdn.shopify.com/s/files/1/0271/7209/files/DeathWishCoffee_August2026_Product_LedWhiteboard_Drawing_web.jpg?v=1785876560",
-    "age_days": 3.9
-  },
-  {
-    "domain": "deathwishcoffee.com",
-    "title": "Unbreakable Spirit Silicone Mug",
-    "handle": "unbreakable-spirit-silicone-mug",
-    "product_type": "On-The-Go Drinkware",
-    "vendor": "Silipint",
-    "published_at": "2026-08-06T08:51:38-04:00",
-    "price": 15.0,
-    "image_url": "https://cdn.shopify.com/s/files/1/0271/7209/files/DeathWishCoffee_August2026_Product_SiliPint_Front_Web.jpg?v=1785876704",
-    "age_days": 3.9
-  },
-  {
-    "domain": "fentybeauty.com",
-    "title": "Sun Stalk'r Instant Warmth Bronzer — Chai Latte",
-    "handle": "sun-stalkr-instant-warmth-bronzer-chai-latte",
-    "product_type": "Blushes & Bronzers",
-    "vendor": "Fenty Beauty",
-    "published_at": "2026-08-06T08:01:16-07:00",
-    "price": 38.0,
-    "image_url": "https://cdn.shopify.com/s/files/1/0341/3458/9485/files/FB_SUM26_T2PRODUCT_ECOMM_SUNSTALKR_BRONZER_SHADE-EXT_CHAI_LATTE_1200X1500_72DPI.jpg?v=1785174396",
-    "age_days": 3.9
-  },
-  {
-    "domain": "fentybeauty.com",
-    "title": "Sun Stalk'r Instant Warmth Bronzer — Mocha Mamii",
-    "handle": "sun-stalkr-instant-warmth-bronzer-mocha-mamii",
-    "product_type": "Blushes & Bronzers",
-    "vendor": "Fenty Beauty",
-    "published_at": "2026-08-06T08:01:08-07:00",
-    "price": 38.0,
-    "image_url": "https://cdn.shopify.com/s/files/1/0341/3458/9485/files/FB_SUM26_T2PRODUCT_ECOMM_SUNSTALKR_BRONZER_SHADE-EXT_MOCHA_MAMII_1200X1500_72DPI.jpg?v=1785174550",
-    "age_days": 3.9
-  },
-  {
-    "domain": "outdoorvoices.com",
-    "title": "The Exercise 3\" Skort",
-    "handle": "w-the-exercise-3in-skort-blueberry",
-    "product_type": "Skorts/Skirts",
-    "vendor": "Outdoor Voices",
-    "published_at": "2026-08-06T08:35:22-04:00",
-    "price": 47.99,
-    "image_url": "https://cdn.shopify.com/s/files/1/0190/1390/files/W701427-WTS-BLB_The_Exercise_3in_Skort_Blueberry_030_crop_5b78d1af-95d2-43f5-a138-7b4d15666fa7.jpg?v=1759272329",
-    "age_days": 4.0
-  },
-  {
-    "domain": "outdoorvoices.com",
-    "title": "Volley Dress",
-    "handle": "w-the-volley-dress-sea-green",
-    "product_type": "Dresses",
-    "vendor": "Outdoor Voices",
-    "published_at": "2026-08-06T08:34:41-04:00",
-    "price": 74.99,
-    "image_url": "https://cdn.shopify.com/s/files/1/0190/1390/files/W402143-BIT-SEN_The_Volley_Dress_Sea_Green_014_2a69219a-30cc-4178-b208-a0c8c69c807a.jpg?v=1742254668",
-    "age_days": 4.0
-  },
-  {
-    "domain": "fentybeauty.com",
-    "title": "Pink Links Lip Care + Cheek Trip Set",
-    "handle": "pink-links-lip-care-cheek-trip-set",
-    "product_type": "Lip Balms & Treatments",
-    "vendor": "Fenty Skin",
-    "published_at": "2026-08-05T16:19:36-07:00",
-    "price": 55.0,
-    "image_url": "https://cdn.shopify.com/s/files/1/0341/3458/9485/files/FB_20FS_SPR26_T2PRODUCT_EDITORIAL_LE-RAMADAN_PINK-LINK_1200X1500_72DPI.jpg?v=1785516047",
-    "age_days": 4.5
   }
 ]
