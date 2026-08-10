@@ -286,6 +286,68 @@ def main() -> None:
     _write_sample_html(top, categories, now)
     _write_rss_feed(top, categories, now)
     _write_weekly_blog(top, categories, now)
+    _update_blog_index()
+
+
+def _update_blog_index() -> None:
+    """blog/index.html 의 WEEKLY_LIST_START/END 마커 사이를 자동 생성 weekly posts 목록으로 갱신.
+
+    최대 8개 최신 weekly-*.html 표시. Each entry links to blog/weekly-YYYY-WNN.html.
+    Idempotent: 매번 재계산.
+    """
+    from html import escape as h
+    idx = BLOG_DIR / "index.html"
+    if not idx.exists():
+        return
+
+    weekly_files = sorted(
+        BLOG_DIR.glob("weekly-*.html"),
+        key=lambda p: p.name,
+        reverse=True,
+    )[:8]
+    if not weekly_files:
+        return
+
+    # Parse title + description from each weekly file (첫 <h1> + first cat_row).
+    import re
+    entries: list[str] = []
+    for wf in weekly_files:
+        try:
+            text = wf.read_text()
+        except Exception:
+            continue
+        # Title: <h1>This Week in DTC · YYYY-WNN</h1>
+        m_title = re.search(r"<h1[^>]*>([^<]+)</h1>", text)
+        m_lead = re.search(r"<p class=\"lede\">([^<]+)", text)
+        m_meta = re.search(r"Published ([^·]+)·", text)
+        title = h((m_title.group(1) if m_title else wf.stem)).strip()[:120]
+        lead = h((m_lead.group(1) if m_lead else "")).strip()[:150] + "…" if m_lead else ""
+        date = h((m_meta.group(1) if m_meta else "")).strip()[:20]
+        entries.append(
+            f'''  <a class="weekly-post" href="./{wf.name}">
+    <div class="wp-title">{title}</div>
+    <div class="wp-meta"><span class="wp-cat">Weekly analysis</span> · {date}</div>
+  </a>'''
+        )
+
+    new_block = (
+        '<!-- WEEKLY_LIST_START — pipeline STEP 4 auto-updates this block. Do not hand-edit. -->\n'
+        '<div class="weekly-block">\n'
+        '  <h2 style="margin-bottom:8px;color:#1C1917;font-size:1.1rem">Weekly analyses · auto-updated Monday</h2>\n'
+        f'{chr(10).join(entries)}\n'
+        '</div>\n'
+        '<!-- WEEKLY_LIST_END -->'
+    )
+    text = idx.read_text()
+    text = re.sub(
+        r"<!-- WEEKLY_LIST_START[^>]*-->.*?<!-- WEEKLY_LIST_END -->",
+        new_block,
+        text,
+        count=1,
+        flags=re.DOTALL,
+    )
+    idx.write_text(text)
+    print(f"  → blog/index.html updated ({len(weekly_files)} weekly entries)")
 
 
 def _write_weekly_blog(products: list[dict], categories: list[dict], now: datetime) -> None:
