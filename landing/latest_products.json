@@ -11,6 +11,17 @@
     "age_days": 0.1
   },
   {
+    "domain": "taylorstitch.com",
+    "title": "The Crawford Crew Sweater in Charcoal",
+    "handle": "crawford-crew-sweater-in-charcoal-2607",
+    "product_type": "Sweaters",
+    "vendor": "Taylor Stitch",
+    "published_at": "2026-08-10T07:15:01-07:00",
+    "price": 178.0,
+    "image_url": "https://cdn.shopify.com/s/files/1/0070/1922/files/instock_m_q326_crawford-crew-charcoal_portrait_001.jpg?v=1783544377",
+    "age_days": 0.1
+  },
+  {
     "domain": "everlane.com",
     "title": "Utility Seamed Wide-Leg Pant | Navy | Long",
     "handle": "womens-utility-seamed-wide-leg-pant-navy-long",
@@ -52,7 +63,7 @@
     "published_at": "2026-08-09T17:59:41-07:00",
     "price": 54.0,
     "image_url": "https://cdn.shopify.com/s/files/1/0545/1009/files/LipidLip10.png?v=1785280960",
-    "age_days": 0.6
+    "age_days": 0.7
   },
   {
     "domain": "colourpop.com",
@@ -66,28 +77,6 @@
     "age_days": 1.6
   },
   {
-    "domain": "parachutehome.com",
-    "title": "Percale Duvet Cover Set - Bone TW/XL",
-    "handle": "percale-duvet-cover-set-bone-tw-xl",
-    "product_type": "",
-    "vendor": "Parachute Home",
-    "published_at": "2026-08-07T14:10:48-07:00",
-    "price": 279.0,
-    "image_url": "https://cdn.shopify.com/s/files/1/0396/8269/files/percale-duvet-cover-set-bone-_f-q_k-ck__01_f75c9aa9-0972-45a7-b812-184ad79c6a5f.jpg?v=1762839021",
-    "age_days": 2.8
-  },
-  {
-    "domain": "parachutehome.com",
-    "title": "Percale Sheet Set - Bone TW/XL",
-    "handle": "percale-sheet-set-bone-tw-xl",
-    "product_type": "",
-    "vendor": "Parachute Home",
-    "published_at": "2026-08-07T14:10:25-07:00",
-    "price": 239.0,
-    "image_url": "https://cdn.shopify.com/s/files/1/0396/8269/files/percale-sheet-set-bone-_f-q_k-ck__01_517dafce-e62e-4c1b-a013-19be499b3574.jpg?v=1762839014",
-    "age_days": 2.8
-  },
-  {
     "domain": "liquiddeath.com",
     "title": "Death Western Hat",
     "handle": "death-western-hat",
@@ -99,6 +88,17 @@
     "age_days": 3.0
   },
   {
+    "domain": "taylorstitch.com",
+    "title": "The Regenerative Cotton Tee in Saffron",
+    "handle": "regenerative-cotton-tee-in-saffron-2608",
+    "product_type": "Knits",
+    "vendor": "Taylor Stitch",
+    "published_at": "2026-08-07T09:48:58-07:00",
+    "price": 55.0,
+    "image_url": "https://cdn.shopify.com/s/files/1/0070/1922/files/instock_m_q326_regenerative-cotton-tee-saffron_portrait_001.jpg?v=1785875554",
+    "age_days": 3.0
+  },
+  {
     "domain": "colourpop.com",
     "title": "Heart Compact Mirror",
     "handle": "heart-mirror",
@@ -107,6 +107,28 @@
     "published_at": "2026-08-06T13:59:46-07:00",
     "price": 12.0,
     "image_url": "https://cdn.shopify.com/s/files/1/1338/0845/files/HeartMirror-PDP.jpg?v=1777926371",
+    "age_days": 3.8
+  },
+  {
+    "domain": "summerfridays.com",
+    "title": "Body Essentials Duo in Vanilla | TikTok Exclusive",
+    "handle": "body-essentials-duo-in-vanilla-tiktok-exclusive",
+    "product_type": "Bundle",
+    "vendor": "Summer Fridays",
+    "published_at": "2026-08-06T16:56:03-04:00",
+    "price": 60.0,
+    "image_url": "https://cdn.shopify.com/s/files/1/2382/2877/files/TTS-Body-Duo-Main-Vanilla.jpg?v=1785952842",
+    "age_days": 3.8
+  },
+  {
+    "domain": "summerfridays.com",
+    "title": "Body Essentials Duo in Pink Guava | TikTok Exclusive",
+    "handle": "body-essentials-duo-in-pink-guava",
+    "product_type": "Bundle",
+    "vendor": "Summer Fridays",
+    "published_at": "2026-08-06T16:54:59-04:00",
+    "price": 60.0,
+    "image_url": "https://cdn.shopify.com/s/files/1/2382/2877/files/TTS-Body-Duo-Main-Pink-Guava.jpg?v=1785952842",
     "age_days": 3.8
   },
   {
@@ -162,7 +184,7 @@
     "published_at": "2026-08-06T01:00:00-07:00",
     "price": 50.0,
     "image_url": "https://cdn.shopify.com/s/files/1/0156/6146/files/GoodTrainWovenTrack_NONHOODGSEspressoBrownA5B7Y_NDJ1_0224.jpg?v=1785918703",
-    "age_days": 4.3
+    "age_days": 4.4
   },
   {
     "domain": "gymshark.com",
@@ -173,29 +195,7 @@
     "published_at": "2026-08-06T01:00:00-07:00",
     "price": 56.0,
     "image_url": "https://cdn.shopify.com/s/files/1/0156/6146/files/GoodTrainWovenTrack_HOODGSHeavyBlueA5C9S_UCTN_0254.jpg?v=1785853542",
-    "age_days": 4.3
-  },
-  {
-    "domain": "tentree.com",
-    "title": "TreeBlend Baker T-Shirt",
-    "handle": "treeblend-baker-t-shirt-cottage-red-heather",
-    "product_type": "Mens",
-    "vendor": "tentree",
-    "published_at": "2026-08-05T13:34:18-07:00",
-    "price": 45.0,
-    "image_url": "https://cdn.shopify.com/s/files/1/2341/3995/files/Red-Treeblend-Regular-Fit-Crew-Neck-T-shirt-TCM1869-6298_2.jpg?v=1784935758",
-    "age_days": 4.8
-  },
-  {
-    "domain": "tentree.com",
-    "title": "TreeBlend Baker Hooded Longsleeve",
-    "handle": "treeblend-baker-hooded-longsleeve-red-chestnut-heather",
-    "product_type": "Mens",
-    "vendor": "tentree",
-    "published_at": "2026-08-05T13:32:41-07:00",
-    "price": 68.0,
-    "image_url": "https://cdn.shopify.com/s/files/1/2341/3995/files/Red-Treeblend-Hooded-Longlseeve-T-Shirt-TCM6513-6294_4.png?v=1784935717",
-    "age_days": 4.8
+    "age_days": 4.4
   },
   {
     "domain": "everlane.com",
@@ -209,14 +209,14 @@
     "age_days": 5.8
   },
   {
-    "domain": "kosas.com",
-    "title": "Cloud Setting + Baking Puff Duo",
-    "handle": "powder-puff",
-    "product_type": "GWP",
-    "vendor": "Kosas Cosmetics",
-    "published_at": "2026-08-03T09:38:24-07:00",
-    "price": 0.0,
-    "image_url": "https://cdn.shopify.com/s/files/1/0131/5409/1065/files/TOOLS_PowderPuff_PDP_NA_HeroVessel_01.2025_4d2f2306-5199-435e-b6ef-5eeb1aea2d81.jpg?v=1739202994",
-    "age_days": 7.0
+    "domain": "supergoop.com",
+    "title": "Bride & Shine SPF 8 Pack",
+    "handle": "bride-shine-spf-set",
+    "product_type": "",
+    "vendor": "Supergoop!",
+    "published_at": "2026-08-02T16:43:52-04:00",
+    "price": 167.0,
+    "image_url": "https://cdn.shopify.com/s/files/1/1503/5658/files/Bachelorette_Bulk_VB_Mini_Sunrise_01_a_0685ace5-920b-4387-af31-217ec71cca11.png?v=1742245509",
+    "age_days": 7.8
   }
 ]
