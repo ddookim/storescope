@@ -109,7 +109,7 @@ jobs:
           cp data/latest_products.json landing/latest_products.json 2>/dev/null || true
           # D+12: weekly blog auto-generated — glob catches this-week's file only.
           WEEKLY_BLOG=$(ls landing/blog/weekly-*.html 2>/dev/null | tail -1)
-          for f in data/trending.json data/clusters.json data/latest_products.json data/latest_products_meta.json data/sent_log.json landing/digest-sample.html landing/latest_products.json landing/sitemap.xml landing/feed.xml $WEEKLY_BLOG; do
+          for f in data/trending.json data/clusters.json data/latest_products.json data/latest_products_meta.json data/sent_log.json landing/digest-sample.html landing/latest_products.json landing/sitemap.xml landing/feed.xml landing/blog/index.html $WEEKLY_BLOG; do
             if [ -f "$f" ]; then
               git add -f "$f"
               echo "  staged: $f ($(wc -c < "$f") bytes)"
