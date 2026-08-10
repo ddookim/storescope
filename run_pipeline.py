@@ -28,8 +28,9 @@ STEPS: list[tuple[str, list[str]]] = [
     ("1. 스토어 발견 (CDX API)",           [_PY, "-m", "scripts.discover_stores"]),
     ("2. 상품 크롤링 (/products.json)",    [_PY, "-m", "pipeline.crawl_products"]),
     ("3. pHash 클러스터링",                [_PY, "-m", "pipeline.cluster_products"]),
-    ("4. DB 적재 + 트렌드 스냅샷",         [_PY, "-m", "pipeline.load_to_db"]),
-    ("5. Droplet 셧다운",                  [_PY, "-m", "scripts.scale_infra", "power_off"]),
+    ("4. Latest products aggregation",   [_PY, "-m", "pipeline.latest_products"]),
+    ("5. DB 적재 + 트렌드 스냅샷",         [_PY, "-m", "pipeline.load_to_db"]),
+    ("6. Droplet 셧다운",                  [_PY, "-m", "scripts.scale_infra", "power_off"]),
 ]
 
 

@@ -65,10 +65,10 @@ jobs:
           #   Seed list 는 이미 committed 되어 있으므로 STEP 1 을 skip 해도 fresh crawl 가능.
           #   신규 store discovery 는 필요 시 별도 monthly workflow 로 분리 (deferred).
           if [ -z "${DATABASE_URL:-}" ]; then
-            echo "::notice::DATABASE_URL 미설정 → DB-less 모드 (steps 2-3, committed seed 3412 stores, Wayback skip)"
-            python run_pipeline.py --from 2 --to 3
+            echo "::notice::DATABASE_URL 미설정 → DB-less 모드 (steps 2-4, committed seed 42 curated brands, Wayback skip)"
+            python run_pipeline.py --from 2 --to 4
           else
-            echo "::notice::DATABASE_URL 설정됨 → full 모드 (steps 1-4, Wayback re-discovery 포함)"
+            echo "::notice::DATABASE_URL 설정됨 → full 모드 (steps 1-5, Wayback re-discovery 포함)"
             python run_pipeline.py --from 1
           fi
 
@@ -103,7 +103,7 @@ jobs:
           # 전체 실패 (b1d0039 실패 원인). 파일별 조건부 add 로 회피.
           git config user.name  "storescope-bot"
           git config user.email "bot@storescope.local"
-          for f in data/trending.json data/clusters.json data/sent_log.json; do
+          for f in data/trending.json data/clusters.json data/latest_products.json data/sent_log.json; do
             if [ -f "$f" ]; then
               git add -f "$f"
               echo "  staged: $f ($(wc -c < "$f") bytes)"

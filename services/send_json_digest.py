@@ -69,8 +69,9 @@ BASE_URL          = _env("BASE_URL", "https://ddookim.github.io/storescope").rst
 _UNSUB_SECRET     = _env("ADMIN_SECRET") or _env("PADDLE_WEBHOOK_SECRET")
 SMTP_TIMEOUT      = 10
 
-TRENDING_PATH     = _HERE / "data" / "trending.json"
-SENT_LOG_PATH     = _HERE / "data" / "sent_log.json"
+TRENDING_PATH        = _HERE / "data" / "trending.json"
+LATEST_PRODUCTS_PATH = _HERE / "data" / "latest_products.json"   # D+11: pipeline step 4 output
+SENT_LOG_PATH        = _HERE / "data" / "sent_log.json"
 
 # Non-organic + quality filters (D+8 audit — H1 signal quality remediation)
 NON_ORGANIC_EMAILS = ("@example.com", "doyeon2328@")
@@ -231,7 +232,7 @@ def _render_html(clusters: list[dict], week: str, unsub_link: str) -> str:
 </table>
 
 <p style="color:#78716C;font-size:12px;margin-top:32px;border-top:1px solid #E5E5E5;padding-top:16px">
-  StoreScope crawls 1,400+ Shopify stores weekly. Signal quality: clusters with ≥{MIN_STORE_COUNT} stores.
+  StoreScope crawls 40+ curated DTC brands weekly. Signal quality: clusters with ≥{MIN_STORE_COUNT} stores.
   <br><a href="{unsub_link}" style="color:#78716C">Unsubscribe</a> · <a href="{BASE_URL}" style="color:#4338ca">View on web</a>
 </p>
 </body></html>"""
@@ -242,6 +243,60 @@ def _render_text(clusters: list[dict], week: str, unsub_link: str) -> str:
     for i, c in enumerate(clusters, 1):
         title = (c.get("representative_title") or "Untitled")[:60]
         lines.append(f"{i:>2}. {title} — {c.get('store_count',0)} stores · ${c.get('representative_price') or '—'}")
+    lines.extend(["", f"Unsubscribe: {unsub_link}", f"Web: {BASE_URL}"])
+    return "\n".join(lines)
+
+
+# D+11 fallback renderer — latest_products.json schema.
+# Used when clusters are empty (DTC-only seed) but latest_products has content.
+def _render_latest_html(products: list[dict], week: str, unsub_link: str) -> str:
+    rows = []
+    for i, p in enumerate(products, 1):
+        title = (p.get("title") or "Untitled")[:80]
+        vendor = p.get("vendor") or "—"
+        ptype = p.get("product_type") or ""
+        price = p.get("price")
+        price_str = f"${price:.2f}" if isinstance(price, (int, float)) and price > 0 else "—"
+        age = p.get("age_days", "?")
+        rows.append(f"""
+            <tr>
+              <td style="padding:12px 8px;border-bottom:1px solid #E5E5E5;color:#57534E;font-weight:600;">{i}</td>
+              <td style="padding:12px 8px;border-bottom:1px solid #E5E5E5;color:#1C1917;">{title}<br><span style="color:#A29E98;font-size:12px">{vendor} · {ptype}</span></td>
+              <td style="padding:12px 8px;border-bottom:1px solid #E5E5E5;color:#57534E;text-align:right;">{age}d</td>
+              <td style="padding:12px 8px;border-bottom:1px solid #E5E5E5;color:#57534E;text-align:right;">{price_str}</td>
+            </tr>""")
+    table_html = "".join(rows)
+    return f"""<!doctype html>
+<html><body style="font-family:-apple-system,system-ui,sans-serif;max-width:600px;margin:0 auto;padding:24px;color:#1C1917;background:#F9F8F6">
+<h1 style="font-size:22px;letter-spacing:-0.02em;margin:0 0 4px">StoreScope Weekly · {week}</h1>
+<p style="color:#78716C;margin:0 0 24px;font-size:14px">Newest {len(products)} products across 40+ curated DTC brands (last 30 days)</p>
+
+<table style="width:100%;border-collapse:collapse;margin:16px 0;font-size:14px">
+  <thead><tr style="background:#F3F1EE">
+    <th style="text-align:left;padding:10px 8px;color:#57534E;font-weight:700">#</th>
+    <th style="text-align:left;padding:10px 8px;color:#57534E;font-weight:700">Product</th>
+    <th style="text-align:right;padding:10px 8px;color:#57534E;font-weight:700">Age</th>
+    <th style="text-align:right;padding:10px 8px;color:#57534E;font-weight:700">Price</th>
+  </tr></thead>
+  <tbody>{table_html}</tbody>
+</table>
+
+<p style="color:#78716C;font-size:12px;margin-top:32px;border-top:1px solid #E5E5E5;padding-top:16px">
+  Fresh product launches from curated DTC brands, sorted by newest first.
+  <br><a href="{unsub_link}" style="color:#78716C">Unsubscribe</a> · <a href="{BASE_URL}" style="color:#4338ca">View on web</a>
+</p>
+</body></html>"""
+
+
+def _render_latest_text(products: list[dict], week: str, unsub_link: str) -> str:
+    lines = [f"StoreScope Weekly · {week}", f"Newest {len(products)} products across 40+ curated DTC brands", ""]
+    for i, p in enumerate(products, 1):
+        title = (p.get("title") or "Untitled")[:60]
+        vendor = p.get("vendor") or "?"
+        age = p.get("age_days", "?")
+        price = p.get("price")
+        price_str = f"${price:.2f}" if isinstance(price, (int, float)) and price > 0 else "—"
+        lines.append(f"{i:>2}. {title} — {vendor} · {age}d old · {price_str}")
     lines.extend(["", f"Unsubscribe: {unsub_link}", f"Web: {BASE_URL}"])
     return "\n".join(lines)
 
@@ -276,9 +331,19 @@ def main(dry_run: bool = False, limit: int | None = None) -> int:
     _log.info("Qualifying clusters: %d (thresholds: stores≥%d products≥%d price=$%s-$%s english_only=%s)",
               len(clusters), MIN_STORE_COUNT, MIN_PRODUCT_COUNT, MIN_PRICE, MAX_PRICE, ENGLISH_ONLY)
 
-    if len(clusters) < MIN_CLUSTERS_TO_SEND:
-        _log.warning("Only %d qualifying clusters (< MIN_CLUSTERS_TO_SEND=%d) — skipping this week's send",
-                     len(clusters), MIN_CLUSTERS_TO_SEND)
+    # D+11 fallback: DTC seed 에서 clusters 0 이지만 latest_products 는 실 신호.
+    # cluster 못하면 최신 상품 리스트로 대체 (content_type 표기).
+    fallback_products: list[dict] = []
+    if len(clusters) < MIN_CLUSTERS_TO_SEND and LATEST_PRODUCTS_PATH.exists():
+        try:
+            fallback_products = json.loads(LATEST_PRODUCTS_PATH.read_text())
+            _log.info("Fallback: latest_products.json 사용 (%d items)", len(fallback_products))
+        except json.JSONDecodeError:
+            _log.warning("latest_products.json 파손 — 무시")
+
+    if len(clusters) < MIN_CLUSTERS_TO_SEND and len(fallback_products) < MIN_CLUSTERS_TO_SEND:
+        _log.warning("Content 부족 (clusters=%d, fallback=%d < MIN_CLUSTERS_TO_SEND=%d) — skip week",
+                     len(clusters), len(fallback_products), MIN_CLUSTERS_TO_SEND)
         return 0
 
     sent_log = _load_sent_log()
@@ -291,6 +356,12 @@ def main(dry_run: bool = False, limit: int | None = None) -> int:
         _log.critical("SMTP env missing — no emails will be sent. Falling back to dry-run mode.")
         dry_run = True
 
+    # D+11: use fallback content when clusters insufficient. Content flag drives renderer.
+    use_fallback = len(clusters) < MIN_CLUSTERS_TO_SEND
+    content_type = "latest_products" if use_fallback else "clusters"
+    _log.info("Digest content_type=%s (clusters=%d, fallback_products=%d)",
+              content_type, len(clusters), len(fallback_products))
+
     for sub in subs:
         email = sub["email"]
         h = _email_hash(email)
@@ -298,8 +369,12 @@ def main(dry_run: bool = False, limit: int | None = None) -> int:
             stats["skipped_dedup"] += 1
             continue
         unsub = _unsubscribe_link(h)
-        html = _render_html(clusters, week, unsub)
-        text = _render_text(clusters, week, unsub)
+        if use_fallback:
+            html = _render_latest_html(fallback_products, week, unsub)
+            text = _render_latest_text(fallback_products, week, unsub)
+        else:
+            html = _render_html(clusters, week, unsub)
+            text = _render_text(clusters, week, unsub)
         subject = f"StoreScope Weekly · {week} · {len(clusters)} trends"
 
         if dry_run:
