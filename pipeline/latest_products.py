@@ -562,6 +562,7 @@ def _write_sample_html(products: list[dict], categories: list[dict], now: dateti
     from html import escape as h
     week = f"{now.isocalendar().year}-W{now.isocalendar().week:02d}"
 
+    # D+12 (경쟁사 대비 upgrade): product image thumbnails + category filter data-attr.
     rows = []
     for i, p in enumerate(products[:20], 1):
         title = h(p.get("title") or "Untitled")[:100]
@@ -570,14 +571,52 @@ def _write_sample_html(products: list[dict], categories: list[dict], now: dateti
         price = p.get("price")
         price_str = f"${price:.2f}" if isinstance(price, (int, float)) and price > 0 else "—"
         age = p.get("age_days", "?")
+        img_url = h(p.get("image_url") or "")
+        # loading=lazy + async decode: perf; onerror hides broken images gracefully.
+        img_html = (
+            f'<img src="{img_url}" alt="{title}" loading="lazy" decoding="async" '
+            f'class="pd-thumb" onerror="this.style.display=\'none\'">'
+            if img_url else '<div class="pd-thumb-placeholder">—</div>'
+        )
+        # data-cat used by filter tabs (CSS-only, no JS deps).
+        cat_slug = re.sub(r'[^a-z0-9]+', '-', (p.get('product_type') or 'other').lower()).strip('-')[:30] or 'other'
         rows.append(f"""
-      <tr>
-        <td>{i}</td>
-        <td><strong>{title}</strong><br><span class="meta">{vendor} · {ptype}</span></td>
+      <tr class="pd-row" data-cat="{cat_slug}">
+        <td class="pd-idx">{i}</td>
+        <td class="pd-thumb-cell">{img_html}</td>
+        <td class="pd-info"><strong>{title}</strong><br><span class="meta">{vendor} · {ptype}</span></td>
         <td class="right">{age}d</td>
         <td class="right">{price_str}</td>
       </tr>""")
-    table = "".join(rows) or '<tr><td colspan=4 style="padding:24px;text-align:center;color:#78716C">No qualifying products this week. Digest skipped.</td></tr>'
+    table = "".join(rows) or '<tr><td colspan=5 style="padding:24px;text-align:center;color:#78716C">No qualifying products this week. Digest skipped.</td></tr>'
+
+    # D+12 category filter tabs — CSS-only via <details> or JS via tabbed data-cat filter.
+    # data-cat slug 로 filter 하는 minimal JS (5 line).
+    filter_tabs = ""
+    if categories and products:
+        tabs = ['<button class="pd-tab pd-tab-active" data-cat="all">All ({total})</button>'.format(total=len(products[:20]))]
+        for c in categories[:6]:
+            slug = re.sub(r'[^a-z0-9]+', '-', (c.get('product_type') or 'other').lower()).strip('-')[:30] or 'other'
+            tabs.append(f'<button class="pd-tab" data-cat="{slug}">{h(c.get("product_type") or "?")[:30]}</button>')
+        filter_tabs = f'''
+<div class="pd-filter">
+  <span class="pd-filter-label">Filter:</span>
+  <div class="pd-tabs">{"".join(tabs)}</div>
+</div>'''
+
+    # D+12 CSV export — data URL 방식 (no server, 순수 client).
+    csv_lines = ["Rank,Product,Vendor,Product Type,Price,Age (days),Image URL"]
+    for i, p in enumerate(products[:20], 1):
+        t = (p.get("title") or "").replace('"','""')
+        v = (p.get("vendor") or "").replace('"','""')
+        pt = (p.get("product_type") or "").replace('"','""')
+        pr = p.get("price") or ""
+        a = p.get("age_days","")
+        iu = (p.get("image_url") or "").replace('"','""')
+        csv_lines.append(f'{i},"{t}","{v}","{pt}",{pr},{a},"{iu}"')
+    import base64
+    csv_b64 = base64.b64encode('\n'.join(csv_lines).encode()).decode()
+    csv_link = f'<a href="data:text/csv;base64,{csv_b64}" download="storescope-week-{week}.csv" class="pd-export">↓ Export CSV</a>'
 
     # Category chips (D+11) — displayed above product table.
     cat_chips = ""
@@ -666,6 +705,22 @@ def _write_sample_html(products: list[dict], categories: list[dict], now: dateti
   .cat-grid {{ display: flex; flex-wrap: wrap; gap: 8px; }}
   .cat-chip {{ display: inline-block; padding: 8px 14px; background: #fff; border: 1px solid #E5E5E5; border-radius: 100px; font-size: 13px; color: #57534E; }}
   .cat-chip strong {{ color: #1C1917; font-weight: 700; margin-right: 4px; }}
+  /* D+12 경쟁사 대비 upgrade: product image thumbnails + filter tabs + CSV export */
+  .pd-thumb {{ width: 56px; height: 56px; border-radius: 8px; object-fit: cover; background: #F3F1EE; display: block; }}
+  .pd-thumb-placeholder {{ width: 56px; height: 56px; border-radius: 8px; background: #F3F1EE; display: flex; align-items: center; justify-content: center; color: #A29E98; font-size: 20px; }}
+  .pd-thumb-cell {{ width: 72px; padding: 10px 6px 10px 14px; }}
+  .pd-info strong {{ display: block; margin-bottom: 3px; color: #1C1917; }}
+  .pd-idx {{ color: #78716C; font-weight: 600; width: 32px; }}
+  .pd-filter {{ display: flex; align-items: center; gap: 12px; margin: 20px 0 8px; flex-wrap: wrap; }}
+  .pd-filter-label {{ font-size: 13px; font-weight: 600; color: #57534E; text-transform: uppercase; letter-spacing: 0.5px; }}
+  .pd-tabs {{ display: flex; gap: 6px; flex-wrap: wrap; }}
+  .pd-tab {{ background: #fff; border: 1px solid #E5E5E5; color: #57534E; padding: 6px 14px; border-radius: 100px; font-size: 12.5px; font-weight: 600; cursor: pointer; transition: all 0.15s ease; }}
+  .pd-tab:hover {{ border-color: #4338ca; color: #4338ca; }}
+  .pd-tab-active {{ background: #4338ca; border-color: #4338ca; color: #fff; }}
+  .pd-export {{ margin-left: auto; display: inline-flex; align-items: center; gap: 6px; padding: 6px 14px; background: #F3F1EE; border: 1px solid #E5E5E5; border-radius: 100px; font-size: 12.5px; font-weight: 600; color: #57534E; text-decoration: none; }}
+  .pd-export:hover {{ background: #E5E5E5; }}
+  .pd-row {{ transition: opacity 0.15s ease; }}
+  .pd-row.pd-hidden {{ display: none; }}
 </style>
 </head>
 <body>
@@ -677,9 +732,11 @@ def _write_sample_html(products: list[dict], categories: list[dict], now: dateti
 <h1>What subscribers actually get</h1>
 <p class="intro">This is the actual weekly digest generated from our pipeline. {len(products)} newest product launches across 50+ curated DTC Shopify brands, sorted by newest first. No mock, no filler. Auto-updated every Monday.</p>
 {cat_chips}
+{filter_tabs}
 <table>
   <thead><tr>
     <th>#</th>
+    <th></th>
     <th>Product</th>
     <th class="right">Age</th>
     <th class="right">Price</th>
@@ -687,6 +744,23 @@ def _write_sample_html(products: list[dict], categories: list[dict], now: dateti
   <tbody>{table}
   </tbody>
 </table>
+
+<div style="text-align:right;margin:8px 0 24px">{csv_link}</div>
+
+<script>
+  // D+12 minimal filter (no library, ~10 lines)
+  document.querySelectorAll('.pd-tab').forEach(function(btn) {{
+    btn.addEventListener('click', function() {{
+      var cat = btn.getAttribute('data-cat');
+      document.querySelectorAll('.pd-tab').forEach(function(b) {{ b.classList.remove('pd-tab-active'); }});
+      btn.classList.add('pd-tab-active');
+      document.querySelectorAll('.pd-row').forEach(function(row) {{
+        var match = cat === 'all' || row.getAttribute('data-cat') === cat;
+        row.classList.toggle('pd-hidden', !match);
+      }});
+    }});
+  }});
+</script>
 
 <div class="cta-box">
   <h2>Want this every Monday?</h2>
