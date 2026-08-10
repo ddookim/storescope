@@ -326,6 +326,40 @@ def _write_sample_html(products: list[dict], categories: list[dict], now: dateti
 <meta name="robots" content="index, follow">
 <link rel="canonical" href="https://ddookim.github.io/storescope/digest-sample.html">
 <title>Weekly Digest Sample · {week} — StoreScope</title>
+
+<!-- Open Graph — Twitter/Facebook/LinkedIn/Slack preview cards (D+11). -->
+<meta property="og:title" content="Weekly Digest Sample · {week} — StoreScope" />
+<meta property="og:description" content="{len(products)} newest DTC brand product launches, updated every Monday. What subscribers actually get." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://ddookim.github.io/storescope/digest-sample.html" />
+<meta property="og:image" content="https://ddookim.github.io/storescope/landing/og-image.png" />
+<meta property="og:site_name" content="StoreScope" />
+<meta property="article:published_time" content="{now.isoformat()}" />
+
+<!-- Twitter Card summary_large_image (image visible in feed). -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Weekly Digest Sample · {week}" />
+<meta name="twitter:description" content="{len(products)} DTC product launches from last 30 days. Real signal, updated Monday." />
+<meta name="twitter:image" content="https://ddookim.github.io/storescope/landing/og-image.png" />
+
+<!-- Article schema (SEO structured data). -->
+<script type="application/ld+json">
+{{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Weekly Digest Sample · {week} — StoreScope",
+  "description": "{len(products)} newest DTC brand product launches. Real signal delivered weekly.",
+  "url": "https://ddookim.github.io/storescope/digest-sample.html",
+  "datePublished": "{now.strftime('%Y-%m-%d')}",
+  "dateModified": "{now.strftime('%Y-%m-%d')}",
+  "author": {{"@type": "Organization", "name": "StoreScope"}},
+  "publisher": {{
+    "@type": "Organization", "name": "StoreScope",
+    "logo": {{"@type": "ImageObject", "url": "https://ddookim.github.io/storescope/landing/og-image.png"}}
+  }},
+  "mainEntityOfPage": {{"@type": "WebPage", "@id": "https://ddookim.github.io/storescope/digest-sample.html"}}
+}}
+</script>
 <style>
   body {{ font-family: -apple-system, "Inter", sans-serif; max-width: 720px; margin: 0 auto; padding: 60px 24px; color: #1C1917; line-height: 1.65; background: #F9F8F6; }}
   .breadcrumb {{ font-size: 0.85rem; color: #6B655F; margin-bottom: 24px; }}
