@@ -29,6 +29,7 @@ OUTPUT_FILE     = _HERE / "data" / "latest_products.json"
 META_FILE       = _HERE / "data" / "latest_products_meta.json"  # category summary + stats
 HISTORY_DIR     = _HERE / "data" / "history"                    # D+11: weekly snapshots for WoW delta
 SAMPLE_HTML     = _HERE / "landing" / "digest-sample.html"  # D+11: SEO + demo asset
+SITEMAP_FILE    = _HERE / "landing" / "sitemap.xml"        # D+11: auto lastmod update
 
 CATEGORY_TOP_N  = 8  # digest 표시 카테고리 개수
 
@@ -113,6 +114,33 @@ def _dedupe_by_title_domain(products: list[dict]) -> list[dict]:
         seen.add(key)
         unique.append(p)
     return unique
+
+
+def _update_sitemap_lastmod(now: datetime) -> None:
+    """digest-sample.html + index lastmod → 오늘 날짜.
+
+    Google 은 sitemap lastmod 를 crawl priority signal 로 사용 (freshness).
+    매주 pipeline 실행 시 auto-update 하면 새 콘텐츠 반영 accelerate.
+    """
+    if not SITEMAP_FILE.exists():
+        return
+    today = now.strftime("%Y-%m-%d")
+    text = SITEMAP_FILE.read_text()
+
+    # Update index.html + digest-sample.html lastmod. Other URLs (privacy, terms, blog) 유지.
+    import re
+    # 1. Root URL entry (index) — first <loc> matches.
+    text = re.sub(
+        r"(<loc>https://ddookim\.github\.io/storescope/</loc>\s*<lastmod>)[^<]*(</lastmod>)",
+        rf"\g<1>{today}\g<2>", text, count=1,
+    )
+    # 2. digest-sample.html entry.
+    text = re.sub(
+        r"(<loc>https://ddookim\.github\.io/storescope/digest-sample\.html</loc>\s*<lastmod>)[^<]*(</lastmod>)",
+        rf"\g<1>{today}\g<2>", text, count=1,
+    )
+    SITEMAP_FILE.write_text(text)
+    print(f"  → sitemap lastmod = {today}")
 
 
 def _save_historical_snapshot(now: datetime) -> None:
@@ -238,6 +266,9 @@ def main() -> None:
         for c in categories[:5]:
             print(f"  {c['product_type'][:40]:<40} · {c['product_count']:>3} products · {c['vendor_count']} vendors")
 
+    # D+11: Sitemap lastmod auto-update (SEO freshness signal).
+    _update_sitemap_lastmod(now)
+
     _write_sample_html(top, categories, now)
 
 
@@ -275,9 +306,11 @@ def _write_sample_html(products: list[dict], categories: list[dict], now: dateti
             n = c.get("product_count", 0)
             v = c.get("vendor_count", 0)
             ptype = h(c.get("product_type") or "?")[:40]
-            brand_word = "brand" if v == 1 else "brands"
-            new_word = "new item" if n == 1 else "new items"
-            chips.append(f'<span class="cat-chip"><strong>{ptype}</strong> · {n} {new_word} · {v} {brand_word}</span>')
+            # 'vendor' == Shopify /products.json 'vendor' field (product-level, 아티스트/디자이너/브랜드 태그).
+            # Ceargone 같은 marketplace 는 아티스트, DTC 브랜드는 자기 이름 등록 → 정직 매핑.
+            v_word = "vendor" if v == 1 else "vendors"
+            n_word = "new item" if n == 1 else "new items"
+            chips.append(f'<span class="cat-chip"><strong>{ptype}</strong> · {n} {n_word} · {v} {v_word}</span>')
         cat_chips = f'''
 <section class="cat-section">
   <h2>Hot categories · last {LOOKBACK_DAYS} days</h2>
