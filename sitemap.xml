@@ -100,4 +100,11 @@
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
+  <!-- Weekly auto-generated analysis -->
+  <url>
+    <loc>https://ddookim.github.io/storescope/blog/weekly-2026-W33.html</loc>
+    <lastmod>2026-08-10</lastmod>
+    <changefreq>never</changefreq>
+    <priority>0.7</priority>
+  </url>
 </urlset>
