@@ -1,44 +1,56 @@
 {
-  "generated_at": "2026-08-11T09:36:05.150999+00:00",
+  "generated_at": "2026-08-11T09:40:47.877563+00:00",
   "week": "2026-W33",
   "total_products_before_dedupe": null,
-  "total_after_dedupe": 1759,
+  "total_after_dedupe": 1928,
   "top_products_returned": 20,
   "categories": [
     {
-      "product_type": "Semi-Permanent Tattoo",
-      "product_count": 196,
-      "vendor_count": 26,
-      "top_vendors": [
-        "Aimee Isabel",
-        "Britney Olivares",
-        "Burgercat"
-      ]
-    },
-    {
-      "product_type": "Bottoms",
-      "product_count": 137,
-      "vendor_count": 2,
+      "product_type": "Dresses",
+      "product_count": 136,
+      "vendor_count": 4,
       "top_vendors": [
         "Everlane",
-        "Taylor Stitch"
+        "Fashion Nova",
+        "Lunya"
       ]
     },
     {
       "product_type": "Sweaters",
-      "product_count": 119,
+      "product_count": 133,
+      "vendor_count": 3,
+      "top_vendors": [
+        "Everlane",
+        "Fashion Nova",
+        "Lunya"
+      ]
+    },
+    {
+      "product_type": "Bottoms",
+      "product_count": 131,
       "vendor_count": 2,
       "top_vendors": [
         "Everlane",
-        "Taylor Stitch"
+        "Lunya"
       ]
     },
     {
       "product_type": "Knit Tops",
-      "product_count": 117,
-      "vendor_count": 1,
+      "product_count": 127,
+      "vendor_count": 2,
       "top_vendors": [
-        "Everlane"
+        "Everlane",
+        "Fashion Nova"
+      ]
+    },
+    {
+      "product_type": "Uncategorized",
+      "product_count": 81,
+      "vendor_count": 7,
+      "top_vendors": [
+        "Everlane",
+        "Gymshark | Be a visionary.",
+        "MUD\\WTR"
       ]
     },
     {
@@ -50,31 +62,21 @@
       ]
     },
     {
-      "product_type": "Dresses",
-      "product_count": 75,
+      "product_type": "Woven Tops",
+      "product_count": 73,
       "vendor_count": 2,
       "top_vendors": [
         "Everlane",
-        "Outdoor Voices"
-      ]
-    },
-    {
-      "product_type": "Bundle",
-      "product_count": 75,
-      "vendor_count": 2,
-      "top_vendors": [
-        "Peak Design",
-        "Summer Fridays"
+        "Fashion Nova"
       ]
     },
     {
       "product_type": "Outerwear",
-      "product_count": 57,
-      "vendor_count": 3,
+      "product_count": 59,
+      "vendor_count": 2,
       "top_vendors": [
         "Everlane",
-        "Taylor Stitch",
-        "Todd Snyder"
+        "Fashion Nova"
       ]
     }
   ]
