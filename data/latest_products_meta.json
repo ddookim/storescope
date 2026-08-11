@@ -1,13 +1,23 @@
 {
-  "generated_at": "2026-08-10T19:41:17.583364+00:00",
+  "generated_at": "2026-08-11T09:36:05.150999+00:00",
   "week": "2026-W33",
   "total_products_before_dedupe": null,
-  "total_after_dedupe": 1508,
+  "total_after_dedupe": 1759,
   "top_products_returned": 20,
   "categories": [
     {
+      "product_type": "Semi-Permanent Tattoo",
+      "product_count": 196,
+      "vendor_count": 26,
+      "top_vendors": [
+        "Aimee Isabel",
+        "Britney Olivares",
+        "Burgercat"
+      ]
+    },
+    {
       "product_type": "Bottoms",
-      "product_count": 135,
+      "product_count": 137,
       "vendor_count": 2,
       "top_vendors": [
         "Everlane",
@@ -25,7 +35,7 @@
     },
     {
       "product_type": "Knit Tops",
-      "product_count": 114,
+      "product_count": 117,
       "vendor_count": 1,
       "top_vendors": [
         "Everlane"
@@ -33,7 +43,7 @@
     },
     {
       "product_type": "Denim",
-      "product_count": 78,
+      "product_count": 80,
       "vendor_count": 1,
       "top_vendors": [
         "Everlane"
@@ -41,7 +51,7 @@
     },
     {
       "product_type": "Dresses",
-      "product_count": 71,
+      "product_count": 75,
       "vendor_count": 2,
       "top_vendors": [
         "Everlane",
@@ -49,29 +59,22 @@
       ]
     },
     {
-      "product_type": "Uncategorized",
-      "product_count": 61,
-      "vendor_count": 7,
+      "product_type": "Bundle",
+      "product_count": 75,
+      "vendor_count": 2,
       "top_vendors": [
-        "Death Wish Coffee",
+        "Peak Design",
+        "Summer Fridays"
+      ]
+    },
+    {
+      "product_type": "Outerwear",
+      "product_count": 57,
+      "vendor_count": 3,
+      "top_vendors": [
         "Everlane",
-        "Fenty Skin"
-      ]
-    },
-    {
-      "product_type": "Shirting",
-      "product_count": 59,
-      "vendor_count": 1,
-      "top_vendors": [
-        "Everlane"
-      ]
-    },
-    {
-      "product_type": "Woven Tops",
-      "product_count": 59,
-      "vendor_count": 1,
-      "top_vendors": [
-        "Everlane"
+        "Taylor Stitch",
+        "Todd Snyder"
       ]
     }
   ]
