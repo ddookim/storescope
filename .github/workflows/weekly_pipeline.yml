@@ -122,6 +122,11 @@ jobs:
             git add -f data/history/
             echo "  staged: data/history/ ($(ls data/history/ 2>/dev/null | wc -l) snapshots)"
           fi
+          # D+12 brand profile pages (per-brand SEO surface).
+          if [ -d landing/brands ]; then
+            git add -f landing/brands/
+            echo "  staged: landing/brands/ ($(ls landing/brands/*.html 2>/dev/null | wc -l) pages)"
+          fi
           if git diff --cached --quiet; then
             echo "::notice::No data changes to commit"
           else

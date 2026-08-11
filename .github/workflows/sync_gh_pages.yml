@@ -75,6 +75,11 @@ jobs:
             mkdir -p /tmp/gh-pages-wt/blog
             cp -r landing/blog/* /tmp/gh-pages-wt/blog/
           fi
+          # D+12: brands/ 도 root — 58 브랜드 프로필 페이지 (SEO surface).
+          if [ -d landing/brands ]; then
+            mkdir -p /tmp/gh-pages-wt/brands
+            cp -r landing/brands/* /tmp/gh-pages-wt/brands/
+          fi
           mkdir -p /tmp/gh-pages-wt/outreach/evidence
           if [ -d outreach/evidence ]; then
             cp -r outreach/evidence/* /tmp/gh-pages-wt/outreach/evidence/ 2>/dev/null || true

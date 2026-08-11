@@ -32,6 +32,7 @@ SAMPLE_HTML     = _HERE / "landing" / "digest-sample.html"  # D+11: SEO + demo a
 SITEMAP_FILE    = _HERE / "landing" / "sitemap.xml"        # D+11: auto lastmod update
 RSS_FILE        = _HERE / "landing" / "feed.xml"           # D+11: RSS/Atom subscription
 BLOG_DIR        = _HERE / "landing" / "blog"                 # D+12: 매주 SEO blog post
+BRANDS_DIR      = _HERE / "landing" / "brands"               # D+12: 개별 브랜드 프로필 (SEO surface)
 
 CATEGORY_TOP_N  = 8  # digest 표시 카테고리 개수
 
@@ -283,6 +284,7 @@ def main() -> None:
     _write_rss_feed(top, categories, now)
     _write_weekly_blog(top, categories, now)
     _update_blog_index()
+    _write_brand_profiles(now)
 
 
 def _update_blog_index() -> None:
@@ -341,6 +343,200 @@ def _update_blog_index() -> None:
     )
     idx.write_text(text)
     print(f"  → blog/index.html updated ({len(weekly_files)} weekly entries)")
+
+
+def _write_brand_profiles(now: datetime) -> None:
+    """Individual brand profile pages — 각 curated brand 의 최신 상품 aggregation.
+
+    /brands/{domain-slug}.html 형식. SEO: brand name 이 long-tail keyword
+    (e.g., 'Taylor Stitch new arrivals', 'Fenty Beauty latest launches').
+    58 brands = 58 indexed URLs. 매주 pipeline 실행 시 auto-regen.
+
+    Data source: data/products/*.json (crawler output, per-store).
+    """
+    from html import escape as h
+    if not PRODUCTS_DIR.exists():
+        return
+    BRANDS_DIR.mkdir(parents=True, exist_ok=True)
+    brand_pages = []
+    cutoff = now.timestamp() - LOOKBACK_DAYS * 86400
+
+    # brand index build.
+    brand_summary: list[dict] = []
+    for f in sorted(PRODUCTS_DIR.glob("*.json")):
+        try:
+            data = json.loads(f.read_text())
+        except json.JSONDecodeError:
+            continue
+        domain = data.get("domain") or f.stem
+        # slug: domain minus TLD variations.
+        slug = re.sub(r"[^a-z0-9-]+", "-", domain.lower()).strip("-")[:40]
+        products_all = data.get("products", [])
+        recent = []
+        for p in products_all:
+            title = (p.get("title") or "").strip()
+            if len(title) < MIN_TITLE_LEN:
+                continue
+            pub = _parse_iso(p.get("published_at") or "")
+            if not pub or pub.timestamp() < cutoff:
+                continue
+            images = p.get("images") or []
+            img_url = images[0].get("src", "") if images else ""
+            variants = p.get("variants") or []
+            price = None
+            if variants:
+                try:
+                    price = float(variants[0].get("price") or 0)
+                except (ValueError, TypeError):
+                    price = None
+            recent.append({
+                "title": title, "handle": p.get("handle",""), "price": price,
+                "product_type": p.get("product_type",""), "vendor": p.get("vendor",""),
+                "image_url": img_url,
+                "age_days": round((now.timestamp() - pub.timestamp()) / 86400, 1),
+            })
+        if not recent:
+            continue
+        recent.sort(key=lambda x: x["age_days"])
+        recent = recent[:24]  # top 24 recent
+
+        # Vendor & type summary
+        from collections import Counter
+        vend_counter = Counter(p["vendor"] for p in recent if p.get("vendor"))
+        type_counter = Counter(p["product_type"] for p in recent if p.get("product_type"))
+        prices = [p["price"] for p in recent if isinstance(p["price"], (int, float)) and p["price"] > 0]
+        price_median = sorted(prices)[len(prices)//2] if prices else 0
+        price_min = min(prices) if prices else 0
+        price_max = max(prices) if prices else 0
+
+        brand_name = vend_counter.most_common(1)[0][0] if vend_counter else domain
+        brand_summary.append({"slug": slug, "domain": domain, "name": brand_name,
+                             "count": len(recent), "median": price_median})
+
+        cards_html = "".join([
+            f'''<a class="pd-card" href="https://{h(domain)}/products/{h(p["handle"])}" target="_blank" rel="noreferrer noopener">
+              <img class="pd-card-img" src="{h(p["image_url"])}" alt="{h(p["title"])[:60]}" loading="lazy" decoding="async">
+              <div class="pd-card-body">
+                <div class="pd-card-title">{h(p["title"])[:60]}</div>
+                <div class="pd-card-vendor">{h(p["product_type"])}</div>
+                <div class="pd-card-foot">
+                  <span class="pd-card-price">${p["price"]:.2f}</span>
+                  <span class="pd-card-age">{p["age_days"]}d</span>
+                </div>
+              </div>
+            </a>'''
+            for p in recent[:12] if p.get("image_url")
+        ])
+        top_types = type_counter.most_common(5)
+        type_chips = "".join(f'<span class="tag">{h(t)} ({n})</span>' for t, n in top_types)
+
+        html_out = f"""<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="{h(brand_name)} latest product launches — {len(recent)} new items in the last {LOOKBACK_DAYS} days. Price range ${price_min:.0f}-${price_max:.0f}. Auto-updated weekly.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://ddookim.github.io/storescope/brands/{slug}.html">
+<title>{h(brand_name)} · latest launches — StoreScope</title>
+<script type="application/ld+json">
+{{
+  "@context": "https://schema.org", "@type": "CollectionPage",
+  "name": "{h(brand_name)} latest launches",
+  "url": "https://ddookim.github.io/storescope/brands/{slug}.html",
+  "isPartOf": {{"@type": "WebSite", "name": "StoreScope", "url": "https://ddookim.github.io/storescope/"}},
+  "about": {{"@type": "Organization", "name": "{h(brand_name)}", "url": "https://{h(domain)}"}}
+}}
+</script>
+<style>
+  body {{ font-family: -apple-system, "Inter", sans-serif; max-width: 900px; margin: 0 auto; padding: 60px 24px; color: #1C1917; line-height: 1.65; background: #F9F8F6; }}
+  .breadcrumb {{ font-size: 0.85rem; color: #6B655F; margin-bottom: 24px; }}
+  .breadcrumb a {{ color: #4338ca; text-decoration: underline; text-decoration-color: rgba(67,56,202,0.35); text-underline-offset: 3px; }}
+  h1 {{ font-size: 2rem; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 0.4rem; }}
+  .meta {{ color: #78716C; font-size: 0.9rem; margin-bottom: 20px; }}
+  .stats {{ display: flex; gap: 20px; margin: 20px 0 32px; flex-wrap: wrap; }}
+  .stat {{ background: #fff; border: 1px solid #E5E5E5; border-radius: 10px; padding: 14px 20px; }}
+  .stat-num {{ font-size: 1.4rem; font-weight: 800; color: #1C1917; }}
+  .stat-label {{ font-size: 0.8rem; color: #78716C; text-transform: uppercase; letter-spacing: 0.5px; }}
+  .tag {{ display: inline-block; padding: 6px 12px; background: #fff; border: 1px solid #E5E5E5; border-radius: 100px; font-size: 12.5px; color: #57534E; margin: 0 6px 6px 0; }}
+  .pd-grid {{ display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 12px; margin: 20px 0 32px; }}
+  .pd-card {{ background: #fff; border: 1px solid #E5E5E5; border-radius: 12px; overflow: hidden; transition: transform 0.15s ease, box-shadow 0.15s ease; text-decoration: none; color: inherit; display: flex; flex-direction: column; }}
+  .pd-card:hover {{ transform: translateY(-2px); box-shadow: 0 8px 20px rgba(0,0,0,0.06); border-color: rgba(79,70,229,0.35); }}
+  .pd-card-img {{ width: 100%; aspect-ratio: 1/1; object-fit: cover; background: #F3F1EE; display: block; }}
+  .pd-card-body {{ padding: 10px 12px 12px; flex: 1; display: flex; flex-direction: column; gap: 4px; }}
+  .pd-card-title {{ font-size: 13px; font-weight: 700; color: #1C1917; line-height: 1.3; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }}
+  .pd-card-vendor {{ font-size: 11px; color: #78716C; }}
+  .pd-card-foot {{ display: flex; justify-content: space-between; margin-top: auto; padding-top: 4px; font-size: 12px; }}
+  .pd-card-price {{ font-weight: 700; color: #1C1917; }}
+  .pd-card-age {{ color: #78716C; font-size: 11px; padding: 2px 8px; background: #F3F1EE; border-radius: 100px; font-weight: 600; }}
+  footer {{ margin-top: 48px; padding-top: 24px; border-top: 1px solid #E5E5E5; font-size: 0.85rem; color: #6B655F; }}
+  footer a {{ color: #4338ca; text-decoration: underline; }}
+</style>
+</head>
+<body>
+<div class="breadcrumb"><a href="../">Home</a> · <a href="./">Brands</a> · {h(brand_name)}</div>
+<main>
+<h1>{h(brand_name)}</h1>
+<p class="meta">Latest launches from <a href="https://{h(domain)}" target="_blank" rel="noreferrer noopener">{h(domain)}</a> · updated {now.strftime('%B %d, %Y')}</p>
+<div class="stats">
+  <div class="stat"><div class="stat-num">{len(recent)}</div><div class="stat-label">New items · {LOOKBACK_DAYS}d</div></div>
+  <div class="stat"><div class="stat-num">${price_median:.0f}</div><div class="stat-label">Median price</div></div>
+  <div class="stat"><div class="stat-num">${price_min:.0f}–${price_max:.0f}</div><div class="stat-label">Price range</div></div>
+  <div class="stat"><div class="stat-num">{len(type_counter)}</div><div class="stat-label">Product types</div></div>
+</div>
+<div>{type_chips}</div>
+<h2 style="margin-top:32px">Latest launches</h2>
+<div class="pd-grid">{cards_html}</div>
+<footer>
+  Data: Shopify /products.json crawled weekly. This page is auto-generated.
+  <br><a href="../">← All StoreScope</a> · <a href="../digest-sample.html">← This week's digest</a>
+</footer>
+</main>
+</body>
+</html>
+"""
+        (BRANDS_DIR / f"{slug}.html").write_text(html_out)
+        brand_pages.append(slug)
+
+    print(f"  → {len(brand_pages)} brand profile pages")
+
+    # brand index page (list of all brands)
+    if brand_summary:
+        brand_summary.sort(key=lambda b: -b["count"])
+        list_items = "\n".join(
+            f'<a class="brand-card" href="./{b["slug"]}.html"><div class="brand-name">{h(b["name"])}</div><div class="brand-meta">{b["count"]} new · ${b["median"]:.0f} median</div></a>'
+            for b in brand_summary
+        )
+        idx_html = f"""<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Curated DTC brand index — {len(brand_summary)} Shopify brands tracked weekly. Latest launches, prices, category summaries.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://ddookim.github.io/storescope/brands/">
+<title>DTC brands index — StoreScope</title>
+<style>
+body{{font-family:-apple-system,"Inter",sans-serif;max-width:900px;margin:0 auto;padding:60px 24px;color:#1C1917;background:#F9F8F6}}
+h1{{font-size:2rem;font-weight:800;margin-bottom:.6rem}}
+.subtitle{{color:#57534E;margin-bottom:32px}}
+.grid{{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px}}
+.brand-card{{background:#fff;border:1px solid #E5E5E5;border-radius:10px;padding:14px 18px;text-decoration:none;color:inherit;transition:border-color .15s ease}}
+.brand-card:hover{{border-color:rgba(79,70,229,.4)}}
+.brand-name{{font-weight:700;color:#1C1917;margin-bottom:4px}}
+.brand-meta{{font-size:12.5px;color:#78716C}}
+.breadcrumb{{font-size:.85rem;color:#6B655F;margin-bottom:24px}}
+.breadcrumb a{{color:#4338ca;text-decoration:underline}}
+</style>
+</head><body>
+<div class="breadcrumb"><a href="../">Home</a> · Brands</div>
+<main>
+<h1>Curated DTC brand index</h1>
+<p class="subtitle">{len(brand_summary)} Shopify brands tracked weekly · sorted by recent activity</p>
+<div class="grid">{list_items}</div>
+</main>
+</body></html>
+"""
+        (BRANDS_DIR / "index.html").write_text(idx_html)
+        print(f"  → brands/index.html ({len(brand_summary)} brands)")
 
 
 def _write_weekly_blog(products: list[dict], categories: list[dict], now: datetime) -> None:
