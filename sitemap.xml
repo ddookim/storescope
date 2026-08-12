@@ -287,4 +287,18 @@
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
+
+  <!-- D+14 Red Tactic 5: State of DTC data report (backlink bait, weekly refresh) -->
+  <url>
+    <loc>https://ddookim.github.io/storescope/report/</loc>
+    <lastmod>2026-08-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://ddookim.github.io/storescope/report/state-of-dtc-shopify-2026-w33.html</loc>
+    <lastmod>2026-08-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
 </urlset>
