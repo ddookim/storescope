@@ -153,7 +153,7 @@
   </script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>StoreScope — Shopify product trends, a week early</title>
-  <meta name="description" content="StoreScope scans 50+ curated DTC brands weekly and ranks the products gaining adoption — 1-2 weeks before mainstream discovery. 5k+ products indexed. Free 7-day trial, no card required." />
+  <meta name="description" content="StoreScope scans 50+ curated DTC brands weekly and produces a Monday-morning digest of new products by category. 5k+ products indexed. Free 7-day trial, no card required." />
   <meta name="robots" content="index, follow, max-image-preview:large" />
   <meta name="theme-color" content="#4F46E5" />
 
@@ -180,7 +180,7 @@
   <link rel="alternate" hreflang="ja" href="https://ddookim.github.io/storescope/?lang=ja" />
   <link rel="alternate" hreflang="x-default" href="https://ddookim.github.io/storescope/" />
   <meta property="og:title" content="StoreScope — Shopify product trends, a week early" />
-  <meta property="og:description" content="50+ curated DTC brands, scanned weekly. Every Monday morning: a ranked list of products gaining adoption — 1-2 weeks before mainstream discovery." />
+  <meta property="og:description" content="50+ curated DTC brands, scanned weekly. Every Monday morning: a digest of new products by category — save the manual site-checking tax." />
   <meta property="og:image" content="https://ddookim.github.io/storescope/landing/og-image.png" />
   <meta property="og:image:type" content="image/png" />
   <meta property="og:image:width" content="1200" />
@@ -188,7 +188,7 @@
   <meta property="og:image:alt" content="StoreScope — Shopify Product Intelligence dashboard" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="StoreScope — Shopify product trends, a week early" />
-  <meta name="twitter:description" content="50+ curated DTC brands, scanned weekly. Every Monday morning: a ranked list of products gaining adoption — 1-2 weeks before mainstream discovery." />
+  <meta name="twitter:description" content="50+ curated DTC brands, scanned weekly. Every Monday morning: a digest of new products by category — save the manual site-checking tax." />
   <meta name="twitter:image" content="https://ddookim.github.io/storescope/landing/og-image.png" />
 
   <!-- Security headers (meta-equivalent) — OWASP CSP Cheat Sheet + web.dev + Paddle 공식 CSP guide
@@ -3698,7 +3698,7 @@
       }
       // Dead-man switch: block new checkouts when pipeline data is stale (>72h)
       if (window.__deadman && window.__deadman.payments_blocked) {
-        alert('Pipeline catching up. Checkout temporarily unavailable. Please try again later or email support@storescope.com.');
+        alert('Pipeline catching up. Checkout temporarily unavailable. Please try again later or use the contact form on our site.');
         return;
       }
       var pn = priceId === 'pri_01ksh172kehejf3xc2ws26e6vy' ? 'pro' : 'starter';
@@ -3714,7 +3714,7 @@
         console.error('[checkout] Paddle SDK error:', err);
         // 사용자 visible fallback: 이메일로 결제 안내 요청.
         var msg = "Payment widget didn't load (possibly ad blocker or network issue). " +
-                  "Please email support@storescope.com to complete checkout — I'll send a direct payment link.";
+                  "Please use the contact form on our site to complete checkout — I'll send a direct payment link.";
         alert(msg);
         if (window.gtag) gtag('event', 'checkout_error', { error_type: err.message || 'unknown' });
       }
@@ -3818,7 +3818,7 @@
         cmp_old_5: "Entry timing: late, competitive auction",
         cmp_new_1: "Ranks by rate of adoption across independent stores",
         cmp_new_2: "Winners = still climbing (30-90 stores, wider price spread)",
-        cmp_new_3: "Signal arrives 1-2 weeks before mainstream ad exposure",
+        cmp_new_3: "Weekly Monday-morning digest across 50+ DTC brands",
         cmp_new_4: "Price spread reveals supplier concentration vs organic trend",
         cmp_new_5: "Entry timing: early, unsaturated margins",
         cmp_footer: "Neither approach is wrong — but they answer different questions. Cross-store answers \"what's rising.\"",
@@ -3830,7 +3830,7 @@
         nav_cta: "Get Monday's list",
         hero_eyebrow: "Live · refreshed every Monday at 9 AM",
         hero_h1_line1: "Shopify product trends,",
-        hero_h1_line2: "a week early.",
+        hero_h1_line2: "every Monday.",
         hero_sub: "We watch 50+ curated DTC brands and surface their newest product launches — every Monday morning, sorted by freshness, with vendor and category diversity built-in.",
         hero_scale: "Tracking 50+ curated DTC brands · 5,000+ products · refreshed weekly",
         beta_banner_text: "🧪 <strong>Early access</strong> — Public launch coming soon. Join the waitlist above for the first Monday digest (free). Product feedback: reply to any digest email.",
@@ -4104,7 +4104,7 @@
         founder_body_1_strong: "Independent, bootstrapped",
         founder_body_1_rest: "product intelligence built for one ecosystem — Shopify. No VC roadmap, no acquisition target, no quarterly board reviews dictating direction. Just a focused tool for operators.",
         founder_body_2_strong: "Open beta",
-        founder_body_2_rest: "means honest pricing and a direct line: reply to any email and you reach a person, not a support queue. Try Pro for 7 days — full refund if it doesn't earn back its price.",
+        founder_body_2_rest: "means honest pricing and a direct line: reply to any email and you reach a person, not a support queue. Try Pro free for 7 days — plus a 14-day refund window once billing starts, no questions.",
         founder_data_shopify_stores: "Shopify stores",
         founder_data_products: "Products tracked",
         founder_data_clusters: "Product clusters",
@@ -4113,7 +4113,7 @@
         pricing_trust_badges_label: "Secured & accepted worldwide",
         bento_rank_eyebrow_v2: "Weekly Trend Ranking",
         bento_rank_h3_v2: "Spot next week's bestseller this Monday.",
-        bento_rank_body_v2: "Every product scored 0–100 by how fast it spreads across 40+ curated brands. Filter 80+ to see this week's shortlist — typically 1–2 weeks before mainstream ad exposure.",
+        bento_rank_body_v2: "Every product scored 0–100 by first-appearance velocity across 40+ curated brands. Filter 80+ to see this week's shortlist.",
         bento_rank_caption_v2: "Top trending products this week",
         bento_api_eyebrow_v2: "Direct API",
         bento_api_h3_v2: "Pull trending data into your own tools.",
@@ -4145,7 +4145,7 @@
         email_mock_sender_v2: "StoreScope · Weekly Digest",
         email_mock_meta_v2: "Monday, 9:00 AM ·",
         email_mock_h2_v2: "This week's top 3 spreading.",
-        email_mock_intro_v2: "Among the 40+ curated brands indexed last night, here's what's seeing the fastest cross-store adoption — 1–2 weeks ahead of ad spike.",
+        email_mock_intro_v2: "Among the 40+ curated brands indexed last night, here's what's newest across categories — sorted by first-appearance freshness.",
         email_mock_stores_unit_v2: "stores",
         email_mock_stat_suffix_v2: "this week",
         email_mock_chart_label_v2: "30-day store-count trend",
@@ -4186,7 +4186,7 @@
         cmp_old_5: "진입 타이밍: 늦음, 경쟁 입찰",
         cmp_new_1: "독립 스토어들 간 도입 속도로 랭킹",
         cmp_new_2: "승자 = 아직 상승 중 (30-90 스토어, 넓은 가격 스프레드)",
-        cmp_new_3: "대중 광고 노출 1-2주 전 신호 도달",
+        cmp_new_3: "50+ DTC 브랜드 전반 주간 월요일 아침 다이제스트",
         cmp_new_4: "가격 스프레드가 공급자 집중도 vs 유기적 트렌드 드러냄",
         cmp_new_5: "진입 타이밍: 이르고 포화되지 않은 마진",
         cmp_footer: "어느 접근도 틀린 건 아닙니다 — 답하는 질문이 다를 뿐. 크로스 스토어는 \"무엇이 뜨고 있는가\"에 답합니다.",
@@ -4198,7 +4198,7 @@
         nav_cta: "월요일 리스트 받기",
         hero_eyebrow: "실시간 · 매주 월요일 오전 9시 갱신",
         hero_h1_line1: "Shopify 상품 트렌드,",
-        hero_h1_line2: "일주일 먼저.",
+        hero_h1_line2: "매주 월요일.",
         hero_sub: "엄선 50+ DTC 브랜드의 신제품 런칭을 매주 월요일 아침 정리 — 벤더·카테고리 다양성 자동 반영, 신선도 순 정렬.",
         hero_scale: "엄선 50개+ DTC 브랜드 · 5,000+ 상품 · 매주 갱신",
         beta_banner_text: "🧪 <strong>얼리 액세스</strong> — 정식 출시 준비 중. 위 폼으로 waitlist 참여 시 첫 월요 리포트 무료. 피드백: 리포트 이메일 회신 요청.",
@@ -4445,7 +4445,7 @@
         founder_body_1_strong: "독립, 부트스트랩",
         founder_body_1_rest: "하나의 생태계 — Shopify — 만을 위해 만든 상품 인텔리전스입니다. VC 로드맵도, 인수 타깃도, 분기별 이사회 검토도 방향을 지시하지 않습니다. 오퍼레이터를 위한 집중된 도구입니다.",
         founder_body_2_strong: "오픈 베타",
-        founder_body_2_rest: "는 정직한 가격 정책과 직접 소통을 뜻합니다. 어떤 이메일이든 답장하면 지원 대기열이 아니라 실제 담당자에게 도달합니다. Pro를 7일 사용해 보시고, 값어치를 못 하면 전액 환불해 드립니다.",
+        founder_body_2_rest: "는 정직한 가격 정책과 직접 소통을 뜻합니다. 어떤 이메일이든 답장하면 지원 대기열이 아니라 실제 담당자에게 도달합니다. Pro를 7일간 무료 사용 — 결제 시작 후에도 14일 환불 창구 유지, 조건 없음.",
         founder_data_shopify_stores: "Shopify 스토어",
         founder_data_products: "추적 상품",
         founder_data_clusters: "상품 클러스터",
@@ -4454,7 +4454,7 @@
         pricing_trust_badges_label: "전 세계 안전 결제",
         bento_rank_eyebrow_v2: "주간 트렌드 랭킹",
         bento_rank_h3_v2: "다음 주 베스트셀러를 이번 월요일에 포착.",
-        bento_rank_body_v2: "50+ DTC 브랜드 전반 확산 속도로 0-100점 산정. 80+ 필터로 이번 주 후보 리스트 확인 — 보통 대중 광고 노출 1-2주 전.",
+        bento_rank_body_v2: "50+ DTC 브랜드 전반 최초 출현 속도로 0-100점 산정. 80+ 필터로 이번 주 후보 리스트 확인.",
         bento_rank_caption_v2: "이번 주 톱 트렌딩 상품",
         bento_api_eyebrow_v2: "Direct API",
         bento_api_h3_v2: "트렌딩 데이터를 본인의 도구로.",
@@ -4486,7 +4486,7 @@
         email_mock_sender_v2: "StoreScope · 주간 다이제스트",
         email_mock_meta_v2: "월요일 오전 9:00 ·",
         email_mock_h2_v2: "이번 주 확산 톱 3.",
-        email_mock_intro_v2: "어젯밤 인덱스된 50+ DTC 브랜드 중, 가장 빠른 cross-store 채택을 보이는 항목 — 광고 스파이크 1-2주 전.",
+        email_mock_intro_v2: "어젯밤 인덱스된 50+ DTC 브랜드 중, 카테고리별 신상 — 최초 등장 신선도 순.",
         email_mock_stores_unit_v2: "스토어",
         email_mock_stat_suffix_v2: "이번 주",
         email_mock_chart_label_v2: "30일 스토어 카운트 트렌드",
@@ -4527,7 +4527,7 @@
         cmp_old_5: "参入タイミング: 遅い、競争入札",
         cmp_new_1: "独立ストア間の採用速度でランキング",
         cmp_new_2: "勝者 = まだ上昇中 (30-90 ストア、広い価格帯)",
-        cmp_new_3: "主流広告露出の1-2週間前にシグナル到達",
+        cmp_new_3: "50+DTCブランド横断の週次月曜朝ダイジェスト",
         cmp_new_4: "価格帯がサプライヤー集中度 vs オーガニックトレンドを明らかに",
         cmp_new_5: "参入タイミング: 早く、飽和していないマージン",
         cmp_footer: "どちらのアプローチも間違いではありません — 答える質問が異なるだけです。クロスストアは「何が上昇中か」に答えます。",
@@ -4539,7 +4539,7 @@
         nav_cta: "月曜のリストを受け取る",
         hero_eyebrow: "ライブ · 毎週月曜午前9時に更新",
         hero_h1_line1: "Shopify商品のトレンドを",
-        hero_h1_line2: "1週間早く。",
+        hero_h1_line2: "毎週月曜日。",
         hero_sub: "厳選50+のDTCブランドの新製品を毎週月曜朝にお届け — ベンダー・カテゴリの多様性を自動反映、新鮮度順。",
         hero_scale: "厳選50以上のDTCブランド · 5,000以上の商品 · 毎週更新",
         beta_banner_text: "🧪 <strong>早期アクセス</strong> — 正式リリース準備中。上のフォームから waitlist 参加で初回月曜ダイジェスト無料。フィードバックはダイジェストメールへ返信ください。",
@@ -4786,7 +4786,7 @@
         founder_body_1_strong: "独立、ブートストラップ",
         founder_body_1_rest: "1つのエコシステム — Shopify — のために構築された商品インテリジェンスです。VCロードマップも、買収ターゲットも、四半期取締役会レビューが方向性を指示することもありません。オペレーターのための集中ツールです。",
         founder_body_2_strong: "オープンベータ",
-        founder_body_2_rest: "は正直な価格設定と、直接つながる窓口を意味します。どのメールに返信いただいても、サポートキューではなく担当者本人に届きます。Proを7日間お試しいただき、価値がなければ全額返金いたします。",
+        founder_body_2_rest: "は正直な価格設定と、直接つながる窓口を意味します。どのメールに返信いただいても、サポートキューではなく担当者本人に届きます。Proを7日間無料でお試し — 課金開始後も14日間の返金枠あり、条件なし。",
         founder_data_shopify_stores: "Shopifyストア",
         founder_data_products: "追跡商品",
         founder_data_clusters: "商品クラスター",
@@ -4795,7 +4795,7 @@
         pricing_trust_badges_label: "世界中で安全・利用可能",
         bento_rank_eyebrow_v2: "週次トレンドランキング",
         bento_rank_h3_v2: "来週のベストセラーを今週月曜に発見。",
-        bento_rank_body_v2: "50+DTCブランド全体の拡散速度で0-100点を採点。80+でフィルタすると今週の候補リストが見え、通常、大衆広告露出の1-2週間前です。",
+        bento_rank_body_v2: "50+DTCブランド全体の初出速度で0-100点を採点。80+でフィルタすると今週の候補リストが見える。",
         bento_rank_caption_v2: "今週のトップトレンド商品",
         bento_api_eyebrow_v2: "Direct API",
         bento_api_h3_v2: "トレンドデータを自分のツールに。",
@@ -4827,7 +4827,7 @@
         email_mock_sender_v2: "StoreScope · 週次ダイジェスト",
         email_mock_meta_v2: "月曜 午前9:00 ·",
         email_mock_h2_v2: "今週拡散トップ3。",
-        email_mock_intro_v2: "昨夜インデックスされた50+DTCブランドのうち、最速のcross-store採択を見せる項目 — 広告スパイク1-2週間前。",
+        email_mock_intro_v2: "昨夜インデックスされた50+DTCブランドのうち、カテゴリ別新着 — 初出鮮度順。",
         email_mock_stores_unit_v2: "ストア",
         email_mock_stat_suffix_v2: "今週",
         email_mock_chart_label_v2: "30日ストアカウントトレンド",
@@ -4944,12 +4944,12 @@
       <a href="#how-it-works" data-i18n="nav_how">How it works</a>
       <a href="#pricing" data-i18n="nav_pricing">Pricing</a>
       <a href="#faq" data-i18n="nav_faq">FAQ</a>
-      <a href="./blog/shopify-trending-products-tool.html" data-i18n="nav_blog">Blog</a>
+      <a href="./blog/" data-i18n="nav_blog">Blog</a>
       <a href="#contact" data-i18n="nav_contact">Contact</a>
     </div>
     <div class="nav-ctas">
       <a href="#xray" class="btn-ghost" data-i18n="nav_xray">Free X-Ray Tool</a>
-      <a href="mailto:support@storescope.com?subject=Account%20access%20request&amp;body=Hi%20StoreScope%2C%20please%20resend%20my%20dashboard%20link.%20Account%20email%3A%20" class="nav-login-link" aria-label="Existing customer — request account access" data-i18n="nav_login" data-aria-i18n="aria-label:aria_login">Log in</a>
+      <a href="#contact" class="nav-login-link" aria-label="Existing customer — request account access" data-i18n="nav_login" data-aria-i18n="aria-label:aria_login">Log in</a>
       <select id="ss-lang-switch" class="nav-lang-switch" aria-label="Language" data-aria-i18n="aria-label:aria_language">
         <option value="en">English</option>
         <option value="ko">한국어</option>
@@ -4992,9 +4992,9 @@
   </div>
   <h1>
     <span data-i18n="hero_h1_line1">Shopify product trends,</span><br>
-    <span class="grad-text" data-i18n="hero_h1_line2">a week early.</span>
+    <span class="grad-text" data-i18n="hero_h1_line2">every Monday.</span>
   </h1>
-  <p class="hero-sub" data-i18n="hero_sub">We watch 50 curated DTC brands and surface the products spreading across them — every Monday morning, before mainstream discovery kicks in.</p>
+  <p class="hero-sub" data-i18n="hero_sub">We watch 50+ curated DTC brands and surface their newest product launches — every Monday morning, sorted by freshness, with vendor and category diversity built-in.</p>
 
   <!-- FIX 2026-07-30 D+59 (design red team CRIT R3): 3 competing CTAs 제거.
        기존: btn-hero-primary + See pricing + email form = attention split.
@@ -5403,7 +5403,7 @@
           <span data-i18n="bento_rank_eyebrow_v2">Weekly Trend Ranking</span>
         </div>
         <h3 data-i18n="bento_rank_h3_v2">Spot next week's bestseller this Monday.</h3>
-        <p data-i18n="bento_rank_body_v2">Every product scored 0–100 by how fast it spreads across 40+ curated brands. Filter 80+ to see this week's shortlist — typically 1–2 weeks before mainstream ad exposure.</p>
+        <p data-i18n="bento_rank_body_v2">Every product scored 0–100 by first-appearance velocity across 40+ curated brands. Filter 80+ to see this week's shortlist.</p>
         <div class="bc-chart">
           <div class="bc-chart-header">
             <span class="bc-chart-title" data-i18n="bento_rank_caption_v2">Top trending products this week</span>
@@ -5711,7 +5711,7 @@
         <ul class="cmp-list">
           <li data-i18n="cmp_new_1">Ranks by rate of adoption across independent stores</li>
           <li data-i18n="cmp_new_2">Winners = still climbing (30-90 stores, wider price spread)</li>
-          <li data-i18n="cmp_new_3">Signal arrives 1-2 weeks before mainstream ad exposure</li>
+          <li data-i18n="cmp_new_3">Weekly Monday-morning digest across 50+ DTC brands</li>
           <li data-i18n="cmp_new_4">Price spread reveals supplier concentration vs organic trend</li>
           <li data-i18n="cmp_new_5">Entry timing: early, unsaturated margins</li>
         </ul>
@@ -6104,7 +6104,7 @@
         <strong data-i18n="founder_body_1_strong">Independent, bootstrapped</strong> <span data-i18n="founder_body_1_rest">product intelligence built for one ecosystem — Shopify. No VC roadmap, no acquisition target, no quarterly board reviews dictating direction. Just a focused tool for operators.</span>
       </p>
       <p class="founder-note-body">
-        <strong data-i18n="founder_body_2_strong">Open beta</strong> <span data-i18n="founder_body_2_rest">means honest pricing and a direct line: reply to any email and you reach a person, not a support queue. Try Pro for 7 days — full refund if it doesn't earn back its price.</span>
+        <strong data-i18n="founder_body_2_strong">Open beta</strong> <span data-i18n="founder_body_2_rest">means honest pricing and a direct line: reply to any email and you reach a person, not a support queue. Try Pro free for 7 days — plus a 14-day refund window once billing starts, no questions.</span>
       </p>
 
       <div class="founder-data-row">
@@ -6127,7 +6127,7 @@
       </div>
 
       <p class="founder-signoff">
-        <span data-i18n="founder_signoff_text">Independent · Bootstrapped</span> · <a href="mailto:support@storescope.com" class="founder-signoff-email">support@storescope.com</a>
+        <span data-i18n="founder_signoff_text">Independent · Bootstrapped</span> · <a href="#contact" class="founder-signoff-email" data-i18n="founder_signoff_contact">Contact form ↓</a>
       </p>
     </div>
   </div>
@@ -6156,7 +6156,7 @@
 
         <div class="email-mock-body">
           <h3 class="email-mock-h" data-i18n="email_mock_h2_v2">This week's top 3 spreading.</h3>
-          <p class="email-mock-intro" data-i18n="email_mock_intro_v2">Among the 40+ curated brands indexed last night, here's what's seeing the fastest cross-store adoption — 1–2 weeks ahead of ad spike.</p>
+          <p class="email-mock-intro" data-i18n="email_mock_intro_v2">Among the 40+ curated brands indexed last night, here's what's newest across categories — sorted by first-appearance freshness.</p>
 
           <div class="email-mock-item">
             <div class="email-mock-rank">01</div>
@@ -6410,7 +6410,7 @@
         <p class="ent-desc" data-i18n="ent_desc">If the Starter and Pro plans don't fit what you're doing, just email us. We'll figure out a custom setup that does.</p>
       </div>
       <div class="ent-right">
-        <a href="mailto:support@storescope.com?subject=StoreScope%20custom%20setup&amp;body=Hi%20StoreScope%2C%0A%0AHere%27s%20what%20I%27m%20trying%20to%20do%3A%0A%0A" class="ent-cta">
+        <a href="#contact" class="ent-cta">
           <span data-i18n="ent_cta">Email the team</span>
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
         </a>
@@ -6736,13 +6736,13 @@
       <a href="#pricing" data-i18n="footer_link_pricing">Pricing</a>
       <a href="#xray" data-i18n="footer_link_xray">Free X-Ray tool</a>
       <a href="./digest-sample.html" data-i18n="footer_link_digest_sample">This week's digest sample</a>
-      <a href="mailto:support@storescope.com?subject=API%20docs%20access" class="footer-link-muted" data-i18n="footer_link_api">API access</a>
+      <a href="#contact" class="footer-link-muted" data-i18n="footer_link_api">API access</a>
     </div>
     <div class="footer-col">
       <h3 data-i18n="footer_col_company">Company</h3>
       <a href="#faq" data-i18n="footer_link_faq">FAQ</a>
-      <a href="mailto:support@storescope.com" data-i18n="footer_link_support">Support</a>
-      <a href="mailto:optout@storescope.com" data-i18n="footer_link_optout">Merchant opt-out</a>
+      <a href="#contact" data-i18n="footer_link_support">Support</a>
+      <a href="#contact" data-i18n="footer_link_optout">Merchant opt-out</a>
     </div>
     <div class="footer-col">
       <h3 data-i18n="footer_col_legal">Legal</h3>
@@ -7102,7 +7102,11 @@
     var params = new URLSearchParams();
     params.append('form-name', 'hero-email-form');
     params.append('email', email);
-    params.append('source', 'hero');
+    // D+13 CRIT-4 fix: capture ?ref= URL param for channel attribution (IH/HN/Reddit kill switch).
+    var _refParam = '';
+    try { _refParam = new URLSearchParams(window.location.search).get('ref') || ''; } catch(_) {}
+    params.append('source', _refParam ? 'hero:' + _refParam : 'hero');
+    params.append('ref', _refParam);  // separate field for Netlify Forms dashboard sortability
     params.append('bot-field', '');  // honeypot 빈값 = 봇 아님
 
     fetch('https://storescope.netlify.app/', {
@@ -7176,13 +7180,16 @@
       if (b) b.hidden = false;
     }
 
+    // D+13 CRIT-4 fix: capture ?ref= URL param for channel attribution.
+    var _xrRef = '';
+    try { _xrRef = new URLSearchParams(window.location.search).get('ref') || ''; } catch(_) {}
     fetch(API_BASE + '/leads', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         email: email,
         domain: store,
-        source: 'xray'
+        source: _xrRef ? 'xray:' + _xrRef : 'xray'
       })
     }).then(function(r) {
       if (!r.ok) {
