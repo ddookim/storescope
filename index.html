@@ -103,19 +103,9 @@
         return Promise.resolve(jsonResponse({ error: 'mock not found', endpoint: endpoint }, 404));
       };
 
-      // Global sticky demo banner — 페이지 load 시 즉시 표시 (X-Ray submit 후 demo banner 와 별개)
-      document.addEventListener('DOMContentLoaded', function() {
-        if (document.getElementById('ss-global-demo-banner')) return;
-        var dict = (window.STORESCOPE_I18N && window.STORESCOPE_I18N[document.documentElement.lang]) || {};
-        var msg = dict.global_demo_banner || 'Demo mode — Mock API responses shown. Real data goes live the day after we launch.';
-        var banner = document.createElement('div');
-        banner.id = 'ss-global-demo-banner';
-        banner.setAttribute('role', 'status');
-        banner.setAttribute('data-i18n', 'global_demo_banner');
-        banner.textContent = msg;
-        banner.style.cssText = 'background:linear-gradient(90deg,#FEF3C7,#FDE68A);color:#92400E;padding:9px 16px 9px 36px;text-align:center;font:600 13px/1.4 -apple-system,system-ui,sans-serif;position:sticky;top:0;z-index:9999;border-bottom:1px solid #FCD34D;letter-spacing:-0.005em;background-image:url("data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'%2392400E\' stroke-width=\'2.4\' stroke-linecap=\'round\' stroke-linejoin=\'round\'%3E%3Ccircle cx=\'12\' cy=\'12\' r=\'10\'/%3E%3Cline x1=\'12\' y1=\'8\' x2=\'12\' y2=\'12\'/%3E%3Cline x1=\'12\' y1=\'16\' x2=\'12.01\' y2=\'16\'/%3E%3C/svg%3E"),linear-gradient(90deg,#FEF3C7,#FDE68A);background-repeat:no-repeat,no-repeat;background-position:14px center,0 0;background-size:14px,100%;';
-        document.body.insertBefore(banner, document.body.firstChild);
-      });
+      // D+14 removed: global sticky demo banner (nav bar 및 hero 최상단 요소 시각 차단).
+      // 데모 상태 안내는 hero 안의 "Early access preview" trust line 으로 충분.
+      // X-Ray form submit 후 개별 demo banner (#xr-demo-banner) 는 유지.
     })();
 
     // D+11 Live overlay — demo dashboard rows 을 실 latest_products.json 상위 N개로 교체.
