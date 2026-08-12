@@ -298,9 +298,10 @@ def main() -> None:
     _write_rss_feed(top, categories, now)
     _write_weekly_blog(top, categories, now)
     _update_blog_index()
-    _write_brand_profiles(now)
+    brand_map = _write_brand_profiles(now) or {}
     # D+14 Red Tactic 3 pivot + 5: category & state report weekly auto-regen.
-    _write_category_pages(top, categories, now)
+    # brand_map = {vendor_name: brand_slug} for category → brand cross-linking.
+    _write_category_pages(top, categories, now, brand_map)
     _write_state_report(top, categories, now)
 
 
@@ -554,6 +555,9 @@ h1{{font-size:2rem;font-weight:800;margin-bottom:.6rem}}
 """
         (BRANDS_DIR / "index.html").write_text(idx_html)
         print(f"  → brands/index.html ({len(brand_summary)} brands)")
+
+    # D+14: return vendor_name → brand_slug map for cross-linking (category pages 등).
+    return {b["name"]: b["slug"] for b in brand_summary}
 
 
 def _write_weekly_blog(products: list[dict], categories: list[dict], now: datetime) -> None:
@@ -1135,19 +1139,36 @@ def _card_html(p: dict) -> str:
 </a>"""
 
 
-def _write_category_pages(products: list[dict], categories: list[dict], now: datetime) -> None:
+def _write_category_pages(products: list[dict], categories: list[dict], now: datetime, brand_map: dict[str, str] | None = None) -> None:
     """7 programmatic category pages (Uncategorized 제외) + hub.
 
     Weekly refresh on pipeline run — real data (category counts, top vendors,
     sample products from top-20 digest).
+
+    brand_map: {vendor_name → brand_slug} from _write_brand_profiles.
+    Used to cross-link top_vendors → /brands/{slug}.html for SEO link equity.
+    Fallback to plain span if vendor has no brand page (crawl미검출/신규).
     """
     from html import escape as h
+    # D+14 empty guard: crawl 데이터 stale/empty 시 기존 페이지 empty overwrite 금지.
+    # 이전 사고: dev 환경에서 stale data/products/* 로 pipeline 실행 → 0 categories →
+    # 기존 카테고리 페이지 empty overwrite → live SEO 자산 파괴. 발생 재현 차단.
+    if not products or not categories:
+        print(f"  → category pages SKIP (empty products/categories — stale crawl?)")
+        return
+    brand_map = brand_map or {}
     _CATEGORY_DIR.mkdir(parents=True, exist_ok=True)
 
     named_cats = [c for c in categories if c["product_type"] in _SLUG_MAP]
     week = f"{now.isocalendar().year}-W{now.isocalendar().week:02d}"
     today = now.strftime("%Y-%m-%d")
     total = len(products)
+
+    def _vendor_tag_html(vendor: str) -> str:
+        slug = brand_map.get(vendor)
+        if slug:
+            return f'<a class="tag" href="../brands/{slug}.html">{h(vendor)}</a>'
+        return f'<span class="tag">{h(vendor)}</span>'
 
     for cat in named_cats:
         ptype = cat["product_type"]
@@ -1157,7 +1178,7 @@ def _write_category_pages(products: list[dict], categories: list[dict], now: dat
         top_vendors = cat.get("top_vendors", [])[:3]
         cat_products = [p for p in products if p.get("product_type") == ptype][:12]
         grid = "\n".join(_card_html(p) for p in cat_products) or "<p><em>Sample products not in this week's top-20 digest — full list in Monday email.</em></p>"
-        vendor_tags = "".join(f'<span class="tag">{h(v)}</span>' for v in top_vendors)
+        vendor_tags = "".join(_vendor_tag_html(v) for v in top_vendors)
         related = "".join(
             f'<a class="tag" href="./{_SLUG_MAP[o["product_type"]]}.html">→ {h(o["product_type"])} ({o["product_count"]})</a>'
             for o in named_cats if o["product_type"] != ptype
@@ -1300,6 +1321,10 @@ def _write_state_report(products: list[dict], categories: list[dict], now: datet
     """
     from html import escape as h
     from collections import Counter
+    # D+14 empty guard: stale crawl 로 empty report 생성 방지.
+    if not products or not categories:
+        print(f"  → state report SKIP (empty products/categories — stale crawl?)")
+        return
     _REPORT_DIR.mkdir(parents=True, exist_ok=True)
 
     week = f"{now.isocalendar().year}-W{now.isocalendar().week:02d}"
