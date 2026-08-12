@@ -52,6 +52,9 @@ jobs:
           cp landing/robots.txt /tmp/gh-pages-wt/robots.txt 2>/dev/null || true
           cp landing/sitemap.xml /tmp/gh-pages-wt/sitemap.xml 2>/dev/null || true
           cp landing/manifest.json /tmp/gh-pages-wt/manifest.json 2>/dev/null || true
+          # D+14 Blue Team step5: IndexNow key 파일 root 배포 (Bing/Yandex/Naver/Seznam 검증용).
+          # 검증은 https://ddookim.github.io/storescope/<key>.txt 에서 이루어짐 (keyLocation param).
+          cp landing/1a13761481f3939465dac5fa481799b8.txt /tmp/gh-pages-wt/1a13761481f3939465dac5fa481799b8.txt 2>/dev/null || true
           # D+12 bug fix: 404.html root 필수 (GH Pages 는 root/404.html 만 custom 404 로 사용).
           # 이전엔 landing/404.html 만 있어 nonexistent path 시 generic GH 404 반환.
           cp landing/404.html /tmp/gh-pages-wt/404.html 2>/dev/null || true
@@ -103,3 +106,25 @@ jobs:
         if: always()
         run: |
           git worktree remove /tmp/gh-pages-wt --force 2>/dev/null || true
+
+      # D+14 Blue Team Musk step5 (automate): SEO 재색인 요청.
+      # Google 은 2023-06 sitemap ping 엔드포인트를 공식 폐지 — 호출하지 않음 (죽은 자동화 광고 금지).
+      # Bing 은 ping 엔드포인트 유지. IndexNow 는 Bing/Yandex/Naver/Seznam 동시 커버.
+      # 실패해도 배포 자체는 이미 완료된 상태이므로 이 스텝은 non-blocking (|| true).
+      - name: Ping search engines (Bing + IndexNow)
+        run: |
+          SITEMAP_URL="https://ddookim.github.io/storescope/sitemap.xml"
+          HOST="ddookim.github.io"
+          KEY="1a13761481f3939465dac5fa481799b8"
+          KEY_LOCATION="https://ddookim.github.io/storescope/${KEY}.txt"
+
+          echo "[seo-ping] Bing sitemap ping..."
+          curl -sS -o /dev/null -w "  bing status=%{http_code}\n" --max-time 15 \
+            "https://www.bing.com/ping?sitemap=${SITEMAP_URL}" || true
+
+          echo "[seo-ping] IndexNow submit (Bing/Yandex/Naver/Seznam)..."
+          curl -sS -o /dev/null -w "  indexnow status=%{http_code}\n" --max-time 15 \
+            -X POST "https://api.indexnow.org/indexnow" \
+            -H "Content-Type: application/json; charset=utf-8" \
+            -d "{\"host\":\"${HOST}\",\"key\":\"${KEY}\",\"keyLocation\":\"${KEY_LOCATION}\",\"urlList\":[\"https://ddookim.github.io/storescope/\",\"${SITEMAP_URL}\"]}" \
+            || true

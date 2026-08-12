@@ -1037,8 +1037,7 @@
     }
     .bento-dark p { color: #5B5EA6 !important; }
 
-    /* ── bottom utility row — FIX 2026-06-09: Store Lookup 카드 제거 후 단일 컬럼 ── */
-    .bento-util-row { display: grid; grid-template-columns: 1fr; gap: 16px; margin-top: 16px; max-width: 100%; }
+    /* REMOVED D+14: .bento-util-row 규칙 제거 — CSV Export 카드 삭제로 DOM 사용처 0. */
 
     .pro-flag {
       display: inline-block; font-size: 10px; font-weight: 700; letter-spacing: 0.3px;
@@ -2287,7 +2286,6 @@
       .steps-grid { grid-template-columns: 1fr; gap: 32px; }
       .step-line { display: none; }
       .bento-grid { grid-template-columns: 1fr; }
-      .bento-util-row { grid-template-columns: 1fr; }
       .bento-card.wide { grid-column: span 1; }
       .bento-card { padding: 32px 28px; }
       .bc-row { grid-template-columns: 110px 1fr 32px 44px; }
@@ -4075,7 +4073,6 @@
         dash_filter_min_stores: "Min stores: 5+",
         dash_filter_sort_score: "Sort: Trend Score ↓",
         dash_clusters_badge: "50+ clusters",
-        bento_file_meta: "50+ clusters · 5k+ products · 2.3 MB",
         category_electronics: "Electronics",
         category_home_decor: "Home Decor",
         category_automotive: "Automotive",
@@ -4089,7 +4086,7 @@
         dash_col_thisweek: "This Week",
         counter_products_indexed: "Products indexed",
         counter_stores_tracked: "DTC brands curated",
-        counter_trending_found: "Trending clusters found",
+        counter_trending_found: "Weekly digest picks",
         counter_weekly: "Weekly",
         counter_refresh_label: "Index refresh · every Monday",
         how_pill: "How it works",
@@ -4107,7 +4104,7 @@
         founder_body_2_rest: "means honest pricing and a direct line: reply to any email and you reach a person, not a support queue. Try Pro free for 7 days — plus a 14-day refund window once billing starts, no questions.",
         founder_data_shopify_stores: "Shopify stores",
         founder_data_products: "Products tracked",
-        founder_data_clusters: "Product clusters",
+        founder_data_clusters: "Weekly digest picks",
         founder_data_refresh: "Full index refresh",
         founder_signoff_text: "Independent · Bootstrapped",
         pricing_trust_badges_label: "Secured & accepted worldwide",
@@ -4115,11 +4112,6 @@
         bento_rank_h3_v2: "Spot next week's bestseller this Monday.",
         bento_rank_body_v2: "Every product scored 0–100 by first-appearance velocity across 40+ curated brands. Filter 80+ to see this week's shortlist.",
         bento_rank_caption_v2: "Top trending products this week",
-        bento_api_eyebrow_v2: "Direct API",
-        bento_api_h3_v2: "Pull trending data into your own tools.",
-        bento_api_body_v2: "Every Pro plan ships an API key. Query the full trending index from your own dashboard, sheet, or private bot — JSON responses, rate-limited per plan.",
-        bento_api_resp1_v2: "200 OK · 47 clusters · 184 ms",
-        bento_api_resp2_v2: "200 OK · 84 products · 92 ms",
         bento_price_th_store_v2: "Store",
         bento_price_th_min_v2: "Min",
         bento_price_th_max_v2: "Max",
@@ -4129,9 +4121,6 @@
         bento_history_axis_start_v2: "30 days ago",
         bento_history_axis_end_v2: "This week ↑",
         bento_history_peak_v2: "31 stores this week",
-        bento_export_eyebrow_v2: "Bulk Export",
-        bento_export_h3_v2: "Export to wherever you already work.",
-        bento_export_body_v2: "Download the full trend data as CSV — every cluster, store, and price. Import into Sheets, Notion, or your own pipeline.",
         how_step1_mock_meta_v2: "products · indexed 2h ago",
         how_step1_more_v2: "+ 1,397 more this week",
         how_step2_more_v2: "+ 28 more",
@@ -4416,7 +4405,6 @@
         dash_filter_min_stores: "최소 스토어: 5+",
         dash_filter_sort_score: "정렬: 트렌드 점수 ↓",
         dash_clusters_badge: "50+ 클러스터",
-        bento_file_meta: "50+ 클러스터 · 5k+ 상품 · 2.3 MB",
         category_electronics: "전자제품",
         category_home_decor: "홈 데코",
         category_automotive: "자동차",
@@ -4430,7 +4418,7 @@
         dash_col_thisweek: "이번 주",
         counter_products_indexed: "색인된 상품",
         counter_stores_tracked: "엄선 DTC 브랜드",
-        counter_trending_found: "발견된 트렌드 클러스터",
+        counter_trending_found: "주간 다이제스트 픽",
         counter_weekly: "매주",
         counter_refresh_label: "인덱스 갱신 · 매주 월요일",
         how_pill: "작동 원리",
@@ -4448,7 +4436,7 @@
         founder_body_2_rest: "는 정직한 가격 정책과 직접 소통을 뜻합니다. 어떤 이메일이든 답장하면 지원 대기열이 아니라 실제 담당자에게 도달합니다. Pro를 7일간 무료 사용 — 결제 시작 후에도 14일 환불 창구 유지, 조건 없음.",
         founder_data_shopify_stores: "Shopify 스토어",
         founder_data_products: "추적 상품",
-        founder_data_clusters: "상품 클러스터",
+        founder_data_clusters: "주간 다이제스트 픽",
         founder_data_refresh: "전체 인덱스 갱신",
         founder_signoff_text: "독립 · 부트스트랩",
         pricing_trust_badges_label: "전 세계 안전 결제",
@@ -4456,11 +4444,6 @@
         bento_rank_h3_v2: "다음 주 베스트셀러를 이번 월요일에 포착.",
         bento_rank_body_v2: "50+ DTC 브랜드 전반 최초 출현 속도로 0-100점 산정. 80+ 필터로 이번 주 후보 리스트 확인.",
         bento_rank_caption_v2: "이번 주 톱 트렌딩 상품",
-        bento_api_eyebrow_v2: "Direct API",
-        bento_api_h3_v2: "트렌딩 데이터를 본인의 도구로.",
-        bento_api_body_v2: "모든 Pro 플랜은 API 키 제공. 본인 대시보드 / 시트 / 봇에서 전체 트렌딩 인덱스 쿼리 — JSON 응답, 플랜별 rate limit.",
-        bento_api_resp1_v2: "200 OK · 47 클러스터 · 184 ms",
-        bento_api_resp2_v2: "200 OK · 84 상품 · 92 ms",
         bento_price_th_store_v2: "스토어",
         bento_price_th_min_v2: "최저",
         bento_price_th_max_v2: "최고",
@@ -4470,9 +4453,6 @@
         bento_history_axis_start_v2: "30일 전",
         bento_history_axis_end_v2: "이번 주 ↑",
         bento_history_peak_v2: "이번 주 31 스토어",
-        bento_export_eyebrow_v2: "벌크 익스포트",
-        bento_export_h3_v2: "이미 사용 중인 곳으로 내보내기.",
-        bento_export_body_v2: "전체 트렌드 데이터를 CSV 로 다운로드 — 모든 클러스터/스토어/가격. Sheets / Notion / 본인 파이프라인으로 import.",
         how_step1_mock_meta_v2: "상품 · 2시간 전 인덱스",
         how_step1_more_v2: "+ 1,397 추가 이번 주",
         how_step2_more_v2: "+ 28 추가",
@@ -4757,7 +4737,6 @@
         dash_filter_min_stores: "最小ストア数: 5+",
         dash_filter_sort_score: "ソート: トレンドスコア ↓",
         dash_clusters_badge: "50+ クラスター",
-        bento_file_meta: "50+ クラスター · 5k+ 商品 · 2.3 MB",
         category_electronics: "エレクトロニクス",
         category_home_decor: "ホームインテリア",
         category_automotive: "自動車",
@@ -4771,7 +4750,7 @@
         dash_col_thisweek: "今週",
         counter_products_indexed: "インデックス済み商品",
         counter_stores_tracked: "厳選DTCブランド",
-        counter_trending_found: "発見したトレンドクラスター",
+        counter_trending_found: "週次ダイジェストピック",
         counter_weekly: "毎週",
         counter_refresh_label: "インデックス更新 · 毎週月曜日",
         how_pill: "しくみ",
@@ -4789,7 +4768,7 @@
         founder_body_2_rest: "は正直な価格設定と、直接つながる窓口を意味します。どのメールに返信いただいても、サポートキューではなく担当者本人に届きます。Proを7日間無料でお試し — 課金開始後も14日間の返金枠あり、条件なし。",
         founder_data_shopify_stores: "Shopifyストア",
         founder_data_products: "追跡商品",
-        founder_data_clusters: "商品クラスター",
+        founder_data_clusters: "週次ダイジェストピック",
         founder_data_refresh: "全インデックス更新",
         founder_signoff_text: "独立 · ブートストラップ",
         pricing_trust_badges_label: "世界中で安全・利用可能",
@@ -4797,11 +4776,6 @@
         bento_rank_h3_v2: "来週のベストセラーを今週月曜に発見。",
         bento_rank_body_v2: "50+DTCブランド全体の初出速度で0-100点を採点。80+でフィルタすると今週の候補リストが見える。",
         bento_rank_caption_v2: "今週のトップトレンド商品",
-        bento_api_eyebrow_v2: "Direct API",
-        bento_api_h3_v2: "トレンドデータを自分のツールに。",
-        bento_api_body_v2: "全Proプランに API キーを同梱。自分のダッシュボード / シート / プライベートボットから全トレンドインデックスを照会 — JSON 応答、プラン別レート制限。",
-        bento_api_resp1_v2: "200 OK · 47 クラスタ · 184 ms",
-        bento_api_resp2_v2: "200 OK · 84 商品 · 92 ms",
         bento_price_th_store_v2: "ストア",
         bento_price_th_min_v2: "最安",
         bento_price_th_max_v2: "最高",
@@ -4811,9 +4785,6 @@
         bento_history_axis_start_v2: "30日前",
         bento_history_axis_end_v2: "今週 ↑",
         bento_history_peak_v2: "今週31ストア",
-        bento_export_eyebrow_v2: "一括エクスポート",
-        bento_export_h3_v2: "既に使っている場所へ。",
-        bento_export_body_v2: "全トレンドデータを CSV でダウンロード — 全クラスタ / ストア / 価格。Sheets / Notion / 自前パイプラインにインポート。",
         how_step1_mock_meta_v2: "商品 · 2時間前にインデックス",
         how_step1_more_v2: "+ 1,397 今週追加",
         how_step2_more_v2: "+ 28 追加",
@@ -5250,7 +5221,7 @@
   <div class="counter-inner">
     <div class="counter-item"><div class="counter-num" data-target="5000" data-suffix="+">5k+</div><div class="counter-label" data-i18n="counter_products_indexed">Products indexed</div></div>
     <div class="counter-item"><div class="counter-num" data-target="50" data-suffix="+">50+</div><div class="counter-label" data-i18n="counter_stores_tracked">DTC brands curated</div></div>
-    <div class="counter-item"><div class="counter-num" data-target="50" data-suffix="+">50+</div><div class="counter-label" data-i18n="counter_trending_found">Trending clusters found</div></div>
+    <div class="counter-item"><div class="counter-num" data-target="20" data-suffix="+">20+</div><div class="counter-label" data-i18n="counter_trending_found">Weekly digest picks</div></div>
     <div class="counter-item"><div class="counter-num" data-i18n="counter_weekly">Weekly</div><div class="counter-label" data-i18n="counter_refresh_label">Index refresh · every Monday</div></div>
   </div>
 </div>
@@ -5433,32 +5404,10 @@
       </div>
 
       <!-- REMOVED 2026-06-09: "Real-time Alerts (Webhook)" 카드 제거 — 라운드 7 마이그레이션으로
-           webhook_subscriptions 테이블 drop. 존재하지 않는 기능 광고 = 표시·광고의 공정화법 §3 위반.
-           대체 카드: API access (실 기능 — Pro tier API key 발급). -->
-      <div class="bento-card">
-        <div class="bento-eyebrow">
-          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
-          <span data-i18n="bento_api_eyebrow_v2">Direct API</span> <span class="pro-flag" data-i18n="badge_pro_v2">PRO</span>
-        </div>
-        <h3 data-i18n="bento_api_h3_v2">Pull trending data into your own tools.</h3>
-        <p data-i18n="bento_api_body_v2">Every Pro plan ships an API key. Query the full trending index from your own dashboard, sheet, or private bot — JSON responses, rate-limited per plan.</p>
-        <div class="bc-notif">
-          <div class="bc-notif-item">
-            <div class="bc-notif-dot green"></div>
-            <div>
-              <div class="bc-notif-title">GET /trending?score_min=80</div>
-              <div class="bc-notif-meta" data-i18n="bento_api_resp1_v2" style="font-family:'JetBrains Mono','SF Mono',monospace;">200 OK · 47 clusters · 184 ms</div>
-            </div>
-          </div>
-          <div class="bc-notif-item">
-            <div class="bc-notif-dot amber"></div>
-            <div>
-              <div class="bc-notif-title">GET /store/example.myshopify.com</div>
-              <div class="bc-notif-meta" data-i18n="bento_api_resp2_v2" style="font-family:'JetBrains Mono','SF Mono',monospace;">200 OK · 84 products · 92 ms</div>
-            </div>
-          </div>
-        </div>
-      </div>
+           webhook_subscriptions 테이블 drop. 존재하지 않는 기능 광고 = 표시·광고의 공정화법 §3 위반. -->
+      <!-- REMOVED D+14 Blue Team Musk step2: "Direct API" 카드 제거 — trending.json=[] / clusters.json={}
+           (backend index 비어있음). "47 clusters" 응답 mock 은 실제 존재하지 않는 인덱스에 대한
+           검증 불가 수치 claim = 거짓광고 위험. 실 API 재출시 시 실 응답으로 재도입. -->
 
       <!-- CARD 3: Price Gap (1 col) -->
       <div class="bento-card">
@@ -5526,36 +5475,10 @@
 
     </div>
 
-    <!-- Bottom utility row: Store Intel + CSV Export -->
-    <div class="bento-util-row">
-
-      <!-- REMOVED 2026-06-09: Store Lookup 카드 제거 — X-Ray 섹션과 100% 중복.
-           같은 기능 ("paste URL → see products") 을 다른 카피로 2번 설명 = 사용자 인지 부담.
-           X-Ray 섹션이 더 강력 (인터랙티브 + 무료 노출) → 카드 자리 비움. -->
-
-      <!-- CSV Bulk Export -->
-      <div class="bento-card" style="padding:32px 36px;">
-        <div class="bento-eyebrow">
-          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-          <span data-i18n="bento_export_eyebrow_v2">Bulk Export</span> <span class="pro-flag" data-i18n="badge_pro_v2">PRO</span>
-        </div>
-        <h3 data-i18n="bento_export_h3_v2">Export to wherever you already work.</h3>
-        <p data-i18n="bento_export_body_v2">Download the full trend data as CSV — every cluster, store, and price. Import into Sheets, Notion, or your sourcing pipeline.</p>
-        <div class="bc-file-card">
-          <div class="bc-file-icon">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#34D399" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
-          </div>
-          <div style="flex:1;min-width:0;">
-            <div class="bc-file-name">trending_live_clusters.csv</div>
-            <div class="bc-file-meta" data-i18n="bento_file_meta">50+ clusters · 5k+ products · 2.3 MB</div>
-          </div>
-          <div class="bc-file-dl">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#34D399" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-          </div>
-        </div>
-      </div>
-
-    </div>
+    <!-- REMOVED 2026-06-09: Store Lookup 카드 제거 — X-Ray 섹션과 100% 중복. -->
+    <!-- REMOVED D+14 Blue Team Musk step2: "Bulk Export (CSV)" 카드 + bento-util-row wrapper 제거 —
+         clusters.json={} (backend 클러스터 인덱스 비어있음). "50+ clusters · 5k+ products · 2.3 MB"
+         는 존재하지 않는 파일에 대한 검증 불가 수치 claim. 실 export 기능 재구축 시 실 파일로 재도입. -->
   </div>
 </div>
 
@@ -6117,8 +6040,8 @@
           <div class="founder-data-label" data-i18n="founder_data_products">Products tracked</div>
         </div>
         <div class="founder-data-stat">
-          <div class="founder-data-num">50+</div>
-          <div class="founder-data-label" data-i18n="founder_data_clusters">Product clusters</div>
+          <div class="founder-data-num">20+</div>
+          <div class="founder-data-label" data-i18n="founder_data_clusters">Weekly digest picks</div>
         </div>
         <div class="founder-data-stat">
           <div class="founder-data-num" data-i18n="counter_weekly">Weekly</div>
