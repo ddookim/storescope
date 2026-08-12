@@ -4937,23 +4937,17 @@
   <div class="nav-inner">
     <a href="./" class="logo" aria-label="StoreScope — home">
       <span class="logo-text">StoreScope</span>
-      <!-- UPGRADE 2026-06-09: nav 라이브 "Open Beta" 배지 — 즉시 가시 (사용자 신뢰: 정직 + 진행 중) -->
-      <span class="nav-beta-pill" aria-label="Open beta">
-        <span class="nav-beta-dot" aria-hidden="true"></span>
-        <span class="nav-beta-text" data-i18n="nav_beta_text">Open Beta</span>
-      </span>
+      <!-- D+14: Open Beta pill 제거 (hero eyebrow 에 중복). -->
     </a>
     <div class="nav-links">
       <a href="#features" data-i18n="nav_features">Features</a>
       <a href="#how-it-works" data-i18n="nav_how">How it works</a>
       <a href="#pricing" data-i18n="nav_pricing">Pricing</a>
-      <a href="#faq" data-i18n="nav_faq">FAQ</a>
       <a href="./blog/" data-i18n="nav_blog">Blog</a>
-      <a href="#contact" data-i18n="nav_contact">Contact</a>
+      <!-- D+14: FAQ + Contact 제거 (footer + anchor 접근 가능, nav wrap 방지). -->
     </div>
     <div class="nav-ctas">
-      <a href="#xray" class="btn-ghost" data-i18n="nav_xray">Free X-Ray Tool</a>
-      <a href="#contact" class="nav-login-link" aria-label="Existing customer — request account access" data-i18n="nav_login" data-aria-i18n="aria-label:aria_login">Log in</a>
+      <!-- D+14: Free X-Ray Tool + Log in 제거 (hero secondary CTA + footer contact 로 이미 접근). -->
       <select id="ss-lang-switch" class="nav-lang-switch" aria-label="Language" data-aria-i18n="aria-label:aria_language">
         <option value="en">English</option>
         <option value="ko">한국어</option>
