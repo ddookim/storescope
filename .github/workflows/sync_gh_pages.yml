@@ -83,6 +83,12 @@ jobs:
             mkdir -p /tmp/gh-pages-wt/brands
             cp -r landing/brands/* /tmp/gh-pages-wt/brands/
           fi
+          # D+14 Red Tactic 2: compare/ 도 root — 5 'StoreScope vs X' bottom-funnel SEO 페이지.
+          # 사이트맵에 /storescope/compare/* 로 등록되어 있으므로 root 서빙 필수.
+          if [ -d landing/compare ]; then
+            mkdir -p /tmp/gh-pages-wt/compare
+            cp -r landing/compare/* /tmp/gh-pages-wt/compare/
+          fi
           mkdir -p /tmp/gh-pages-wt/outreach/evidence
           if [ -d outreach/evidence ]; then
             cp -r outreach/evidence/* /tmp/gh-pages-wt/outreach/evidence/ 2>/dev/null || true
