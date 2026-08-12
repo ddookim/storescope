@@ -95,6 +95,12 @@ jobs:
             mkdir -p /tmp/gh-pages-wt/category
             cp -r landing/category/* /tmp/gh-pages-wt/category/
           fi
+          # D+14 Red Tactic 5: report/ 도 root — State of DTC 데이터 리포트 (backlink bait).
+          # 매주 pipeline 이 신규 report 생성 예정 (현재는 static W33, priority 0.9 for freshness signal).
+          if [ -d landing/report ]; then
+            mkdir -p /tmp/gh-pages-wt/report
+            cp -r landing/report/* /tmp/gh-pages-wt/report/
+          fi
           mkdir -p /tmp/gh-pages-wt/outreach/evidence
           if [ -d outreach/evidence ]; then
             cp -r outreach/evidence/* /tmp/gh-pages-wt/outreach/evidence/ 2>/dev/null || true
