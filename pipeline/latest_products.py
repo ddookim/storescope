@@ -492,7 +492,7 @@ def _write_brand_profiles(now: datetime) -> None:
 </style>
 </head>
 <body>
-<div class="breadcrumb"><a href="../">Home</a> · <a href="./">Brands</a> · {h(brand_name)}</div>
+{_TOP_NAV}<div class="breadcrumb"><a href="../">Home</a> · <a href="./">Brands</a> · {h(brand_name)}</div>
 <main>
 <h1>{h(brand_name)}</h1>
 <p class="meta">Latest launches from <a href="https://{h(domain)}" target="_blank" rel="noreferrer noopener">{h(domain)}</a> · updated {now.strftime('%B %d, %Y')}</p>
@@ -545,7 +545,7 @@ h1{{font-size:2rem;font-weight:800;margin-bottom:.6rem}}
 .breadcrumb a{{color:#4338ca;text-decoration:underline}}
 </style>
 </head><body>
-<div class="breadcrumb"><a href="../">Home</a> · Brands</div>
+{_TOP_NAV}<div class="breadcrumb"><a href="../">Home</a> · Brands</div>
 <main>
 <h1>Curated DTC brand index</h1>
 <p class="subtitle">{len(brand_summary)} Shopify brands tracked weekly · sorted by recent activity</p>
@@ -664,7 +664,7 @@ def _write_weekly_blog(products: list[dict], categories: list[dict], now: dateti
 </head>
 <body>
 
-<div class="breadcrumb"><a href="../">Home</a> · <a href="./">Blog</a> · Week {week}</div>
+{_TOP_NAV}<div class="breadcrumb"><a href="../">Home</a> · <a href="./">Blog</a> · Week {week}</div>
 
 <main>
 <h1>This Week in DTC · {week}</h1>
@@ -993,7 +993,7 @@ def _write_sample_html(products: list[dict], categories: list[dict], now: dateti
 </head>
 <body>
 
-<div class="breadcrumb"><a href="./">Home</a> · Digest Sample</div>
+{_TOP_NAV}<div class="breadcrumb"><a href="./">Home</a> · Digest Sample</div>
 
 <main>
 <span class="badge">Live sample · {week}</span>
@@ -1115,6 +1115,23 @@ _FAVICON = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox
 
 _BASE = "https://ddookim.github.io/storescope"
 
+# D+14 site-wide top nav — inserted after <body> in every generated SEO page.
+# Cross-navigation UX (Home/Category/Compare/Reports/Brands/Blog) + SEO internal-link equity.
+_TOP_NAV = '''<nav class="ss-topnav" aria-label="Site sections" style="max-width:900px;margin:0 auto;padding:14px 24px 0;font-size:13px;color:#6B655F;line-height:1.6;">
+  <a href="/storescope/" style="color:#4338ca;text-decoration:none;font-weight:600;">← StoreScope</a>
+  <span style="margin:0 6px;color:#D6D3D1;">·</span>
+  <a href="/storescope/category/" style="color:#4338ca;text-decoration:none;">Categories</a>
+  <span style="margin:0 6px;color:#D6D3D1;">·</span>
+  <a href="/storescope/compare/" style="color:#4338ca;text-decoration:none;">Compare</a>
+  <span style="margin:0 6px;color:#D6D3D1;">·</span>
+  <a href="/storescope/report/" style="color:#4338ca;text-decoration:none;">Reports</a>
+  <span style="margin:0 6px;color:#D6D3D1;">·</span>
+  <a href="/storescope/brands/" style="color:#4338ca;text-decoration:none;">Brands</a>
+  <span style="margin:0 6px;color:#D6D3D1;">·</span>
+  <a href="/storescope/blog/" style="color:#4338ca;text-decoration:none;">Blog</a>
+</nav>
+'''
+
 
 def _card_html(p: dict) -> str:
     from html import escape as h
@@ -1221,7 +1238,7 @@ def _write_category_pages(products: list[dict], categories: list[dict], now: dat
 <style>{_SEO_CSS}</style>
 </head>
 <body>
-<div class="breadcrumb"><a href="../">Home</a> · <a href="./">Category</a> · {h(ptype)}</div>
+{_TOP_NAV}<div class="breadcrumb"><a href="../">Home</a> · <a href="./">Category</a> · {h(ptype)}</div>
 <main>
 <h1>Newest DTC {h(ptype)}</h1>
 <p class="meta">{count} new {h(ptype).lower()} indexed in week {week} across {vcount} curated independent DTC brands. Auto-refreshed every Sunday.</p>
@@ -1270,7 +1287,7 @@ def _write_category_pages(products: list[dict], categories: list[dict], now: dat
 <style>{_SEO_CSS}</style>
 </head>
 <body>
-<div class="breadcrumb"><a href="../">Home</a> · Category</div>
+{_TOP_NAV}<div class="breadcrumb"><a href="../">Home</a> · Category</div>
 <main>
 <h1>DTC Shopify Categories</h1>
 <p class="meta">{total} products in this week's ({week}) top digest across 58 curated independent brands. Auto-refreshed {today}.</p>
@@ -1399,7 +1416,7 @@ def _write_state_report(products: list[dict], categories: list[dict], now: datet
 <style>{_SEO_CSS}</style>
 </head>
 <body>
-<div class="breadcrumb"><a href="../">Home</a> · <a href="./">Reports</a> · State of DTC {week}</div>
+{_TOP_NAV}<div class="breadcrumb"><a href="../">Home</a> · <a href="./">Reports</a> · State of DTC {week}</div>
 <main>
 <h1>{h(title)}</h1>
 <p class="meta">Published {today} · Week {week} · Free to cite, embed, republish with attribution.</p>
@@ -1482,7 +1499,7 @@ def _write_state_report(products: list[dict], categories: list[dict], now: datet
 <style>{_SEO_CSS}</style>
 </head>
 <body>
-<div class="breadcrumb"><a href="../">Home</a> · Reports</div>
+{_TOP_NAV}<div class="breadcrumb"><a href="../">Home</a> · Reports</div>
 <main>
 <h1>DTC Shopify Data Reports</h1>
 <p class="meta">Weekly snapshots. Free to cite, embed, republish.</p>

@@ -146,3 +146,37 @@ jobs:
             -H "Content-Type: application/json; charset=utf-8" \
             -d "{\"host\":\"${HOST}\",\"key\":\"${KEY}\",\"keyLocation\":\"${KEY_LOCATION}\",\"urlList\":[\"https://ddookim.github.io/storescope/\",\"${SITEMAP_URL}\"]}" \
             || true
+
+      # D+14 자율 audit fix 2: sitemap URL live health check.
+      # 47+ URLs 등록되지만 실 파일 존재 여부 사후 검증 없어 broken URL SEO 페널티 리스크.
+      # pages-build-deployment 완료 후 (약 45-60s) 각 URL HEAD → HTTP 200 검증.
+      # Non-blocking: transient CDN cache / propagation 지연으로 인한 false fail 방지.
+      # 실 broken URL 감지 시 로그로 남아 향후 수동 fix 가능.
+      - name: Verify sitemap URLs live (post-deploy health check)
+        run: |
+          echo "[sitemap-verify] wait 75s for pages-build-deployment..."
+          sleep 75
+          SITEMAP="landing/sitemap.xml"
+          if [ ! -f "$SITEMAP" ]; then
+            echo "  sitemap not found, skip"
+            exit 0
+          fi
+          TOTAL=0
+          FAIL=0
+          FAILED_URLS=""
+          for url in $(grep -oE '<loc>[^<]+</loc>' "$SITEMAP" | sed -E 's|<loc>||; s|</loc>||'); do
+            TOTAL=$((TOTAL+1))
+            code=$(curl -sS -o /dev/null -w "%{http_code}" -L --max-time 15 -A "Mozilla/5.0 (compatible; StoreScope-HealthCheck)" "$url" 2>/dev/null || echo "000")
+            if [ "$code" != "200" ]; then
+              FAIL=$((FAIL+1))
+              FAILED_URLS="${FAILED_URLS}  ${code}  ${url}\n"
+            fi
+          done
+          echo ""
+          echo "[sitemap-verify] checked ${TOTAL} URLs, ${FAIL} non-200"
+          if [ "$FAIL" -gt 0 ]; then
+            echo "-----FAILED-----"
+            printf "$FAILED_URLS"
+          fi
+          # Non-blocking (transient CDN 지연 방어). 향후 strict mode 승격 candidate.
+          exit 0
