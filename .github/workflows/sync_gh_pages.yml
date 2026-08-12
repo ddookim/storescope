@@ -89,6 +89,12 @@ jobs:
             mkdir -p /tmp/gh-pages-wt/compare
             cp -r landing/compare/* /tmp/gh-pages-wt/compare/
           fi
+          # D+14 Red Tactic 3 pivot: category/ 도 root — 7 programmatic category 페이지.
+          # 실 data 근거 (latest_products_meta categories) + weekly refresh.
+          if [ -d landing/category ]; then
+            mkdir -p /tmp/gh-pages-wt/category
+            cp -r landing/category/* /tmp/gh-pages-wt/category/
+          fi
           mkdir -p /tmp/gh-pages-wt/outreach/evidence
           if [ -d outreach/evidence ]; then
             cp -r outreach/evidence/* /tmp/gh-pages-wt/outreach/evidence/ 2>/dev/null || true
