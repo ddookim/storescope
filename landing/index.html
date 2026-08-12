@@ -784,11 +784,13 @@
     .counter-inner {
       max-width: 1200px; margin: 0 auto;
       display: flex; justify-content: center; gap: 0; flex-wrap: nowrap;
+      align-items: stretch;
     }
     .counter-item {
       text-align: center; padding: 0 40px;
       border-right: 1px solid rgba(28,25,23,0.1);
-      flex: 1;
+      flex: 1 1 0; min-width: 0;
+      display: flex; flex-direction: column; justify-content: center;
     }
     .counter-item:last-child { border-right: none; }
     .counter-num {
@@ -796,8 +798,28 @@
       font-size: 42px; font-weight: 800; letter-spacing: -2px;
       background: var(--grad-text); -webkit-background-clip: text;
       -webkit-text-fill-color: transparent; background-clip: text;
+      line-height: 1.1;
     }
-    .counter-label { font-size: 13px; color: var(--muted-2); margin-top: 6px; font-weight: 500; letter-spacing: 0.2px; }
+    /* D+14 fix: EN 라벨 (Index refresh · every Monday 등) tablet 범위 wrap 시 세로 align 유지.
+       min-height 는 2줄 예약, wrap 되어도 counter-num 아래 정렬 flush. */
+    .counter-label {
+      font-size: 13px; color: var(--muted-2); margin-top: 6px;
+      font-weight: 500; letter-spacing: 0.2px;
+      min-height: 2.4em; line-height: 1.2;
+      display: flex; align-items: flex-start; justify-content: center;
+    }
+    /* D+14 fix: tablet range (641-899px) 이전엔 desktop CSS 만 적용되어 4-item flex 가
+       각 item 아주 좁아짐 → EN 긴 라벨 wrap → 정렬 깨짐. tablet 은 2×2 grid 로 대체. */
+    @media (min-width: 641px) and (max-width: 899px) {
+      .counter-inner { flex-wrap: wrap; }
+      .counter-item {
+        flex: 0 0 50%; box-sizing: border-box; padding: 24px 20px;
+        border-right: none; border-bottom: 1px solid rgba(28,25,23,0.08);
+      }
+      .counter-item:nth-child(odd) { border-right: 1px solid rgba(28,25,23,0.08); }
+      .counter-item:nth-last-child(-n+2) { border-bottom: none; }
+      .counter-num { font-size: 36px; }
+    }
 
     /* ── SECTION BASE ── */
     .section { max-width: 1200px; margin: 0 auto; padding: 112px 24px; }
@@ -2175,7 +2197,13 @@
       max-width: 640px;
       padding: 4px 8px;
     }
-    .hero-counter { display: flex; flex-direction: column; align-items: center; gap: 2px; min-width: 92px; }
+    .hero-counter {
+      display: flex; flex-direction: column; align-items: center; gap: 2px;
+      /* D+14 fix: EN uppercase 라벨 ("SHOPIFY STORES INDEXED") 이 wrap 되어도 3 items 세로 align 유지.
+         min-width 92px → 120px (EN 최장 라벨 2줄 fit). */
+      min-width: 120px; max-width: 180px;
+      text-align: center;
+    }
     .hero-counter-num {
       font-family: 'Inter', -apple-system, sans-serif;
       font-size: clamp(20px, 2.4vw, 28px);
@@ -2190,6 +2218,9 @@
       font-size: 11px; color: var(--muted-2);
       letter-spacing: 0.4px; text-transform: uppercase;
       font-weight: 600;
+      /* D+14 fix: 2줄 예약 (EN "Shopify stores indexed" 등이 wrap 되어도 세로 align 유지). */
+      min-height: 2.6em; line-height: 1.3;
+      display: flex; align-items: center; justify-content: center;
     }
     .hero-counter-sep {
       color: var(--muted); font-size: 20px; font-weight: 200;
