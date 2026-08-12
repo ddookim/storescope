@@ -47,6 +47,42 @@ echo "════════════════════════�
 echo "  Target: $(echo "$NEON_URL" | sed -E 's|://[^@]+@|://***@|')"
 echo
 
+# ── Guard: 재실행 방지 (D+13 Blue-BE-CRIT-1 fix) ────────────────────────
+# migrate_to_external_pg.sh 는 pg_restore --clean 를 사용해 target 을 파괴적 대체한다.
+# Live 사용자 signup 이 이미 존재하는 target 을 재실행하면 api_keys / email_leads /
+# paddle_processed_events 가 옛 로컬 스냅샷으로 롤백되어 매출/데이터 손실 발생.
+if psql "$NEON_URL" -tAc "SELECT 1 FROM information_schema.tables WHERE table_name='api_keys'" 2>/dev/null | grep -q 1; then
+    EXISTING_KEYS=$(psql "$NEON_URL" -tAc "SELECT count(*) FROM api_keys" 2>/dev/null || echo 0)
+    EXISTING_LEADS=$(psql "$NEON_URL" -tAc "SELECT count(*) FROM email_leads" 2>/dev/null || echo 0)
+    if [ "$EXISTING_KEYS" != "0" ] || [ "$EXISTING_LEADS" != "0" ]; then
+        echo "═══════════════════════════════════════════════════════════════"
+        echo "  [BLOCK] Neon target 에 live data 존재:"
+        echo "    api_keys=${EXISTING_KEYS}, email_leads=${EXISTING_LEADS}"
+        echo "  Phase 1 재실행 = pg_restore --clean 이 이 데이터를 파괴합니다."
+        echo "═══════════════════════════════════════════════════════════════"
+        echo
+        echo "  이건 launch-blocking guard 입니다. 다음 중 하나를 선택:"
+        echo
+        echo "  A) 정상 상황이면 (Phase 1 은 이미 완료됨) Phase 2 로 직행:"
+        echo "     bash deploy/launch_phase2.sh \"https://storescope-api-xxxx.onrender.com\""
+        echo
+        echo "  B) 강제 재실행 (파괴적) 확실 + target 백업 이미 있음:"
+        echo "     FORCE_OVERWRITE=1 bash \$0 \"\$NEON_URL\""
+        echo
+        if [ "${FORCE_OVERWRITE:-}" != "1" ]; then
+            exit 7
+        fi
+        echo "[WARN] FORCE_OVERWRITE=1 지정됨 — Neon target 자동 백업 후 파괴적 replace 진행..."
+        BACKUP_FILE="neon-target-preforce-$(date +%Y%m%d-%H%M%S).dump"
+        echo "[SAFETY] Neon target auto-backup → ${BACKUP_FILE}"
+        pg_dump "$NEON_URL" -F c -f "$BACKUP_FILE" || {
+            echo "[ABORT] target backup 실패 — 진행 중단 (데이터 안전 우선)"
+            exit 8
+        }
+        echo "[SAFETY] 백업 완료: $(ls -lh "$BACKUP_FILE" | awk '{print $5}')"
+    fi
+fi
+
 # ── Step 1: DB 이전 ──────────────────────────────────────────────────────
 echo "[1/3] 로컬 → Neon 데이터 이전 (약 1-2분, 105MB)..."
 bash "$PROJECT_ROOT/deploy/migrate_to_external_pg.sh" "$NEON_URL"

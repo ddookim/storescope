@@ -400,4 +400,16 @@ def _handle_new_subscription(
         subscription_id=subscription_id,
         trial_ends_at=trial_ends_at,
     )
+    # D+13 Blue-BE-CRIT-2 fix: duplicate customer_id (ON CONFLICT triggered).
+    # 이미 key 발급된 customer 의 retry 이므로 email 재발송 skip → 무한 500 루프 차단.
+    # Raw key 는 DB 에 저장 X (hash 만) → 재발송 불가, 사용자 문의 시 admin 이 수동 재발급.
+    if raw_key is None:
+        _log.info("Paddle duplicate subscription: customer_id=%s already has active key — skipping email", customer_id)
+        send_alert(
+            f"Paddle duplicate subscription webhook (already provisioned)\n"
+            f"customer_id: {customer_id}\nemail: {customer_email}\nplan: {plan}\n"
+            f"조치: 정상 재시도 (이전 email 전달 확인). 사용자 문의 시 admin/deactivate + create_api_key 재실행.",
+            level="INFO",
+        )
+        return
     _send_api_key_email(to_email=customer_email, api_key=raw_key, plan=plan)

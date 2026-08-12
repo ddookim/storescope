@@ -126,8 +126,14 @@ def create_api_key(
     customer_id: Optional[str] = None,
     subscription_id: Optional[str] = None,
     trial_ends_at=None,
-) -> str:
-    """DB에 API 키 저장 후 raw 키 반환 (1회만 가능)."""
+) -> Optional[str]:
+    """DB에 API 키 저장 후 raw 키 반환. Duplicate customer_id 시 None 반환.
+
+    D+13 Blue-BE-CRIT-2 fix: ON CONFLICT (customer_id) DO NOTHING 로 idempotent 처리.
+    SMTP 실패 → Paddle webhook 재시도 → create_api_key 재호출 시 UNIQUE 위반으로 인한
+    무한 500 루프를 차단한다. 호출자는 None 반환 시 이미 key 발급됐다고 판단하고
+    email 재발송 대신 admin alert 만 남긴다 (raw key 는 DB 에 저장 X — 재발송 불가).
+    """
     raw, key_hash = generate_api_key()
     # 체험 중 Pro도 500건/일 제한 적용
     if trial_ends_at and plan == "pro":
@@ -143,10 +149,13 @@ def create_api_key(
                     (key_hash, key_prefix, email, plan,
                      customer_id, subscription_id, daily_limit, trial_ends_at)
                 VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
+                ON CONFLICT (customer_id) DO NOTHING
                 """,
                 (key_hash, raw[:12], email, plan,
                  customer_id, subscription_id, daily_limit, trial_ends_at),
             )
+            if cur.rowcount == 0:
+                return None
     return raw
 
 

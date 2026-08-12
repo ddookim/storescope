@@ -29,9 +29,12 @@ services:
     autoDeploy: false
     buildCommand: pip install -r requirements.txt
     startCommand: uvicorn api.main:app --host 0.0.0.0 --port $PORT
-    # /health/db 사용 — DB 다운 시 Render가 unhealthy 판정 → 트래픽 자동 차단.
-    # /health (경량) 는 UptimeRobot/cron-job.org가 sleep 방지용으로 핑.
-    healthCheckPath: /health/db
+    # D+13 Blue-BE-HIGH-1 fix: /health (경량, unrate-limited) 로 변경.
+    # 이전 /health/db 는 @limiter.limit("10/minute") 로 rate-limited 되어
+    # Render 자체 health poller (특히 배포 verification 시 aggressive polling)
+    # 가 429 를 unhealthy 로 오해 → 실 배포 창구에서 traffic 차단/restart 루프 위험.
+    # DB 상태는 별도 /health/db + UptimeRobot 로 관측, /health/freshness 로 데이터 rot 감지.
+    healthCheckPath: /health
     envVars:
       - key: PYTHON_VERSION
         value: 3.11.9
