@@ -150,8 +150,22 @@ def _update_sitemap_lastmod(now: datetime) -> None:
   </url>
 </urlset>"""
         text = text.replace("</urlset>", new_entry)
+
+    # D+14 Red Tactic 3 pivot + 5: bulk-update lastmod for weekly-refreshed programmatic pages.
+    # category/*.html + report/*.html + brands/*.html + compare/*.html + brands/ + compare/ + category/ + report/ indexes.
+    # 매 pipeline run 시 이 URL 들의 lastmod = today (Google freshness signal).
+    _WEEKLY_PREFIXES = (
+        "https://ddookim.github.io/storescope/category/",
+        "https://ddookim.github.io/storescope/report/",
+        "https://ddookim.github.io/storescope/brands/",
+    )
+    for prefix in _WEEKLY_PREFIXES:
+        # Match any URL starting with prefix and update its lastmod.
+        pattern = rf"(<loc>{re.escape(prefix)}[^<]*</loc>\s*<lastmod>)[^<]*(</lastmod>)"
+        text = re.sub(pattern, rf"\g<1>{today}\g<2>", text)
+
     SITEMAP_FILE.write_text(text)
-    print(f"  → sitemap lastmod = {today} + weekly entry (week={week})")
+    print(f"  → sitemap lastmod = {today} + weekly entry (week={week}) + programmatic refresh")
 
 
 def _save_historical_snapshot(now: datetime) -> None:
@@ -285,6 +299,9 @@ def main() -> None:
     _write_weekly_blog(top, categories, now)
     _update_blog_index()
     _write_brand_profiles(now)
+    # D+14 Red Tactic 3 pivot + 5: category & state report weekly auto-regen.
+    _write_category_pages(top, categories, now)
+    _write_state_report(top, categories, now)
 
 
 def _update_blog_index() -> None:
@@ -1031,6 +1048,431 @@ def _write_sample_html(products: list[dict], categories: list[dict], now: dateti
     SAMPLE_HTML.parent.mkdir(parents=True, exist_ok=True)
     SAMPLE_HTML.write_text(html_out)
     print(f"  → {SAMPLE_HTML} ({len(html_out)} chars)")
+
+
+# ─────────────────────────────────────────────────────────────────
+# D+14 Red Tactic 3 pivot: /category/*.html + hub weekly regen
+# D+14 Red Tactic 5: /report/state-of-dtc-shopify-latest.html weekly regen
+# ─────────────────────────────────────────────────────────────────
+
+_CATEGORY_DIR = _HERE / "landing" / "category"
+_REPORT_DIR   = _HERE / "landing" / "report"
+
+_SLUG_MAP = {
+    "Dresses":    "dresses",
+    "Sweaters":   "sweaters",
+    "Bottoms":    "bottoms",
+    "Knit Tops":  "knit-tops",
+    "Denim":      "denim",
+    "Woven Tops": "woven-tops",
+    "Outerwear":  "outerwear",
+}
+
+_SEO_CSS = """
+  body { font-family: -apple-system, "Inter", sans-serif; max-width: 900px; margin: 0 auto; padding: 60px 24px; color: #1C1917; line-height: 1.65; background: #F9F8F6; }
+  .breadcrumb { font-size: 0.85rem; color: #6B655F; margin-bottom: 24px; }
+  .breadcrumb a { color: #4338ca; text-decoration: underline; text-underline-offset: 3px; }
+  h1 { font-size: 2rem; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 0.4rem; line-height: 1.2; }
+  h2 { font-size: 1.3rem; font-weight: 700; margin: 36px 0 12px; }
+  h3 { font-size: 1.05rem; font-weight: 700; margin: 20px 0 8px; color: #292524; }
+  p { color: #3F3B37; margin-bottom: 1rem; }
+  .meta { color: #78716C; font-size: 0.9rem; margin-bottom: 20px; }
+  .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; margin: 20px 0 28px; }
+  .stat { background: #fff; border: 1px solid #E5E5E5; border-radius: 12px; padding: 14px 18px; }
+  .stat-num { font-size: 1.5rem; font-weight: 800; color: #1C1917; line-height: 1; }
+  .stat-label { font-size: 0.78rem; color: #78716C; text-transform: uppercase; letter-spacing: 0.5px; margin-top: 4px; }
+  .tag { display: inline-block; padding: 6px 12px; background: #fff; border: 1px solid #E5E5E5; border-radius: 100px; font-size: 12.5px; color: #57534E; margin: 0 6px 6px 0; text-decoration: none; }
+  .tag:hover { border-color: rgba(79,70,229,0.5); }
+  .pd-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 14px; margin: 16px 0 32px; }
+  .pd-card { background: #fff; border: 1px solid #E5E5E5; border-radius: 12px; overflow: hidden; text-decoration: none; color: inherit; display: flex; flex-direction: column; transition: transform 0.15s, box-shadow 0.15s; }
+  .pd-card:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(0,0,0,0.06); border-color: rgba(79,70,229,0.35); }
+  .pd-card-img { width: 100%; aspect-ratio: 1/1; object-fit: cover; background: #F3F1EE; display: block; }
+  .pd-card-body { padding: 12px 14px; flex: 1; display: flex; flex-direction: column; gap: 4px; }
+  .pd-card-title { font-size: 13.5px; font-weight: 700; line-height: 1.3; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+  .pd-card-vendor { font-size: 11.5px; color: #78716C; }
+  .pd-card-foot { display: flex; justify-content: space-between; margin-top: auto; padding-top: 6px; font-size: 12.5px; }
+  .pd-card-price { font-weight: 700; }
+  .pd-card-age { color: #78716C; font-size: 11px; padding: 2px 8px; background: #F3F1EE; border-radius: 100px; font-weight: 600; }
+  table { width: 100%; border-collapse: collapse; margin: 16px 0 28px; font-size: 0.94rem; }
+  th, td { text-align: left; padding: 10px 12px; border-bottom: 1px solid #E7E5E4; }
+  th { background: #F3F1EE; font-weight: 700; }
+  th:last-child, td:last-child { text-align: right; }
+  code { background: #F3F1EE; padding: 2px 6px; border-radius: 4px; font-family: "SF Mono", monospace; font-size: 0.9em; color: #4338ca; }
+  .cite-box { background: #F3F1EE; border-left: 3px solid #4F46E5; padding: 14px 18px; border-radius: 6px; margin: 20px 0; }
+  .cite-box code { display: block; padding: 8px 12px; background: #fff; margin: 8px 0; word-break: break-all; }
+  .cta { display: inline-block; background: linear-gradient(135deg, #4F46E5 0%, #3730A3 100%); color: #fff; padding: 14px 28px; border-radius: 10px; font-weight: 700; text-decoration: none; margin: 12px 0; }
+  .cta:hover { transform: translateY(-1px); box-shadow: 0 8px 24px rgba(79,70,229,0.25); }
+  .related { margin-top: 28px; padding-top: 20px; border-top: 1px solid #E5E5E5; }
+  footer { margin-top: 40px; padding-top: 20px; border-top: 1px solid #E5E5E5; font-size: 0.85rem; color: #6B655F; }
+  footer a { color: #4338ca; text-decoration: underline; }
+"""
+
+_FAVICON = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%234F46E5'/%3E%3Cpath d='M9 20l5-5 4 4 5-6' stroke='%23fff' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3E%3C/svg%3E"
+
+_BASE = "https://ddookim.github.io/storescope"
+
+
+def _card_html(p: dict) -> str:
+    from html import escape as h
+    domain = p.get("domain", "")
+    handle = p.get("handle", "")
+    href = f"https://{h(domain)}/products/{h(handle)}" if domain and handle else "#"
+    img = h(p.get("image_url", ""))
+    title = h(p.get("title", ""))[:70]
+    vendor = h(p.get("vendor", ""))[:40]
+    price = p.get("price")
+    price_disp = f"${price:.0f}" if isinstance(price, (int, float)) and price else ""
+    age = p.get("age_days")
+    age_disp = f"{age}d" if isinstance(age, (int, float)) else ""
+    img_html = f'<img class="pd-card-img" src="{img}" alt="{title}" loading="lazy" decoding="async">' if img else '<div class="pd-card-img"></div>'
+    return f"""<a class="pd-card" href="{href}" target="_blank" rel="noreferrer noopener">
+{img_html}
+<div class="pd-card-body">
+<div class="pd-card-title">{title}</div>
+<div class="pd-card-vendor">{vendor}</div>
+<div class="pd-card-foot"><span class="pd-card-price">{price_disp}</span><span class="pd-card-age">{age_disp}</span></div>
+</div>
+</a>"""
+
+
+def _write_category_pages(products: list[dict], categories: list[dict], now: datetime) -> None:
+    """7 programmatic category pages (Uncategorized 제외) + hub.
+
+    Weekly refresh on pipeline run — real data (category counts, top vendors,
+    sample products from top-20 digest).
+    """
+    from html import escape as h
+    _CATEGORY_DIR.mkdir(parents=True, exist_ok=True)
+
+    named_cats = [c for c in categories if c["product_type"] in _SLUG_MAP]
+    week = f"{now.isocalendar().year}-W{now.isocalendar().week:02d}"
+    today = now.strftime("%Y-%m-%d")
+    total = len(products)
+
+    for cat in named_cats:
+        ptype = cat["product_type"]
+        slug = _SLUG_MAP[ptype]
+        count = cat["product_count"]
+        vcount = cat["vendor_count"]
+        top_vendors = cat.get("top_vendors", [])[:3]
+        cat_products = [p for p in products if p.get("product_type") == ptype][:12]
+        grid = "\n".join(_card_html(p) for p in cat_products) or "<p><em>Sample products not in this week's top-20 digest — full list in Monday email.</em></p>"
+        vendor_tags = "".join(f'<span class="tag">{h(v)}</span>' for v in top_vendors)
+        related = "".join(
+            f'<a class="tag" href="./{_SLUG_MAP[o["product_type"]]}.html">→ {h(o["product_type"])} ({o["product_count"]})</a>'
+            for o in named_cats if o["product_type"] != ptype
+        )
+        canonical = f"{_BASE}/category/{slug}.html"
+        title = f"Newest DTC {ptype} — {count} New This Week Across {vcount} Curated Brands"
+        desc = (
+            f"Latest {ptype.lower()} launches from {vcount} curated independent DTC brands "
+            f"({', '.join(top_vendors[:2]) or 'various vendors'}). {count} new items in week {week}."
+        )
+        html_out = f"""<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="{h(desc)}">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="{canonical}">
+<title>{h(title)} | StoreScope</title>
+<script type="application/ld+json">
+{{
+  "@context": "https://schema.org", "@type": "CollectionPage",
+  "name": "Newest DTC {h(ptype)}", "url": "{canonical}",
+  "description": "{h(desc)}",
+  "isPartOf": {{"@type": "WebSite", "name": "StoreScope", "url": "{_BASE}/"}},
+  "hasPart": {{"@type": "ItemList", "numberOfItems": {count}, "name": "{h(ptype)} — week {week}"}}
+}}
+</script>
+<script type="application/ld+json">
+{{
+  "@context": "https://schema.org", "@type": "BreadcrumbList",
+  "itemListElement": [
+    {{"@type": "ListItem", "position": 1, "name": "Home", "item": "{_BASE}/"}},
+    {{"@type": "ListItem", "position": 2, "name": "Category", "item": "{_BASE}/category/"}},
+    {{"@type": "ListItem", "position": 3, "name": "{h(ptype)}", "item": "{canonical}"}}
+  ]
+}}
+</script>
+<link rel="icon" type="image/svg+xml" href="{_FAVICON}">
+<style>{_SEO_CSS}</style>
+</head>
+<body>
+<div class="breadcrumb"><a href="../">Home</a> · <a href="./">Category</a> · {h(ptype)}</div>
+<main>
+<h1>Newest DTC {h(ptype)}</h1>
+<p class="meta">{count} new {h(ptype).lower()} indexed in week {week} across {vcount} curated independent DTC brands. Auto-refreshed every Sunday.</p>
+
+<div class="stats">
+  <div class="stat"><div class="stat-num">{count}</div><div class="stat-label">New items · this week</div></div>
+  <div class="stat"><div class="stat-num">{vcount}</div><div class="stat-label">Contributing brands</div></div>
+  <div class="stat"><div class="stat-num">{week}</div><div class="stat-label">Week</div></div>
+</div>
+
+<h2>Top {h(ptype).lower()} vendors this week</h2>
+<p>{vendor_tags}</p>
+
+<h2>Sample from this week's top 20 digest</h2>
+{grid}
+
+<h2>How this list is built</h2>
+<p>StoreScope crawls the public <code>/products.json</code> feed of 58 curated DTC brands every Sunday night. New items from the last 30 days are grouped by <code>product_type</code> (Shopify's native taxonomy), deduplicated across brands, and surfaced by first-appearance freshness with vendor/category diversity caps.</p>
+
+<a class="cta" href="{_BASE}/?ref=cat-{slug}">Get the Monday digest →</a>
+
+<div class="related"><h3>Browse other categories</h3><p>{related}</p></div>
+
+<footer><a href="{_BASE}/">← StoreScope</a> · <a href="{_BASE}/blog/">Blog</a> · <a href="{_BASE}/compare/">Compare</a> · <a href="{_BASE}/report/">Reports</a> · Independent · Bootstrapped</footer>
+</main>
+</body>
+</html>
+"""
+        (_CATEGORY_DIR / f"{slug}.html").write_text(html_out, encoding="utf-8")
+
+    # Hub index
+    rows = "\n".join(
+        f'<li><a href="./{_SLUG_MAP[c["product_type"]]}.html"><strong>{h(c["product_type"])}</strong></a> — {c["product_count"]} new items across {c["vendor_count"]} brands. Top: {h(", ".join(c["top_vendors"][:2]))}</li>'
+        for c in named_cats
+    )
+    hub_html = f"""<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Browse DTC Shopify product launches by category — auto-refreshed weekly across 58 curated independent brands.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="{_BASE}/category/">
+<title>DTC Shopify Categories — Weekly Launches | StoreScope</title>
+<link rel="icon" type="image/svg+xml" href="{_FAVICON}">
+<style>{_SEO_CSS}</style>
+</head>
+<body>
+<div class="breadcrumb"><a href="../">Home</a> · Category</div>
+<main>
+<h1>DTC Shopify Categories</h1>
+<p class="meta">{total} products in this week's ({week}) top digest across 58 curated independent brands. Auto-refreshed {today}.</p>
+<h2>Categories with new items this week</h2>
+<ul>
+{rows}
+</ul>
+<a class="cta" href="{_BASE}/?ref=cat-hub">Get the weekly digest →</a>
+<footer><a href="{_BASE}/">← StoreScope</a> · Independent · Bootstrapped</footer>
+</main>
+</body>
+</html>
+"""
+    (_CATEGORY_DIR / "index.html").write_text(hub_html, encoding="utf-8")
+    print(f"  → {_CATEGORY_DIR}/*.html ({len(named_cats)} cats + hub)")
+
+
+def _svg_bar_chart(items: list[tuple[str, int]], width=760, bar_h=32, gap=8) -> str:
+    from html import escape as h
+    if not items:
+        return ""
+    max_v = max(v for _, v in items) or 1
+    label_w = 130
+    bar_w_max = width - label_w - 80
+    total_h = len(items) * (bar_h + gap) + 20
+    bars = []
+    for i, (label, v) in enumerate(items):
+        y = i * (bar_h + gap) + 10
+        bw = int((v / max_v) * bar_w_max)
+        bars.append(
+            f'<text x="{label_w - 8}" y="{y + bar_h/2 + 5}" text-anchor="end" fill="#1C1917" font-size="13" font-weight="600">{h(label)}</text>'
+            f'<rect x="{label_w}" y="{y}" width="{bw}" height="{bar_h}" fill="#4F46E5" rx="4"/>'
+            f'<text x="{label_w + bw + 8}" y="{y + bar_h/2 + 5}" fill="#1C1917" font-size="13" font-weight="700">{v}</text>'
+        )
+    return (
+        f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {width} {total_h}" role="img" aria-label="Category distribution">'
+        f'<rect width="{width}" height="{total_h}" fill="#F9F8F6"/>'
+        + "".join(bars) + "</svg>"
+    )
+
+
+def _write_state_report(products: list[dict], categories: list[dict], now: datetime) -> None:
+    """State of DTC data report — weekly-regenerated backlink bait.
+
+    URL: /report/state-of-dtc-shopify-latest.html (permanent) + hub.
+    매주 pipeline 실행 시 fresh data 로 재작성. Archive (state-of-dtc-shopify-YYYY-WNN)
+    는 별도 파일로 유지 — sitemap 관리 부담 회피 위해 latest URL 만 sitemap 등록.
+    """
+    from html import escape as h
+    from collections import Counter
+    _REPORT_DIR.mkdir(parents=True, exist_ok=True)
+
+    week = f"{now.isocalendar().year}-W{now.isocalendar().week:02d}"
+    today = now.strftime("%Y-%m-%d")
+    named_cats = [c for c in categories if c["product_type"] in _SLUG_MAP]
+    uncat = next((c for c in categories if c["product_type"] == "Uncategorized"), None)
+    uncat_count = uncat["product_count"] if uncat else 0
+    cat_total = sum(c["product_count"] for c in named_cats)
+
+    # Vendor top-N from top-20 products.
+    vend_counter = Counter(p.get("vendor", "?") for p in products if p.get("vendor"))
+    top_vendors = vend_counter.most_common(10)
+
+    # Price stats.
+    prices = sorted(float(p["price"]) for p in products if isinstance(p.get("price"), (int, float)) and p.get("price"))
+    if prices:
+        p_min, p_max = int(prices[0]), int(prices[-1])
+        p_median = int(prices[len(prices) // 2])
+    else:
+        p_min = p_max = p_median = 0
+
+    ages = [p["age_days"] for p in products if isinstance(p.get("age_days"), (int, float))]
+    avg_age = sum(ages) / len(ages) if ages else 0
+
+    cats_sorted = sorted(named_cats, key=lambda c: -c["product_count"])
+    chart = _svg_bar_chart([(c["product_type"], c["product_count"]) for c in cats_sorted])
+
+    vendor_rows = "\n".join(
+        f"<tr><td>{h(v)[:50]}</td><td>{c}</td></tr>" for v, c in top_vendors
+    )
+    cat_rows = "\n".join(
+        f"<tr><td>{h(c['product_type'])}</td><td>{c['product_count']}</td><td>{c['vendor_count']}</td><td>{h(', '.join(c['top_vendors'][:3]))}</td></tr>"
+        for c in cats_sorted
+    )
+
+    canonical = f"{_BASE}/report/state-of-dtc-shopify-latest.html"
+    title = f"The State of DTC Shopify — Week {now.isocalendar().week}, {now.year}"
+    desc = f"Data snapshot of 58 curated independent DTC Shopify brands — {len(products)} items in the top digest, {cat_total} categorized items across {len(named_cats)} product types."
+    citation = f'StoreScope. "The State of DTC Shopify — Week {now.isocalendar().week}, {now.year}." {today}. {canonical}'
+
+    html_out = f"""<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="{h(desc)}">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="{canonical}">
+<title>{h(title)} | StoreScope</title>
+<script type="application/ld+json">
+{{
+  "@context": "https://schema.org", "@type": "Report",
+  "headline": "{h(title)}", "description": "{h(desc)}",
+  "url": "{canonical}", "datePublished": "{today}", "dateModified": "{today}",
+  "author": {{"@type": "Organization", "name": "StoreScope", "url": "{_BASE}/"}},
+  "publisher": {{"@type": "Organization", "name": "StoreScope", "logo": {{"@type": "ImageObject", "url": "{_BASE}/og-image.png"}}}},
+  "mainEntityOfPage": {{"@type": "WebPage", "@id": "{canonical}"}},
+  "keywords": ["DTC", "Shopify", "product research", "e-commerce data"]
+}}
+</script>
+<script type="application/ld+json">
+{{
+  "@context": "https://schema.org", "@type": "BreadcrumbList",
+  "itemListElement": [
+    {{"@type": "ListItem", "position": 1, "name": "Home", "item": "{_BASE}/"}},
+    {{"@type": "ListItem", "position": 2, "name": "Reports", "item": "{_BASE}/report/"}},
+    {{"@type": "ListItem", "position": 3, "name": "State of DTC {week}", "item": "{canonical}"}}
+  ]
+}}
+</script>
+<link rel="icon" type="image/svg+xml" href="{_FAVICON}">
+<style>{_SEO_CSS}</style>
+</head>
+<body>
+<div class="breadcrumb"><a href="../">Home</a> · <a href="./">Reports</a> · State of DTC {week}</div>
+<main>
+<h1>{h(title)}</h1>
+<p class="meta">Published {today} · Week {week} · Free to cite, embed, republish with attribution.</p>
+
+<p><strong>What this is:</strong> A weekly snapshot of new-product velocity across 58 curated independent DTC Shopify brands. Not "top sellers." Not "TikTok trending." Just: what did these 58 brands actually launch, publicly, in the last 30 days.</p>
+
+<h2>Headline numbers</h2>
+<div class="stats">
+  <div class="stat"><div class="stat-num">58</div><div class="stat-label">Curated DTC brands</div></div>
+  <div class="stat"><div class="stat-num">{len(products)}</div><div class="stat-label">Products in top digest</div></div>
+  <div class="stat"><div class="stat-num">{cat_total}</div><div class="stat-label">Categorized items · 30d</div></div>
+  <div class="stat"><div class="stat-num">{len(named_cats)}</div><div class="stat-label">Categories</div></div>
+  <div class="stat"><div class="stat-num">${p_median}</div><div class="stat-label">Median top-{len(products)} price</div></div>
+  <div class="stat"><div class="stat-num">{avg_age:.1f}d</div><div class="stat-label">Avg age (freshness)</div></div>
+</div>
+
+<h2>Category distribution</h2>
+<p>The {cat_total} categorized items published in the last 30 days break down as follows. <strong>{uncat_count} additional items</strong> lacked a Shopify <code>product_type</code> tag and are excluded from category totals but present in the full crawl.</p>
+{chart}
+
+<table>
+<thead><tr><th>Category</th><th>Items (30d)</th><th>Contributing brands</th><th>Top vendors</th></tr></thead>
+<tbody>
+{cat_rows}
+</tbody>
+</table>
+
+<h2>Top vendors in this week's digest</h2>
+<p>The Monday digest surfaces {len(products)} items per week with strict vendor and category diversity caps (max {MAX_PER_VENDOR} per vendor).</p>
+<table>
+<thead><tr><th>Vendor</th><th>Items in top {len(products)}</th></tr></thead>
+<tbody>
+{vendor_rows}
+</tbody>
+</table>
+
+<h2>Price + freshness</h2>
+<p>Top-{len(products)} digest spans <strong>${p_min}-${p_max}</strong> (median <strong>${p_median}</strong>). Average product age <strong>{avg_age:.1f} days</strong>, newest <strong>{min(ages) if ages else 0:.1f} days</strong>. The pipeline enforces a 30-day sliding window; older items drop off.</p>
+
+<h2>Methodology</h2>
+<p>StoreScope crawls the public <code>/products.json</code> feed of each curated brand every Sunday night (UTC). No authenticated data, no private catalogs, no ad-library scraping. Deduplication uses perceptual image hash (pHash) + title similarity. Categories use Shopify's native <code>product_type</code> field.</p>
+
+<p><strong>What this is NOT:</strong></p>
+<ul>
+<li>Not a "trend prediction" — no ML, no ad spy, no revenue estimate.</li>
+<li>Not exhaustive of the DTC universe — 58 brands is a curated slice.</li>
+<li>Not a leading indicator of what will "go viral" — a lagging indicator of what these brands chose to ship.</li>
+</ul>
+
+<h2>Use this data</h2>
+<p>Free to cite, embed, or republish. All charts are inline SVG (right-click → save, or view source).</p>
+
+<div class="cite-box">
+<strong>Citation:</strong>
+<code>{h(citation)}</code>
+<strong>Direct link:</strong>
+<code>{canonical}</code>
+</div>
+
+<a class="cta" href="{_BASE}/?ref=state-report">See the live product →</a>
+
+<footer><a href="{_BASE}/">← StoreScope</a> · <a href="{_BASE}/blog/">Blog</a> · <a href="{_BASE}/compare/">Compare</a> · <a href="{_BASE}/category/">Categories</a> · Independent · Bootstrapped</footer>
+</main>
+</body>
+</html>
+"""
+    (_REPORT_DIR / "state-of-dtc-shopify-latest.html").write_text(html_out, encoding="utf-8")
+
+    # Hub index
+    hub_html = f"""<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="StoreScope data reports on DTC Shopify — weekly snapshots of 58 curated independent brands. Free, open, cite anywhere.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="{_BASE}/report/">
+<title>DTC Shopify Data Reports | StoreScope</title>
+<link rel="icon" type="image/svg+xml" href="{_FAVICON}">
+<style>{_SEO_CSS}</style>
+</head>
+<body>
+<div class="breadcrumb"><a href="../">Home</a> · Reports</div>
+<main>
+<h1>DTC Shopify Data Reports</h1>
+<p class="meta">Weekly snapshots. Free to cite, embed, republish.</p>
+<h2>Latest report</h2>
+<p><a href="./state-of-dtc-shopify-latest.html" style="font-weight:700; font-size: 1.1rem;">→ The State of DTC Shopify — Week {now.isocalendar().week}, {now.year}</a></p>
+<p>Published {today}. 58 DTC brands · {len(products)} products in digest · {cat_total} categorized items across {len(named_cats)} categories.</p>
+<h2>What these reports are for</h2>
+<p>Working data. Cite it, embed the charts, republish the numbers. Attribution back to the source URL so readers see the raw weekly refresh.</p>
+<footer><a href="{_BASE}/">← StoreScope</a> · Independent · Bootstrapped</footer>
+</main>
+</body>
+</html>
+"""
+    (_REPORT_DIR / "index.html").write_text(hub_html, encoding="utf-8")
+    print(f"  → {_REPORT_DIR}/state-of-dtc-shopify-latest.html + hub")
 
 
 if __name__ == "__main__":

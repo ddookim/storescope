@@ -1816,7 +1816,7 @@
     }
     .footer-inner {
       max-width: 1200px; margin: 0 auto; padding: 72px 24px 48px;
-      display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 56px;
+      display: grid; grid-template-columns: 2fr 1fr 1fr 1fr 1fr; gap: 48px;
     }
     .footer-brand p { font-size: 13px; color: var(--muted-2); line-height: 1.7; max-width: 260px; margin-top: 14px; }
     .footer-col h3 {
@@ -3943,6 +3943,12 @@
         footer_link_privacy: "Privacy",
         footer_link_terms: "Terms",
         footer_link_refund: "Refund",
+        footer_col_explore: "Explore",
+        footer_link_blog: "Blog",
+        footer_link_category: "Browse by category",
+        footer_link_compare: "Compare with alternatives",
+        footer_link_reports: "Data reports",
+        footer_link_brands: "Curated brands index",
         footer_copyright: "© 2026 StoreScope",
         footer_secure: "Secure checkout by Paddle",
 
@@ -4291,6 +4297,12 @@
         footer_link_privacy: "개인정보처리방침",
         footer_link_terms: "이용약관",
         footer_link_refund: "환불 정책",
+        footer_col_explore: "탐색",
+        footer_link_blog: "블로그",
+        footer_link_category: "카테고리 탐색",
+        footer_link_compare: "도구 비교",
+        footer_link_reports: "데이터 리포트",
+        footer_link_brands: "큐레이션 브랜드 인덱스",
         footer_copyright: "© 2026 StoreScope",
         footer_secure: "Paddle 보안 결제",
 
@@ -4623,6 +4635,12 @@
         footer_link_privacy: "プライバシーポリシー",
         footer_link_terms: "利用規約",
         footer_link_refund: "返金ポリシー",
+        footer_col_explore: "探索",
+        footer_link_blog: "ブログ",
+        footer_link_category: "カテゴリ一覧",
+        footer_link_compare: "ツール比較",
+        footer_link_reports: "データレポート",
+        footer_link_brands: "キュレーションブランド",
         footer_copyright: "© 2026 StoreScope",
         footer_secure: "Paddleセキュア決済",
 
@@ -6673,6 +6691,15 @@
       <a href="./landing/privacy.html" class="footer-legal-link" data-legal="privacy" data-i18n="footer_link_privacy">Privacy</a>
       <a href="./landing/terms.html" class="footer-legal-link" data-legal="terms" data-i18n="footer_link_terms">Terms</a>
       <a href="./landing/refund.html" class="footer-legal-link" data-legal="refund" data-i18n="footer_link_refund">Refund</a>
+    </div>
+    <!-- D+14 Red Tactic 2/3/5 internal linking: SEO surface 분산 → crawl budget 활용 -->
+    <div class="footer-col">
+      <h3 data-i18n="footer_col_explore">Explore</h3>
+      <a href="./blog/" data-i18n="footer_link_blog">Blog</a>
+      <a href="./category/" data-i18n="footer_link_category">Browse by category</a>
+      <a href="./compare/" data-i18n="footer_link_compare">Compare with alternatives</a>
+      <a href="./report/" data-i18n="footer_link_reports">Data reports</a>
+      <a href="./brands/" data-i18n="footer_link_brands">Curated brands index</a>
     </div>
   </div>
   <div class="footer-bottom">
