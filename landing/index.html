@@ -293,6 +293,7 @@
       'anonymize_ip': true
     });
     // Consent banner injection (lightweight, no library) — bottom-right, dismissable.
+    // D+14 CRIT fix: i18n 3언어 (KO GDPR/PIPA §17 + JA APPI 정합). document.documentElement.lang 기반.
     window.addEventListener('DOMContentLoaded', function() {
       try {
         if (localStorage.getItem('ss_consent') === 'accepted' || localStorage.getItem('ss_consent') === 'declined') {
@@ -302,9 +303,17 @@
           return;
         }
       } catch(e) {}
+      // i18n dict lookup — fallback to EN if lang not detected yet.
+      var lang = (document.documentElement.lang || 'en').toLowerCase();
+      var _msgs = {
+        en: { body: 'We use analytics cookies to understand traffic.', privacy: 'Privacy', accept: 'Accept', decline: 'Decline' },
+        ko: { body: '트래픽 분석을 위해 쿠키를 사용합니다.', privacy: '개인정보처리방침', accept: '동의', decline: '거부' },
+        ja: { body: 'トラフィック分析のため Cookie を使用します。', privacy: 'プライバシーポリシー', accept: '同意', decline: '拒否' }
+      };
+      var m = _msgs[lang] || _msgs.en;
       var el = document.createElement('div');
       el.style.cssText = 'position:fixed;bottom:16px;right:16px;max-width:340px;background:#1C1917;color:#F5F5F4;padding:14px 16px;border-radius:10px;font:14px/1.4 -apple-system,system-ui,sans-serif;box-shadow:0 8px 24px rgba(0,0,0,0.2);z-index:99999;';
-      el.innerHTML = '<div style="margin-bottom:8px">We use analytics cookies to understand traffic. <a href="./landing/privacy.html" style="color:#A5B4FC;text-decoration:underline">Privacy</a></div><button id="ss-consent-accept" style="background:#4F46E5;color:#fff;border:0;padding:6px 14px;border-radius:6px;font-weight:600;cursor:pointer;margin-right:6px">Accept</button><button id="ss-consent-decline" style="background:transparent;color:#D6D3D1;border:1px solid #57534E;padding:6px 14px;border-radius:6px;font-weight:600;cursor:pointer">Decline</button>';
+      el.innerHTML = '<div style="margin-bottom:8px">' + m.body + ' <a href="./landing/privacy.html" style="color:#A5B4FC;text-decoration:underline">' + m.privacy + '</a></div><button id="ss-consent-accept" style="background:#4F46E5;color:#fff;border:0;padding:6px 14px;border-radius:6px;font-weight:600;cursor:pointer;margin-right:6px">' + m.accept + '</button><button id="ss-consent-decline" style="background:transparent;color:#D6D3D1;border:1px solid #57534E;padding:6px 14px;border-radius:6px;font-weight:600;cursor:pointer">' + m.decline + '</button>';
       document.body.appendChild(el);
       document.getElementById('ss-consent-accept').onclick = function() {
         gtag('consent', 'update', {'analytics_storage': 'granted'});
@@ -3970,6 +3979,9 @@
         footer_link_compare: "Compare with alternatives",
         footer_link_reports: "Data reports",
         footer_link_brands: "Curated brands index",
+        form_sending: "Sending...",
+        form_success_hero: "✓ On the list · digest sample here now",
+        form_retry_prefix: "Try again — ",
         footer_copyright: "© 2026 StoreScope",
         footer_secure: "Secure checkout by Paddle",
 
@@ -4324,6 +4336,9 @@
         footer_link_compare: "도구 비교",
         footer_link_reports: "데이터 리포트",
         footer_link_brands: "큐레이션 브랜드 인덱스",
+        form_sending: "전송 중...",
+        form_success_hero: "✓ 등록 완료 · 다이제스트 샘플 보기",
+        form_retry_prefix: "재시도 — ",
         footer_copyright: "© 2026 StoreScope",
         footer_secure: "Paddle 보안 결제",
 
@@ -4662,6 +4677,9 @@
         footer_link_compare: "ツール比較",
         footer_link_reports: "データレポート",
         footer_link_brands: "キュレーションブランド",
+        form_sending: "送信中...",
+        form_success_hero: "✓ 登録完了 · ダイジェストサンプル表示",
+        form_retry_prefix: "再試行 — ",
         footer_copyright: "© 2026 StoreScope",
         footer_secure: "Paddleセキュア決済",
 
@@ -5053,6 +5071,8 @@
     </div>
   </div>
   <p class="hero-scale-note" data-i18n="hero_scale" style="display:none;">Tracking 50+ curated DTC brands · 5,000+ products · refreshed weekly</p>
+  <!-- D+14 No-JS fallback: JS 실행 안 하는 crawler/user 는 hero-counter-num "0" 대신 static scale note 노출. -->
+  <noscript><style>.hero-scale-note{display:block!important;text-align:center;color:var(--muted-2);font-size:13px;margin-top:6px;}.hero-counter-num{visibility:hidden;}</style></noscript>
   <p class="hero-trust-line" style="text-align:center;font-size:12px;color:var(--muted-2);margin-top:6px;letter-spacing:0.6px;text-transform:uppercase;font-weight:600;">
     <!-- FIX 2026-07-29 D+58 HIGH: --muted (#A8A29E 2.38:1 vs cream) WCAG AA fail. --muted-2 (#78716C 4.6:1) 통과. -->
     <span data-i18n="hero_trust_line">Independent · Bootstrapped · Early access preview</span>
@@ -6642,7 +6662,7 @@
     var btn = form.querySelector('button[type="submit"]');
     if (btn.disabled) return;
     btn.disabled = true;
-    btn.textContent = 'Sending...';
+    btn.textContent = ((window.STORESCOPE_I18N && window.STORESCOPE_I18N[document.documentElement.lang || 'en'] || {}).form_sending) || 'Sending...';
 
     var params = new URLSearchParams();
     var fd = new FormData(form);
@@ -7020,7 +7040,7 @@
       if (submitBtn.disabled) return;
       submitBtn.disabled = true;
       submitBtn.dataset.originalText = submitBtn.innerHTML;
-      submitBtn.textContent = 'Sending...';
+      submitBtn.textContent = ((window.STORESCOPE_I18N && window.STORESCOPE_I18N[document.documentElement.lang || 'en'] || {}).form_sending) || 'Sending...';
     }
 
     if (typeof gtag === 'function') {
@@ -7034,7 +7054,7 @@
       // FIX 2026-07-30 D+59: waitlist 정합 — 자동 confirmation email 없음 (인프라 미구현),
       // 대신 명시적 timeline 카피로 기대치 관리. 첫 Monday digest = 다음 월요일 오전 9시 KST 수동 발송.
       if (submitBtn) {
-        submitBtn.innerHTML = '<span>✓ On the list · digest sample here now</span>';
+        submitBtn.innerHTML = '<span>' + (((window.STORESCOPE_I18N && window.STORESCOPE_I18N[document.documentElement.lang || 'en'] || {}).form_success_hero) || '✓ On the list · digest sample here now') + '</span>';
         submitBtn.style.background = 'var(--green)';
         submitBtn.style.color = '#fff';
       }
@@ -7051,7 +7071,7 @@
       if (submitBtn) {
         submitBtn.disabled = false;
         submitBtn.style.background = '';
-        submitBtn.innerHTML = '<span>Try again — ' + reason + '</span>';
+        submitBtn.innerHTML = '<span>' + (((window.STORESCOPE_I18N && window.STORESCOPE_I18N[document.documentElement.lang || 'en'] || {}).form_retry_prefix) || 'Try again — ') + reason + '</span>';
       }
     }
 
@@ -7106,7 +7126,7 @@
       if (submitBtn.disabled) return;  // double-submit 차단
       submitBtn.disabled = true;
       submitBtn.dataset.originalText = submitBtn.textContent;
-      submitBtn.textContent = 'Sending...';
+      submitBtn.textContent = ((window.STORESCOPE_I18N && window.STORESCOPE_I18N[document.documentElement.lang || 'en'] || {}).form_sending) || 'Sending...';
     }
 
     // gtag 가드 — uBlock Origin/Brave/EU GDPR consent 차단 시 ReferenceError 방어
