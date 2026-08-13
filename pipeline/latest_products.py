@@ -1117,7 +1117,8 @@ _BASE = "https://ddookim.github.io/storescope"
 
 # D+14 site-wide top nav — inserted after <body> in every generated SEO page.
 # Cross-navigation UX (Home/Category/Compare/Reports/Brands/Blog) + SEO internal-link equity.
-_TOP_NAV = '''<nav class="ss-topnav" aria-label="Site sections" style="max-width:900px;margin:0 auto;padding:14px 24px 0;font-size:13px;color:#6B655F;line-height:1.6;">
+# D+14 sticky upgrade: position:sticky top:0 → 스크롤 시 상단 고정, 방문자 항상 이동 가능.
+_TOP_NAV = '''<nav class="ss-topnav" aria-label="Site sections" style="position:sticky;top:0;z-index:100;background:rgba(249,248,246,0.94);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid rgba(28,25,23,0.06);padding:12px 24px;font-size:13px;color:#6B655F;line-height:1.6;text-align:center;">
   <a href="/storescope/" style="color:#4338ca;text-decoration:none;font-weight:600;">← StoreScope</a>
   <span style="margin:0 6px;color:#D6D3D1;">·</span>
   <a href="/storescope/category/" style="color:#4338ca;text-decoration:none;">Categories</a>
