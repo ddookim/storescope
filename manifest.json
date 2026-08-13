@@ -1,7 +1,7 @@
 {
-  "name": "StoreScope — Shopify Cross-Store Intelligence",
+  "name": "StoreScope — Weekly DTC Shopify Digest",
   "short_name": "StoreScope",
-  "description": "Cross-store Shopify product intelligence. 1,400+ stores indexed weekly. Storm Score momentum ranking.",
+  "description": "Weekly digest of new products from 58 curated independent DTC Shopify brands. Every Monday morning.",
   "start_url": "/?utm_source=pwa",
   "display": "standalone",
   "orientation": "portrait",
