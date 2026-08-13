@@ -67,11 +67,32 @@
 </head>
 <body>
   <div class="card">
-    <span class="badge">404 · Not Found</span>
-    <h1>That page doesn't exist.</h1>
-    <p>Try this week's digest instead — 20 newest product launches across 50+ curated DTC Shopify brands.</p>
-    <a class="btn" href="/storescope/digest-sample.html">See this week's digest →</a>
-    <p style="margin-top:1rem;font-size:0.85rem;"><a href="/storescope/" style="color:#4F46E5;text-decoration:underline">← Back to StoreScope</a></p>
+    <span class="badge" id="ss-badge">404 · Not Found</span>
+    <h1 id="ss-h1">That page doesn't exist.</h1>
+    <p id="ss-body">Try this week's digest instead — 20 newest product launches across 50+ curated DTC Shopify brands.</p>
+    <a class="btn" id="ss-cta" href="/storescope/digest-sample.html">See this week's digest →</a>
+    <p style="margin-top:1rem;font-size:0.85rem;"><a href="/storescope/" style="color:#4F46E5;text-decoration:underline" id="ss-back">← Back to StoreScope</a></p>
   </div>
+  <script>
+    /* D+14 i18n: URL param ?lang= or navigator.language 감지 후 KO/JA 대체 (EN default). */
+    (function() {
+      try {
+        var lang = (new URLSearchParams(location.search).get('lang') || (navigator.language || 'en').substring(0, 2)).toLowerCase();
+        var t = {
+          ko: { badge: '404 · 페이지 없음', h1: '해당 페이지가 없습니다.', body: '대신 이번 주 다이제스트를 확인하세요 — 50+ 큐레이션 DTC Shopify 브랜드의 최신 신상 20개.', cta: '이번 주 다이제스트 보기 →', back: '← StoreScope 로 돌아가기', title: '페이지 없음 — StoreScope' },
+          ja: { badge: '404 · ページなし', h1: 'このページは存在しません。', body: '代わりに今週のダイジェストをご覧ください — 50+の厳選DTC Shopifyブランドの最新新製品20点。', cta: '今週のダイジェストを見る →', back: '← StoreScope に戻る', title: 'ページなし — StoreScope' }
+        };
+        var m = t[lang];
+        if (!m) return;
+        document.documentElement.lang = lang;
+        document.title = m.title;
+        document.getElementById('ss-badge').textContent = m.badge;
+        document.getElementById('ss-h1').textContent = m.h1;
+        document.getElementById('ss-body').textContent = m.body;
+        document.getElementById('ss-cta').textContent = m.cta;
+        document.getElementById('ss-back').textContent = m.back;
+      } catch (e) { /* silent */ }
+    })();
+  </script>
 </body>
 </html>
