@@ -1,42 +1,23 @@
 {
-  "generated_at": "2026-08-11T09:40:47.877563+00:00",
+  "generated_at": "2026-08-16T23:30:27.158736+00:00",
   "week": "2026-W33",
   "total_products_before_dedupe": null,
-  "total_after_dedupe": 1928,
+  "total_after_dedupe": 1947,
   "top_products_returned": 20,
   "categories": [
     {
-      "product_type": "Dresses",
-      "product_count": 136,
-      "vendor_count": 4,
-      "top_vendors": [
-        "Everlane",
-        "Fashion Nova",
-        "Lunya"
-      ]
-    },
-    {
       "product_type": "Sweaters",
-      "product_count": 133,
+      "product_count": 158,
       "vendor_count": 3,
       "top_vendors": [
         "Everlane",
         "Fashion Nova",
-        "Lunya"
-      ]
-    },
-    {
-      "product_type": "Bottoms",
-      "product_count": 131,
-      "vendor_count": 2,
-      "top_vendors": [
-        "Everlane",
-        "Lunya"
+        "Taylor Stitch"
       ]
     },
     {
       "product_type": "Knit Tops",
-      "product_count": 127,
+      "product_count": 144,
       "vendor_count": 2,
       "top_vendors": [
         "Everlane",
@@ -44,13 +25,33 @@
       ]
     },
     {
-      "product_type": "Uncategorized",
-      "product_count": 81,
-      "vendor_count": 7,
+      "product_type": "Bottoms",
+      "product_count": 140,
+      "vendor_count": 3,
       "top_vendors": [
         "Everlane",
-        "Gymshark | Be a visionary.",
-        "MUD\\WTR"
+        "Mack Weldon",
+        "Taylor Stitch"
+      ]
+    },
+    {
+      "product_type": "Dresses",
+      "product_count": 131,
+      "vendor_count": 3,
+      "top_vendors": [
+        "Everlane",
+        "Fashion Nova",
+        "Outdoor Voices"
+      ]
+    },
+    {
+      "product_type": "Outerwear",
+      "product_count": 83,
+      "vendor_count": 3,
+      "top_vendors": [
+        "Everlane",
+        "Fashion Nova",
+        "Taylor Stitch"
       ]
     },
     {
@@ -63,7 +64,7 @@
     },
     {
       "product_type": "Woven Tops",
-      "product_count": 73,
+      "product_count": 74,
       "vendor_count": 2,
       "top_vendors": [
         "Everlane",
@@ -71,12 +72,11 @@
       ]
     },
     {
-      "product_type": "Outerwear",
-      "product_count": 59,
-      "vendor_count": 2,
+      "product_type": "Shirting",
+      "product_count": 52,
+      "vendor_count": 1,
       "top_vendors": [
-        "Everlane",
-        "Fashion Nova"
+        "Everlane"
       ]
     }
   ]
