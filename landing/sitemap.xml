@@ -4,7 +4,7 @@
         xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
   <url>
     <loc>https://ddookim.github.io/storescope/</loc>
-    <lastmod>2026-08-12</lastmod>
+    <lastmod>2026-08-16</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
     <xhtml:link xmlns:xhtml="http://www.w3.org/1999/xhtml" rel="alternate" hreflang="en" href="https://ddookim.github.io/storescope/?lang=en"/>
@@ -15,7 +15,7 @@
   <!-- D+11: live weekly-updated sample digest — SEO 대상 (freshness signal + demo asset). -->
   <url>
     <loc>https://ddookim.github.io/storescope/digest-sample.html</loc>
-    <lastmod>2026-08-12</lastmod>
+    <lastmod>2026-08-16</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
@@ -112,104 +112,104 @@
   <!-- D+14 Red Team Tactic 1: brand pages orphan → indexed (programmatic SEO) -->
   <url>
     <loc>https://ddookim.github.io/storescope/brands/</loc>
-    <lastmod>2026-08-12</lastmod>
+    <lastmod>2026-08-16</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://ddookim.github.io/storescope/brands/colourpop-com.html</loc>
-    <lastmod>2026-08-12</lastmod>
+    <lastmod>2026-08-16</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
       <image:image><image:loc>https://cdn.shopify.com/s/files/1/1338/0845/files/Aurora-Struck-Palette-Into-with-UC.jpg</image:loc></image:image>
   </url>
   <url>
     <loc>https://ddookim.github.io/storescope/brands/everlane-com.html</loc>
-    <lastmod>2026-08-12</lastmod>
+    <lastmod>2026-08-16</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
       <image:image><image:loc>https://cdn.shopify.com/s/files/1/0623/7916/3734/files/2026-07-19_F-BTM-DNM-WAYHGH-SAIL-LITE_01.jpg</image:loc></image:image>
   </url>
   <url>
     <loc>https://ddookim.github.io/storescope/brands/fashionnova-com.html</loc>
-    <lastmod>2026-08-12</lastmod>
+    <lastmod>2026-08-16</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
       <image:image><image:loc>https://cdn.shopify.com/s/files/1/0293/9277/files/07-17-26_S9_PM_11_B425SP1205_Carbon_JG_AA_15-36-02_7154-7_ES_ES_JA.jpg</image:loc></image:image>
   </url>
   <url>
     <loc>https://ddookim.github.io/storescope/brands/gymshark-com.html</loc>
-    <lastmod>2026-08-12</lastmod>
+    <lastmod>2026-08-16</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
       <image:image><image:loc>https://cdn.shopify.com/s/files/1/0156/6146/files/PremiumSharkheadCrewSockGSBlackI2A5M_BB2J_0190.jpg</image:loc></image:image>
   </url>
   <url>
     <loc>https://ddookim.github.io/storescope/brands/liquiddeath-com.html</loc>
-    <lastmod>2026-08-12</lastmod>
+    <lastmod>2026-08-16</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
       <image:image><image:loc>https://cdn.shopify.com/s/files/1/0079/4289/7737/files/deadlift-shorts-front.webp</image:loc></image:image>
   </url>
   <url>
     <loc>https://ddookim.github.io/storescope/brands/lunya-co.html</loc>
-    <lastmod>2026-08-12</lastmod>
+    <lastmod>2026-08-16</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
       <image:image><image:loc>https://cdn.shopify.com/s/files/1/0267/0987/files/LOOK_13_WS_BRIDAL_KNICKERSET_WHITE_LAGOON_1238_02.jpg</image:loc></image:image>
   </url>
   <url>
     <loc>https://ddookim.github.io/storescope/brands/milkmakeup-com.html</loc>
-    <lastmod>2026-08-12</lastmod>
+    <lastmod>2026-08-16</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
       <image:image><image:loc>https://cdn.shopify.com/s/files/1/0572/3645/5609/files/OG_HydroGripPrimer_Mini_CAPON_761d7f71-bdb6-492f-9677-5f1f3e1a918c.jpg</image:loc></image:image>
   </url>
   <url>
     <loc>https://ddookim.github.io/storescope/brands/mudwtr-com.html</loc>
-    <lastmod>2026-08-12</lastmod>
+    <lastmod>2026-08-16</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
       <image:image><image:loc>https://cdn.shopify.com/s/files/1/0137/9434/5014/files/PSL_1.jpg</image:loc></image:image>
   </url>
   <url>
     <loc>https://ddookim.github.io/storescope/brands/outdoorvoices-com.html</loc>
-    <lastmod>2026-08-12</lastmod>
+    <lastmod>2026-08-16</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
       <image:image><image:loc>https://cdn.shopify.com/s/files/1/0190/1390/files/W301459-TSW-DPU_TechSweat_Move_Free_Tank_Deep_Ultramarine_302_V2_40a9cd65-f03d-4141-95b5-03216512326c.jpg</image:loc></image:image>
   </url>
   <url>
     <loc>https://ddookim.github.io/storescope/brands/parachutehome-com.html</loc>
-    <lastmod>2026-08-12</lastmod>
+    <lastmod>2026-08-16</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
       <image:image><image:loc>https://cdn.shopify.com/s/files/1/0396/8269/files/percale-duvet-cover-set-bone-_f-q_k-ck__01_f75c9aa9-0972-45a7-b812-184ad79c6a5f.jpg</image:loc></image:image>
   </url>
   <url>
     <loc>https://ddookim.github.io/storescope/brands/ridgewallet-com.html</loc>
-    <lastmod>2026-08-12</lastmod>
+    <lastmod>2026-08-16</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
       <image:image><image:loc>https://cdn.shopify.com/s/files/1/0613/6213/files/MagneticPowerbank-Bundle-DarkHarbor-THUMBNAIL1_3s_9e212e1f-440f-4570-af90-0fb21d822b74.jpg</image:loc></image:image>
   </url>
   <url>
     <loc>https://ddookim.github.io/storescope/brands/summerfridays-com.html</loc>
-    <lastmod>2026-08-12</lastmod>
+    <lastmod>2026-08-16</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
       <image:image><image:loc>https://cdn.shopify.com/s/files/1/2382/2877/files/TTS-Body-Duo-Main-Vanilla.jpg</image:loc></image:image>
   </url>
   <url>
     <loc>https://ddookim.github.io/storescope/brands/supergoop-com.html</loc>
-    <lastmod>2026-08-12</lastmod>
+    <lastmod>2026-08-16</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
       <image:image><image:loc>https://cdn.shopify.com/s/files/1/1503/5658/files/Bachelorette_Bulk_VB_Mini_Sunrise_01_a_0685ace5-920b-4387-af31-217ec71cca11.png</image:loc></image:image>
   </url>
   <url>
     <loc>https://ddookim.github.io/storescope/brands/truebotanicals-com.html</loc>
-    <lastmod>2026-08-12</lastmod>
+    <lastmod>2026-08-16</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
       <image:image><image:loc>https://cdn.shopify.com/s/files/1/0545/1009/files/3x4_7a960fe3-d6c1-4c77-8d19-5b2e1beef6ba.png</image:loc></image:image>
@@ -256,49 +256,49 @@
   <!-- D+14 Red Tactic 3 pivot: category pages (real data, programmatic SEO) -->
   <url>
     <loc>https://ddookim.github.io/storescope/category/</loc>
-    <lastmod>2026-08-12</lastmod>
+    <lastmod>2026-08-16</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://ddookim.github.io/storescope/category/dresses.html</loc>
-    <lastmod>2026-08-12</lastmod>
+    <lastmod>2026-08-16</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://ddookim.github.io/storescope/category/sweaters.html</loc>
-    <lastmod>2026-08-12</lastmod>
+    <lastmod>2026-08-16</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://ddookim.github.io/storescope/category/bottoms.html</loc>
-    <lastmod>2026-08-12</lastmod>
+    <lastmod>2026-08-16</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://ddookim.github.io/storescope/category/knit-tops.html</loc>
-    <lastmod>2026-08-12</lastmod>
+    <lastmod>2026-08-16</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://ddookim.github.io/storescope/category/denim.html</loc>
-    <lastmod>2026-08-12</lastmod>
+    <lastmod>2026-08-16</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://ddookim.github.io/storescope/category/woven-tops.html</loc>
-    <lastmod>2026-08-12</lastmod>
+    <lastmod>2026-08-16</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://ddookim.github.io/storescope/category/outerwear.html</loc>
-    <lastmod>2026-08-12</lastmod>
+    <lastmod>2026-08-16</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -306,20 +306,20 @@
   <!-- D+14 Red Tactic 5: State of DTC data report (backlink bait, weekly refresh) -->
   <url>
     <loc>https://ddookim.github.io/storescope/report/</loc>
-    <lastmod>2026-08-12</lastmod>
+    <lastmod>2026-08-16</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://ddookim.github.io/storescope/report/state-of-dtc-shopify-2026-w33.html</loc>
-    <lastmod>2026-08-12</lastmod>
+    <lastmod>2026-08-16</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <!-- Weekly-refreshed state report (canonical latest URL, pipeline auto-regen) -->
   <url>
     <loc>https://ddookim.github.io/storescope/report/state-of-dtc-shopify-latest.html</loc>
-    <lastmod>2026-08-12</lastmod>
+    <lastmod>2026-08-16</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
