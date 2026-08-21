@@ -39,7 +39,7 @@ CATEGORY_TOP_N  = 8  # digest 표시 카테고리 개수
 TOP_N              = 20     # digest 표시 개수
 LOOKBACK_DAYS      = 30     # 30일 이내 published 만 대상 (fresh signal)
 MIN_TITLE_LEN      = 8      # placeholder/junk 제외 ("Test", "Sample" 등)
-MAX_PER_VENDOR     = 2      # D+11: 편중 방지 (5x 같은 브랜드 방지, UX 이슈)
+MAX_PER_VENDOR     = 1      # D+22: 2→1 강화 (Red Team CRIT: digest sample 45% Gymshark. 첫 signup UX 방어).
 MAX_PER_TYPE       = 4      # D+11: product_type 편중 방지 (Semi-Permanent 5개 등)
 
 
