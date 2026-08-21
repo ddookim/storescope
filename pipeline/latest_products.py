@@ -139,6 +139,11 @@ def _update_sitemap_lastmod(now: datetime) -> None:
         r"(<loc>https://ddookim\.github\.io/storescope/digest-sample\.html</loc>\s*<lastmod>)[^<]*(</lastmod>)",
         rf"\g<1>{today}\g<2>", text, count=1,
     )
+    # 2b. D+22 fix: feed.xml lastmod (pipeline 이 매주 재생성하지만 sitemap 은 stale 이었음).
+    text = re.sub(
+        r"(<loc>https://ddookim\.github\.io/storescope/feed\.xml</loc>\s*<lastmod>)[^<]*(</lastmod>)",
+        rf"\g<1>{today}\g<2>", text, count=1,
+    )
     # 3. Weekly blog entry — insert before </urlset> if not present.
     if weekly_url not in text:
         new_entry = f"""  <!-- Weekly auto-generated analysis -->
