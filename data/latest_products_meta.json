@@ -1,79 +1,73 @@
 {
-  "generated_at": "2026-08-16T23:30:27.158736+00:00",
-  "week": "2026-W33",
+  "generated_at": "2026-08-23T23:32:00.927599+00:00",
+  "week": "2026-W34",
   "total_products_before_dedupe": null,
-  "total_after_dedupe": 1947,
+  "total_after_dedupe": 1225,
   "top_products_returned": 20,
   "categories": [
     {
       "product_type": "Sweaters",
-      "product_count": 158,
-      "vendor_count": 3,
-      "top_vendors": [
-        "Everlane",
-        "Fashion Nova",
-        "Taylor Stitch"
-      ]
-    },
-    {
-      "product_type": "Knit Tops",
-      "product_count": 144,
-      "vendor_count": 2,
-      "top_vendors": [
-        "Everlane",
-        "Fashion Nova"
-      ]
-    },
-    {
-      "product_type": "Bottoms",
-      "product_count": 140,
-      "vendor_count": 3,
-      "top_vendors": [
-        "Everlane",
-        "Mack Weldon",
-        "Taylor Stitch"
-      ]
-    },
-    {
-      "product_type": "Dresses",
-      "product_count": 131,
-      "vendor_count": 3,
-      "top_vendors": [
-        "Everlane",
-        "Fashion Nova",
-        "Outdoor Voices"
-      ]
-    },
-    {
-      "product_type": "Outerwear",
-      "product_count": 83,
-      "vendor_count": 3,
-      "top_vendors": [
-        "Everlane",
-        "Fashion Nova",
-        "Taylor Stitch"
-      ]
-    },
-    {
-      "product_type": "Denim",
-      "product_count": 80,
+      "product_count": 113,
       "vendor_count": 1,
       "top_vendors": [
         "Everlane"
       ]
     },
     {
-      "product_type": "Woven Tops",
-      "product_count": 74,
-      "vendor_count": 2,
+      "product_type": "Bottoms",
+      "product_count": 78,
+      "vendor_count": 1,
       "top_vendors": [
-        "Everlane",
-        "Fashion Nova"
+        "Everlane"
       ]
     },
     {
-      "product_type": "Shirting",
-      "product_count": 52,
+      "product_type": "Knit Tops",
+      "product_count": 74,
+      "vendor_count": 1,
+      "top_vendors": [
+        "Everlane"
+      ]
+    },
+    {
+      "product_type": "Mens>Apparel>SS Tops>t_shirt",
+      "product_count": 49,
+      "vendor_count": 1,
+      "top_vendors": [
+        "Gymshark | Be a visionary."
+      ]
+    },
+    {
+      "product_type": "Dresses",
+      "product_count": 47,
+      "vendor_count": 2,
+      "top_vendors": [
+        "Everlane",
+        "Outdoor Voices"
+      ]
+    },
+    {
+      "product_type": "Outerwear",
+      "product_count": 45,
+      "vendor_count": 2,
+      "top_vendors": [
+        "Cotopaxi",
+        "Everlane"
+      ]
+    },
+    {
+      "product_type": "Uncategorized",
+      "product_count": 41,
+      "vendor_count": 4,
+      "top_vendors": [
+        "Everlane",
+        "MUD\\WTR",
+        "Parachute Home"
+      ]
+    },
+    {
+      "product_type": "Woven Tops",
+      "product_count": 38,
       "vendor_count": 1,
       "top_vendors": [
         "Everlane"
