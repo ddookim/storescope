@@ -1,36 +1,113 @@
 [
   {
     "domain": "everlane.com",
-    "title": "The No-Sweat Sweater | Uniform | Dark Forest",
-    "handle": "mens-no-sweat-cotton-sweater-dark-forest",
-    "product_type": "Sweaters",
+    "title": "The Box-Cut Tee in Essential Cotton | Bone Brown",
+    "handle": "womens-organic-cotton-box-cut-tee-brown-stripe",
+    "product_type": "Knit Tops",
     "vendor": "Everlane",
-    "published_at": "2026-08-30T18:02:09-07:00",
-    "price": 29.0,
-    "image_url": "https://cdn.shopify.com/s/files/1/0623/7916/3734/files/6a64cf98_c56e.jpg?v=1756954080",
-    "age_days": 0.0
+    "published_at": "2026-09-06T11:08:22-07:00",
+    "price": 34.0,
+    "image_url": "",
+    "age_days": 0.3
+  },
+  {
+    "domain": "supergoop.com",
+    "title": "Every. Single. Face. Watery Lotion SPF 50 (GIFT)",
+    "handle": "every-single-face-watery-lotion-spf-50-gift",
+    "product_type": "Free Samples",
+    "vendor": "Supergoop!",
+    "published_at": "2026-09-05T07:29:40-04:00",
+    "price": 0.0,
+    "image_url": "https://cdn.shopify.com/s/files/1/1503/5658/files/ESF_Img1_new.jpg?v=1716986452",
+    "age_days": 1.6
+  },
+  {
+    "domain": "ridgewallet.com",
+    "title": "Ridge Wallet for MagSafe + Power Bank + KeyCase - Burnt Titanium + Matte Black + Burnt Titanium",
+    "handle": "magsafe-wallet-power-bank-keycase-burnt-titanium-matte-black-burnt-titanium",
+    "product_type": "EDC - Kits - Ridge Wallet for MagSafe + Power Bank + KeyCase - KIT",
+    "vendor": "Ridge",
+    "published_at": "2026-09-04T17:12:30-07:00",
+    "price": 235.0,
+    "image_url": "https://cdn.shopify.com/s/files/1/0613/6213/files/magsafe-wallet-power-bank-keycase-burnt-titanium-matte-black-burnt-titanium-01_fdb7d714-f405-4dab-b7ae-9549092c6802.jpg?v=1788516739",
+    "age_days": 2.0
   },
   {
     "domain": "taylorstitch.com",
-    "title": "The Long Sleeve Polo in Vintage White Knit Stripe",
-    "handle": "long-sleeve-polo-in-vintage-white-knit-stripe-2607",
+    "title": "The Tiller Half Zip in Rinsed Indigo Slub",
+    "handle": "tiller-half-zip-in-rinsed-indigo-slub-2607",
     "product_type": "Knits",
     "vendor": "Taylor Stitch",
-    "published_at": "2026-08-29T19:19:37-07:00",
-    "price": 125.0,
-    "image_url": "https://cdn.shopify.com/s/files/1/0070/1922/files/instock_m_q326_long-sleeve-polo-vintage-white-knit-stripe_portrait_005.jpg?v=1785948882",
-    "age_days": 1.0
+    "published_at": "2026-09-04T08:45:25-07:00",
+    "price": 138.0,
+    "image_url": "https://cdn.shopify.com/s/files/1/0070/1922/files/instock_m_q326_tiller-half-zip-rinsed-indigo-slub_portrait_001.jpg?v=1788536890",
+    "age_days": 2.4
   },
   {
-    "domain": "tentree.com",
-    "title": "Chilton Parka",
-    "handle": "parka-puffer-jacket-meteorite-black",
-    "product_type": "Mens",
-    "vendor": "tentree",
-    "published_at": "2026-08-28T16:35:25-07:00",
-    "price": 368.0,
-    "image_url": "https://cdn.shopify.com/s/files/1/2341/3995/files/Black-Water-Repellent-Hooded-Puffer-Parka-TCM5448-0164_8_c2eaccce-b754-4326-981c-bbe8cafcc525.jpg?v=1769732062",
-    "age_days": 2.1
+    "domain": "liquiddeath.com",
+    "title": "Mug of Doom",
+    "handle": "mug-of-doom",
+    "product_type": "Misc",
+    "vendor": "Liquid Death",
+    "published_at": "2026-09-03T21:00:03-07:00",
+    "price": 36.0,
+    "image_url": "https://cdn.shopify.com/s/files/1/0079/4289/7737/files/Mug-of-Doom-Left.webp?v=1788314542",
+    "age_days": 2.9
+  },
+  {
+    "domain": "gymshark.com",
+    "title": "Gymshark Relay Seamless Light Support Sports Bra - Butter Yellow",
+    "handle": "gymshark-interval-seamless-light-support-sports-bra-sports-bras-yellow-aw26",
+    "product_type": "Womens>Apparel>Sports Bras>scoop_neck",
+    "vendor": "Gymshark | Be a visionary.",
+    "published_at": "2026-09-03T08:00:00-07:00",
+    "price": 44.0,
+    "image_url": "https://cdn.shopify.com/s/files/1/0156/6146/files/Relay_Seamless_Light_Support_Sports_GS_Butter_Yellow_B5C9R_YBZ5_1.jpg?v=1788244553",
+    "age_days": 3.4
+  },
+  {
+    "domain": "allbirds.com",
+    "title": "Free Returns Coverage",
+    "handle": "free-returns-coverage",
+    "product_type": "return,package_protection",
+    "vendor": "re:do",
+    "published_at": "2026-09-02T11:33:11-07:00",
+    "price": 0.8,
+    "image_url": "https://cdn.shopify.com/s/files/1/1104/4168/files/Screenshot_2026-06-11_at_10.12.01_AM.png?v=1781197934",
+    "age_days": 4.3
+  },
+  {
+    "domain": "colourpop.com",
+    "title": "Creaseless Hair Clips",
+    "handle": "hair-clips-gwp",
+    "product_type": "GWP",
+    "vendor": "ColourPop",
+    "published_at": "2026-09-01T10:52:51-07:00",
+    "price": 9.0,
+    "image_url": "https://cdn.shopify.com/s/files/1/1338/0845/files/creaselesshairclips_PDP.jpg?v=1780422537",
+    "age_days": 5.3
+  },
+  {
+    "domain": "parachutehome.com",
+    "title": "Brushed Cotton Sheet Set - Bone K/CK",
+    "handle": "brushed-cotton-sheet-set-bone-k-ck",
+    "product_type": "Sheet Sets, Sheets",
+    "vendor": "Parachute Home",
+    "published_at": "2026-09-01T11:41:55-07:00",
+    "price": 309.0,
+    "image_url": "https://cdn.shopify.com/s/files/1/0396/8269/files/brushed-cotton-sheet-set-bone-_f-q_k-ck__01_b320d6f2-4b63-4719-a865-518b51946b21.jpg?v=1762839009",
+    "age_days": 5.3
+  },
+  {
+    "domain": "misen.com",
+    "title": "11-Piece Knife Set (ACUTO440) - White",
+    "handle": "knife-set-acuto-11-piece-white",
+    "product_type": "Knife Set",
+    "vendor": "Misen",
+    "published_at": "2026-08-31T11:52:31-04:00",
+    "price": 669.0,
+    "image_url": "https://cdn.shopify.com/s/files/1/1186/5476/files/Misen2-Web-PDP-ACUTO-KnifeSet-11pc-White-Gallery-1.png?v=1787926567",
+    "age_days": 6.4
   },
   {
     "domain": "partakefoods.com",
@@ -41,73 +118,7 @@
     "published_at": "2026-08-28T16:38:13-04:00",
     "price": 54.99,
     "image_url": "https://cdn.shopify.com/s/files/1/0012/2296/7353/files/MiniCC_Grahams_12pack_transparent.png?v=1787948576",
-    "age_days": 2.2
-  },
-  {
-    "domain": "ridgewallet.com",
-    "title": "Ridge Carry-On Lavender",
-    "handle": "ridge-carry-on-lavender",
-    "product_type": "TRAVEL - LUGGAGE - CARRY-ON - SINGLE",
-    "vendor": "Ridge",
-    "published_at": "2026-08-28T12:19:32-07:00",
-    "price": 395.0,
-    "image_url": "https://cdn.shopify.com/s/files/1/0613/6213/files/01-Travel-CarryOn-Lavender-THUMB.jpg?v=1781809664",
-    "age_days": 2.3
-  },
-  {
-    "domain": "toddsnyder.com",
-    "title": "Jacques Solovière Leather Croc Stamp Loafer",
-    "handle": "jacques-soloviere-new-loafer-in-croc-stampdark-brown",
-    "product_type": "Shoes",
-    "vendor": "Jacques Solovière",
-    "published_at": "2026-08-28T12:55:16-04:00",
-    "price": 448.0,
-    "image_url": "https://cdn.shopify.com/s/files/1/0186/1574/files/PERMATKN92_BLACK_1_R_7446194b-4548-41f8-b8a9-3aa2ce75b270.jpg?v=1787935863",
-    "age_days": 2.4
-  },
-  {
-    "domain": "toddsnyder.com",
-    "title": "Cashmere Crewneck",
-    "handle": "cashmere-crewtobacco",
-    "product_type": "Sweater",
-    "vendor": "Todd Snyder",
-    "published_at": "2026-08-28T12:10:38-04:00",
-    "price": 328.0,
-    "image_url": "https://cdn.shopify.com/s/files/1/0186/1574/files/SEPT26_SW3677696_TOBACCO_F1_R.jpg?v=1786630154",
-    "age_days": 2.4
-  },
-  {
-    "domain": "gymshark.com",
-    "title": "Gymshark Conditioning Club Cap - Chalk Beige",
-    "handle": "gymshark-conditioning-club-cap-headwear-brown-aw26",
-    "product_type": "Unisex>Accessories>Headwear>cap",
-    "vendor": "Gymshark | Be a visionary.",
-    "published_at": "2026-08-28T03:00:00-07:00",
-    "price": 32.0,
-    "image_url": "https://cdn.shopify.com/s/files/1/0156/6146/files/Conditioning_Club_Cap_REP_M_A0096_GS_Chalk_Beige_I2C9K_NDKR_4.jpg?v=1787848322",
-    "age_days": 2.6
-  },
-  {
-    "domain": "liquiddeath.com",
-    "title": "Teenage Shirtbag Ringer (Women's)",
-    "handle": "teenage-shirtbag-ringer-womens",
-    "product_type": "SS Tee",
-    "vendor": "Liquid Death",
-    "published_at": "2026-08-27T21:00:11-07:00",
-    "price": 35.0,
-    "image_url": "https://cdn.shopify.com/s/files/1/0079/4289/7737/files/WomensTeenageShirtbagTee_White_WideFront_5339_2048x2048_111e0339-e8f5-459c-9fb6-842cab0b4ba8.webp?v=1787863354",
-    "age_days": 2.9
-  },
-  {
-    "domain": "theouai.com",
-    "title": "Wave Spray - Travel",
-    "handle": "wave-spray-travel",
-    "product_type": "Hair Styling Product",
-    "vendor": "OUAI",
-    "published_at": "2026-08-27T17:39:44-04:00",
-    "price": 16.0,
-    "image_url": "https://cdn.shopify.com/s/files/1/1043/7322/files/Update_5_WaveSpray-Travel_260611-18-55_Site_Asset_PDP_Product_Thumbnail_1440x1780_4.jpg?v=1783618655",
-    "age_days": 3.2
+    "age_days": 9.2
   },
   {
     "domain": "allbirds.com",
@@ -118,29 +129,7 @@
     "published_at": "2026-08-26T10:22:14-07:00",
     "price": 130.0,
     "image_url": "https://cdn.shopify.com/s/files/1/1104/4168/files/A11768_25Q4_Strider-Explore-Natural-Black-Dark-Grey-Sole_PDP_LEFT.png?v=1759336475",
-    "age_days": 4.3
-  },
-  {
-    "domain": "toddsnyder.com",
-    "title": "New Balance 204L Sneaker",
-    "handle": "new-balance-fw26-u204-sneakerbrown",
-    "product_type": "Shoes",
-    "vendor": "New Balance",
-    "published_at": "2026-08-26T13:33:59-04:00",
-    "price": 120.0,
-    "image_url": "https://cdn.shopify.com/s/files/1/0186/1574/files/u204lfsg_2_R.jpg?v=1786474225",
-    "age_days": 4.3
-  },
-  {
-    "domain": "toddsnyder.com",
-    "title": "Bennett Winch Tote Bag",
-    "handle": "bennett-winch-canvas-tote-sandsand",
-    "product_type": "Bag",
-    "vendor": "Bennett Winch",
-    "published_at": "2026-08-26T13:33:07-04:00",
-    "price": 950.0,
-    "image_url": "https://cdn.shopify.com/s/files/1/0186/1574/files/Tote_Sand_Front_R.jpg?v=1786050322",
-    "age_days": 4.3
+    "age_days": 11.3
   },
   {
     "domain": "ridgewallet.com",
@@ -151,29 +140,7 @@
     "published_at": "2026-08-25T13:45:11-07:00",
     "price": 150.0,
     "image_url": "https://cdn.shopify.com/s/files/1/0613/6213/files/WestVirginiaMountaineers_f88f4d4c-81bc-4cfc-869a-5d8eaacf94ab.jpg?v=1787678051",
-    "age_days": 5.2
-  },
-  {
-    "domain": "theouai.com",
-    "title": "Medium Hair Shampoo & Conditioner Packette",
-    "handle": "medium-shampoo-conditioner-packette",
-    "product_type": "Sample",
-    "vendor": "Ouai",
-    "published_at": "2026-08-25T13:07:37-04:00",
-    "price": 0.0,
-    "image_url": "https://cdn.shopify.com/s/files/1/1043/7322/products/medium.jpg?v=1762198902",
-    "age_days": 5.3
-  },
-  {
-    "domain": "colourpop.com",
-    "title": "Fall Mystery Box",
-    "handle": "fall-mystery-bundle",
-    "product_type": "Mystery Box",
-    "vendor": "ColourPop",
-    "published_at": "2026-08-24T16:11:15-07:00",
-    "price": 49.0,
-    "image_url": "https://cdn.shopify.com/s/files/1/1338/0845/files/PDP_SitewideSale_Mobile.png?v=1787613036",
-    "age_days": 6.1
+    "age_days": 12.2
   },
   {
     "domain": "ridgewallet.com",
@@ -184,18 +151,7 @@
     "published_at": "2026-08-21T13:47:17-07:00",
     "price": 15.0,
     "image_url": "https://cdn.shopify.com/s/files/1/0613/6213/files/Black-Elastic.jpg?v=1787343109",
-    "age_days": 9.2
-  },
-  {
-    "domain": "toddsnyder.com",
-    "title": "Todd Snyder x Rubinacci Croc Marphy Loafer",
-    "handle": "rubinacci-belgian-loaferdeer-leather-brown-brown",
-    "product_type": "Shoes",
-    "vendor": "Rubinacci",
-    "published_at": "2026-08-21T11:59:11-04:00",
-    "price": 588.0,
-    "image_url": "https://cdn.shopify.com/s/files/1/0186/1574/files/todd-snyder-x-rubinacci-marphy-loafer-burgundy-crocrubinacci-x-todd-snyder-120260.jpg?v=1714017405",
-    "age_days": 9.4
+    "age_days": 16.2
   },
   {
     "domain": "outdoorvoices.com",
@@ -206,17 +162,61 @@
     "published_at": "2026-08-19T21:09:21-04:00",
     "price": 98.0,
     "image_url": "https://cdn.shopify.com/s/files/1/0190/1390/files/desert-shirt-outdoor-voices-light-blue-oversized-fit_4.jpg?v=1776644663",
-    "age_days": 11.0
+    "age_days": 18.0
   },
   {
-    "domain": "beardbrand.com",
-    "title": "Fox Hunt Men's Cologne",
-    "handle": "fox-hunt-mens-cologne",
-    "product_type": "Eau de Parfum",
-    "vendor": "Beardbrand",
-    "published_at": "2026-08-18T09:30:49-05:00",
-    "price": 50.0,
-    "image_url": "https://cdn.shopify.com/s/files/1/0209/0478/files/EDP_FH.jpg?v=1786992683",
-    "age_days": 12.5
+    "domain": "milkmakeup.com",
+    "title": "Blending Brush",
+    "handle": "sticks-blending-brush",
+    "product_type": "Tools",
+    "vendor": "Milk Makeup",
+    "published_at": "2026-08-17T22:45:46-04:00",
+    "price": 32.0,
+    "image_url": "https://cdn.shopify.com/s/files/1/0572/3645/5609/files/PDP1270x1270_BlendingBrush-2.jpg?v=1786936359",
+    "age_days": 19.9
+  },
+  {
+    "domain": "colourpop.com",
+    "title": "Pore Real Cleanser",
+    "handle": "pore-real-pineapple-cleanser",
+    "product_type": "Face Cleanser",
+    "vendor": "Fourth Ray Beauty",
+    "published_at": "2026-08-12T22:46:12-07:00",
+    "price": 11.25,
+    "image_url": "https://cdn.shopify.com/s/files/1/1338/0845/products/6720804225106-Pore-Real-Cleanser-FoamingCleanser-PoreReal-1.jpg?v=1668568752",
+    "age_days": 24.8
+  },
+  {
+    "domain": "truebotanicals.com",
+    "title": "Mindful Mama Kit",
+    "handle": "new-mindful-mama-kit",
+    "product_type": "Skincare Sets",
+    "vendor": "True Botanicals",
+    "published_at": "2026-08-09T18:26:16-07:00",
+    "price": 99.0,
+    "image_url": "https://cdn.shopify.com/s/files/1/0545/1009/files/MINDFUL-MAMA_PDP_NORDSTROM-336.jpg?v=1785162887",
+    "age_days": 28.0
+  },
+  {
+    "domain": "supergoop.com",
+    "title": "Glow Gloss SPF 40 Lip Balm - Vanilla Soft Serve (GIFT)",
+    "handle": "glow-gloss-spf-40-lip-balm-vanilla-soft-serve-gift",
+    "product_type": "Free Samples",
+    "vendor": "Supergoop!",
+    "published_at": "2026-09-05T07:29:37-04:00",
+    "price": 0.0,
+    "image_url": "https://cdn.shopify.com/s/files/1/1503/5658/files/DTC_US_PDP_Glow_Gloss_SPF40_VanillaSoftServe_15ml_Overlay_0a686a5f-d866-49a9-bdcd-472bd80cb401.jpg?v=1746217009",
+    "age_days": 1.6
+  },
+  {
+    "domain": "everlane.com",
+    "title": "M RIV Rigid Relaxed Denim",
+    "handle": "m-btm-dnm-rgd-rlx-blkrns",
+    "product_type": "Denim",
+    "vendor": "Everlane",
+    "published_at": "2026-09-04T22:40:31-07:00",
+    "price": 148.0,
+    "image_url": "",
+    "age_days": 1.8
   }
 ]

@@ -1,174 +1,174 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>StoreScope Weekly · 2026-W36</title>
+    <title>StoreScope Weekly · 2026-W37</title>
     <link>https://ddookim.github.io/storescope/digest-sample.html</link>
     <atom:link href="https://ddookim.github.io/storescope/feed.xml" rel="self" type="application/rss+xml"/>
-    <description>Newest DTC brand product launches from 50+ curated Shopify brands. Updated every Monday. Hot: Sweaters (50), Bottoms (47), Womens (45), Denim (42), EDC - WALLET - RIDGE WALLET - SINGLE (41).</description>
+    <description>Newest DTC brand product launches from 50+ curated Shopify brands. Updated every Monday. Hot: Bottoms (104), Knit Tops (98), Sweaters (86), Denim (67), Shirting (55).</description>
     <language>en-us</language>
-    <lastBuildDate>Mon, 31 Aug 2026 01:23:46 +0000</lastBuildDate>
-    <pubDate>Mon, 31 Aug 2026 01:23:46 +0000</pubDate>
+    <lastBuildDate>Mon, 07 Sep 2026 00:52:47 +0000</lastBuildDate>
+    <pubDate>Mon, 07 Sep 2026 00:52:47 +0000</pubDate>
     <ttl>10080</ttl>
     <generator>StoreScope pipeline/latest_products.py</generator>
     <item>
-      <title>The No-Sweat Sweater | Uniform | Dark Forest</title>
+      <title>The Box-Cut Tee in Essential Cotton | Bone Brown</title>
       <link>https://ddookim.github.io/storescope/digest-sample.html#p1</link>
-      <guid isPermaLink="false">everlane.com#mens-no-sweat-cotton-sweater-dark-forest</guid>
-      <pubDate>Sun, 30 Aug 2026 18:02:09 -0700</pubDate>
-      <description>Everlane · Sweaters · $29.00 · 0.0d old</description>
-      <category>Sweaters</category>
+      <guid isPermaLink="false">everlane.com#womens-organic-cotton-box-cut-tee-brown-stripe</guid>
+      <pubDate>Sun, 06 Sep 2026 11:08:22 -0700</pubDate>
+      <description>Everlane · Knit Tops · $34.00 · 0.3d old</description>
+      <category>Knit Tops</category>
     </item>
     <item>
-      <title>The Long Sleeve Polo in Vintage White Knit Stripe</title>
+      <title>Every. Single. Face. Watery Lotion SPF 50 (GIFT)</title>
       <link>https://ddookim.github.io/storescope/digest-sample.html#p2</link>
-      <guid isPermaLink="false">taylorstitch.com#long-sleeve-polo-in-vintage-white-knit-stripe-2607</guid>
-      <pubDate>Sat, 29 Aug 2026 19:19:37 -0700</pubDate>
-      <description>Taylor Stitch · Knits · $125.00 · 1.0d old</description>
+      <guid isPermaLink="false">supergoop.com#every-single-face-watery-lotion-spf-50-gift</guid>
+      <pubDate>Sat, 05 Sep 2026 07:29:40 -0400</pubDate>
+      <description>Supergoop! · Free Samples · — · 1.6d old</description>
+      <category>Free Samples</category>
+    </item>
+    <item>
+      <title>Ridge Wallet for MagSafe + Power Bank + KeyCase - Burnt Titanium + Matte Black + Burnt Titanium</title>
+      <link>https://ddookim.github.io/storescope/digest-sample.html#p3</link>
+      <guid isPermaLink="false">ridgewallet.com#magsafe-wallet-power-bank-keycase-burnt-titanium-matte-black-burnt-titanium</guid>
+      <pubDate>Fri, 04 Sep 2026 17:12:30 -0700</pubDate>
+      <description>Ridge · EDC - Kits - Ridge Wallet for MagSafe + Power Bank + KeyCase - KIT · $235.00 · 2.0d old</description>
+      <category>EDC - Kits - Ridge Wallet for MagSafe + Power Bank + KeyCase - KIT</category>
+    </item>
+    <item>
+      <title>The Tiller Half Zip in Rinsed Indigo Slub</title>
+      <link>https://ddookim.github.io/storescope/digest-sample.html#p4</link>
+      <guid isPermaLink="false">taylorstitch.com#tiller-half-zip-in-rinsed-indigo-slub-2607</guid>
+      <pubDate>Fri, 04 Sep 2026 08:45:25 -0700</pubDate>
+      <description>Taylor Stitch · Knits · $138.00 · 2.4d old</description>
       <category>Knits</category>
     </item>
     <item>
-      <title>Chilton Parka</title>
-      <link>https://ddookim.github.io/storescope/digest-sample.html#p3</link>
-      <guid isPermaLink="false">tentree.com#parka-puffer-jacket-meteorite-black</guid>
-      <pubDate>Fri, 28 Aug 2026 16:35:25 -0700</pubDate>
-      <description>tentree · Mens · $368.00 · 2.1d old</description>
-      <category>Mens</category>
+      <title>Mug of Doom</title>
+      <link>https://ddookim.github.io/storescope/digest-sample.html#p5</link>
+      <guid isPermaLink="false">liquiddeath.com#mug-of-doom</guid>
+      <pubDate>Thu, 03 Sep 2026 21:00:03 -0700</pubDate>
+      <description>Liquid Death · Misc · $36.00 · 2.9d old</description>
+      <category>Misc</category>
+    </item>
+    <item>
+      <title>Gymshark Relay Seamless Light Support Sports Bra - Butter Yellow</title>
+      <link>https://ddookim.github.io/storescope/digest-sample.html#p6</link>
+      <guid isPermaLink="false">gymshark.com#gymshark-interval-seamless-light-support-sports-bra-sports-bras-yellow-aw26</guid>
+      <pubDate>Thu, 03 Sep 2026 08:00:00 -0700</pubDate>
+      <description>Gymshark | Be a visionary. · Womens&gt;Apparel&gt;Sports Bras&gt;scoop_neck · $44.00 · 3.4d old</description>
+      <category>Womens&gt;Apparel&gt;Sports Bras&gt;scoop_neck</category>
+    </item>
+    <item>
+      <title>Free Returns Coverage</title>
+      <link>https://ddookim.github.io/storescope/digest-sample.html#p7</link>
+      <guid isPermaLink="false">allbirds.com#free-returns-coverage</guid>
+      <pubDate>Wed, 02 Sep 2026 11:33:11 -0700</pubDate>
+      <description>re:do · return,package_protection · $0.80 · 4.3d old</description>
+      <category>return,package_protection</category>
+    </item>
+    <item>
+      <title>Creaseless Hair Clips</title>
+      <link>https://ddookim.github.io/storescope/digest-sample.html#p8</link>
+      <guid isPermaLink="false">colourpop.com#hair-clips-gwp</guid>
+      <pubDate>Tue, 01 Sep 2026 10:52:51 -0700</pubDate>
+      <description>ColourPop · GWP · $9.00 · 5.3d old</description>
+      <category>GWP</category>
+    </item>
+    <item>
+      <title>Brushed Cotton Sheet Set - Bone K/CK</title>
+      <link>https://ddookim.github.io/storescope/digest-sample.html#p9</link>
+      <guid isPermaLink="false">parachutehome.com#brushed-cotton-sheet-set-bone-k-ck</guid>
+      <pubDate>Tue, 01 Sep 2026 11:41:55 -0700</pubDate>
+      <description>Parachute Home · Sheet Sets, Sheets · $309.00 · 5.3d old</description>
+      <category>Sheet Sets, Sheets</category>
+    </item>
+    <item>
+      <title>11-Piece Knife Set (ACUTO440) - White</title>
+      <link>https://ddookim.github.io/storescope/digest-sample.html#p10</link>
+      <guid isPermaLink="false">misen.com#knife-set-acuto-11-piece-white</guid>
+      <pubDate>Mon, 31 Aug 2026 11:52:31 -0400</pubDate>
+      <description>Misen · Knife Set · $669.00 · 6.4d old</description>
+      <category>Knife Set</category>
     </item>
     <item>
       <title>Mini Chocolate Chip &amp; Grahams</title>
-      <link>https://ddookim.github.io/storescope/digest-sample.html#p4</link>
+      <link>https://ddookim.github.io/storescope/digest-sample.html#p11</link>
       <guid isPermaLink="false">partakefoods.com#mini-chocolate-chip-grahams</guid>
       <pubDate>Fri, 28 Aug 2026 16:38:13 -0400</pubDate>
-      <description>Partake Foods ·  · $54.99 · 2.2d old</description>
+      <description>Partake Foods ·  · $54.99 · 9.2d old</description>
       <category></category>
     </item>
     <item>
-      <title>Ridge Carry-On Lavender</title>
-      <link>https://ddookim.github.io/storescope/digest-sample.html#p5</link>
-      <guid isPermaLink="false">ridgewallet.com#ridge-carry-on-lavender</guid>
-      <pubDate>Fri, 28 Aug 2026 12:19:32 -0700</pubDate>
-      <description>Ridge · TRAVEL - LUGGAGE - CARRY-ON - SINGLE · $395.00 · 2.3d old</description>
-      <category>TRAVEL - LUGGAGE - CARRY-ON - SINGLE</category>
-    </item>
-    <item>
-      <title>Jacques Solovière Leather Croc Stamp Loafer</title>
-      <link>https://ddookim.github.io/storescope/digest-sample.html#p6</link>
-      <guid isPermaLink="false">toddsnyder.com#jacques-soloviere-new-loafer-in-croc-stampdark-brown</guid>
-      <pubDate>Fri, 28 Aug 2026 12:55:16 -0400</pubDate>
-      <description>Jacques Solovière · Shoes · $448.00 · 2.4d old</description>
-      <category>Shoes</category>
-    </item>
-    <item>
-      <title>Cashmere Crewneck</title>
-      <link>https://ddookim.github.io/storescope/digest-sample.html#p7</link>
-      <guid isPermaLink="false">toddsnyder.com#cashmere-crewtobacco</guid>
-      <pubDate>Fri, 28 Aug 2026 12:10:38 -0400</pubDate>
-      <description>Todd Snyder · Sweater · $328.00 · 2.4d old</description>
-      <category>Sweater</category>
-    </item>
-    <item>
-      <title>Gymshark Conditioning Club Cap - Chalk Beige</title>
-      <link>https://ddookim.github.io/storescope/digest-sample.html#p8</link>
-      <guid isPermaLink="false">gymshark.com#gymshark-conditioning-club-cap-headwear-brown-aw26</guid>
-      <pubDate>Fri, 28 Aug 2026 03:00:00 -0700</pubDate>
-      <description>Gymshark | Be a visionary. · Unisex&gt;Accessories&gt;Headwear&gt;cap · $32.00 · 2.6d old</description>
-      <category>Unisex&gt;Accessories&gt;Headwear&gt;cap</category>
-    </item>
-    <item>
-      <title>Teenage Shirtbag Ringer (Women&#x27;s)</title>
-      <link>https://ddookim.github.io/storescope/digest-sample.html#p9</link>
-      <guid isPermaLink="false">liquiddeath.com#teenage-shirtbag-ringer-womens</guid>
-      <pubDate>Thu, 27 Aug 2026 21:00:11 -0700</pubDate>
-      <description>Liquid Death · SS Tee · $35.00 · 2.9d old</description>
-      <category>SS Tee</category>
-    </item>
-    <item>
-      <title>Wave Spray - Travel</title>
-      <link>https://ddookim.github.io/storescope/digest-sample.html#p10</link>
-      <guid isPermaLink="false">theouai.com#wave-spray-travel</guid>
-      <pubDate>Thu, 27 Aug 2026 17:39:44 -0400</pubDate>
-      <description>OUAI · Hair Styling Product · $16.00 · 3.2d old</description>
-      <category>Hair Styling Product</category>
-    </item>
-    <item>
       <title>Men&#x27;s Strider Explore - Natural Black (Dark Grey Sole)</title>
-      <link>https://ddookim.github.io/storescope/digest-sample.html#p11</link>
+      <link>https://ddookim.github.io/storescope/digest-sample.html#p12</link>
       <guid isPermaLink="false">allbirds.com#mens-strider-explore</guid>
       <pubDate>Wed, 26 Aug 2026 10:22:14 -0700</pubDate>
-      <description>Allbirds · Shoes · $130.00 · 4.3d old</description>
+      <description>Allbirds · Shoes · $130.00 · 11.3d old</description>
       <category>Shoes</category>
-    </item>
-    <item>
-      <title>New Balance 204L Sneaker</title>
-      <link>https://ddookim.github.io/storescope/digest-sample.html#p12</link>
-      <guid isPermaLink="false">toddsnyder.com#new-balance-fw26-u204-sneakerbrown</guid>
-      <pubDate>Wed, 26 Aug 2026 13:33:59 -0400</pubDate>
-      <description>New Balance · Shoes · $120.00 · 4.3d old</description>
-      <category>Shoes</category>
-    </item>
-    <item>
-      <title>Bennett Winch Tote Bag</title>
-      <link>https://ddookim.github.io/storescope/digest-sample.html#p13</link>
-      <guid isPermaLink="false">toddsnyder.com#bennett-winch-canvas-tote-sandsand</guid>
-      <pubDate>Wed, 26 Aug 2026 13:33:07 -0400</pubDate>
-      <description>Bennett Winch · Bag · $950.00 · 4.3d old</description>
-      <category>Bag</category>
     </item>
     <item>
       <title>Ridge Wallet - West Virginia Mountaineers</title>
-      <link>https://ddookim.github.io/storescope/digest-sample.html#p14</link>
+      <link>https://ddookim.github.io/storescope/digest-sample.html#p13</link>
       <guid isPermaLink="false">ridgewallet.com#west-virginia-mountaineers</guid>
       <pubDate>Tue, 25 Aug 2026 13:45:11 -0700</pubDate>
-      <description>The Ridge Wallet · EDC - WALLET - RIDGE WALLET - SINGLE · $150.00 · 5.2d old</description>
+      <description>The Ridge Wallet · EDC - WALLET - RIDGE WALLET - SINGLE · $150.00 · 12.2d old</description>
       <category>EDC - WALLET - RIDGE WALLET - SINGLE</category>
     </item>
     <item>
-      <title>Medium Hair Shampoo &amp; Conditioner Packette</title>
-      <link>https://ddookim.github.io/storescope/digest-sample.html#p15</link>
-      <guid isPermaLink="false">theouai.com#medium-shampoo-conditioner-packette</guid>
-      <pubDate>Tue, 25 Aug 2026 13:07:37 -0400</pubDate>
-      <description>Ouai · Sample · — · 5.3d old</description>
-      <category>Sample</category>
-    </item>
-    <item>
-      <title>Fall Mystery Box</title>
-      <link>https://ddookim.github.io/storescope/digest-sample.html#p16</link>
-      <guid isPermaLink="false">colourpop.com#fall-mystery-bundle</guid>
-      <pubDate>Mon, 24 Aug 2026 16:11:15 -0700</pubDate>
-      <description>ColourPop · Mystery Box · $49.00 · 6.1d old</description>
-      <category>Mystery Box</category>
-    </item>
-    <item>
       <title>Elastic Set - Black Screws</title>
-      <link>https://ddookim.github.io/storescope/digest-sample.html#p17</link>
+      <link>https://ddookim.github.io/storescope/digest-sample.html#p14</link>
       <guid isPermaLink="false">ridgewallet.com#elastic-set-black-screws</guid>
       <pubDate>Fri, 21 Aug 2026 13:47:17 -0700</pubDate>
-      <description>Ridge Wallet · EDC - GENERAL ACCESSORY - ELASTIC SET - SINGLE · $15.00 · 9.2d old</description>
+      <description>Ridge Wallet · EDC - GENERAL ACCESSORY - ELASTIC SET - SINGLE · $15.00 · 16.2d old</description>
       <category>EDC - GENERAL ACCESSORY - ELASTIC SET - SINGLE</category>
     </item>
     <item>
-      <title>Todd Snyder x Rubinacci Croc Marphy Loafer</title>
-      <link>https://ddookim.github.io/storescope/digest-sample.html#p18</link>
-      <guid isPermaLink="false">toddsnyder.com#rubinacci-belgian-loaferdeer-leather-brown-brown</guid>
-      <pubDate>Fri, 21 Aug 2026 11:59:11 -0400</pubDate>
-      <description>Rubinacci · Shoes · $588.00 · 9.4d old</description>
-      <category>Shoes</category>
-    </item>
-    <item>
       <title>Desert Shirt</title>
-      <link>https://ddookim.github.io/storescope/digest-sample.html#p19</link>
+      <link>https://ddookim.github.io/storescope/digest-sample.html#p15</link>
       <guid isPermaLink="false">outdoorvoices.com#w-desert-shirt-salt</guid>
       <pubDate>Wed, 19 Aug 2026 21:09:21 -0400</pubDate>
-      <description>Outdoor Voices · Longsleeve · $98.00 · 11.0d old</description>
+      <description>Outdoor Voices · Longsleeve · $98.00 · 18.0d old</description>
       <category>Longsleeve</category>
     </item>
     <item>
-      <title>Fox Hunt Men&#x27;s Cologne</title>
+      <title>Blending Brush</title>
+      <link>https://ddookim.github.io/storescope/digest-sample.html#p16</link>
+      <guid isPermaLink="false">milkmakeup.com#sticks-blending-brush</guid>
+      <pubDate>Mon, 17 Aug 2026 22:45:46 -0400</pubDate>
+      <description>Milk Makeup · Tools · $32.00 · 19.9d old</description>
+      <category>Tools</category>
+    </item>
+    <item>
+      <title>Pore Real Cleanser</title>
+      <link>https://ddookim.github.io/storescope/digest-sample.html#p17</link>
+      <guid isPermaLink="false">colourpop.com#pore-real-pineapple-cleanser</guid>
+      <pubDate>Wed, 12 Aug 2026 22:46:12 -0700</pubDate>
+      <description>Fourth Ray Beauty · Face Cleanser · $11.25 · 24.8d old</description>
+      <category>Face Cleanser</category>
+    </item>
+    <item>
+      <title>Mindful Mama Kit</title>
+      <link>https://ddookim.github.io/storescope/digest-sample.html#p18</link>
+      <guid isPermaLink="false">truebotanicals.com#new-mindful-mama-kit</guid>
+      <pubDate>Sun, 09 Aug 2026 18:26:16 -0700</pubDate>
+      <description>True Botanicals · Skincare Sets · $99.00 · 28.0d old</description>
+      <category>Skincare Sets</category>
+    </item>
+    <item>
+      <title>Glow Gloss SPF 40 Lip Balm - Vanilla Soft Serve (GIFT)</title>
+      <link>https://ddookim.github.io/storescope/digest-sample.html#p19</link>
+      <guid isPermaLink="false">supergoop.com#glow-gloss-spf-40-lip-balm-vanilla-soft-serve-gift</guid>
+      <pubDate>Sat, 05 Sep 2026 07:29:37 -0400</pubDate>
+      <description>Supergoop! · Free Samples · — · 1.6d old</description>
+      <category>Free Samples</category>
+    </item>
+    <item>
+      <title>M RIV Rigid Relaxed Denim</title>
       <link>https://ddookim.github.io/storescope/digest-sample.html#p20</link>
-      <guid isPermaLink="false">beardbrand.com#fox-hunt-mens-cologne</guid>
-      <pubDate>Tue, 18 Aug 2026 09:30:49 -0500</pubDate>
-      <description>Beardbrand · Eau de Parfum · $50.00 · 12.5d old</description>
-      <category>Eau de Parfum</category>
+      <guid isPermaLink="false">everlane.com#m-btm-dnm-rgd-rlx-blkrns</guid>
+      <pubDate>Fri, 04 Sep 2026 22:40:31 -0700</pubDate>
+      <description>Everlane · Denim · $148.00 · 1.8d old</description>
+      <category>Denim</category>
     </item>
   </channel>
 </rss>

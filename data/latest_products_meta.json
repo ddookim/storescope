@@ -1,22 +1,13 @@
 {
-  "generated_at": "2026-08-31T01:23:46.945915+00:00",
-  "week": "2026-W36",
+  "generated_at": "2026-09-07T00:52:47.085984+00:00",
+  "week": "2026-W37",
   "total_products_before_dedupe": null,
-  "total_after_dedupe": 841,
+  "total_after_dedupe": 1144,
   "top_products_returned": 20,
   "categories": [
     {
-      "product_type": "Sweaters",
-      "product_count": 50,
-      "vendor_count": 2,
-      "top_vendors": [
-        "Everlane",
-        "Taylor Stitch"
-      ]
-    },
-    {
       "product_type": "Bottoms",
-      "product_count": 47,
+      "product_count": 104,
       "vendor_count": 2,
       "top_vendors": [
         "Everlane",
@@ -24,16 +15,33 @@
       ]
     },
     {
-      "product_type": "Womens",
-      "product_count": 45,
+      "product_type": "Knit Tops",
+      "product_count": 98,
       "vendor_count": 1,
       "top_vendors": [
-        "tentree"
+        "Everlane"
+      ]
+    },
+    {
+      "product_type": "Sweaters",
+      "product_count": 86,
+      "vendor_count": 2,
+      "top_vendors": [
+        "Everlane",
+        "Taylor Stitch"
       ]
     },
     {
       "product_type": "Denim",
-      "product_count": 42,
+      "product_count": 67,
+      "vendor_count": 1,
+      "top_vendors": [
+        "Everlane"
+      ]
+    },
+    {
+      "product_type": "Shirting",
+      "product_count": 55,
       "vendor_count": 1,
       "top_vendors": [
         "Everlane"
@@ -49,28 +57,19 @@
       ]
     },
     {
-      "product_type": "Mens",
-      "product_count": 40,
+      "product_type": "Mens>Apparel>SS Tops>t_shirt",
+      "product_count": 37,
       "vendor_count": 1,
       "top_vendors": [
-        "tentree"
+        "Gymshark | Be a visionary."
       ]
     },
     {
-      "product_type": "Knit Tops",
-      "product_count": 34,
+      "product_type": "Womens>Apparel>Leggings>full_length",
+      "product_count": 27,
       "vendor_count": 1,
       "top_vendors": [
-        "Everlane"
-      ]
-    },
-    {
-      "product_type": "Accessories",
-      "product_count": 30,
-      "vendor_count": 2,
-      "top_vendors": [
-        "Everlane",
-        "tentree"
+        "Gymshark | Be a visionary."
       ]
     }
   ]
