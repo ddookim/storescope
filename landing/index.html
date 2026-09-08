@@ -4946,6 +4946,17 @@
 <!-- D+14 removed: sticky yellow Early access beta banner (nav 및 hero 최상단 시각 차단).
      Waitlist / early access 안내는 hero eyebrow + trust line 으로 대체 (사용자 요청). -->
 
+<!-- D+40 fix (2026-09-08): xray-email-form Netlify Forms 등록.
+     이전엔 X-Ray form이 storescope-api.onrender.com (dead DB) 로 POST → 100% silent discard.
+     이제 hero form 처럼 Netlify Forms 캡처 (form-name="xray-email-form").
+     이 hidden 선언은 Netlify HTML 파서 build-time 마커 (실 form은 아래 dynamic JS 렌더링). -->
+<form name="xray-email-form" data-netlify="true" netlify-honeypot="bot-field" hidden>
+  <input type="email" name="email" />
+  <input type="text"  name="domain" />
+  <input type="text"  name="source" />
+  <input type="text"  name="ref" />
+  <input type="text"  name="bot-field" />
+</form>
 
 <!-- A11Y: Skip to main content — Tab 한 번 누르면 nav 스킵하고 본문으로. -->
 <a href="#main-content" class="skip-link" data-i18n="a11y_skip_main">Skip to main content</a>
@@ -7162,30 +7173,33 @@
     // D+13 CRIT-4 fix: capture ?ref= URL param for channel attribution.
     var _xrRef = '';
     try { _xrRef = new URLSearchParams(window.location.search).get('ref') || ''; } catch(_) {}
-    fetch(API_BASE + '/leads', {
+
+    // D+40 fix (2026-09-08): storescope-api.onrender.com dead + DEMO_MODE mock discard =
+    // 지난 40일간 X-Ray form submissions 전량 silent discard. 이제 hero form 과 동일하게
+    // Netlify Forms 로 POST (form-name="xray-email-form"). Netlify build-time 파서는 body
+    // 상단의 hidden 선언에서 form 인식. Cross-origin no-cors POST 방식으로 opaque response.
+    var _xrParams = new URLSearchParams();
+    _xrParams.append('form-name', 'xray-email-form');
+    _xrParams.append('email', email);
+    _xrParams.append('domain', store);
+    _xrParams.append('source', _xrRef ? 'xray:' + _xrRef : 'xray');
+    _xrParams.append('ref', _xrRef);
+    _xrParams.append('bot-field', '');
+
+    fetch('https://storescope.netlify.app/', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        email: email,
-        domain: store,
-        source: _xrRef ? 'xray:' + _xrRef : 'xray'
-      })
-    }).then(function(r) {
-      if (!r.ok) {
-        console.error('[/leads] non-2xx', r.status);
-        if (typeof gtag === 'function') {
-          gtag('event', 'exception', { description: 'leads_post_' + r.status, fatal: false });
-        }
-        _showDemoBanner();
-      }
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: _xrParams.toString()
+    }).then(function(_r) {
+      // no-cors = opaque response. Patrick McKenzie "never show error on lead form".
       showSuccess();
     }).catch(function(err) {
-      console.error('[/leads] network fail', err);
+      console.error('[netlify-xray] network fail', err);
       if (typeof gtag === 'function') {
-        gtag('event', 'exception', { description: 'leads_post_network_fail', fatal: false });
+        gtag('event', 'exception', { description: 'xray_netlify_offline', fatal: false });
       }
-      // D+22 R1: 네트워크 실패 = trycloudflare placeholder 또는 cold start fail → 사용자에게 demo 명시
-      _showDemoBanner();
+      // 여전히 success UI — 사용자 이메일 재입력 방지, admin 측 GA exception 으로 가시화.
       showSuccess();
     });
   }
