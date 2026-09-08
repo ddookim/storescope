@@ -2875,6 +2875,43 @@
     }
 
     /* ══════════════════════════════════════════════════════════
+       D+40 (2026-09-08) MOBILE OVERFLOW SAFETY NET
+       ══════════════════════════════════════════════════════════
+       Audit 발견: 375px viewport 에서 여러 요소 (nav CTA, dashboard mockup,
+       bento cards, hero H1) 우측 잘림. 원인: 부분적으로 fixed-width + flex
+       shrink 부재 + intrinsic min-content 위반.
+       광범위 safety net + 요소별 개별 fix.
+       ══════════════════════════════════════════════════════════ */
+    @media (max-width: 640px) {
+      /* 전역 safety net: 어떤 요소도 viewport 밖으로 못 나가게 */
+      body, .hero, .section, footer, nav, main {
+        max-width: 100vw !important;
+        overflow-x: hidden !important;
+      }
+      /* Nav CTA "Get Monday's list" 잘림 방지 — 축약 CTA 로 교체 */
+      .nav-mobile .btn-glow { font-size: 12px !important; padding: 6px 12px !important; white-space: nowrap; }
+      .nav-mobile .btn-glow::after { content: '' !important; }  /* 원래 텍스트 유지 */
+      /* Nav inner padding 축소 (32px → 16px) */
+      .nav-inner { padding: 0 16px !important; }
+      /* Dashboard mockup: sidebar 이미 hidden 이지만 main 이 overflow-x scroll 가능하도록 */
+      .dashboard-layout { display: block !important; min-height: auto !important; }
+      .hero-mockup-wrap { max-width: 100% !important; margin-top: 32px !important; }
+      .hero-mockup-inner {
+        overflow-x: auto !important;
+        overflow-y: hidden !important;
+        -webkit-overflow-scrolling: touch;
+      }
+      /* Bento cards: 이미 1 column 이지만 padding 축소로 컨텐츠 여유 확보 */
+      .bento-card { padding: 24px 20px !important; }
+      /* Before/After Grid: 2-column 강제 stack */
+      .ba-grid, .before-after-grid { grid-template-columns: 1fr !important; }
+      /* Container padding 축소 */
+      .container, main > section > div, .section-inner { padding-left: 20px !important; padding-right: 20px !important; }
+      /* Hero sub 축소 + 여백 축소 */
+      .hero-sub { font-size: 15px !important; padding: 0 8px !important; }
+    }
+
+    /* ══════════════════════════════════════════════════════════
        PRICING V2 — billing toggle + 3-way comparison
        ══════════════════════════════════════════════════════════ */
     /* REMOVED 2026-06-04: .billing-toggle* + .save-pill — annual 토글 HTML 제거 후 dead CSS 일괄 삭제. */
@@ -3821,8 +3858,12 @@
         nav_blog: "Blog",
         nav_contact: "Contact",
         hero_or_prefix: "or",
+        hero_digest_sample_link: "see this week's actual digest — free →",
+        hero_live_status_prefix: "Last refresh",
+        hero_live_status_products: "·",
+        hero_live_status_suffix: "new items",
         hero_xray_link: "try X-Ray on any store — free →",
-        counter_label_stores: "Shopify stores indexed",
+        counter_label_stores: "DTC brands curated",
         counter_label_products: "New products/week",
         counter_label_clusters: "Weekly new picks",
         compliance_label: "Compliance & data practices",
@@ -3857,9 +3898,10 @@
         nav_login: "Log in",
         nav_cta: "Get Monday's list",
         hero_eyebrow: "Live · refreshed every Monday at 9 AM UTC",
+        mockup_preview_label: "Illustrative preview",
         hero_h1_line1: "Shopify product trends,",
         hero_h1_line2: "every Monday.",
-        hero_sub: "We watch 50+ curated DTC brands and surface their newest product launches — every Monday morning, sorted by freshness, with vendor and category diversity built-in.",
+        hero_sub: "50+ curated DTC brands · every new launch, ranked and delivered Monday morning · no noise.",
         hero_scale: "Tracking 50+ curated DTC brands · ~1,000 new products each week · refreshed every Monday",
         beta_banner_text: "🧪 <strong>Early access</strong> — Public launch coming soon. Join the waitlist above for the first Monday digest (free). Product feedback: reply to any digest email.",
         contact_pill: "Contact",
@@ -4037,7 +4079,7 @@
 
         // FAQ 신규 3 + 기존 q 매핑
         faq_q_digest: "What exactly is in the Monday digest?",
-        faq_a_digest: "Top 20 (Starter) or unlimited (Pro) trending products from the past 7 days, ranked by Storm Score. Each product shows: store count adopting it, week-over-week delta, momentum score, price spread, and links to all stores carrying it.",
+        faq_a_digest: "Free weekly digest email: top 20 new products from the past 7 days across 50+ brands (title, vendor, category, price, launch date). Pro dashboard adds: Storm Score ranking (0-100), store count adopting, week-over-week delta, price spread, and links to all stores carrying it.",
         faq_q_diff: "How is this different from other product research tools?",
         faq_a_diff: "Most trend rankings weight absolute store count, which favors already-saturated products. Storm Score weights momentum (acceleration), log-scaled store count, and age decay — surfacing products still climbing. Focused on one thing: Shopify cross-store intelligence. No unrelated channels diluting the signal.",
         faq_q_trial_value: "What if I don't see value in 7 days?",
@@ -4062,7 +4104,7 @@
         ba_before_unit: "hrs",
         ba_after_unit: "min",
         ba_before_tagline: "every morning, before coffee",
-        ba_after_tagline: "Monday morning, with coffee",
+        ba_after_tagline: "Monday morning · Pro plan workflow",
         ba_step_b_1: "Open 30+ competitor tabs",
         ba_step_b_2: "Scroll each product catalog",
         ba_step_b_3: "Screenshot what looks new",
@@ -4076,6 +4118,7 @@
         ba_output_label: "Weekly output:",
         ba_output_before: "1–2 products",
         ba_output_after: "5–8 winners",
+        ba_tier_note: "Free weekly digest = step 1 (top 20 products by email). Steps 2–5 (Storm Score filtering, price spread, CSV export) require Pro plan.",
         ba_cta: "Get this Monday's digest",
         ba_cta_meta: "Free for 7 days · no card · cancel any time",
 
@@ -4189,8 +4232,12 @@
         nav_blog: "블로그",
         nav_contact: "연락처",
         hero_or_prefix: "또는",
+        hero_digest_sample_link: "이번 주 실제 다이제스트 보기 — 무료 →",
+        hero_live_status_prefix: "마지막 갱신",
+        hero_live_status_products: "·",
+        hero_live_status_suffix: "개 신규",
         hero_xray_link: "X-Ray 로 스토어 분석 — 무료 →",
-        counter_label_stores: "인덱스된 Shopify 스토어",
+        counter_label_stores: "엄선 DTC 브랜드",
         counter_label_products: "주간 신규 상품",
         counter_label_clusters: "매주 신상 픽",
         compliance_label: "컴플라이언스 및 데이터 취급",
@@ -4225,9 +4272,10 @@
         nav_login: "로그인",
         nav_cta: "월요일 리스트 받기",
         hero_eyebrow: "실시간 · 매주 월요일 오전 9시 UTC 갱신",
+        mockup_preview_label: "예시 미리보기",
         hero_h1_line1: "Shopify 상품 트렌드,",
         hero_h1_line2: "매주 월요일.",
-        hero_sub: "엄선 50+ DTC 브랜드의 신제품 런칭을 매주 월요일 아침 정리 — 벤더·카테고리 다양성 자동 반영, 신선도 순 정렬.",
+        hero_sub: "50+ 엄선 DTC 브랜드 · 모든 신제품 랭킹 · 매주 월요일 아침 배송 · 잡음 없음.",
         hero_scale: "엄선 50개+ DTC 브랜드 · 주간 신규 ~1,000개 상품 · 매주 월요일 갱신",
         beta_banner_text: "🧪 <strong>얼리 액세스</strong> — 정식 출시 준비 중. 위 폼으로 waitlist 참여 시 첫 월요 리포트 무료. 피드백: 리포트 이메일 회신 요청.",
         contact_pill: "연락처",
@@ -4386,7 +4434,7 @@
         plan_pro_cta_full: "7일 무료 체험 시작",
 
         faq_q_digest: "월요일 다이제스트에 정확히 무엇이 포함되나요?",
-        faq_a_digest: "지난 7일간 Storm Score로 랭킹된 상위 20개(Starter) 또는 무제한(Pro) 트렌드 상품. 각 상품: 채택 스토어 수, 주간 변화, 모멘텀 점수, 가격 분포, 모든 판매 스토어 링크.",
+        faq_a_digest: "무료 주간 다이제스트 이메일: 50+ 브랜드의 지난 7일 신제품 상위 20개 (제목, 벤더, 카테고리, 가격, 출시일). Pro 대시보드 추가: Storm Score 랭킹 (0-100), 채택 스토어 수, 주간 변화, 가격 분포, 모든 판매 스토어 링크.",
         faq_q_diff: "다른 상품 리서치 도구와 어떻게 다른가요?",
         faq_a_diff: "대부분의 트렌드 랭킹은 절대 스토어 수에 가중치를 두어 이미 포화된 상품이 유리합니다. Storm Score는 모멘텀(가속도), 로그 스케일 스토어 수, 시간 감쇠에 가중치를 두어 아직 부상 중인 상품을 노출합니다. Shopify 크로스 스토어 인텔리전스 한 가지에 집중 — 관련 없는 채널이 신호를 희석시키지 않습니다.",
         faq_q_trial_value: "7일 동안 가치를 못 느끼면?",
@@ -4407,7 +4455,7 @@
         ba_before_unit: "시간",
         ba_after_unit: "분",
         ba_before_tagline: "매일 아침, 커피 전에",
-        ba_after_tagline: "월요일 아침, 커피와 함께",
+        ba_after_tagline: "월요일 아침 · Pro 플랜 워크플로우",
         ba_step_b_1: "30개+ 경쟁사 탭 열기",
         ba_step_b_2: "각 상품 카탈로그 스크롤",
         ba_step_b_3: "새로 보이는 것 스크린샷",
@@ -4421,6 +4469,7 @@
         ba_output_label: "주간 산출:",
         ba_output_before: "1-2개 상품",
         ba_output_after: "5-8개 위너",
+        ba_tier_note: "무료 주간 다이제스트 = 1단계 (이메일로 상위 20개 상품). 2-5단계 (Storm Score 필터링, 가격 분포, CSV 내보내기) 는 Pro 플랜 필요.",
         ba_cta: "이번 월요일 다이제스트 받기",
         ba_cta_meta: "7일 무료 · 카드 불필요 · 언제든 해지",
 
@@ -4530,8 +4579,12 @@
         nav_blog: "ブログ",
         nav_contact: "お問い合わせ",
         hero_or_prefix: "または",
+        hero_digest_sample_link: "今週の実際のダイジェストを見る — 無料 →",
+        hero_live_status_prefix: "最終更新",
+        hero_live_status_products: "·",
+        hero_live_status_suffix: "件新規",
         hero_xray_link: "任意のストアをX-Rayで分析 — 無料 →",
-        counter_label_stores: "インデックス済みShopifyストア",
+        counter_label_stores: "厳選DTCブランド",
         counter_label_products: "週間新商品",
         counter_label_clusters: "毎週の新着ピック",
         compliance_label: "コンプライアンス・データ取り扱い",
@@ -4566,9 +4619,10 @@
         nav_login: "ログイン",
         nav_cta: "月曜のリストを受け取る",
         hero_eyebrow: "ライブ · 毎週月曜午前9時 UTC 更新",
+        mockup_preview_label: "イメージプレビュー",
         hero_h1_line1: "Shopify商品のトレンドを",
         hero_h1_line2: "毎週月曜日。",
-        hero_sub: "厳選50+のDTCブランドの新製品を毎週月曜朝にお届け — ベンダー・カテゴリの多様性を自動反映、新鮮度順。",
+        hero_sub: "50+厳選DTCブランド · すべての新製品ランキング · 毎週月曜配信 · ノイズなし。",
         hero_scale: "厳選50以上のDTCブランド · 週間新規約1,000商品 · 毎週月曜更新",
         beta_banner_text: "🧪 <strong>早期アクセス</strong> — 正式リリース準備中。上のフォームから waitlist 参加で初回月曜ダイジェスト無料。フィードバックはダイジェストメールへ返信ください。",
         contact_pill: "お問い合わせ",
@@ -4727,7 +4781,7 @@
         plan_pro_cta_full: "7日間無料トライアル開始",
 
         faq_q_digest: "月曜ダイジェストに正確には何が含まれますか?",
-        faq_a_digest: "過去7日間でStorm Scoreでランキングされたトップ20(Starter)または無制限(Pro)のトレンド商品。各商品:採用ストア数、週次変化、モメンタムスコア、価格分布、全販売ストアへのリンク。",
+        faq_a_digest: "無料週次ダイジェストメール:50+ブランドの過去7日新製品トップ20 (タイトル、ベンダー、カテゴリ、価格、発売日)。Pro ダッシュボード追加:Storm Score ランキング (0-100)、採用ストア数、週次変化、価格分布、全販売ストアへのリンク。",
         faq_q_diff: "他の商品リサーチツールとどう違いますか?",
         faq_a_diff: "多くのトレンドランキングは絶対的なストア数を重視するため、すでに飽和した商品が有利になりがちです。Storm Scoreはモメンタム(加速度)、対数スケールのストア数、時間減衰を重視し、まだ台頭中の商品を表示します。Shopifyクロスストアインテリジェンス、この一つに集中しており、関連のないチャネルがシグナルを希釈することはありません。",
         faq_q_trial_value: "7日間で価値を感じなかったら?",
@@ -4748,7 +4802,7 @@
         ba_before_unit: "時間",
         ba_after_unit: "分",
         ba_before_tagline: "毎朝、コーヒーの前に",
-        ba_after_tagline: "月曜の朝、コーヒーと一緒に",
+        ba_after_tagline: "月曜の朝 · Pro プランワークフロー",
         ba_step_b_1: "30以上の競合タブを開く",
         ba_step_b_2: "各商品カタログをスクロール",
         ba_step_b_3: "新しく見えるものをスクリーンショット",
@@ -4762,6 +4816,7 @@
         ba_output_label: "週間アウトプット:",
         ba_output_before: "1-2商品",
         ba_output_after: "5-8勝者",
+        ba_tier_note: "無料週次ダイジェスト = ステップ1 (メールで上位20商品)。ステップ2-5 (Storm Scoreフィルタリング、価格分布、CSVエクスポート) は Pro プラン必要。",
         ba_cta: "今週月曜のダイジェストを受け取る",
         ba_cta_meta: "7日間無料 · カード不要 · いつでも解約",
 
@@ -5021,7 +5076,7 @@
     <span data-i18n="hero_h1_line1">Shopify product trends,</span><br>
     <span class="grad-text" data-i18n="hero_h1_line2">every Monday.</span>
   </h1>
-  <p class="hero-sub" data-i18n="hero_sub">We watch 50+ curated DTC brands and surface their newest product launches — every Monday morning, sorted by freshness, with vendor and category diversity built-in.</p>
+  <p class="hero-sub" data-i18n="hero_sub">50+ curated DTC brands · every new launch, ranked and delivered Monday morning · no noise.</p>
 
   <!-- FIX 2026-07-30 D+59 (design red team CRIT R3): 3 competing CTAs 제거.
        기존: btn-hero-primary + See pricing + email form = attention split.
@@ -5057,9 +5112,20 @@
   </form>
 
   <!-- Secondary action — text link, low visual weight (single-CTA rule 유지) -->
-  <p class="hero-secondary-action" style="text-align:center;margin:8px auto 18px;font-size:13.5px;color:var(--muted-2);">
+  <p class="hero-secondary-action" style="text-align:center;margin:8px auto 8px;font-size:13.5px;color:var(--muted-2);">
     <span data-i18n="hero_or_prefix">or</span>
-    <a href="#xray" data-i18n="hero_xray_link" style="color:#4338ca;text-decoration:underline;text-decoration-color:rgba(67,56,202,0.35);text-underline-offset:3px;font-weight:600;margin-left:4px;">try X-Ray on any store — free →</a>
+    <a href="./digest-sample.html?ref=hero" data-i18n="hero_digest_sample_link" style="color:#4338ca;text-decoration:underline;text-decoration-color:rgba(67,56,202,0.35);text-underline-offset:3px;font-weight:600;margin-left:4px;">see this week's actual digest — free →</a>
+  </p>
+  <!-- D+40 fix (2026-09-08) social proof: 실 최신 pipeline 실행 데이터 표시.
+       latest_products_meta.json 에서 값 로드 (fallback = static). "Live · builds
+       weekly" 신뢰 시각 — 실 트래픽 있어야만 있는 정보 노출. -->
+  <p id="hero-live-status" class="hero-live-status" style="text-align:center;margin:0 auto 20px;font-size:12px;color:var(--muted-2);letter-spacing:0.2px;">
+    <span class="hero-live-dot" aria-hidden="true" style="display:inline-block;width:5px;height:5px;border-radius:50%;background:#059669;box-shadow:0 0 0 3px rgba(5,150,105,0.15);margin-right:6px;vertical-align:middle;animation:livepulse 2s infinite;"></span>
+    <span data-i18n="hero_live_status_prefix">Last refresh</span>
+    <span id="hero-live-date" style="font-family:'JetBrains Mono','SF Mono',monospace;font-size:11.5px;color:#3D3935;letter-spacing:-0.2px;">…</span>
+    <span data-i18n="hero_live_status_products" style="margin-left:6px;">·</span>
+    <span id="hero-live-count" style="font-family:'JetBrains Mono','SF Mono',monospace;font-size:11.5px;color:#3D3935;letter-spacing:-0.2px;">…</span>
+    <span data-i18n="hero_live_status_suffix" style="margin-left:2px;">new items</span>
   </p>
 
   <!-- UPGRADE 2026-06-08: hero-alerts 제거 — 3D dashboard mockup이 동일 가치 제공 (제품 시각).
@@ -5068,7 +5134,7 @@
   <div class="hero-counters" aria-label="Index statistics">
     <div class="hero-counter">
       <span class="hero-counter-num" data-target="50" data-suffix="+">0</span>
-      <span class="hero-counter-label" data-i18n="counter_label_stores">Shopify stores indexed</span>
+      <span class="hero-counter-label" data-i18n="counter_label_stores">DTC brands curated</span>
     </div>
     <div class="hero-counter-sep" aria-hidden="true">·</div>
     <div class="hero-counter">
@@ -5100,6 +5166,17 @@
         </div>
         <span class="badge badge-live" style="margin-left:auto;">● <span data-i18n="dash_this_week_badge">This week</span></span>
       </div>
+      <!-- D+40 fix (2026-09-08): mockup honesty label.
+           이전 mockup 이 fabricated 상품 (Projector, LED Lights 등) + Storm Score
+           보여줌 → 실 latest_products.json 은 다른 상품. 사용자 memory rule
+           feedback_no_false_advertising 정합. "Preview" 라벨로 illustrative 명시. -->
+      <div class="mockup-preview-label"
+           style="position:absolute;top:16px;right:16px;z-index:5;
+                  background:rgba(15,23,42,0.75);color:#F5F5F4;
+                  padding:5px 11px;border-radius:100px;font-size:10.5px;
+                  font-weight:700;letter-spacing:0.6px;text-transform:uppercase;
+                  backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,0.14);"
+           data-i18n="mockup_preview_label">Illustrative preview</div>
       <div class="dashboard-bg">
         <div class="dashboard-layout">
           <!-- sidebar -->
@@ -5356,7 +5433,7 @@
         <span class="ba-badge good" data-i18n="ba_badge_after">With StoreScope</span>
         <div class="ba-eyebrow" data-i18n="ba_after_eyebrow">Monday digest workflow</div>
         <div class="ba-number">10<span class="ba-number-unit" data-i18n="ba_after_unit">min</span></div>
-        <div class="ba-tagline" data-i18n="ba_after_tagline">Monday morning, with coffee</div>
+        <div class="ba-tagline" data-i18n="ba_after_tagline">Monday morning · Pro plan workflow</div>
 
         <ul class="ba-steps">
           <li class="ba-step">
@@ -5403,6 +5480,12 @@
       </div>
 
     </div>
+
+    <!-- D+40 fix: free vs paid tier 명시 (audit CRIT C3). 이전엔 workflow 전체가
+         free digest 인 것처럼 보임 → 실체 gap. 이제 명시. -->
+    <p class="ba-tier-note" style="text-align:center;margin:24px auto 12px;max-width:520px;font-size:12.5px;color:var(--muted-2);line-height:1.5;">
+      <span data-i18n="ba_tier_note">Free weekly digest = step 1 (top 20 products by email). Steps 2–5 (Storm Score filtering, price spread, CSV export) require Pro plan.</span>
+    </p>
 
     <div class="ba-cta-row">
       <button onclick="openCheckout('pri_01ksj3qpjyxsv2kprvxn7dpk10')" class="btn-hero-primary" style="font-size:15px;padding:15px 32px;">
@@ -6544,7 +6627,7 @@
         <div class="faq-item">
           <details open>
             <summary data-i18n="faq_q_digest">What exactly is in the Monday digest?</summary>
-            <p data-i18n="faq_a_digest">A ranked list of every product gaining adoption across 50+ curated DTC brands this week. Each row shows: product name, total store count, week-over-week growth %, price spread (min/median/max across stores), and Storm Score 0–100. Filter to Score 80+ and you have your sourcing shortlist in 30 seconds.</p>
+            <p data-i18n="faq_a_digest">Free weekly digest email: top 20 new products from the past 7 days across 50+ brands (title, vendor, category, price, launch date). Pro dashboard adds: Storm Score ranking (0-100), store count adopting, week-over-week delta, price spread, and links to all stores carrying it.</p>
           </details>
         </div>
         <div class="faq-item">
@@ -6880,6 +6963,43 @@
     var keys = ['xr_step_1', 'xr_step_2', 'xr_step_3', 'xr_step_4', 'xr_step_5', 'xr_step_6'];
     XR_STEPS = keys.map(function(k) { return dict[k] || XR_STEPS[keys.indexOf(k)]; });
   };
+
+  /* D+40 fix (2026-09-08) social proof — 실 latest_products_meta.json 값 로드하여
+     hero-live-status 채움. 실 pipeline 실행 근거 신뢰 신호 (audit HIGH H2). */
+  (function loadHeroLiveStatus() {
+    var loadIt = function() {
+      // 시도 1: root canonical, 시도 2: latest_products.json fallback (meta 없을 시)
+      fetch('./latest_products_meta.json', { cache: 'no-store' })
+        .then(function(r) { if (!r.ok) throw new Error('no meta'); return r.json(); })
+        .then(function(m) {
+          var dateEl  = document.getElementById('hero-live-date');
+          var countEl = document.getElementById('hero-live-count');
+          if (!dateEl || !countEl) return;
+          // generated_at ISO → 사용자 시각 (YYYY-MM-DD)
+          if (m.generated_at) {
+            var dt = new Date(m.generated_at);
+            var iso = dt.toISOString().slice(0, 10);  // YYYY-MM-DD UTC
+            dateEl.textContent = iso;
+          }
+          // total_after_dedupe = 이번 주 실 수치 · comma-formatted
+          if (typeof m.total_after_dedupe === 'number') {
+            countEl.textContent = m.total_after_dedupe.toLocaleString('en-US');
+          }
+        })
+        .catch(function() {
+          // Meta 없거나 실패 시 정적 fallback (배포 초기 시나리오)
+          var dateEl  = document.getElementById('hero-live-date');
+          var countEl = document.getElementById('hero-live-count');
+          if (dateEl) dateEl.textContent = 'this Monday';
+          if (countEl) countEl.textContent = '1,000';
+        });
+    };
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', loadIt);
+    } else {
+      loadIt();
+    }
+  })();
   // initial apply (DOMContentLoaded 시 STORESCOPE_I18N_APPLY → REFRESH_XR_STEPS 호출됨)
   var XR_TOTAL_MS = 5800;        // total fake progress duration — feels real but not slow
   var XR_TICK_MS = 60;           // progress bar update interval
