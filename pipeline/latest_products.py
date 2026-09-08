@@ -53,6 +53,55 @@ def _parse_iso(s: str) -> datetime | None:
         return None
 
 
+# D+40 (2026-09-08) — Category/vendor name normalization for public digest display.
+# 이전 raw Shopify data: "Mens>Apparel>SS Tops>t_shirt", "EDC - WALLET - RIDGE WALLET - SINGLE",
+# "Gymshark | Be a visionary." — 랜딩 digest UI 에 그대로 노출 = unprofessional.
+# 이 함수들은 raw 값을 사람이 읽기 좋은 형태로 정규화 (원본은 훼손 X, DB 는 raw 저장).
+
+def _normalize_product_type(raw: str) -> str:
+    """Shopify product_type → 사람이 읽기 좋은 카테고리 이름.
+    - "A>B>C>d_efg" → 마지막 leaf 만 사용 → title case 로 정리 → "D Efg"
+    - "A - B - C - SINGLE" → 첫 segment 만 사용 → title case
+    - "Semi-Permanent" 같이 이미 깨끗하면 유지.
+    - 빈 값 → "Uncategorized"
+    """
+    if not raw:
+        return "Uncategorized"
+    s = raw.strip()
+    # 계층 구분자 (>) → 마지막 leaf 사용
+    if ">" in s:
+        s = s.split(">")[-1]
+    # 대시 구분 (Bumper 스타일 EDC 카테고리) → 첫 segment
+    if " - " in s and s.count(" - ") >= 2:
+        s = s.split(" - ")[0]
+    # snake / underscore → space
+    s = s.replace("_", " ").replace("-", " ").strip()
+    # 짧은 all-uppercase 약어 (EDC, PPE, DTC 등 <= 4 char) 유지, 그 외 title case
+    if s.islower():
+        s = s.title()
+    elif s.isupper() and len(s) > 4:
+        # 긴 all-caps ("WALLET", "SWEATSHIRT") 는 title case
+        s = s.title()
+    # 약어 (isupper() and len <= 4) 는 그대로 유지
+    return s[:40] if s else "Uncategorized"
+
+
+def _normalize_vendor(raw: str) -> str:
+    """Shopify vendor → 브랜드 이름만.
+    - "Gymshark | Be a visionary." → "Gymshark" (파이프 앞)
+    - "Everlane :: SF" → "Everlane" (dbl colon 앞)
+    - "Ridge — Official" → "Ridge" (em-dash 앞)
+    """
+    if not raw:
+        return ""
+    s = raw.strip()
+    for sep in (" | ", "|", " :: ", "::", " — ", " – ", " - "):
+        if sep in s:
+            s = s.split(sep)[0].strip()
+            break
+    return s[:40]
+
+
 def _extract_products(now: datetime) -> list[dict]:
     """모든 스토어의 최신 상품 추출 (30일 이내 published, 정렬 준비된 flat list)."""
     cutoff = now.timestamp() - LOOKBACK_DAYS * 86400
@@ -90,8 +139,11 @@ def _extract_products(now: datetime) -> list[dict]:
                 "domain": domain,
                 "title": title[:120],
                 "handle": p.get("handle", ""),
-                "product_type": p.get("product_type", ""),
-                "vendor": p.get("vendor", ""),
+                # D+40: raw + normalized 둘 다 노출 (호환성 + 디스플레이용)
+                "product_type": _normalize_product_type(p.get("product_type", "")),
+                "product_type_raw": p.get("product_type", ""),
+                "vendor": _normalize_vendor(p.get("vendor", "")),
+                "vendor_raw": p.get("vendor", ""),
                 "published_at": p["published_at"],
                 "price": price,
                 "image_url": image_url,

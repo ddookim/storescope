@@ -86,6 +86,33 @@ def _is_duplicate_event(event_id: str, event_type: str) -> bool:
 
 _log = logging.getLogger(__name__)
 
+
+# ── D+40 (2026-09-08) Dead-man freshness gate (server-side enforcement) ──
+def _check_data_freshness() -> Optional[float]:
+    """마지막 trend_snapshot 나이(hours) 반환. None = DB/테이블 없음 (fail-closed).
+
+    subscription.activated webhook 진입 전 호출 → 72h 초과 시 결제 차단.
+    이전엔 client-only check → devtools 우회 + fetch 실패 시 fail-open 이라
+    stale 상태에서도 결제 통과 (backend audit CRIT #1).
+    """
+    try:
+        with get_conn() as conn:
+            with conn.cursor() as cur:
+                cur.execute(
+                    "SELECT EXTRACT(EPOCH FROM (NOW() - MAX(snapshot_at))) / 3600.0 "
+                    "FROM trend_snapshots"
+                )
+                row = cur.fetchone()
+                if row is None or row[0] is None:
+                    return None  # 테이블 있으나 데이터 없음 = fail-closed
+                return float(row[0])
+    except Exception as exc:
+        # DB 다운 or trend_snapshots 테이블 없음 → fail-closed (결제 차단).
+        # 이전 audit CRIT: fail-open 이라 안전장치 무효화되던 것 반전.
+        _log.exception("Freshness check failed — fail-closed (%s)", exc)
+        return None
+
+
 router = APIRouter(prefix="/billing", tags=["billing"])
 
 PADDLE_API_KEY     = os.environ.get("PADDLE_API_KEY", "")
@@ -304,6 +331,39 @@ async def paddle_webhook(
         plan            = _resolve_plan(price_id)
         trial_dates     = data.get("trial_dates") or {}
         trial_ends_at   = trial_dates.get("ends_at")  # ISO8601 string or None
+
+        # D+40 fix (2026-09-08): Dead-man freshness switch SERVER enforcement.
+        # 이전엔 client-side 만 있어 devtools 로 우회 or fetch 실패 시 fail-open →
+        # 데이터 stale 상태에서 결제 통과 = 매출/신뢰 리스크. 이제 server-side hard-block.
+        # trend_snapshots 없거나 snapshot_at > 72h 오래되면 202 (Paddle 이 재시도) + alert.
+        _stale_hours = _check_data_freshness()
+        if _stale_hours is None or _stale_hours > 72:
+            send_alert(
+                f"CRITICAL: 결제 시도 차단 (데이터 stale)\n"
+                f"stale_hours: {_stale_hours}\n"
+                f"customer_id: {customer_id}\n"
+                f"조치: pipeline 실행 후 Paddle event 수동 재처리 (또는 자동 재시도 대기)",
+                level="CRITICAL",
+            )
+            _log.critical(
+                "subscription.activated blocked — stale data (hours=%s, customer=%s)",
+                _stale_hours, customer_id,
+            )
+            # 202 = accepted but not processed. Paddle 재시도 스케줄에 위임.
+            # idempotency 롤백해서 다음 재시도 시 정상 처리 가능.
+            try:
+                with get_conn() as _conn:
+                    with _conn.cursor() as _cur:
+                        _cur.execute(
+                            "DELETE FROM paddle_processed_events WHERE event_id = %s",
+                            (event_id,),
+                        )
+            except Exception:
+                _log.exception("idempotency rollback 실패 (stale-block path)")
+            raise HTTPException(
+                status_code=202,
+                detail="data freshness gate open — retry after pipeline refresh",
+            )
         try:
             await loop.run_in_executor(
                 None, _handle_new_subscription,

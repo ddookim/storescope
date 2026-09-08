@@ -143,7 +143,7 @@
   </script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>StoreScope — Shopify product trends, a week early</title>
-  <meta name="description" content="StoreScope scans 50+ curated DTC brands weekly and produces a Monday-morning digest of new products by category. 5k+ products indexed. Free 7-day trial, no card required." />
+  <meta name="description" content="StoreScope scans 50+ curated DTC brands weekly and produces a Monday-morning digest of new products by category. 100k+ products crawled cumulatively, 1,000+ new items surfaced each week. Free 7-day trial, no card required." />
   <meta name="robots" content="index, follow, max-image-preview:large" />
   <meta name="theme-color" content="#4F46E5" />
 
@@ -232,7 +232,7 @@
         "name": "StoreScope",
         "applicationCategory": "BusinessApplication",
         "operatingSystem": "Web",
-        "description": "Cross-store Shopify product intelligence. 5k+ products indexed across 40+ curated brands with weekly trend scoring.",
+        "description": "Cross-store Shopify product intelligence. 100k+ products crawled cumulatively across 50+ curated DTC brands, with weekly trend scoring on ~1,000 new items each Monday.",
         "offers": [
           {
             "@type": "Offer",
@@ -259,7 +259,7 @@
       {
         "@type": "FAQPage",
         "mainEntity": [
-          { "@type": "Question", "name": "How do I access my account after payment?", "acceptedAnswer": { "@type": "Answer", "text": "Right after payment, you receive a confirmation email with your dashboard link and access credentials. Manage or cancel anytime via the Paddle billing link." } },
+          { "@type": "Question", "name": "How do I access my account after payment?", "acceptedAnswer": { "@type": "Answer", "text": "Right after checkout, we email you your API key and a getting-started guide (headers, first request examples). Manage or cancel anytime via the Paddle billing link in that email. Email delivery under 5 min in normal conditions — if you don't see it, check spam or write support@storescope.com." } },
           { "@type": "Question", "name": "Where does StoreScope's data come from?", "acceptedAnswer": { "@type": "Answer", "text": "StoreScope only indexes publicly available product data via Shopify's open /products.json endpoint. We comply with robots.txt and offer merchant opt-out." } },
           { "@type": "Question", "name": "What is the Storm Score?", "acceptedAnswer": { "@type": "Answer", "text": "Storm Score (0–100) combines week-over-week store adoption rate, total store count, and growth velocity. 80+ signals strong momentum. Updated weekly." } },
           { "@type": "Question", "name": "How often is the data updated?", "acceptedAnswer": { "@type": "Answer", "text": "The full index is refreshed weekly. Trending snapshots accumulate over time, building historical trend data." } },
@@ -313,7 +313,7 @@
       var m = _msgs[lang] || _msgs.en;
       var el = document.createElement('div');
       el.style.cssText = 'position:fixed;bottom:16px;right:16px;max-width:340px;background:#1C1917;color:#F5F5F4;padding:14px 16px;border-radius:10px;font:14px/1.4 -apple-system,system-ui,sans-serif;box-shadow:0 8px 24px rgba(0,0,0,0.2);z-index:99999;';
-      el.innerHTML = '<div style="margin-bottom:8px">' + m.body + ' <a href="./landing/privacy.html" style="color:#A5B4FC;text-decoration:underline">' + m.privacy + '</a></div><button id="ss-consent-accept" style="background:#4F46E5;color:#fff;border:0;padding:6px 14px;border-radius:6px;font-weight:600;cursor:pointer;margin-right:6px">' + m.accept + '</button><button id="ss-consent-decline" style="background:transparent;color:#D6D3D1;border:1px solid #57534E;padding:6px 14px;border-radius:6px;font-weight:600;cursor:pointer">' + m.decline + '</button>';
+      el.innerHTML = '<div style="margin-bottom:8px">' + m.body + ' <a href="./privacy.html" style="color:#A5B4FC;text-decoration:underline">' + m.privacy + '</a></div><button id="ss-consent-accept" style="background:#4F46E5;color:#fff;border:0;padding:6px 14px;border-radius:6px;font-weight:600;cursor:pointer;margin-right:6px">' + m.accept + '</button><button id="ss-consent-decline" style="background:transparent;color:#D6D3D1;border:1px solid #57534E;padding:6px 14px;border-radius:6px;font-weight:600;cursor:pointer">' + m.decline + '</button>';
       document.body.appendChild(el);
       document.getElementById('ss-consent-accept').onclick = function() {
         gtag('consent', 'update', {'analytics_storage': 'granted'});
@@ -891,7 +891,7 @@
       color: var(--muted); margin-bottom: 14px;
     }
 
-    /* ── Trend Score mini chart ── */
+    /* ── Storm Score mini chart ── */
     .bc-chart {
       margin-top: 28px; background: rgba(244,241,236,0.9);
       border: 1px solid rgba(28,25,23,0.07); border-radius: 12px; padding: 18px;
@@ -3823,7 +3823,7 @@
         hero_or_prefix: "or",
         hero_xray_link: "try X-Ray on any store — free →",
         counter_label_stores: "Shopify stores indexed",
-        counter_label_products: "Products tracked",
+        counter_label_products: "New products/week",
         counter_label_clusters: "Weekly new picks",
         compliance_label: "Compliance & data practices",
         compliance_gdpr: "GDPR ready",
@@ -3837,7 +3837,7 @@
         cmp_sub: "Two ways to rank Shopify products. One tells you what's already peaked. The other tells you what's about to.",
         cmp_col_old_tag: "Traditional",
         cmp_col_old_title: "Absolute store count / bestseller lists",
-        cmp_col_new_tag: "Storm Score V2",
+        cmp_col_new_tag: "Storm Score",
         cmp_col_new_title: "Cross-store momentum + age decay",
         cmp_old_1: "Ranks by how many stores currently stock a product",
         cmp_old_2: "Winners = already saturated (200+ stores, tight margins)",
@@ -3856,11 +3856,11 @@
         nav_xray: "Free X-Ray Tool",
         nav_login: "Log in",
         nav_cta: "Get Monday's list",
-        hero_eyebrow: "Live · refreshed every Monday at 9 AM",
+        hero_eyebrow: "Live · refreshed every Monday at 9 AM UTC",
         hero_h1_line1: "Shopify product trends,",
         hero_h1_line2: "every Monday.",
         hero_sub: "We watch 50+ curated DTC brands and surface their newest product launches — every Monday morning, sorted by freshness, with vendor and category diversity built-in.",
-        hero_scale: "Tracking 50+ curated DTC brands · 5,000+ products · refreshed weekly",
+        hero_scale: "Tracking 50+ curated DTC brands · ~1,000 new products each week · refreshed every Monday",
         beta_banner_text: "🧪 <strong>Early access</strong> — Public launch coming soon. Join the waitlist above for the first Monday digest (free). Product feedback: reply to any digest email.",
         contact_pill: "Contact",
         contact_h2: "Reach the founder directly.",
@@ -3873,11 +3873,11 @@
         contact_topic_press: "Press / interview",
         contact_submit: "Send message →",
         contact_note: "Or email <strong>support@storescope.com</strong> once the custom domain launches (Q4 2026).",
-        hero_email_submit: "Join early access →",
+        hero_email_submit: "Get Monday's digest →",
         hero_email_trust_1: "First Monday digest free",
         hero_email_trust_2: "No spam",
         hero_email_trust_3: "Unsubscribe anytime",
-        hero_trust_line: "Independent · Bootstrapped · Early access preview",
+        hero_trust_line: "Independent · Bootstrapped · Built for Shopify operators",
         lang_switch_label: "Language",
         xr_url_error: "Please enter a Shopify store URL — e.g. example.myshopify.com",
         xr_demo_banner: "Demo mode — Live API still connecting. The real report goes out the day after we launch.",
@@ -3946,7 +3946,7 @@
         // FAQ section
         faq_pill: "FAQ",
         faq_h2: "Questions we hear most often.",
-        faq_q_trend_score: "What is the Trend Score?",
+        faq_q_trend_score: "What is the Storm Score?",
         faq_a_trend_score: "Storm Score (0-100) combines week-over-week store adoption, momentum (acceleration), and total store count. 80+ signals strong rising momentum.",
         faq_q_freshness: "How often is the data updated?",
         faq_a_freshness: "Full index refresh every Monday at 9 AM UTC. Trend snapshots accumulate weekly, building historical data.",
@@ -3955,7 +3955,7 @@
         faq_q_optout: "I'm a merchant — can I request my store be excluded?",
         faq_a_optout: "Yes, instantly. Email optout@storescope.com with your .myshopify.com domain. Excluded from all future index runs within 48 hours.",
         faq_q_account: "How do I access my account after payment?",
-        faq_a_account: "Right after payment, you receive a confirmation email with your dashboard link and access credentials. Manage or cancel anytime via Paddle billing portal.",
+        faq_a_account: "Right after checkout, we email you your API key and a getting-started guide (headers + first request examples). Manage or cancel anytime via the Paddle billing link in that email. Email delivery under 5 min in normal conditions — if you don't see it, check spam or write support@storescope.com.",
 
         // Footer
         footer_tagline: "Cross-store Shopify product intelligence — refreshed every Monday.",
@@ -4013,7 +4013,7 @@
         plan_starter_desc_full: "For solo sourcers who want Monday's ranked list ready when they sit down.",
         plan_starter_feat_full_1: "Monday digest — top 20 trending products",
         plan_starter_feat_full_2: "X-ray any Shopify store",
-        plan_starter_feat_full_3: "Trend Score on every product — filter 80+ winners",
+        plan_starter_feat_full_3: "Storm Score on every product — filter 80+ winners",
         plan_starter_feat_full_4: "Price spread: min / median / max across stores",
         plan_starter_feat_full_5: "Email support",
         plan_starter_feat_disabled_1: "30-day trend history per product",
@@ -4026,7 +4026,7 @@
         plan_pro_desc_full: "For power users and agencies that need the full 30-day history, API access, and unlimited exports.",
         plan_pro_feat_full_1: "Monday digest — unlimited trending products",
         plan_pro_feat_full_2: "X-ray any Shopify store (unlimited lookups)",
-        plan_pro_feat_full_3: "Trend Score on every product — filter 80+ winners",
+        plan_pro_feat_full_3: "Storm Score on every product — filter 80+ winners",
         plan_pro_feat_full_4: "Price spread: min / median / max across stores",
         plan_pro_feat_full_5: "Email support",
         plan_pro_feat_unlocked_1: "30-day trend history per product",
@@ -4069,7 +4069,7 @@
         ba_step_b_4: "Guess which will win",
         ba_step_b_5: "Source 1–2 products on gut feel",
         ba_step_a_1: "Open Monday digest email",
-        ba_step_a_2: "Filter Trend Score 80+",
+        ba_step_a_2: "Filter Storm Score 80+",
         ba_step_a_3: "Cross-reference price spread",
         ba_step_a_4: "Pick 5–8 winners with known margin",
         ba_step_a_5: "Export to sourcing sheet",
@@ -4110,13 +4110,13 @@
         dash_billing: "Billing",
         dash_this_week_badge: "This week",
         dash_filter_min_stores: "Min stores: 5+",
-        dash_filter_sort_score: "Sort: Trend Score ↓",
+        dash_filter_sort_score: "Sort: Storm Score ↓",
         dash_clusters_badge: "50+ clusters",
         category_electronics: "Electronics",
         category_home_decor: "Home Decor",
         category_automotive: "Automotive",
         category_kitchen: "Kitchen",
-        dash_trend_score: "Trend Score",
+        dash_trend_score: "Storm Score",
         dash_trending_this_week: "Trending Products This Week",
         demo_section_sub: "The same dashboard your account opens to. Refreshed every Monday. Below is a static preview; live data unlocks the moment you start your trial.",
         dash_col_product: "Product",
@@ -4131,7 +4131,7 @@
         how_pill: "How it works",
         how_step1_desc: "Public product data only — same as any shopper sees. Robots.txt respected. Any merchant can opt out.",
         how_step2_desc: "The same projector listed in 31 stores becomes one entry — with the full price range and the growth curve visible at a glance.",
-        how_step3_desc: "Dashboard refreshes every Monday. Filter Trend Score 80+, check price spread, pick what to source. About 10 minutes.",
+        how_step3_desc: "Dashboard refreshes every Monday. Filter Storm Score 80+, check price spread, pick what to source. About 10 minutes.",
         xr_sent_to_inbox: "Sent straight to your inbox",
         email_preview_section_sub: "Every Monday at 9 AM your timezone. Top trending clusters, week-over-week store delta, and price spread across stores. Read in coffee time.",
         email_disclaimer: "Sample for illustration. Real digest content is sourced from live Shopify data, refreshed weekly.",
@@ -4142,7 +4142,7 @@
         founder_body_2_strong: "Open beta",
         founder_body_2_rest: "means honest pricing and a direct line: reply to any email and you reach a person, not a support queue. Try Pro free for 7 days — plus a 14-day refund window once billing starts, no questions.",
         founder_data_shopify_stores: "Shopify stores",
-        founder_data_products: "Products tracked",
+        founder_data_products: "New products/week",
         founder_data_clusters: "Weekly digest picks",
         founder_data_refresh: "Full index refresh",
         founder_signoff_text: "Independent · Bootstrapped",
@@ -4191,7 +4191,7 @@
         hero_or_prefix: "또는",
         hero_xray_link: "X-Ray 로 스토어 분석 — 무료 →",
         counter_label_stores: "인덱스된 Shopify 스토어",
-        counter_label_products: "추적 중인 상품",
+        counter_label_products: "주간 신규 상품",
         counter_label_clusters: "매주 신상 픽",
         compliance_label: "컴플라이언스 및 데이터 취급",
         compliance_gdpr: "GDPR 대응",
@@ -4205,7 +4205,7 @@
         cmp_sub: "Shopify 상품을 랭킹하는 두 방식. 하나는 이미 정점을 지난 것을 알려주고, 다른 하나는 앞으로 올 것을 알려줍니다.",
         cmp_col_old_tag: "전통 방식",
         cmp_col_old_title: "절대 스토어 수 / 베스트셀러 리스트",
-        cmp_col_new_tag: "Storm Score V2",
+        cmp_col_new_tag: "Storm Score",
         cmp_col_new_title: "크로스 스토어 모멘텀 + 시간 감쇠",
         cmp_old_1: "현재 상품을 판매하는 스토어 수로 랭킹",
         cmp_old_2: "승자 = 이미 포화 (200+ 스토어, 좁은 마진)",
@@ -4224,11 +4224,11 @@
         nav_xray: "무료 X-Ray 도구",
         nav_login: "로그인",
         nav_cta: "월요일 리스트 받기",
-        hero_eyebrow: "실시간 · 매주 월요일 오전 9시 갱신",
+        hero_eyebrow: "실시간 · 매주 월요일 오전 9시 UTC 갱신",
         hero_h1_line1: "Shopify 상품 트렌드,",
         hero_h1_line2: "매주 월요일.",
         hero_sub: "엄선 50+ DTC 브랜드의 신제품 런칭을 매주 월요일 아침 정리 — 벤더·카테고리 다양성 자동 반영, 신선도 순 정렬.",
-        hero_scale: "엄선 50개+ DTC 브랜드 · 5,000+ 상품 · 매주 갱신",
+        hero_scale: "엄선 50개+ DTC 브랜드 · 주간 신규 ~1,000개 상품 · 매주 월요일 갱신",
         beta_banner_text: "🧪 <strong>얼리 액세스</strong> — 정식 출시 준비 중. 위 폼으로 waitlist 참여 시 첫 월요 리포트 무료. 피드백: 리포트 이메일 회신 요청.",
         contact_pill: "연락처",
         contact_h2: "창업자에게 직접 연락.",
@@ -4241,11 +4241,11 @@
         contact_topic_press: "미디어 / 인터뷰",
         contact_submit: "메시지 보내기 →",
         contact_note: "또는 <strong>support@storescope.com</strong> (도메인 출시 후, 2026 Q4 예정).",
-        hero_email_submit: "얼리 액세스 참여 →",
+        hero_email_submit: "월요 다이제스트 받기 →",
         hero_email_trust_1: "첫 월요 리포트 무료",
         hero_email_trust_2: "스팸 없음",
         hero_email_trust_3: "1클릭 구독 해지",
-        hero_trust_line: "독립 · 부트스트랩 · 얼리 액세스 프리뷰",
+        hero_trust_line: "독립 · 부트스트랩 · Shopify 운영자를 위한 도구",
         lang_switch_label: "언어",
         xr_url_error: "Shopify 스토어 URL을 입력하세요 — 예: example.myshopify.com",
         xr_demo_banner: "데모 모드 — 라이브 API 연결 중. 실제 리포트는 정식 출시 후 발송됩니다.",
@@ -4313,7 +4313,7 @@
         faq_q_optout: "머천트인데 — 제 스토어를 제외 요청할 수 있나요?",
         faq_a_optout: "네, 즉시 가능합니다. .myshopify.com 도메인을 적어 optout@storescope.com 으로 이메일하세요. 48시간 내 모든 향후 인덱스 실행에서 제외됩니다.",
         faq_q_account: "결제 후 계정 접속은 어떻게 하나요?",
-        faq_a_account: "결제 직후 대시보드 링크와 접속 자격 증명이 포함된 확인 이메일을 받습니다. Paddle 결제 포털로 언제든 관리 또는 해지.",
+        faq_a_account: "결제 직후 API 키와 시작 가이드(헤더 + 첫 요청 예시)가 담긴 이메일이 발송됩니다. 이메일 내 Paddle 결제 링크로 언제든 관리/해지 가능. 정상 조건에서 5분 이내 도착 — 안 오면 스팸함 확인 후 support@storescope.com 문의.",
 
         footer_tagline: "크로스 스토어 Shopify 상품 인텔리전스 — 매주 월요일 갱신.",
         footer_independent: "독립 · 부트스트랩 · VC 없음",
@@ -4483,7 +4483,7 @@
         founder_body_2_strong: "오픈 베타",
         founder_body_2_rest: "는 정직한 가격 정책과 직접 소통을 뜻합니다. 어떤 이메일이든 답장하면 지원 대기열이 아니라 실제 담당자에게 도달합니다. Pro를 7일간 무료 사용 — 결제 시작 후에도 14일 환불 창구 유지, 조건 없음.",
         founder_data_shopify_stores: "Shopify 스토어",
-        founder_data_products: "추적 상품",
+        founder_data_products: "주간 신규 상품",
         founder_data_clusters: "주간 다이제스트 픽",
         founder_data_refresh: "전체 인덱스 갱신",
         founder_signoff_text: "독립 · 부트스트랩",
@@ -4532,7 +4532,7 @@
         hero_or_prefix: "または",
         hero_xray_link: "任意のストアをX-Rayで分析 — 無料 →",
         counter_label_stores: "インデックス済みShopifyストア",
-        counter_label_products: "追跡中の商品",
+        counter_label_products: "週間新商品",
         counter_label_clusters: "毎週の新着ピック",
         compliance_label: "コンプライアンス・データ取り扱い",
         compliance_gdpr: "GDPR対応",
@@ -4546,7 +4546,7 @@
         cmp_sub: "Shopify商品をランキングする2つの方法。1つはすでにピークを過ぎたものを示し、もう1つは今から来るものを示します。",
         cmp_col_old_tag: "従来型",
         cmp_col_old_title: "絶対ストア数 / ベストセラーリスト",
-        cmp_col_new_tag: "Storm Score V2",
+        cmp_col_new_tag: "Storm Score",
         cmp_col_new_title: "クロスストアモメンタム + 時間減衰",
         cmp_old_1: "現在商品を扱っているストア数でランキング",
         cmp_old_2: "勝者 = すでに飽和 (200+ ストア、狭いマージン)",
@@ -4565,11 +4565,11 @@
         nav_xray: "無料X-Rayツール",
         nav_login: "ログイン",
         nav_cta: "月曜のリストを受け取る",
-        hero_eyebrow: "ライブ · 毎週月曜午前9時に更新",
+        hero_eyebrow: "ライブ · 毎週月曜午前9時 UTC 更新",
         hero_h1_line1: "Shopify商品のトレンドを",
         hero_h1_line2: "毎週月曜日。",
         hero_sub: "厳選50+のDTCブランドの新製品を毎週月曜朝にお届け — ベンダー・カテゴリの多様性を自動反映、新鮮度順。",
-        hero_scale: "厳選50以上のDTCブランド · 5,000以上の商品 · 毎週更新",
+        hero_scale: "厳選50以上のDTCブランド · 週間新規約1,000商品 · 毎週月曜更新",
         beta_banner_text: "🧪 <strong>早期アクセス</strong> — 正式リリース準備中。上のフォームから waitlist 参加で初回月曜ダイジェスト無料。フィードバックはダイジェストメールへ返信ください。",
         contact_pill: "お問い合わせ",
         contact_h2: "創業者に直接連絡。",
@@ -4582,11 +4582,11 @@
         contact_topic_press: "メディア / インタビュー",
         contact_submit: "メッセージ送信 →",
         contact_note: "またはドメインリリース後 <strong>support@storescope.com</strong> (2026 Q4 予定)。",
-        hero_email_submit: "早期アクセスに参加 →",
+        hero_email_submit: "月曜ダイジェスト受信 →",
         hero_email_trust_1: "初回月曜ダイジェスト無料",
         hero_email_trust_2: "スパムなし",
         hero_email_trust_3: "いつでも解除可",
-        hero_trust_line: "独立系 · ブートストラップ · 早期アクセスプレビュー",
+        hero_trust_line: "独立系 · ブートストラップ · Shopify運営者向け",
         lang_switch_label: "言語",
         xr_url_error: "ShopifyストアのURLを入力してください — 例: example.myshopify.com",
         xr_demo_banner: "デモモード — ライブAPI接続中。実際のレポートは正式リリース後に送信されます。",
@@ -4654,7 +4654,7 @@
         faq_q_optout: "マーチャントですが — ストアの除外をリクエストできますか?",
         faq_a_optout: "はい、即時可能。.myshopify.com ドメインを記載して optout@storescope.com までメール。48時間以内に今後すべてのインデックス実行から除外されます。",
         faq_q_account: "決済後のアカウントアクセスはどうしますか?",
-        faq_a_account: "決済直後、ダッシュボードリンクとアクセス認証情報を含む確認メールが届きます。Paddle請求ポータルでいつでも管理または解約。",
+        faq_a_account: "決済直後、APIキーとスタートガイド(ヘッダー+初回リクエスト例)がメールで届きます。メール内のPaddle請求リンクからいつでも管理・解約可能。通常5分以内に配信 — 届かない場合はスパムフォルダを確認、またはsupport@storescope.comまで。",
 
         footer_tagline: "クロスストアShopify商品インテリジェンス — 毎週月曜更新。",
         footer_independent: "独立 · ブートストラップ · VCなし",
@@ -4824,7 +4824,7 @@
         founder_body_2_strong: "オープンベータ",
         founder_body_2_rest: "は正直な価格設定と、直接つながる窓口を意味します。どのメールに返信いただいても、サポートキューではなく担当者本人に届きます。Proを7日間無料でお試し — 課金開始後も14日間の返金枠あり、条件なし。",
         founder_data_shopify_stores: "Shopifyストア",
-        founder_data_products: "追跡商品",
+        founder_data_products: "週間新商品",
         founder_data_clusters: "週次ダイジェストピック",
         founder_data_refresh: "全インデックス更新",
         founder_signoff_text: "独立 · ブートストラップ",
@@ -5015,7 +5015,7 @@
 <section class="hero">
   <div class="hero-eyebrow">
     <span class="hero-eyebrow-dot"></span>
-    <span data-i18n="hero_eyebrow">Live · refreshed every Monday at 9 AM</span>
+    <span data-i18n="hero_eyebrow">Live · refreshed every Monday at 9 AM UTC</span>
   </div>
   <h1>
     <span data-i18n="hero_h1_line1">Shopify product trends,</span><br>
@@ -5072,8 +5072,8 @@
     </div>
     <div class="hero-counter-sep" aria-hidden="true">·</div>
     <div class="hero-counter">
-      <span class="hero-counter-num" data-target="5000" data-suffix="+">0</span>
-      <span class="hero-counter-label" data-i18n="counter_label_products">Products tracked</span>
+      <span class="hero-counter-num" data-target="1000" data-suffix="+/wk">0</span>
+      <span class="hero-counter-label" data-i18n="counter_label_products">New products/week</span>
     </div>
     <div class="hero-counter-sep" aria-hidden="true">·</div>
     <div class="hero-counter">
@@ -5081,12 +5081,12 @@
       <span class="hero-counter-label" data-i18n="counter_label_clusters">Weekly new picks</span>
     </div>
   </div>
-  <p class="hero-scale-note" data-i18n="hero_scale" style="display:none;">Tracking 50+ curated DTC brands · 5,000+ products · refreshed weekly</p>
+  <p class="hero-scale-note" data-i18n="hero_scale" style="display:none;">Tracking 50+ curated DTC brands · ~1,000 new products each week · refreshed every Monday</p>
   <!-- D+14 No-JS fallback: JS 실행 안 하는 crawler/user 는 hero-counter-num "0" 대신 static scale note 노출. -->
   <noscript><style>.hero-scale-note{display:block!important;text-align:center;color:var(--muted-2);font-size:13px;margin-top:6px;}.hero-counter-num{visibility:hidden;}</style></noscript>
   <p class="hero-trust-line" style="text-align:center;font-size:12px;color:var(--muted-2);margin-top:6px;letter-spacing:0.6px;text-transform:uppercase;font-weight:600;">
     <!-- FIX 2026-07-29 D+58 HIGH: --muted (#A8A29E 2.38:1 vs cream) WCAG AA fail. --muted-2 (#78716C 4.6:1) 통과. -->
-    <span data-i18n="hero_trust_line">Independent · Bootstrapped · Early access preview</span>
+    <span data-i18n="hero_trust_line">Independent · Bootstrapped · Built for Shopify operators</span>
   </p>
 
   <!-- 3D browser mockup -->
@@ -5161,7 +5161,7 @@
                     <svg class="mini-spark" width="44" height="18" viewBox="0 0 44 18"><polyline points="0,16 7,12 14,9 21,6 29,4 37,2 44,0" fill="none" stroke="#34D399" stroke-width="1.5" stroke-linecap="round"/></svg>
                   </div>
                   <div class="score-bar-wrap">
-                    <div class="score-bar-label"><span data-i18n="dash_trend_score">Trend Score</span><span style="color:#C084FC;font-weight:700;">85</span></div>
+                    <div class="score-bar-label"><span data-i18n="dash_trend_score">Storm Score</span><span style="color:#C084FC;font-weight:700;">85</span></div>
                     <div class="score-bar"><div class="score-fill-purple" style="width:85%"></div></div>
                   </div>
                 </div>
@@ -5195,7 +5195,7 @@
                     <svg class="mini-spark" width="44" height="18" viewBox="0 0 44 18"><polyline points="0,16 7,13 14,10 21,7 29,5 37,3 44,1" fill="none" stroke="#34D399" stroke-width="1.5" stroke-linecap="round"/></svg>
                   </div>
                   <div class="score-bar-wrap">
-                    <div class="score-bar-label"><span data-i18n="dash_trend_score">Trend Score</span><span style="color:#C084FC;font-weight:700;">72</span></div>
+                    <div class="score-bar-label"><span data-i18n="dash_trend_score">Storm Score</span><span style="color:#C084FC;font-weight:700;">72</span></div>
                     <div class="score-bar"><div class="score-fill-purple" style="width:72%"></div></div>
                   </div>
                 </div>
@@ -5228,7 +5228,7 @@
                     <svg class="mini-spark" width="44" height="18" viewBox="0 0 44 18"><polyline points="0,16 7,14 14,12 21,10 29,8 37,6 44,4" fill="none" stroke="#FBBF24" stroke-width="1.5" stroke-linecap="round"/></svg>
                   </div>
                   <div class="score-bar-wrap">
-                    <div class="score-bar-label"><span data-i18n="dash_trend_score">Trend Score</span><span style="color:#FBBF24;font-weight:700;">58</span></div>
+                    <div class="score-bar-label"><span data-i18n="dash_trend_score">Storm Score</span><span style="color:#FBBF24;font-weight:700;">58</span></div>
                     <div class="score-bar"><div class="score-fill-amber" style="width:58%"></div></div>
                   </div>
                 </div>
@@ -5260,7 +5260,7 @@
                     <svg class="mini-spark" width="44" height="18" viewBox="0 0 44 18"><polyline points="0,16 7,15 14,13 21,11 29,9 37,8 44,6" fill="none" stroke="#FBBF24" stroke-width="1.5" stroke-linecap="round"/></svg>
                   </div>
                   <div class="score-bar-wrap">
-                    <div class="score-bar-label"><span data-i18n="dash_trend_score">Trend Score</span><span style="color:#FBBF24;font-weight:700;">47</span></div>
+                    <div class="score-bar-label"><span data-i18n="dash_trend_score">Storm Score</span><span style="color:#FBBF24;font-weight:700;">47</span></div>
                     <div class="score-bar"><div class="score-fill-amber" style="width:47%"></div></div>
                   </div>
                 </div>
@@ -5277,7 +5277,7 @@
 <!-- COUNTER BAR (restored to Round 3 / pre-medvi state) -->
 <div class="counter-bar">
   <div class="counter-inner">
-    <div class="counter-item"><div class="counter-num" data-target="5000" data-suffix="+">5k+</div><div class="counter-label" data-i18n="counter_products_indexed">Products indexed</div></div>
+    <div class="counter-item"><div class="counter-num" data-target="100000" data-suffix="+">100k+</div><div class="counter-label" data-i18n="counter_products_indexed">Products crawled (cumulative)</div></div>
     <div class="counter-item"><div class="counter-num" data-target="50" data-suffix="+">50+</div><div class="counter-label" data-i18n="counter_stores_tracked">DTC brands curated</div></div>
     <div class="counter-item"><div class="counter-num" data-target="20" data-suffix="+">20+</div><div class="counter-label" data-i18n="counter_trending_found">Weekly digest picks</div></div>
     <div class="counter-item"><div class="counter-num" data-i18n="counter_weekly">Weekly</div><div class="counter-label" data-i18n="counter_refresh_label">Index refresh · every Monday</div></div>
@@ -5369,7 +5369,7 @@
           <li class="ba-step">
             <span class="ba-step-left">
               <span class="ba-step-dot check">✓</span>
-              <span class="ba-step-text" data-i18n="ba_step_a_2">Filter Trend Score 80+</span>
+              <span class="ba-step-text" data-i18n="ba_step_a_2">Filter Storm Score 80+</span>
             </span>
             <span class="ba-step-time">06:02 AM</span>
           </li>
@@ -5656,7 +5656,7 @@
           </div>
         </div>
         <h3 data-i18n="how_step3_h3">3. Score by momentum, not raw count</h3>
-        <p data-i18n="how_step3_desc">Dashboard refreshes every Monday. Filter Trend Score 80+, check price spread, pick what to source. About 10 minutes.</p>
+        <p data-i18n="how_step3_desc">Dashboard refreshes every Monday. Filter Storm Score 80+, check price spread, pick what to source. About 10 minutes.</p>
       </div>
     </div>
   </div>
@@ -5686,7 +5686,7 @@
 
       <div class="cmp-col cmp-col--new">
         <div class="cmp-col-header">
-          <span class="cmp-tag cmp-tag--new" data-i18n="cmp_col_new_tag">Storm Score V2</span>
+          <span class="cmp-tag cmp-tag--new" data-i18n="cmp_col_new_tag">Storm Score</span>
           <h3 class="cmp-col-title" data-i18n="cmp_col_new_title">Cross-store momentum + age decay</h3>
         </div>
         <ul class="cmp-list">
@@ -5779,12 +5779,12 @@
             <span class="demo-content-title" data-i18n="dash_trending_this_week">Trending Products This Week</span>
             <div class="demo-controls">
               <span class="demo-chip" data-i18n="dash_filter_min_stores">Min stores: 5+</span>
-              <span class="demo-chip" data-i18n="dash_filter_sort_score">Sort: Trend Score ↓</span>
+              <span class="demo-chip" data-i18n="dash_filter_sort_score">Sort: Storm Score ↓</span>
               <span class="badge badge-live" data-i18n="dash_clusters_badge">50+ clusters</span>
             </div>
           </div>
           <div class="dg-head">
-            <span></span><span data-i18n="dash_col_product">Product</span><span data-i18n="dash_col_stores">Stores</span><span data-i18n="dash_col_price">Price Range</span><span data-i18n="dash_col_thisweek">This Week</span><span data-i18n="dash_trend_score">Trend Score</span>
+            <span></span><span data-i18n="dash_col_product">Product</span><span data-i18n="dash_col_stores">Stores</span><span data-i18n="dash_col_price">Price Range</span><span data-i18n="dash_col_thisweek">This Week</span><span data-i18n="dash_trend_score">Storm Score</span>
           </div>
 
           <div class="dg-row">
@@ -6094,8 +6094,8 @@
           <div class="founder-data-label" data-i18n="founder_data_shopify_stores">Curated DTC brands</div>
         </div>
         <div class="founder-data-stat">
-          <div class="founder-data-num">5k+</div>
-          <div class="founder-data-label" data-i18n="founder_data_products">Products tracked</div>
+          <div class="founder-data-num">100k+</div>
+          <div class="founder-data-label" data-i18n="founder_data_products">Products crawled</div>
         </div>
         <div class="founder-data-stat">
           <div class="founder-data-num">20+</div>
@@ -6172,7 +6172,7 @@
                 <span class="email-mock-divider">·</span>
                 <span class="email-mock-stat">$3.20 – $14.50</span>
                 <span class="email-mock-divider">·</span>
-                <span class="email-mock-trend"><span data-i18n="dash_trend_score">Trend Score</span> 86</span>
+                <span class="email-mock-trend"><span data-i18n="dash_trend_score">Storm Score</span> 86</span>
               </div>
               <div class="email-mock-bars">
                 <div class="email-mock-bar" style="height: 30%"></div>
@@ -6219,7 +6219,7 @@
                 <span class="email-mock-divider">·</span>
                 <span class="email-mock-stat">$9.99 – $24.00</span>
                 <span class="email-mock-divider">·</span>
-                <span class="email-mock-trend"><span data-i18n="dash_trend_score">Trend Score</span> 66</span>
+                <span class="email-mock-trend"><span data-i18n="dash_trend_score">Storm Score</span> 66</span>
               </div>
             </div>
           </div>
@@ -6257,7 +6257,7 @@
                 <span class="email-mock-divider">·</span>
                 <span class="email-mock-stat">$12.00 – $38.00</span>
                 <span class="email-mock-divider">·</span>
-                <span class="email-mock-trend"><span data-i18n="dash_trend_score">Trend Score</span> 52</span>
+                <span class="email-mock-trend"><span data-i18n="dash_trend_score">Storm Score</span> 52</span>
               </div>
             </div>
           </div>
@@ -6342,7 +6342,7 @@
         <ul class="plan-features">
           <li data-i18n="plan_starter_feat_full_1">Monday digest — top 20 trending products</li>
           <li data-i18n="plan_starter_feat_full_2">X-ray any Shopify store</li>
-          <li data-i18n="plan_starter_feat_full_3">Trend Score on every product — filter 80+ winners</li>
+          <li data-i18n="plan_starter_feat_full_3">Storm Score on every product — filter 80+ winners</li>
           <li data-i18n="plan_starter_feat_full_4">Price spread: min / median / max across stores</li>
           <li data-i18n="plan_starter_feat_full_5">Email support</li>
           <li class="plan-feat-sep" data-i18n="plan_pro_only_label">Pro only</li>
@@ -6366,7 +6366,7 @@
         <ul class="plan-features">
           <li data-i18n="plan_pro_feat_full_1">Monday digest — unlimited trending products</li>
           <li data-i18n="plan_pro_feat_full_2">X-ray any Shopify store (unlimited lookups)</li>
-          <li data-i18n="plan_pro_feat_full_3">Trend Score on every product — filter 80+ winners</li>
+          <li data-i18n="plan_pro_feat_full_3">Storm Score on every product — filter 80+ winners</li>
           <li data-i18n="plan_pro_feat_full_4">Price spread: min / median / max across stores</li>
           <li data-i18n="plan_pro_feat_full_5">Email support</li>
           <li class="plan-feat-sep" data-i18n="plan_unlocked_label">Unlocked in Pro</li>
@@ -6544,13 +6544,13 @@
         <div class="faq-item">
           <details open>
             <summary data-i18n="faq_q_digest">What exactly is in the Monday digest?</summary>
-            <p data-i18n="faq_a_digest">A ranked list of every product gaining adoption across 50+ curated DTC brands this week. Each row shows: product name, total store count, week-over-week growth %, price spread (min/median/max across stores), and Trend Score 0–100. Filter to Score 80+ and you have your sourcing shortlist in 30 seconds.</p>
+            <p data-i18n="faq_a_digest">A ranked list of every product gaining adoption across 50+ curated DTC brands this week. Each row shows: product name, total store count, week-over-week growth %, price spread (min/median/max across stores), and Storm Score 0–100. Filter to Score 80+ and you have your sourcing shortlist in 30 seconds.</p>
           </details>
         </div>
         <div class="faq-item">
           <details>
             <summary data-i18n="faq_q_trend_score">What is the Storm Score?</summary>
-            <p data-i18n="faq_a_trend_score">The Trend Score (0–100) combines three things: how fast the product is being added to new stores week-over-week, the total store count, and the overall growth rate. A score of 80 or higher usually means strong momentum that week. It's not a subjective rating — the score is calculated from real store data refreshed every Monday.</p>
+            <p data-i18n="faq_a_trend_score">The Storm Score (0–100) combines three things: how fast the product is being added to new stores week-over-week, the total store count, and the overall growth rate. A score of 80 or higher usually means strong momentum that week. It's not a subjective rating — the score is calculated from real store data refreshed every Monday.</p>
           </details>
         </div>
         <div class="faq-item">
@@ -6606,7 +6606,7 @@
         <div class="faq-item">
           <details>
             <summary data-i18n="faq_q_account">How do I access my account after payment?</summary>
-            <p data-i18n="faq_a_account">Right after checkout, you receive a confirmation email with your dashboard link and login credentials. No technical setup. Manage or cancel via the Paddle billing link in that same email. Questions: support@storescope.com.</p>
+            <p data-i18n="faq_a_account">Right after checkout, we email you your API key and a getting-started guide (headers + first request examples). Manage or cancel anytime via the Paddle billing link in that email. Email delivery under 5 min in normal conditions — if you don't see it, check spam or write support@storescope.com.</p>
           </details>
         </div>
       </div>
@@ -6728,9 +6728,9 @@
     <div class="footer-col">
       <h3 data-i18n="footer_col_legal">Legal</h3>
       <!-- 2026-07-31 D+60: KO sub pages 추가 (전자상거래법 §13/§17 대응). lang 기반 자동 분기. -->
-      <a href="./landing/privacy.html" class="footer-legal-link" data-legal="privacy" data-i18n="footer_link_privacy">Privacy</a>
-      <a href="./landing/terms.html" class="footer-legal-link" data-legal="terms" data-i18n="footer_link_terms">Terms</a>
-      <a href="./landing/refund.html" class="footer-legal-link" data-legal="refund" data-i18n="footer_link_refund">Refund</a>
+      <a href="./privacy.html" class="footer-legal-link" data-legal="privacy" data-i18n="footer_link_privacy">Privacy</a>
+      <a href="./terms.html" class="footer-legal-link" data-legal="terms" data-i18n="footer_link_terms">Terms</a>
+      <a href="./refund.html" class="footer-legal-link" data-legal="refund" data-i18n="footer_link_refund">Refund</a>
     </div>
     <!-- D+14 Red Tactic 2/3/5 internal linking: SEO surface 분산 → crawl budget 활용 -->
     <div class="footer-col">

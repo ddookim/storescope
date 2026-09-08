@@ -72,6 +72,14 @@ jobs:
           if [ -f landing/feed.xml ]; then
             cp landing/feed.xml /tmp/gh-pages-wt/feed.xml
           fi
+          # D+40 fix (2026-09-08): 법적 페이지 root 접근 (privacy/terms/refund 404 방지).
+          # 이전엔 /landing/privacy.html 만 접근 가능 → direct link / SEO citation / Paddle compliance 시 root 404.
+          # 전자상거래법 §13/§17 + Paddle merchant checks 관점 root 노출 필수.
+          for legal in privacy.html terms.html refund.html privacy-ko.html terms-ko.html refund-ko.html; do
+            if [ -f "landing/$legal" ]; then
+              cp "landing/$legal" "/tmp/gh-pages-wt/$legal"
+            fi
+          done
           # D+12 fix: blog/ 도 root — sitemap 의 /storescope/blog/* URL 이 3개월간 404 였던 원인.
           # (기존 landing/blog/index.html + 5 posts + D+12 weekly-YYYY-WNN.html)
           if [ -d landing/blog ]; then
