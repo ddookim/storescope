@@ -25,10 +25,11 @@ from pathlib import Path
 from curl_cffi.requests import AsyncSession
 
 # D+10 finding: shopify_stores.txt = 100% abandoned .myshopify.com trial 서브도메인.
-# Curated list (실 활동 DTC brands, 로컬 curl 검증됨) 우선 사용.
+# D+40 fix (2026-09-08): 이전 fallback = _LEGACY_FILE 자동 사용은 curated 삭제 사고 시
+# 100% 오염 seed 재활성화 = latent bug. Legacy 파일은 data/archive/ 로 이동.
+# 이제 curated 없으면 pipeline 이 명확한 FileNotFoundError 로 hard-fail.
 _CURATED_FILE = Path("data/curated_shopify_stores.txt")
-_LEGACY_FILE  = Path("data/shopify_stores.txt")
-STORES_FILE   = _CURATED_FILE if _CURATED_FILE.exists() else _LEGACY_FILE
+STORES_FILE   = _CURATED_FILE
 OUTPUT_DIR    = Path("data/products")
 REPORT_FILE   = Path("data/crawl_report.json")
 
