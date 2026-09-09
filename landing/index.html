@@ -3011,6 +3011,12 @@
       .plans-grid-v2 { grid-template-columns: 1fr; max-width: 460px; }
       .plan-card.muted { order: 3; }
     }
+    /* D+40 pass 5b (2026-09-09): pass 4 pricing 은 Free + Pro 2 columns 필요 (desktop).
+       Mobile (< 640px) 는 무조건 1 column stack. */
+    .plans-2col { grid-template-columns: 1fr 1fr; }
+    @media (max-width: 640px) {
+      .plans-2col { grid-template-columns: 1fr !important; max-width: 420px !important; }
+    }
 
     /* ══════════════════════════════════════════════════════════
        M1: X-RAY PROGRESS BAR (replaces skeleton)
@@ -5531,7 +5537,7 @@
     <h2 class="section-heading" data-i18n="pricing_h2">Two ways to use it.</h2>
     <p class="section-sub" style="text-align:center;max-width:520px;margin:12px auto 40px;color:var(--muted-2);" data-i18n="pricing_sub">Start free. Upgrade if you need the raw data.</p>
 
-    <div class="plans-grid-v2" style="grid-template-columns:1fr 1fr;max-width:720px;margin:0 auto;">
+    <div class="plans-grid-v2 plans-2col" style="max-width:720px;margin:0 auto;">
 
       <!-- ── FREE ── -->
       <div class="plan-card">
@@ -5937,9 +5943,17 @@
   (function loadHeroLiveStatus() {
     // fetch helper: root + fallback
     function tryFetch(path) {
+      // D+40 fix (2026-09-09): 404 는 fetch throw 안 함 → 이전엔 catch 안 걸림 → fallback 안 됨.
+      // Root 시도 → !ok 시 landing/ 시도 → 그것도 !ok 시 throw.
+      var fallback = './landing/' + path.replace('./', '');
       return fetch(path, { cache: 'no-store' })
-        .catch(function() { return fetch('./landing/' + path.replace('./', ''), { cache: 'no-store' }); })
-        .then(function(r) { if (!r || !r.ok) throw new Error('no ' + path); return r.json(); });
+        .then(function(r) {
+          if (r && r.ok) return r.json();
+          return fetch(fallback, { cache: 'no-store' }).then(function(r2) {
+            if (!r2 || !r2.ok) throw new Error('no ' + path + ' or ' + fallback);
+            return r2.json();
+          });
+        });
     }
 
     var loadIt = function() {
