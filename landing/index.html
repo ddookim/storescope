@@ -5902,7 +5902,12 @@
 
   var counters = document.querySelectorAll('[data-target]');
   var counterDone = false;
-  if ('IntersectionObserver' in window) {
+  // D+40 pass 5c fix (2026-09-09): .counter-bar 는 radical simplify (1a2b612) 로 제거됨.
+  // 이전엔 querySelector('.counter-bar') === null → observe(null) TypeError → JS 전체 크래시 →
+  // hero-live-status + mockup override JS 실행 실패 (Puppeteer 검증).
+  // 이제 .hero-counters (남은 hero 안 counter section) 를 trigger 로 사용.
+  var counterTrigger = document.querySelector('.hero-counters') || document.querySelector('.hero');
+  if ('IntersectionObserver' in window && counterTrigger) {
     new IntersectionObserver(function(entries) {
       entries.forEach(function(e) {
         if (e.isIntersecting && !counterDone) {
@@ -5910,8 +5915,9 @@
           counters.forEach(function(c) { animateCounter(c); });
         }
       });
-    }, { threshold: 0.5 }).observe(document.querySelector('.counter-bar'));
+    }, { threshold: 0.3 }).observe(counterTrigger);
   } else {
+    // Immediate render — no observer support 또는 trigger 없음
     counters.forEach(function(c) {
       var t = parseInt(c.dataset.target,10), s = c.dataset.suffix||'';
       c.textContent = t >= 10000 ? Math.floor(t/1000)+'k'+s : t.toLocaleString()+s;
