@@ -3548,16 +3548,8 @@
         // FAQ section
         faq_pill: "FAQ",
         faq_h2: "Questions we hear most often.",
-        faq_q_trend_score: "What is the Storm Score?",
-        faq_a_trend_score: "Storm Score (0-100) combines week-over-week store adoption, momentum (acceleration), and total store count. 80+ signals strong rising momentum.",
-        faq_q_freshness: "How often is the data updated?",
-        faq_a_freshness: "Full index refresh every Monday at 9 AM UTC. Trend snapshots accumulate weekly, building historical data.",
         faq_q_legal: "Is monitoring competitor stores legal?",
         faq_a_legal: "Yes, completely. StoreScope only reads publicly listed product pages — the same data any browser sees. We comply with robots.txt and offer instant merchant opt-out.",
-        faq_q_optout: "I'm a merchant — can I request my store be excluded?",
-        faq_a_optout: "Yes, instantly. Email optout@storescope.com with your .myshopify.com domain. Excluded from all future index runs within 48 hours.",
-        faq_q_account: "How do I access my account after payment?",
-        faq_a_account: "Right after checkout, we email you your API key and a getting-started guide (headers + first request examples). Manage or cancel anytime via the Paddle billing link in that email. Email delivery under 5 min in normal conditions — if you don't see it, check spam or write support@storescope.com.",
 
         // Footer
         footer_tagline: "Cross-store Shopify product intelligence — refreshed every Monday.",
@@ -3638,13 +3630,18 @@
         plan_pro_feat_unlocked_4: "Priority email support",
         plan_pro_cta_full: "Start 7-day free trial",
 
-        // FAQ 신규 3 + 기존 q 매핑
+        // D+42 pass 8: faq_q_digest 는 라이브 <summary> 와 매핑되어 있었으나
+        // faq_q_diff/trial_value 는 HTML에 대응하는 <summary>가 없어 dead였음 (제거).
+        // 실제 라이브 <summary data-i18n="faq_q_brands|pricing|unsub">는 지금까지
+        // dict 항목 자체가 없어 KO/JA 선택 시에도 영어 그대로 노출되던 버그 — 신규 추가.
         faq_q_digest: "What exactly is in the Monday digest?",
         faq_a_digest: "Free weekly digest email: top 20 new products from the past 7 days across 50+ brands (title, vendor, category, price, launch date). Pro dashboard adds: Storm Score ranking (0-100), store count adopting, week-over-week delta, price spread, and links to all stores carrying it.",
-        faq_q_diff: "How is this different from other product research tools?",
-        faq_a_diff: "Most trend rankings weight absolute store count, which favors already-saturated products. Storm Score weights momentum (acceleration), log-scaled store count, and age decay — surfacing products still climbing. Focused on one thing: Shopify cross-store intelligence. No unrelated channels diluting the signal.",
-        faq_q_trial_value: "What if I don't see value in 7 days?",
-        faq_a_trial_value: "Cancel from your Paddle billing portal — you are not charged. After billing starts, our refund window is 14 days, no questions asked.",
+        faq_q_brands: "Which brands do you watch?",
+        faq_a_brands: "58 established DTC brands on Shopify — Everlane, Gymshark, Allbirds, Ridge, Beardbrand, Casper, Colourpop, Glossier, Harry's, Liquid Death, Magic Spoon, Outdoor Voices, Parachute Home, Supergoop, Taylor Stitch, and 43 more. Full list: browse them at /brands.",
+        faq_q_pricing: "What does it cost?",
+        faq_a_pricing: "The Monday email is free — enter your email, get the digest. Pro ($19/month) adds API access, CSV export, Storm Score momentum ranking, 30-day product history, and unlimited X-Ray lookups. 7-day free trial, no card, cancel anytime.",
+        faq_q_unsub: "How do I unsubscribe?",
+        faq_a_unsub: "Every email has a one-click unsubscribe link at the bottom. No account, no login, no forms. If you're a Pro subscriber, manage or cancel from the Paddle billing portal linked in your welcome email.",
 
         // Enterprise / Custom panel
         ent_label: "Custom needs?",
@@ -3887,16 +3884,8 @@
 
         faq_pill: "자주 묻는 질문",
         faq_h2: "가장 자주 듣는 질문들.",
-        faq_q_trend_score: "트렌드 점수란?",
-        faq_a_trend_score: "Storm Score(0-100)는 주간 스토어 채택, 모멘텀(가속도), 전체 스토어 수를 결합합니다. 80+는 강한 부상 모멘텀을 의미.",
-        faq_q_freshness: "데이터는 얼마나 자주 갱신되나요?",
-        faq_a_freshness: "전체 인덱스는 매주 월요일 UTC 오전 9시 갱신. 트렌드 스냅샷은 주간 누적되어 히스토리 데이터를 구축합니다.",
         faq_q_legal: "경쟁사 스토어 모니터링이 합법인가요?",
         faq_a_legal: "네, 완전히 합법입니다. StoreScope는 공개 상품 페이지만 읽습니다 — 어떤 브라우저든 볼 수 있는 데이터. robots.txt를 준수하고 즉시 머천트 옵트아웃을 제공합니다.",
-        faq_q_optout: "머천트인데 — 제 스토어를 제외 요청할 수 있나요?",
-        faq_a_optout: "네, 즉시 가능합니다. .myshopify.com 도메인을 적어 optout@storescope.com 으로 이메일하세요. 48시간 내 모든 향후 인덱스 실행에서 제외됩니다.",
-        faq_q_account: "결제 후 계정 접속은 어떻게 하나요?",
-        faq_a_account: "결제 직후 API 키와 시작 가이드(헤더 + 첫 요청 예시)가 담긴 이메일이 발송됩니다. 이메일 내 Paddle 결제 링크로 언제든 관리/해지 가능. 정상 조건에서 5분 이내 도착 — 안 오면 스팸함 확인 후 support@storescope.com 문의.",
 
         footer_tagline: "크로스 스토어 Shopify 상품 인텔리전스 — 매주 월요일 갱신.",
         footer_independent: "독립 · 부트스트랩 · VC 없음",
@@ -3971,10 +3960,12 @@
 
         faq_q_digest: "월요일 다이제스트에 정확히 무엇이 포함되나요?",
         faq_a_digest: "무료 주간 다이제스트 이메일: 50+ 브랜드의 지난 7일 신제품 상위 20개 (제목, 벤더, 카테고리, 가격, 출시일). Pro 대시보드 추가: Storm Score 랭킹 (0-100), 채택 스토어 수, 주간 변화, 가격 분포, 모든 판매 스토어 링크.",
-        faq_q_diff: "다른 상품 리서치 도구와 어떻게 다른가요?",
-        faq_a_diff: "대부분의 트렌드 랭킹은 절대 스토어 수에 가중치를 두어 이미 포화된 상품이 유리합니다. Storm Score는 모멘텀(가속도), 로그 스케일 스토어 수, 시간 감쇠에 가중치를 두어 아직 부상 중인 상품을 노출합니다. Shopify 크로스 스토어 인텔리전스 한 가지에 집중 — 관련 없는 채널이 신호를 희석시키지 않습니다.",
-        faq_q_trial_value: "7일 동안 가치를 못 느끼면?",
-        faq_a_trial_value: "Paddle 결제 포털에서 해지 — 청구 없음. 결제 시작 후 환불 기간은 14일, 묻지 않습니다.",
+        faq_q_brands: "어떤 브랜드를 추적하나요?",
+        faq_a_brands: "Shopify의 검증된 DTC 브랜드 58곳 — Everlane, Gymshark, Allbirds, Ridge, Beardbrand, Casper, Colourpop, Glossier, Harry's, Liquid Death, Magic Spoon, Outdoor Voices, Parachute Home, Supergoop, Taylor Stitch 외 43곳. 전체 목록은 /brands 에서 확인하세요.",
+        faq_q_pricing: "비용은 얼마인가요?",
+        faq_a_pricing: "월요일 이메일은 무료입니다 — 이메일만 입력하면 다이제스트를 받습니다. Pro($19/월)는 API 접근, CSV 내보내기, Storm Score 모멘텀 랭킹, 30일 상품 히스토리, 무제한 X-Ray 조회를 추가합니다. 7일 무료 체험, 카드 불필요, 언제든 해지 가능.",
+        faq_q_unsub: "구독은 어떻게 해지하나요?",
+        faq_a_unsub: "모든 이메일 하단에 원클릭 구독 해지 링크가 있습니다. 계정도, 로그인도, 양식 작성도 필요 없습니다. Pro 구독자라면 웰컴 이메일에 있는 Paddle 결제 포털에서 관리하거나 해지할 수 있습니다.",
 
         ent_label: "맞춤 요구사항?",
         ent_heading: "에이전시 운영 중이거나 50개+ 스토어 추적?",
@@ -4209,16 +4200,8 @@
 
         faq_pill: "よくある質問",
         faq_h2: "よく寄せられる質問。",
-        faq_q_trend_score: "トレンドスコアとは?",
-        faq_a_trend_score: "Storm Score(0-100)は週次ストア採用、モメンタム(加速度)、合計ストア数を組み合わせます。80以上は強い台頭モメンタムを示します。",
-        faq_q_freshness: "データはどのくらいの頻度で更新されますか?",
-        faq_a_freshness: "全インデックスは毎週月曜UTC午前9時に更新。トレンドスナップショットは週次で蓄積され、履歴データを構築します。",
         faq_q_legal: "競合ストアのモニタリングは合法ですか?",
         faq_a_legal: "はい、完全に合法です。StoreScopeは公開商品ページのみを読み取ります — どのブラウザでも見られるデータ。robots.txtを遵守し、即時のマーチャントオプトアウトを提供します。",
-        faq_q_optout: "マーチャントですが — ストアの除外をリクエストできますか?",
-        faq_a_optout: "はい、即時可能。.myshopify.com ドメインを記載して optout@storescope.com までメール。48時間以内に今後すべてのインデックス実行から除外されます。",
-        faq_q_account: "決済後のアカウントアクセスはどうしますか?",
-        faq_a_account: "決済直後、APIキーとスタートガイド(ヘッダー+初回リクエスト例)がメールで届きます。メール内のPaddle請求リンクからいつでも管理・解約可能。通常5分以内に配信 — 届かない場合はスパムフォルダを確認、またはsupport@storescope.comまで。",
 
         footer_tagline: "クロスストアShopify商品インテリジェンス — 毎週月曜更新。",
         footer_independent: "独立 · ブートストラップ · VCなし",
@@ -4293,10 +4276,12 @@
 
         faq_q_digest: "月曜ダイジェストに正確には何が含まれますか?",
         faq_a_digest: "無料週次ダイジェストメール:50+ブランドの過去7日新製品トップ20 (タイトル、ベンダー、カテゴリ、価格、発売日)。Pro ダッシュボード追加:Storm Score ランキング (0-100)、採用ストア数、週次変化、価格分布、全販売ストアへのリンク。",
-        faq_q_diff: "他の商品リサーチツールとどう違いますか?",
-        faq_a_diff: "多くのトレンドランキングは絶対的なストア数を重視するため、すでに飽和した商品が有利になりがちです。Storm Scoreはモメンタム(加速度)、対数スケールのストア数、時間減衰を重視し、まだ台頭中の商品を表示します。Shopifyクロスストアインテリジェンス、この一つに集中しており、関連のないチャネルがシグナルを希釈することはありません。",
-        faq_q_trial_value: "7日間で価値を感じなかったら?",
-        faq_a_trial_value: "Paddle請求ポータルから解約 — 請求なし。請求開始後の返金期間は14日間、質問なし。",
+        faq_q_brands: "どのブランドを追跡していますか?",
+        faq_a_brands: "Shopify上の実績あるDTCブランド58社 — Everlane、Gymshark、Allbirds、Ridge、Beardbrand、Casper、Colourpop、Glossier、Harry's、Liquid Death、Magic Spoon、Outdoor Voices、Parachute Home、Supergoop、Taylor Stitch、他43社。全リストは /brands でご覧いただけます。",
+        faq_q_pricing: "料金はいくらですか?",
+        faq_a_pricing: "月曜メールは無料です — メールアドレスを入力するだけでダイジェストが届きます。Pro(月額$19)はAPIアクセス、CSVエクスポート、Storm Scoreモメンタムランキング、30日間の商品履歴、無制限のX-Ray検索を追加します。7日間無料トライアル、カード不要、いつでも解約可能。",
+        faq_q_unsub: "配信停止はどうすればいいですか?",
+        faq_a_unsub: "すべてのメール下部にワンクリック配信停止リンクがあります。アカウント登録もログインもフォーム入力も不要です。Proご契約の方は、ウェルカムメール内のPaddle請求ポータルから管理・解約できます。",
 
         ent_label: "カスタムニーズ?",
         ent_heading: "エージェンシー運営、または50以上のストア追跡?",
