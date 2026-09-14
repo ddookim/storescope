@@ -2786,19 +2786,6 @@
       font-size: 13px; font-weight: 600; color: #78716C;
       background: transparent;
     }
-    .plan-price-strike {
-      font-size: 16px; color: #78716C !important; text-decoration: line-through;
-      font-weight: 600 !important; margin-left: 8px; letter-spacing: 0 !important;
-    }
-    .founding-banner {
-      max-width: 720px; margin: 20px auto 0; text-align: center;
-      padding: 14px 24px; background: rgba(79,70,229,0.04);
-      border: 1px solid rgba(79,70,229,0.15); border-radius: 100px;
-      font-size: 13px; font-weight: 600; color: #4F46E5;
-      display: inline-flex; align-items: center; gap: 8px; justify-content: center;
-    }
-    .founding-banner-wrap { display: flex; justify-content: center; margin-bottom: 8px; }
-    .founding-banner-dot { width: 6px; height: 6px; border-radius: 50%; background: #4F46E5; animation: livepulse 2s infinite; }
 
     @media (max-width: 900px) {
       .plans-grid-v2 { grid-template-columns: 1fr; max-width: 460px; }
@@ -3537,7 +3524,6 @@
         // Pricing
         pricing_pill: "Pricing",
         pricing_h2: "Two ways to use it.",
-        pricing_founding_banner: "Founding member pricing — first 50 paid customers lock these rates for life. Then prices go up.",
         plan_manual_name: "Manual research",
         plan_starter_name: "Starter",
         plan_starter_trial: "7-day free trial · no card",
@@ -3618,6 +3604,23 @@
 
         // Pro feat visible (5) + 4 unlocked
         plan_pro_desc: "The raw data behind the digest. For sourcing agents and DTC operators. One sourcing win pays for the year.",
+        // D+42 pass 10: Free/Pro plan card 전체 (섹션 중 최고 전환 비중) i18n dict 완전 누락 발견 —
+        // KO/JA 는 물론 EN 조차 dict 미존재로 raw HTML fallback 텍스트만 표시되던 상태.
+        pricing_sub: "Start free. Upgrade if you need the raw data.",
+        plan_free_name: "Free",
+        plan_free_desc: "The weekly email. Everything you need to see what's new.",
+        plan_free_feat_1: "Monday email · top 20 new products across 58 brands",
+        plan_free_feat_2: "Product name, vendor, category, price, launch date",
+        plan_free_feat_3: "Link to buy from the original store",
+        plan_free_feat_4: "Unsubscribe in one click, any time",
+        plan_free_cta: "Get Monday's digest →",
+        plan_pro_feat_1: "Everything in Free",
+        plan_pro_feat_2: "API access · pull data into your own tools",
+        plan_pro_feat_3: "CSV export · every product, every week",
+        plan_pro_feat_4: "Storm Score (0-100) — momentum ranking on every product",
+        plan_pro_feat_5: "30-day product history · check trajectory before you commit",
+        plan_pro_feat_6: "X-Ray any Shopify store · unlimited lookups",
+        plan_pro_cta: "Start 7-day free trial",
         plan_pro_desc_full: "For power users and agencies that need the full 30-day history, API access, and unlimited exports.",
         plan_pro_feat_full_1: "Monday digest — unlimited trending products",
         plan_pro_feat_full_2: "X-ray any Shopify store (unlimited lookups)",
@@ -3873,8 +3876,7 @@
         xr_step_6: "리포트 준비 중...",
 
         pricing_pill: "가격",
-        pricing_h2: "창립 회원 가격. 평생 잠금.",
-        pricing_founding_banner: "창립 회원 가격 — 첫 50명 유료 고객은 평생 이 가격을 잠급니다. 이후 가격 인상.",
+        pricing_h2: "이용하는 두 가지 방법.",
         plan_manual_name: "수동 리서치",
         plan_starter_name: "Starter",
         plan_starter_trial: "7일 무료 체험 · 카드 불필요",
@@ -3946,6 +3948,21 @@
         plan_starter_cta_full: "7일 무료 체험 시작",
 
         plan_pro_desc: "다이제스트 뒤의 원본 데이터. 소싱 에이전트와 DTC 운영자를 위한. 소싱 성공 1건이면 연간 비용을 회수합니다.",
+        pricing_sub: "무료로 시작하세요. 원본 데이터가 필요하면 업그레이드.",
+        plan_free_name: "무료",
+        plan_free_desc: "매주 이메일. 신제품을 확인하는 데 필요한 전부.",
+        plan_free_feat_1: "월요일 이메일 · 58개 브랜드 신제품 상위 20개",
+        plan_free_feat_2: "상품명, 벤더, 카테고리, 가격, 출시일",
+        plan_free_feat_3: "원본 스토어 구매 링크",
+        plan_free_feat_4: "언제든 원클릭 구독 해지",
+        plan_free_cta: "월요일 다이제스트 받기 →",
+        plan_pro_feat_1: "무료 플랜의 모든 것",
+        plan_pro_feat_2: "API 접근 · 데이터를 직접 도구로 가져오기",
+        plan_pro_feat_3: "CSV 내보내기 · 매주 모든 상품",
+        plan_pro_feat_4: "Storm Score (0-100) — 모든 상품의 모멘텀 랭킹",
+        plan_pro_feat_5: "30일 상품 히스토리 · 커밋 전에 추이 확인",
+        plan_pro_feat_6: "모든 Shopify 스토어 X-Ray · 무제한 조회",
+        plan_pro_cta: "7일 무료 체험 시작",
         plan_pro_desc_full: "30일 히스토리, API 접근, 무제한 내보내기가 필요한 파워 유저와 에이전시를 위해.",
         plan_pro_feat_full_1: "월요일 다이제스트 — 무제한 트렌드 상품",
         plan_pro_feat_full_2: "임의의 Shopify 스토어 X-Ray (무제한 조회)",
@@ -4189,8 +4206,7 @@
         xr_step_6: "レポートを準備中...",
 
         pricing_pill: "料金",
-        pricing_h2: "創設メンバー価格。生涯ロック。",
-        pricing_founding_banner: "創設メンバー価格 — 最初の50名の有料顧客はこの料金を生涯ロック。その後値上げ。",
+        pricing_h2: "ご利用いただく2つの方法。",
         plan_manual_name: "手動リサーチ",
         plan_starter_name: "Starter",
         plan_starter_trial: "7日間無料トライアル · カード不要",
@@ -4262,6 +4278,21 @@
         plan_starter_cta_full: "7日間無料トライアル開始",
 
         plan_pro_desc: "ダイジェストの背後にある生データ。ソーシングエージェントとDTC運営者向け。1回のソーシング成功で年間費用を回収。",
+        pricing_sub: "無料で始める。生データが必要ならアップグレード。",
+        plan_free_name: "無料",
+        plan_free_desc: "週次メール。新着商品を確認するために必要なすべて。",
+        plan_free_feat_1: "月曜メール · 58ブランドの新製品トップ20",
+        plan_free_feat_2: "商品名、ベンダー、カテゴリ、価格、発売日",
+        plan_free_feat_3: "元のストアへの購入リンク",
+        plan_free_feat_4: "いつでもワンクリックで配信停止",
+        plan_free_cta: "月曜ダイジェストを受け取る →",
+        plan_pro_feat_1: "無料プランのすべて",
+        plan_pro_feat_2: "APIアクセス · データを自分のツールに取り込む",
+        plan_pro_feat_3: "CSVエクスポート · 毎週すべての商品",
+        plan_pro_feat_4: "Storm Score (0-100) — 全商品のモメンタムランキング",
+        plan_pro_feat_5: "30日間の商品履歴 · 契約前にトレンドを確認",
+        plan_pro_feat_6: "あらゆるShopifyストアをX-Ray · 無制限検索",
+        plan_pro_cta: "7日間無料トライアル開始",
         plan_pro_desc_full: "30日履歴、APIアクセス、無制限エクスポートが必要なパワーユーザーとエージェンシー向け。",
         plan_pro_feat_full_1: "月曜ダイジェスト — 無制限トレンド商品",
         plan_pro_feat_full_2: "任意のShopifyストアをX-Ray(無制限ルックアップ)",
