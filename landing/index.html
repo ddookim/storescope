@@ -3294,6 +3294,16 @@
         }
       }
     });
+    // D+42 pass 10 CRITICAL fix: nav CTA 라벨은 "Get Monday's list"(무료 이메일 가입)인데
+    // 실제로는 openCheckout() 호출로 클릭 즉시 Paddle 결제창이 뜨던 버그. 사이트 전체가
+    // "무료 우선, 카드 불필요" 를 반복 명시하는데 nav 버튼만 라벨과 반대로 행동 — Free
+    // plan 카드의 plan_free_cta 와 동일하게 hero 이메일 폼으로 스크롤+포커스하도록 통일.
+    function focusHeroEmail() {
+      var el = document.getElementById('hero-email');
+      if (!el) return;
+      el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      setTimeout(function() { el.focus(); }, 400);
+    }
     function openCheckout(priceId) {
       // FIX 2026-07-29 D+58: BETA + placeholder sandbox token = Paddle checkout silent fail.
       // Redirect to hero email form (validation phase 정합) 대신 broken alert.
@@ -4538,10 +4548,10 @@
         <option value="ko">한국어</option>
         <option value="ja">日本語</option>
       </select>
-      <button onclick="openCheckout('pri_01ksj3qpjyxsv2kprvxn7dpk10')" class="btn-glow" data-i18n="nav_cta">Get Monday's list</button>
+      <button onclick="focusHeroEmail()" class="btn-glow" data-i18n="nav_cta">Get Monday's list</button>
     </div>
     <div class="nav-mobile">
-      <button onclick="openCheckout('pri_01ksj3qpjyxsv2kprvxn7dpk10')" class="btn-glow" style="font-size:13px;padding:7px 14px;" data-i18n="nav_cta">Get Monday's list</button>
+      <button onclick="focusHeroEmail()" class="btn-glow" style="font-size:13px;padding:7px 14px;" data-i18n="nav_cta">Get Monday's list</button>
       <button class="nav-hamburger" onclick="toggleMobileNav()" aria-label="Open menu" data-aria-i18n="aria-label:aria_open_menu" id="navHamburger">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
       </button>
