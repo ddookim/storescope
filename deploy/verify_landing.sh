@@ -261,13 +261,11 @@ fi
 # - frontend-developer: "EN ↔ KO ↔ JA dict key 동기화 (silent translation gap 차단)"
 # ─────────────────────────────────────────────────────────────────────────────
 
-# 26. Before/After section data-i18n (Kenya Hara visible labels)
-BA_I18N=$(grep -cE 'data-i18n="ba_' "$FILE" || true)
-if [ "$BA_I18N" -ge 20 ]; then
-    mark_pass "Before/After section data-i18n $BA_I18N건 (Kenya Hara minimal labels)"
-else
-    mark_fail "Before/After section data-i18n $BA_I18N건 — visible Mid-page 영어 잔재"
-fi
+# 26. Before/After section — D+40 pass 4 (RADICAL SIMPLIFY, 13→5 sections)에서
+# 사용자 피드백으로 섹션 자체를 페이지에서 제거함. ba_* dict 키도 함께 삭제됨
+# (미사용 dict 잔존 시 sweep_residue 오탐 + 향후 세션 혼란 방지).
+# 이 check는 존재하지 않는 섹션을 강제하므로 영구 삭제 — 재도입 시
+# feedback_landing_design_restraint 3조건(트렌드/데이터정합/절제) 충족 후 별도 신규 check로.
 
 # 27. Pricing trust badges data-i18n (Patrick McKenzie conversion 직격, -o로 모든 매칭 카운트)
 PRICING_TRUST=$(grep -oE 'data-i18n="pricing_trust_[a-z_]+"' "$FILE" | wc -l | tr -d ' ')
