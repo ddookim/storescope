@@ -1,22 +1,13 @@
 {
-  "generated_at": "2026-09-07T00:52:47.085984+00:00",
-  "week": "2026-W37",
+  "generated_at": "2026-09-14T00:58:56.712827+00:00",
+  "week": "2026-W38",
   "total_products_before_dedupe": null,
-  "total_after_dedupe": 1144,
+  "total_after_dedupe": 1188,
   "top_products_returned": 20,
   "categories": [
     {
-      "product_type": "Bottoms",
-      "product_count": 104,
-      "vendor_count": 2,
-      "top_vendors": [
-        "Everlane",
-        "Taylor Stitch"
-      ]
-    },
-    {
       "product_type": "Knit Tops",
-      "product_count": 98,
+      "product_count": 109,
       "vendor_count": 1,
       "top_vendors": [
         "Everlane"
@@ -24,52 +15,63 @@
     },
     {
       "product_type": "Sweaters",
-      "product_count": 86,
+      "product_count": 102,
       "vendor_count": 2,
       "top_vendors": [
         "Everlane",
-        "Taylor Stitch"
+        "Lunya"
       ]
     },
     {
-      "product_type": "Denim",
-      "product_count": 67,
-      "vendor_count": 1,
+      "product_type": "EDC",
+      "product_count": 99,
+      "vendor_count": 4,
       "top_vendors": [
-        "Everlane"
+        "Ridge",
+        "Ridge Wallet",
+        "The Ridge"
+      ]
+    },
+    {
+      "product_type": "Bottoms",
+      "product_count": 99,
+      "vendor_count": 3,
+      "top_vendors": [
+        "Everlane",
+        "Lunya",
+        "Mack Weldon"
       ]
     },
     {
       "product_type": "Shirting",
-      "product_count": 55,
+      "product_count": 59,
       "vendor_count": 1,
       "top_vendors": [
         "Everlane"
       ]
     },
     {
-      "product_type": "EDC - WALLET - RIDGE WALLET - SINGLE",
-      "product_count": 41,
-      "vendor_count": 2,
+      "product_type": "Denim",
+      "product_count": 59,
+      "vendor_count": 1,
       "top_vendors": [
-        "Ridge",
-        "The Ridge Wallet"
+        "Everlane"
       ]
     },
     {
-      "product_type": "Mens>Apparel>SS Tops>t_shirt",
-      "product_count": 37,
+      "product_type": "Tech",
+      "product_count": 51,
       "vendor_count": 1,
       "top_vendors": [
-        "Gymshark | Be a visionary."
+        "Ridge"
       ]
     },
     {
-      "product_type": "Womens>Apparel>Leggings>full_length",
-      "product_count": 27,
+      "product_type": "T Shirt",
+      "product_count": 31,
       "vendor_count": 1,
       "top_vendors": [
-        "Gymshark | Be a visionary."
+        "Gymshark"
       ]
     }
   ]
