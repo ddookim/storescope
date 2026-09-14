@@ -173,13 +173,16 @@ else
     mark_warn "X-Ray URL validation client-side 누락 — invalid input 시 fake progress 노출"
 fi
 
-# 16. D+20 L2.A — /leads catch 분기 silent fail-open 차단
-#    showSuccess 만 호출하고 console.error/gtag exception 없으면 silent loss
-LEADS_CATCH=$(awk '/fetch\(API_BASE \+ .\/leads/,/}\);/' "$FILE" | tr -d '\n')
-if echo "$LEADS_CATCH" | grep -qE "console\.error.*leads"; then
-    mark_pass "/leads catch 분기 가시화 (console.error + gtag exception)"
+# 16. D+20 L2.A — lead capture catch 분기 silent fail-open 차단
+# FIX (D+42 pass 10): D+40에 API_BASE + '/leads' 아키텍처 자체가 폐기되고
+# 두 폼(hero/xray) 모두 storescope.netlify.app 직접 POST로 이전됨 — 옛 패턴을
+# 찾던 awk가 항상 빈 매칭 → 실제로는 console.error+gtag 로 정상 가시화돼있는데도
+# 만성 WARN. 현재 두 fetch 호출부 모두 검사하도록 패턴 갱신.
+LEADS_CATCH=$(awk "/fetch\\('https:\\/\\/storescope\\.netlify\\.app/,/}\\);/" "$FILE" | tr -d '\n')
+if echo "$LEADS_CATCH" | grep -qE "console\.error.*netlify"; then
+    mark_pass "lead capture catch 분기 가시화 (console.error + gtag exception)"
 else
-    mark_warn "/leads catch 분기 silent fail — 네트워크 실패 시 sales 손실 invisible"
+    mark_warn "lead capture catch 분기 silent fail — 네트워크 실패 시 sales 손실 invisible"
 fi
 
 # 17. D+20 i18n — STORESCOPE_I18N dict (EN/KO/JA) + data-i18n 속성 존재
