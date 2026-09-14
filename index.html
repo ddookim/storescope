@@ -440,11 +440,6 @@
       padding: 3px 10px; border-radius: 100px; font-size: 11px; font-weight: 700;
       letter-spacing: 0.3px;
     }
-    /* D+10 lighthouse: #059669 on white 3.76:1 fail → #047857 (emerald-700) 4.72:1 pass */
-    .badge-green  { background: rgba(5,150,105,0.08);  color: #047857; border: 1px solid rgba(5,150,105,0.2); }
-    .badge-amber  { background: rgba(217,119,6,0.08);  color: #D97706; border: 1px solid rgba(217,119,6,0.2); }
-    .badge-purple { background: rgba(79,70,229,0.08);  color: #4F46E5; border: 1px solid rgba(79,70,229,0.2); }
-    .badge-blue   { background: rgba(79,70,229,0.08);  color: #4F46E5; border: 1px solid rgba(79,70,229,0.18); }
     .badge-live   { background: rgba(5,150,105,0.08);  color: #047857; border: 1px solid rgba(5,150,105,0.2);  animation: livepulse 2s infinite; }
     /* D+10 lighthouse: badge-live on dark bg → #34D399.
        D+12 lighthouse: 실측 compositing 4.49 (bg alpha 12% + border 25%) → 4.5:1 미달.
@@ -480,34 +475,7 @@
       transition: background 0.18s ease, color 0.18s ease, transform 0.2s ease;
     }
     .nav-links a:hover { background: rgba(79,70,229,0.06); color: #4F46E5; }
-
-    /* UPGRADE 2026-06-09: nav "Open Beta" 배지 — logo 옆 라이브 펄스 */
-    .nav-beta-pill {
-      display: inline-flex; align-items: center; gap: 6px;
-      margin-left: 10px; padding: 4px 10px;
-      background: rgba(5,150,105,0.08);
-      border: 1px solid rgba(5,150,105,0.22);
-      border-radius: 100px;
-      font-size: 10.5px; font-weight: 800;
-      color: #047857; letter-spacing: 0.6px; text-transform: uppercase; /* FIX 2026-07-29 Lighthouse: #059669 3.25:1 → #047857 4.5:1 */
-    }
-    .nav-beta-dot {
-      width: 5px; height: 5px; border-radius: 50%;
-      background: #059669; box-shadow: 0 0 0 2.5px rgba(5,150,105,0.18);
-      animation: livepulse 2s infinite;
-    }
-    /* FIX 2026-06-09: 모바일에서도 배지 유지 (브랜드 정체성) — dot만 보이게 */
-    @media (max-width: 600px) {
-      .nav-beta-pill { padding: 4px 7px; margin-left: 6px; gap: 0; }
-      .nav-beta-text { display: none; }
-    }
     .nav-ctas { display: flex; gap: 8px; align-items: center; }
-    .btn-ghost {
-      padding: 8px 18px; border-radius: var(--radius-sm); font-size: 13.5px; font-weight: 500;
-      color: #57534E; text-decoration: none; border: 1px solid rgba(28,25,23,0.14);
-      background: transparent; cursor: pointer; transition: all 0.15s; letter-spacing: -0.01em;
-    }
-    .btn-ghost:hover { border-color: rgba(79,70,229,0.3); color: #1C1917; background: rgba(79,70,229,0.04); }
     /* D+42 pass 6 (2026-09-10): btn-glow 감쇠. 3중 gradient shadow + bouncy = template.
        이제: solid charcoal, subtle shadow, ease transition (nav CTA "Start free"). */
     .btn-glow {
@@ -518,12 +486,6 @@
       box-shadow: 0 1px 2px rgba(15,23,42,0.06);
     }
     .btn-glow:hover { background: #0C0A09; }
-    .nav-login-link {
-      padding: 8px 14px; font-size: 13.5px; font-weight: 500;
-      color: #57534E; text-decoration: none; transition: color 0.15s; letter-spacing: -0.01em;
-      border-radius: 8px;
-    }
-    .nav-login-link:hover { color: #1C1917; }
     .nav-mobile { display: none; }
 
     /* ── HERO ── */
@@ -588,27 +550,6 @@
       font-size: 17px; color: #78716C;
       margin: 0 0 28px; line-height: 1.6;
     }
-    .hero-ctas { display: flex; gap: 12px; justify-content: flex-start; flex-wrap: wrap; margin-bottom: 20px; }
-    /* D+42 pass 6 (2026-09-10): CTA 감쇠. 이전: shine sweep + bouncy cubic-bezier + 3중 shadow
-       = Stripe 흉내인데 Stripe 는 실은 flat CTA. 이제 solid charcoal + subtle shadow + ease. */
-    .btn-hero-primary {
-      padding: 14px 28px; border-radius: 8px; font-size: 15px; font-weight: 600;
-      background: #1C1917; color: #fff; border: none; cursor: pointer;
-      box-shadow: 0 1px 2px rgba(15,23,42,0.08);
-      transition: background 0.15s ease, transform 0.15s ease;
-      text-decoration: none; display: inline-flex; align-items: center; gap: 8px;
-      letter-spacing: -0.005em;
-      position: relative;
-    }
-    .btn-hero-primary:hover { background: #0C0A09; }
-    .btn-hero-primary:active { transform: translateY(0.5px); transition-duration: 0.05s; }
-    .btn-hero-ghost {
-      padding: 16px 28px; border-radius: var(--radius-md); font-size: 15px; font-weight: 500;
-      background: transparent; color: #57534E;
-      border: 1px solid rgba(28,25,23,0.18); text-decoration: none; display: inline-block;
-      transition: all 0.15s;
-    }
-    .btn-hero-ghost:hover { background: rgba(79,70,229,0.04); color: #1C1917; border-color: rgba(79,70,229,0.3); }
     /* REMOVED 2026-07-30 D+59: .hero-trust + .hero-trust span::before — dead CSS (HTML 요소 없음). red team round 2 지적. */
 
     /* hero browser mockup */
@@ -663,7 +604,6 @@
       transition: background 0.2s, border-color 0.2s;
     }
     .b-url:hover { background: rgba(255,255,255,0.08); border-color: rgba(79,70,229,0.25); }
-    .b-url-lock { color: #34D399; font-size: 10px; }
 
     /* ── PRODUCT CARD GRID ── */
     .dashboard-bg {
@@ -759,10 +699,6 @@
     .score-bar { height: 3px; background: rgba(255,255,255,0.06); border-radius: 4px; overflow: hidden; }
     .score-fill-purple { height: 100%; border-radius: 4px; background: linear-gradient(90deg, var(--purple), var(--cyan)); }
     .score-fill-amber  { height: 100%; border-radius: 4px; background: linear-gradient(90deg, var(--amber), #FB923C); }
-
-
-    /* ── SECTION BASE ── */
-    .section { max-width: 1200px; margin: 0 auto; padding: 112px 24px; }
     /* D+42 pass 6 (2026-09-10): section-pill = typography-only caption (Linear/Vercel/GitHub 2026).
        이전: gradient bg + inner glow + border = premium-tier로 오인 격상 → 정반대 AI 시그너처.
        이제: pill removed, uppercase micro-caption 만. section heading 위 quiet 라벨. */
@@ -787,453 +723,11 @@
       color: var(--white);
     }
     .section-sub { font-size: 16.5px; color: var(--muted-2); max-width: 520px; line-height: 1.7; }
-
-    /* ── BENTO FEATURES V2 ── */
-    .bento-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 16px; margin-top: 64px;
-    }
-    .bento-card {
-      background: #FFFFFF;
-      border: 1px solid rgba(28,25,23,0.08);
-      /* D+42 pass 6 (2026-09-10): 20→14 radius, single-shadow (was triple-stack). */
-      border-radius: 14px; padding: 44px; overflow: hidden; position: relative;
-      transition: border-color 0.2s ease, box-shadow 0.2s ease;
-      box-shadow: 0 1px 2px rgba(15,23,42,0.04);
-    }
-    /* D+24 i18n: KO/JA 텍스트 길이 차이 overflow 보호 */
-    .bento-card h3, .bento-card p, .bento-card .bento-eyebrow,
-    .email-mock-h2, .email-mock-intro, .email-mock-footer-note { overflow-wrap: break-word; }
-    /* D+42 pass 6 (2026-09-10): top-edge gradient line 제거 (decorative-only).
-       hover 도 subtle: border-color + slight elevation, no lift transform. */
-    .bento-card::before { display: none; }
-    .bento-card:hover {
-      border-color: rgba(28,25,23,0.16);
-      box-shadow: 0 2px 6px rgba(15,23,42,0.06);
-    }
-    .bento-card.wide { grid-column: span 2; }
-    .bento-card h3 {
-      font-family: 'Inter', -apple-system, sans-serif;
-      font-size: 20px; font-weight: 800; letter-spacing: -0.5px; line-height: 1.22;
-      margin-bottom: 12px; color: var(--white);
-    }
-    .bento-card p { font-size: 14px; color: var(--muted-2); line-height: 1.75; }
-
-    /* card eyebrow label */
-    .bento-eyebrow {
-      display: inline-flex; align-items: center; gap: 6px;
-      font-size: 11px; font-weight: 700; letter-spacing: 0.7px; text-transform: uppercase;
-      color: var(--muted); margin-bottom: 14px;
-    }
-
-    /* ── Storm Score mini chart ── */
-    .bc-chart {
-      margin-top: 28px; background: rgba(244,241,236,0.9);
-      border: 1px solid rgba(28,25,23,0.07); border-radius: 12px; padding: 18px;
-    }
-    .bc-chart-header {
-      display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;
-    }
-    .bc-chart-title { font-size: 10px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.6px; }
-    .bc-filter {
-      font-size: 10px; background: rgba(79,70,229,0.08); color: #4F46E5;
-      border: 1px solid rgba(79,70,229,0.2); padding: 3px 10px; border-radius: 100px; font-weight: 600;
-    }
-    .bc-rows { display: flex; flex-direction: column; gap: 10px; }
-    /* UPGRADE 2026-06-14: bc-row premium hover (trend ranking interactive feel) */
-    .bc-row {
-      display: grid; grid-template-columns: 140px 1fr 36px 54px;
-      align-items: center; gap: 10px;
-      padding: 4px 8px; margin: 0 -8px;
-      border-radius: 6px;
-      transition: background 0.18s ease;
-    }
-    .bc-row:hover { background: rgba(79,70,229,0.05); }
-    .bc-prod { font-size: 12px; color: var(--white); font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .bc-bar-track { height: 6px; background: rgba(148,163,184,0.18); border-radius: 4px; overflow: hidden; }
-    .bc-bar-fill { height: 100%; border-radius: 4px; }
-    .bc-fill-hot  { background: linear-gradient(90deg, #7C3AED, #a855f7 60%, #06b6d4); }
-    .bc-fill-warm { background: linear-gradient(90deg, #10B981, #34D399); }
-    .bc-fill-cool { background: linear-gradient(90deg, #F59E0B, #FBBF24); }
-    .bc-score {
-      font-size: 12px; font-weight: 700; text-align: right;
-      font-feature-settings: 'tnum' on, 'cv11' on;
-      font-variant-numeric: tabular-nums;
-      font-family: 'JetBrains Mono', 'SF Mono', monospace;
-      transition: transform 0.18s ease;
-    }
-    .bc-row:hover .bc-score { transform: scale(1.1); }
-    .bc-wow {
-      font-size: 11px; font-weight: 700; color: #34D399; text-align: right;
-      font-family: 'JetBrains Mono', 'SF Mono', monospace;
-      font-feature-settings: 'tnum' on, 'cv11' on;
-      letter-spacing: -0.2px;
-    }
-
-    /* ── Webhook notification snippet ── */
-    .bc-notif { margin-top: 28px; display: flex; flex-direction: column; gap: 8px; }
-    .bc-notif-item {
-      display: flex; align-items: flex-start; gap: 10px;
-      background: rgba(244,241,236,0.9); border: 1px solid rgba(28,25,23,0.07);
-      border-radius: 12px; padding: 12px 14px;
-      transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease;
-    }
-    .bc-notif-item:hover {
-      transform: translateX(2px);
-      background: rgba(79,70,229,0.05);
-      border-color: rgba(79,70,229,0.18);
-    }
-    .bc-notif-dot { width: 8px; height: 8px; border-radius: 50%; margin-top: 5px; flex-shrink: 0; }
-    .bc-notif-dot.green { background: #34D399; box-shadow: 0 0 6px rgba(52,211,153,0.5); }
-    .bc-notif-dot.amber { background: #FBBF24; box-shadow: 0 0 6px rgba(251,191,36,0.5); }
-    /* UPGRADE 2026-06-14: Direct API notif premium typography (API endpoint feel) */
-    .bc-notif-title {
-      font-size: 12px; font-weight: 700; color: var(--white); margin-bottom: 3px;
-      font-family: 'JetBrains Mono', 'SF Mono', monospace;
-      letter-spacing: -0.1px;
-    }
-    .bc-notif-meta {
-      font-size: 10px; color: var(--muted);
-      font-family: 'JetBrains Mono', 'SF Mono', monospace;
-      font-feature-settings: 'tnum' on, 'cv11' on;
-      letter-spacing: -0.1px;
-    }
-
-    /* ── Price table snippet ── */
-    .bc-price-table {
-      margin-top: 28px; background: rgba(244,241,236,0.9);
-      border: 1px solid rgba(28,25,23,0.07); border-radius: 12px; overflow: hidden;
-    }
-    .bc-pt-head {
-      display: grid; grid-template-columns: 1fr 42px 42px;
-      padding: 8px 14px; border-bottom: 1px solid rgba(148,163,184,0.15);
-      background: rgba(148,163,184,0.07);
-    }
-    .bc-pt-head span { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--muted); text-align: right; }
-    .bc-pt-head span:first-child { text-align: left; }
-    .bc-pt-row {
-      display: grid; grid-template-columns: 1fr 42px 42px;
-      padding: 10px 14px; border-bottom: 1px solid rgba(148,163,184,0.12); align-items: center;
-      transition: background 0.18s ease;
-      cursor: default;
-    }
-    .bc-pt-row:hover { background: rgba(79,70,229,0.04); }
-    .bc-pt-row:last-child { border-bottom: none; }
-    /* UPGRADE 2026-06-14: Bento Pricing table premium typography (Stripe pricing 정합) */
-    .bc-pt-store {
-      font-size: 11px; color: var(--muted-2); font-weight: 500;
-      overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
-      font-family: 'JetBrains Mono', 'SF Mono', monospace;
-      letter-spacing: -0.1px;
-    }
-    .bc-pt-min {
-      font-size: 12px; color: #34D399; font-weight: 800; text-align: right;
-      font-family: 'JetBrains Mono', 'SF Mono', monospace;
-      font-feature-settings: 'tnum' on, 'cv11' on;
-      letter-spacing: -0.2px;
-    }
-    .bc-pt-max {
-      font-size: 12px; color: var(--muted); font-weight: 700; text-align: right;
-      font-family: 'JetBrains Mono', 'SF Mono', monospace;
-      font-feature-settings: 'tnum' on, 'cv11' on;
-      letter-spacing: -0.2px;
-    }
-
-    /* ── Terminal snippet ── */
-    .bc-terminal {
-      margin-top: 28px; background: #050810;
-      border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; overflow: hidden;
-    }
-    .bc-term-bar {
-      background: rgba(255,255,255,0.04); padding: 9px 14px;
-      display: flex; align-items: center; gap: 6px;
-      border-bottom: 1px solid rgba(255,255,255,0.05);
-    }
-    .bc-term-dot { width: 10px; height: 10px; border-radius: 50%; }
-    .bc-term-dot.r { background: #ef4444; } .bc-term-dot.y { background: #F59E0B; } .bc-term-dot.g { background: #10B981; }
-    .bc-term-label { font-size: 10px; color: var(--muted); margin-left: auto; font-family: monospace; }
-    .bc-term-body {
-      padding: 16px; font-family: 'Courier New', 'Menlo', monospace;
-      font-size: 12px; line-height: 1.75; overflow-x: auto;
-    }
-    .tc-prompt { color: #34D399; user-select: none; }
-    .tc-cmd  { color: #A78BFA; } .tc-flag { color: #38bdf8; } .tc-str { color: #34D399; }
-    .tc-key  { color: #C4B5FD; } .tc-val  { color: #FBBF24; } .tc-num { color: #FB923C; }
-    .tc-muted{ color: #3a4560; }
-
-    /* DEAD CODE 2026-06-09: Store Lookup CSS 제거 — HTML 라운드 38 제거 (X-Ray 중복).
-       .bc-search-bar / .bc-store-result / .bc-store-name / .bc-store-sub / .bc-store-badge */
-
-    /* ── CSV file card ── */
-    .bc-file-card {
-      margin-top: 28px; display: flex; align-items: center; gap: 16px;
-      background: rgba(244,241,236,1); border: 1px solid rgba(28,25,23,0.07);
-      border-radius: 12px; padding: 16px;
-    }
-    .bc-file-icon {
-      width: 44px; height: 44px; border-radius: 12px;
-      background: rgba(16,185,129,0.14); border: 1px solid rgba(16,185,129,0.2);
-      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
-    }
-    .bc-file-name { font-size: 13px; font-weight: 600; color: var(--white); margin-bottom: 3px; }
-    .bc-file-meta { font-size: 11px; color: var(--muted); }
-    .bc-file-dl {
-      margin-left: auto; width: 36px; height: 36px; border-radius: 8px; flex-shrink: 0;
-      background: rgba(16,185,129,0.12); border: 1px solid rgba(16,185,129,0.2);
-      display: flex; align-items: center; justify-content: center;
-    }
-
-    /* ── Light indigo bento card variant (API card) ── */
-    .bento-dark {
-      background: #EEF2FF !important;
-      border-color: rgba(79,70,229,0.18) !important;
-    }
-    .bento-dark::before {
-      background: linear-gradient(90deg, transparent 0%, rgba(79,70,229,0.15) 50%, transparent 100%) !important;
-    }
-    .bento-dark p { color: #5B5EA6 !important; }
-
-    /* REMOVED D+14: .bento-util-row 규칙 제거 — CSV Export 카드 삭제로 DOM 사용처 0. */
-
-    .pro-flag {
-      display: inline-block; font-size: 10px; font-weight: 700; letter-spacing: 0.3px;
-      background: rgba(245,158,11,0.15); color: #FBBF24; border: 1px solid rgba(245,158,11,0.25);
-      padding: 1px 7px; border-radius: 4px; margin-left: 6px; vertical-align: middle;
-    }
-
-    /* ── POWERED BY TRUST STRIP ── */
-    .trust-strip {
-      padding: 52px 24px;
-      border-top: 1px solid var(--border);
-      border-bottom: 1px solid var(--border);
-      text-align: center;
-    }
-    .trust-inner { max-width: 960px; margin: 0 auto; }
-    .trust-tagline {
-      font-size: 10.5px; font-weight: 700; letter-spacing: 1.8px;
-      color: #6B655F; text-transform: uppercase;
-      margin-bottom: 36px;
-    }
-    .trust-logos {
-      display: flex; align-items: center; justify-content: center; flex-wrap: wrap;
-    }
-    .trust-logo-item {
-      display: flex; align-items: center; gap: 11px;
-      padding: 10px 36px;
-      opacity: 0.5; filter: grayscale(1) brightness(0);
-      transition: opacity 0.2s, filter 0.2s; cursor: default;
-    }
-    .trust-logo-item:hover { opacity: 0.75; filter: grayscale(0.3) brightness(0.2); }
-    .trust-vdivider {
-      width: 1px; height: 30px;
-      background: rgba(148,163,184,0.3); flex-shrink: 0;
-    }
-    .trust-logo-name {
-      font-size: 14px; font-weight: 800; color: var(--white);
-      letter-spacing: -0.3px; line-height: 1.1; white-space: nowrap;
-      font-family: 'Inter', -apple-system, sans-serif;
-    }
-    .trust-logo-role {
-      font-size: 9.5px; font-weight: 600; text-transform: uppercase;
-      letter-spacing: 0.7px; color: #6B655F; margin-top: 3px;
-    }
-    @media (max-width: 640px) {
-      .trust-logo-item { padding: 12px 20px; }
-      .trust-vdivider { display: none; }
-    }
-
-    /* ── HOW IT WORKS ── */
-    .steps-bg { background: #F4F1EC; border-top: 1px solid rgba(28,25,23,0.08); border-bottom: 1px solid rgba(28,25,23,0.08); }
     .steps-bg .section-pill { background: rgba(79,70,229,0.07); border-color: rgba(79,70,229,0.2); color: #4F46E5; }
     .steps-bg .section-heading { color: #1C1917; }
     .steps-bg .section-heading .grad-text {
       background: linear-gradient(135deg, #4F46E5, #7C3AED);
       -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
-    }
-    .steps-bg .step h3 { color: #1C1917; }
-    .steps-bg .step p  { color: #78716C; }
-    .steps-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; margin-top: 56px; }
-    .step { position: relative; }
-    .step-num {
-      width: 48px; height: 48px; background: var(--grad); border-radius: 12px;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 18px; font-weight: 900; color: #fff; margin-bottom: 20px;
-      box-shadow: 0 4px 14px rgba(79,70,229,0.28);
-    }
-    .step-line {
-      position: absolute; top: 24px; left: 48px; right: -40px; height: 1px;
-      background: linear-gradient(90deg, rgba(79,70,229,0.3), transparent);
-    }
-    .step h3 { font-size: 18px; font-weight: 700; margin-bottom: 10px; }
-    .step p  { font-size: 14px; color: var(--muted-2); line-height: 1.7; }
-    /* UPGRADE 2026-06-13: Premium dashboard-style mockups (Stripe/Linear/Vercel 패턴).
-       이전: 단순 도식 SVG = 학생 PPT. 이후: 실 product UI snippets + depth + browser bar. */
-    .step-mockup {
-      width: 100%;
-      background: #FFFFFF;
-      border: 1px solid rgba(28,25,23,0.08);
-      border-radius: 14px;
-      margin-bottom: 20px;
-      overflow: hidden;
-      box-shadow:
-        0 1px 2px rgba(28,25,23,0.04),
-        0 10px 24px rgba(28,25,23,0.06),
-        0 20px 40px rgba(79,70,229,0.04);
-    }
-    /* Browser bar (Chrome/Safari 스타일) */
-    .step-mock-bar {
-      display: flex; align-items: center; gap: 6px;
-      padding: 10px 14px;
-      background: linear-gradient(180deg, #F9F8F6, #F3F1EE);
-      border-bottom: 1px solid rgba(28,25,23,0.06);
-    }
-    .step-mock-dot {
-      width: 8px; height: 8px; border-radius: 50%;
-    }
-    .step-mock-dot.r { background: #FF5F57; }
-    .step-mock-dot.y { background: #FEBC2E; }
-    .step-mock-dot.g { background: #28C840; }
-    .step-mock-url {
-      margin-left: 12px;
-      font-size: 10px; color: #78716C;
-      font-family: 'JetBrains Mono','SF Mono',monospace;
-      letter-spacing: -0.1px;
-      background: rgba(28,25,23,0.04);
-      padding: 3px 10px; border-radius: 100px;
-      flex: 1;
-    }
-    .step-mock-body { padding: 14px 16px; }
-
-    /* Step 1: store list */
-    .step-mock-store {
-      display: flex; align-items: center; gap: 10px;
-      padding: 8px 0;
-      border-bottom: 1px solid rgba(28,25,23,0.04);
-    }
-    .step-mock-store:last-of-type { border-bottom: 0; }
-    .step-mock-logo {
-      width: 28px; height: 28px; border-radius: 6px;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 13px; font-weight: 800; color: #fff;
-      flex-shrink: 0;
-    }
-    .step-mock-logo.lg-1 { background: linear-gradient(135deg, #4F46E5, #7C3AED); }
-    .step-mock-logo.lg-2 { background: linear-gradient(135deg, #059669, #047857); }
-    .step-mock-logo.lg-3 { background: linear-gradient(135deg, #D97706, #B45309); }
-    .step-mock-store-info { flex: 1; min-width: 0; }
-    .step-mock-store-name {
-      font-size: 12px; font-weight: 700; color: #1C1917;
-      letter-spacing: -0.1px;
-    }
-    .step-mock-store-meta {
-      font-size: 10px; color: #78716C; margin-top: 1px;
-      font-feature-settings: 'tnum' on, 'cv11' on;
-      font-variant-numeric: tabular-nums;
-    }
-    .step-mock-status {
-      color: #047857; font-size: 8px;
-      animation: livepulse 2s infinite;
-    }
-    .step-mock-more {
-      font-size: 10px; color: #78716C;
-      padding-top: 8px; text-align: center;
-      letter-spacing: -0.1px;
-    }
-
-    /* Step 2: cluster view */
-    .step-mock-cluster-head {
-      display: flex; justify-content: space-between; align-items: center;
-      padding-bottom: 8px; margin-bottom: 8px;
-      border-bottom: 1px solid rgba(28,25,23,0.06);
-    }
-    .step-mock-cluster-name {
-      font-size: 12px; font-weight: 800; color: #1C1917;
-      letter-spacing: -0.1px;
-    }
-    .step-mock-cluster-badge {
-      font-size: 9px; font-weight: 700;
-      padding: 3px 8px; border-radius: 100px;
-      background: rgba(79,70,229,0.1); color: #4F46E5;
-      letter-spacing: 0.3px;
-    }
-    .step-mock-cluster-row {
-      display: flex; justify-content: space-between; align-items: center;
-      padding: 4px 0;
-      font-size: 11px;
-    }
-    .step-mock-cluster-store {
-      color: #57534E; font-family: 'JetBrains Mono','SF Mono',monospace;
-      font-size: 10px;
-    }
-    .step-mock-cluster-price {
-      color: #1C1917; font-weight: 800;
-      font-family: 'JetBrains Mono', 'SF Mono', monospace;
-      font-feature-settings: 'tnum' on, 'cv11' on;
-      letter-spacing: -0.2px;
-    }
-
-    /* Step 3: dashboard view */
-    .step-mock-dash-head {
-      display: flex; justify-content: space-between; align-items: center;
-      padding-bottom: 8px; margin-bottom: 8px;
-      border-bottom: 1px solid rgba(28,25,23,0.06);
-    }
-    .step-mock-dash-week {
-      font-size: 10px; font-weight: 800;
-      text-transform: uppercase; letter-spacing: 0.6px;
-      color: #4F46E5;
-    }
-    .step-mock-dash-filter {
-      font-size: 9px; font-weight: 700;
-      padding: 3px 8px; border-radius: 100px;
-      background: rgba(5,150,105,0.1); color: #047857;
-    }
-    .step-mock-product {
-      display: flex; justify-content: space-between; align-items: center;
-      padding: 6px 0;
-    }
-    .step-mock-prod-name {
-      font-size: 11px; font-weight: 600; color: #1C1917;
-      letter-spacing: -0.1px;
-    }
-    .step-mock-prod-score {
-      font-family: 'JetBrains Mono','SF Mono',monospace;
-      font-size: 10px; font-weight: 800;
-      padding: 2px 7px; border-radius: 5px;
-      font-feature-settings: 'tnum' on, 'cv11' on;
-      letter-spacing: -0.2px;
-    }
-
-    @media (max-width: 768px) {
-      .step-mockup { max-width: 100%; }
-    }
-
-    /* ── LIVE DEMO ── */
-    .demo-section {
-      background: #F3F1EE;
-      border-top: 1px solid rgba(28,25,23,0.07);
-      border-bottom: 1px solid rgba(28,25,23,0.07);
-      padding: 72px 24px;
-    }
-    .demo-inner { max-width: 1200px; margin: 0 auto; }
-    .demo-browser-wrap {
-      margin-top: 52px;
-      border: 1px solid rgba(28,25,23,0.1); border-radius: 16px; overflow: hidden;
-      box-shadow:
-        0 4px 24px rgba(15,23,42,0.08),
-        0 16px 48px rgba(15,23,42,0.06),
-        0 0 0 1px rgba(79,70,229,0.1);
-    }
-    .demo-layout { display: grid; grid-template-columns: 200px 1fr; background: #0a0d19; min-height: 460px; }
-    .demo-sidebar { background: #090e1a; border-right: 1px solid var(--border); padding: 18px 0; }
-    .demo-brand { padding: 0 16px 14px; font-size: 13px; font-weight: 700; color: var(--muted-2); border-bottom: 1px solid var(--border); margin-bottom: 10px; display: flex; align-items: center; gap: 6px; }
-    .demo-brand-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--purple); }
-    .demo-nav-item {
-      padding: 9px 16px; font-size: 12px; color: var(--muted);
-      display: flex; align-items: center; gap: 8px; cursor: default;
-      transition: background 0.15s ease, color 0.15s ease;
-      border-left: 2px solid transparent;
     }
     .demo-nav-item:not(.active):hover {
       background: rgba(255,255,255,0.03);
@@ -1243,92 +737,6 @@
       background: rgba(139,92,246,0.15); color: #C084FC;
       border-left-color: var(--purple);
     }
-    .demo-section-label { padding: 12px 16px 4px; font-size: 10px; text-transform: uppercase; letter-spacing: 1px; color: rgba(255,255,255,0.18); }
-    .demo-content { padding: 22px 24px; }
-    .demo-content-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; }
-    /* UPGRADE 2026-06-14: Demo dashboard typography hierarchy 강화 (Linear/Stripe SaaS dashboard 정합) */
-    .demo-content-title {
-      font-size: 15px; font-weight: 800; color: var(--white);
-      letter-spacing: -0.3px;
-    }
-    .demo-controls { display: flex; gap: 6px; }
-    .demo-chip {
-      font-size: 10.5px; font-weight: 600;
-      background: rgba(255,255,255,0.04);
-      border: 1px solid rgba(255,255,255,0.08);
-      color: var(--muted);
-      padding: 5px 11px; border-radius: 100px;
-      cursor: default;
-      letter-spacing: -0.05px;
-      font-family: 'JetBrains Mono', 'SF Mono', monospace;
-      transition: background 0.2s, border-color 0.2s;
-    }
-    .demo-chip:hover {
-      background: rgba(79,70,229,0.08);
-      border-color: rgba(79,70,229,0.25);
-    }
-
-    /* enhanced data grid */
-    .dg-head { display: grid; grid-template-columns: 56px 1.8fr 70px 110px 130px 120px; gap: 8px; padding: 0 10px 10px; border-bottom: 1px solid var(--border); }
-    /* D+10 lighthouse: rgba(255,255,255,0.2) on #0a0d19 = 1.79:1 fail → 0.6 opacity = 4.5:1 pass */
-    .dg-head span { font-size: 10px; text-transform: uppercase; letter-spacing: 0.8px; color: rgba(255,255,255,0.6); font-weight: 600; }
-    /* UPGRADE 2026-06-14: dg-row premium hover (Linear/Notion table row 정합) */
-    .dg-row {
-      display: grid; grid-template-columns: 56px 1.8fr 70px 110px 130px 120px;
-      gap: 8px; padding: 12px 10px;
-      border-bottom: 1px solid rgba(255,255,255,0.03);
-      align-items: center; cursor: default; border-radius: 8px;
-      transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
-      position: relative;
-    }
-    .dg-row::before {
-      content: ""; position: absolute; left: 0; top: 10%; bottom: 10%;
-      width: 2px; background: transparent; border-radius: 0 2px 2px 0;
-      transition: background 0.2s ease;
-    }
-    .dg-row:last-child { border-bottom: none; }
-    .dg-row:hover {
-      background: rgba(79,70,229,0.05);
-      transform: translateX(2px);
-      box-shadow: 0 1px 0 rgba(79,70,229,0.08);
-    }
-    .dg-row:hover::before { background: #4F46E5; }
-    .dg-thumb { width: 44px; height: 44px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0; overflow: hidden; }
-    .dg-thumb svg { width: 100%; height: 100%; padding: 4px; }
-    .dg-thumb.c1 { background: linear-gradient(135deg,#1C1917,#4F46E5); }
-    .dg-thumb.c2 { background: linear-gradient(135deg,#14532d,#15803d); }
-    .dg-thumb.c3 { background: linear-gradient(135deg,#1e3a5f,#4F46E5); }
-    .dg-thumb.c4 { background: linear-gradient(135deg,#3b0764,#7e22ce); }
-    .dg-product { display: flex; flex-direction: column; gap: 3px; }
-    .dg-name { font-size: 13px; font-weight: 600; color: var(--white); line-height: 1.2; }
-    .dg-cat  { font-size: 10px; color: var(--muted); background: rgba(255,255,255,0.05); padding: 1px 6px; border-radius: 4px; width: fit-content; }
-    /* UPGRADE 2026-06-14: Demo dashboard metric numbers premium typography (Linear/Notion 정합) */
-    .dg-stores {
-      font-size: 13px; color: var(--muted-2); font-weight: 600;
-      font-feature-settings: 'tnum' on, 'cv11' on;
-      font-variant-numeric: tabular-nums;
-    }
-    .dg-price {
-      font-size: 12px; color: var(--muted);
-      font-feature-settings: 'tnum' on, 'cv11' on;
-      font-variant-numeric: tabular-nums;
-      letter-spacing: -0.2px;
-    }
-    .dg-growth-cell { display: flex; align-items: center; gap: 6px; }
-    .dg-score-cell { display: flex; flex-direction: column; gap: 4px; }
-    .dg-score-top { display: flex; align-items: center; gap: 5px; }
-    .dg-score-num {
-      font-size: 13px; font-weight: 800; color: var(--muted-2);
-      font-family: 'JetBrains Mono', 'SF Mono', monospace;
-      font-feature-settings: 'tnum' on, 'cv11' on;
-      font-variant-numeric: tabular-nums;
-      letter-spacing: -0.3px;
-      transition: transform 0.18s ease;
-    }
-    .dg-row:hover .dg-score-num { transform: scale(1.1); }
-    .dg-score-bar { height: 4px; width: 80px; background: rgba(255,255,255,0.07); border-radius: 4px; overflow: hidden; }
-    .dg-fill-hot  { height: 100%; border-radius: 4px; background: linear-gradient(90deg, #7C3AED, #06b6d4); }
-    .dg-fill-warm { height: 100%; border-radius: 4px; background: linear-gradient(90deg, #F59E0B, #FB923C); }
 
     /* ── PRICING ── */
     .pricing-section { padding: 100px 24px; }
@@ -1358,17 +766,10 @@
       background: #F5F3FF;
       border: 1.5px solid rgba(79,70,229,0.4);
     }
-    .plan-badge-top {
-      position: absolute; top: -1px; right: 24px;
-      background: var(--grad-amber); color: #fff; font-size: 10px; font-weight: 700;
-      letter-spacing: 0.5px; padding: 4px 14px; border-radius: 0 0 8px 8px;
-      box-shadow: 0 4px 14px rgba(15,23,42,0.2);
-    }
     .plan-label { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); }
     .plan-price { font-size: 52px; font-weight: 900; letter-spacing: -2.5px; margin: 14px 0 4px; }
     .plan-price sup { font-size: 22px; font-weight: 700; vertical-align: super; letter-spacing: 0; }
     .plan-price span { font-size: 16px; font-weight: 400; color: var(--muted); letter-spacing: 0; }
-    .plan-trial { font-size: 13px; color: var(--green); font-weight: 600; margin-bottom: 20px; }
     .plan-desc { font-size: 14px; color: var(--muted-2); padding-bottom: 24px; margin-bottom: 24px; border-bottom: 1px solid var(--border); }
     .plan-features { list-style: none; display: flex; flex-direction: column; gap: 11px; margin-bottom: 28px; }
     /* UPGRADE 2026-06-14: Plan feature hover (Stripe pricing 정합 — subtle slide + emphasize text) */
@@ -1413,284 +814,7 @@
     .plan-btn-outline:hover {
       background: rgba(28,25,23,0.03); border-color: rgba(28,25,23,0.32);
     }
-
-    /* ── XRAY CTA ── */
-
-    /* ── REVIEWS ── */
-    .reviews-section { padding: 80px 24px; text-align: center; }
-    .reviews-inner { max-width: 1200px; margin: 0 auto; }
-    .reviews-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 48px; }
-
-    /* UPGRADE 2026-06-08: 가짜 testimonial → honest founder note + 실 데이터 row.
-       Linear/Plausible/Stripe 초기 패턴. text-align center, max-width readable. */
-    .founder-note {
-      max-width: 680px; margin: 0 auto; text-align: left;
-      background: var(--card);
-      border: 1px solid rgba(28,25,23,0.1);
-      border-radius: 20px;
-      padding: 48px 44px;
-      box-shadow: 0 1px 2px rgba(28,25,23,0.04), 0 8px 24px rgba(28,25,23,0.04);
-    }
-    .founder-note-body {
-      font-size: 15.5px; color: #1C1917; line-height: 1.7; letter-spacing: -0.1px;
-      margin-bottom: 20px;
-    }
-    .founder-note-body strong { color: #4F46E5; font-weight: 700; }
-    .founder-data-row {
-      display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px;
-      margin: 32px 0 28px;
-      padding: 24px 0;
-      border-top: 1px solid rgba(28,25,23,0.08);
-      border-bottom: 1px solid rgba(28,25,23,0.08);
-    }
-    /* UPGRADE 2026-06-14: Founder stats hover (Stripe revenue dashboard 패턴) */
-    .founder-data-stat {
-      text-align: center;
-      padding: 4px 0;
-      transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-    .founder-data-stat:hover { transform: translateY(-2px); }
-    .founder-data-num {
-      font-family: 'Inter', -apple-system, sans-serif;
-      font-size: 22px; font-weight: 800; letter-spacing: -0.6px; color: #1C1917;
-      font-feature-settings: 'tnum' on, 'cv11' on;
-      font-variant-numeric: tabular-nums;
-      transition: color 0.2s ease;
-    }
-    .founder-data-stat:hover .founder-data-num { color: #4F46E5; }
-    .founder-data-label {
-      font-size: 11px; color: #78716C; text-transform: uppercase; letter-spacing: 0.6px;
-      font-weight: 600; margin-top: 4px;
-    }
-    .founder-signoff {
-      font-size: 14px; color: #1C1917; font-weight: 600; margin-top: 8px;
-    }
-    .founder-signoff-email {
-      color: #4F46E5; text-decoration: none; font-weight: 700;
-      display: inline-block; position: relative; /* WCAG 2.5.5 hit area anchor */
-    }
-    /* WCAG 2.5.5: visible 150x16 + 10px top/bottom + 6px sides = ~162x36 hit area */
-    .founder-signoff-email::before {
-      content: ''; position: absolute;
-      top: -10px; left: -6px; right: -6px; bottom: -10px;
-    }
-    .founder-signoff-email:hover { text-decoration: underline; }
-    @media (max-width: 600px) {
-      .founder-note { padding: 36px 24px; }
-      .founder-data-row { grid-template-columns: repeat(2, 1fr); gap: 20px; }
-      .founder-note-body { font-size: 14.5px; }
-    }
-    .review-card {
-      background: var(--card); border: 1px solid var(--border);
-      border-radius: var(--radius-lg); padding: 32px; display: flex; flex-direction: column; gap: 16px;
-      transition: all 0.2s; position: relative; overflow: hidden;
-    }
-    .review-card::before {
-      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
-      background: linear-gradient(90deg, transparent, rgba(79,70,229,0.15), transparent);
-    }
-    .review-card:hover { border-color: rgba(79,70,229,0.25); box-shadow: 0 4px 16px rgba(15,23,42,0.08), 0 0 0 1px rgba(79,70,229,0.08); transform: translateY(-2px); }
-    .review-stars { display: flex; gap: 3px; }
-    .review-stars span { color: #F59E0B; font-size: 14px; }
-    .review-text { font-size: 15px; color: var(--muted-2); line-height: 1.75; flex: 1; }
-    .review-text::before { content: '"'; color: var(--purple-hi); font-size: 20px; line-height: 0; vertical-align: -6px; margin-right: 2px; }
-    .review-text::after  { content: '"'; color: var(--purple-hi); font-size: 20px; line-height: 0; vertical-align: -6px; margin-left: 2px; }
-    .review-meta { display: flex; align-items: center; gap: 12px; padding-top: 16px; border-top: 1px solid var(--border); }
-    .review-av { width: 38px; height: 38px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 15px; flex-shrink: 0; }
-    .av-p { background: rgba(139,92,246,0.2); color: #C084FC; }
-    .av-g { background: rgba(16,185,129,0.15); color: #34D399; }
-    .av-b { background: rgba(59,130,246,0.15); color: #60a5fa; }
-    .review-name { font-size: 14px; font-weight: 800; color: var(--white); letter-spacing: -0.2px; }
-    .review-role { font-size: 12px; color: var(--muted); display: flex; align-items: center; gap: 5px; margin-top: 2px; }
-
-    /* DEAD CODE 2026-06-08: founder-section / founder-card / founder-quote / founder-meta /
-       founder-av / founder-name / founder-title CSS 제거. HTML은 라운드 20에서 제거됨.
-       .founder-note (open beta 섹션)는 별도 클래스로 유지. */
-    .founder-title a { color: var(--muted); text-decoration: none; }
-    .founder-title a:hover { color: var(--white); }
-
-    /* UPGRADE 2026-06-08: Monday digest 이메일 미리보기 — Linear "live product context".
-       고객이 매주 받는 실제 형태 노출 → 구매 전 "받는 게 뭔지" 인지.
-       FIX 2026-06-08 (cleanup): 위 padding 60→112px 통일 — 메인 .section 정합, visual rhythm 회복. */
-    .email-preview-section {
-      padding: 112px 24px 100px;
-      max-width: 760px; margin: 0 auto; text-align: center;
-    }
     .email-preview-inner .section-pill { margin-bottom: 16px; }
-    .email-mock {
-      margin-top: 40px;
-      perspective: 1200px;
-    }
-    .email-mock-frame {
-      background: #FFFFFF;
-      border: 1px solid rgba(28,25,23,0.08);
-      border-radius: var(--radius-md);
-      /* FIX 2026-06-08 (cleanup): shadow 톤다운 — cream brand 정합.
-         purple ambient 제거, warm neutral 그림자 단일. */
-      box-shadow:
-        0 1px 2px rgba(28,25,23,0.04),
-        0 8px 20px rgba(28,25,23,0.05);
-      overflow: hidden;
-      text-align: left;
-      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-                  box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-    .email-mock-frame:hover {
-      transform: translateY(-2px);
-      box-shadow:
-        0 1px 2px rgba(28,25,23,0.05),
-        0 12px 28px rgba(28,25,23,0.06);
-    }
-    .email-mock-header {
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 16px 22px;
-      background: linear-gradient(180deg, #F9F8F6 0%, #F4F2EE 100%);
-      border-bottom: 1px solid rgba(28,25,23,0.06);
-    }
-    .email-mock-from { display: flex; align-items: center; gap: 12px; }
-    .email-mock-avatar {
-      width: 36px; height: 36px; border-radius: 12px;
-      background: linear-gradient(135deg, #4F46E5 0%, #7C3AED 100%);
-      display: flex; align-items: center; justify-content: center;
-      color: #fff; font-weight: 800; font-size: 13px; letter-spacing: -0.3px;
-    }
-    .email-mock-sender { font-size: 14px; font-weight: 700; color: #1C1917; letter-spacing: -0.2px; }
-    .email-mock-meta {
-      font-size: 11px; color: #78716C; margin-top: 2px; letter-spacing: 0.1px;
-      font-feature-settings: 'tnum' on, 'cv11' on;
-      font-variant-numeric: tabular-nums;
-    }
-    .email-mock-pill {
-      font-size: 10px; font-weight: 800;
-      padding: 5px 11px; border-radius: 100px;
-      background: rgba(79,70,229,0.08); color: #4F46E5;
-      letter-spacing: 0.5px; text-transform: uppercase;
-    }
-    .email-mock-body { padding: 28px 28px 20px; }
-    .email-mock-h {
-      font-family: 'Inter', -apple-system, sans-serif;
-      font-size: 19px; font-weight: 800; letter-spacing: -0.4px;
-      color: #1C1917; margin: 0 0 8px;
-    }
-    .email-mock-intro {
-      font-size: 13px; color: #78716C; line-height: 1.55; margin-bottom: 24px;
-    }
-    /* UPGRADE 2026-06-14: Email digest item hover (실 이메일 인터랙션 정합) */
-    .email-mock-item {
-      display: flex; gap: 16px; align-items: flex-start;
-      padding: 18px 12px; border-top: 1px solid rgba(28,25,23,0.06);
-      margin: 0 -12px;
-      border-radius: 8px;
-      transition: background 0.18s ease;
-    }
-    .email-mock-item:hover { background: rgba(79,70,229,0.025); }
-    /* FIX 2026-06-09: SVG 일러스트 thumbnail — 외부 의존 0, 깨질 위험 0.
-       각 카테고리별 brand 색감 tint (light pastel bg + dark icon). */
-    .email-mock-thumb {
-      width: 56px; height: 56px; flex-shrink: 0;
-      border-radius: 12px;
-      display: flex; align-items: center; justify-content: center;
-      border: 1px solid rgba(28,25,23,0.08);
-      box-shadow: 0 1px 2px rgba(28,25,23,0.04);
-    }
-    /* UPGRADE 2026-06-13: Stripe/Linear-tier premium product card.
-       이전: outline SVG = 학생 PPT. 이후: multi-layer + depth + brand mark + SKU. */
-    .thumb-card {
-      position: relative; overflow: hidden;
-      background: linear-gradient(160deg, #F9F8F6 0%, #EDEAE3 100%);
-      box-shadow:
-        inset 0 1px 0 rgba(255,255,255,0.6),
-        inset 0 -1px 0 rgba(28,25,23,0.06);
-    }
-    .thumb-card .thumb-card-icon {
-      position: absolute; inset: 0;
-      width: 100%; height: 100%;
-      padding: 8px;
-    }
-    .thumb-card-mark {
-      position: absolute; top: 4px; left: 4px;
-      width: 6px; height: 6px; border-radius: 50%;
-      background: #4F46E5;
-      box-shadow: 0 0 0 2px rgba(79,70,229,0.18);
-      z-index: 2;
-    }
-    .thumb-card-sku {
-      position: absolute; bottom: 3px; right: 5px;
-      font-family: 'JetBrains Mono','SF Mono',monospace;
-      font-size: 7px; font-weight: 700;
-      color: rgba(28,25,23,0.55);
-      letter-spacing: 0.3px;
-      z-index: 2;
-    }
-    .thumb-card-1 { background: linear-gradient(160deg, #F4F1EB 0%, #E8E2D4 100%); }
-    .thumb-card-2 { background: linear-gradient(160deg, #EEF2FF 0%, #C7D2FE 100%); }
-    .thumb-card-3 { background: linear-gradient(160deg, #FEF3C7 0%, #FCD34D 100%); }
-    .email-mock-rank {
-      font-family: 'JetBrains Mono', 'SF Mono', monospace;
-      font-size: 11px; font-weight: 700;
-      width: 28px; padding-top: 3px;
-      color: #4F46E5; letter-spacing: 0.5px;
-    }
-    .email-mock-item-body { flex: 1; }
-    .email-mock-item-title {
-      font-size: 14.5px; font-weight: 700; color: #1C1917;
-      letter-spacing: -0.2px; margin-bottom: 4px;
-    }
-    .email-mock-item-meta {
-      font-size: 12px; color: #78716C;
-      display: flex; flex-wrap: wrap; align-items: center; gap: 4px 6px;
-    }
-    .email-mock-stat strong {
-      color: #1C1917; font-weight: 700;
-      font-feature-settings: 'tnum' on, 'cv11' on;
-      font-variant-numeric: tabular-nums;
-    }
-    .email-mock-divider { color: #D6D3D1; font-weight: 400; }
-    .email-mock-trend {
-      font-family: 'JetBrains Mono', 'SF Mono', monospace;
-      font-size: 11px; color: #4F46E5; font-weight: 700;
-      background: rgba(79,70,229,0.06); padding: 1px 7px; border-radius: 4px;
-      font-feature-settings: 'tnum' on, 'cv11' on;
-      transition: background 0.18s ease;
-    }
-    .email-mock-item:hover .email-mock-trend { background: rgba(79,70,229,0.12); }
-    .email-mock-bars {
-      display: flex; gap: 3px; align-items: flex-end;
-      height: 26px; margin-top: 10px; max-width: 280px;
-    }
-    .email-mock-bar {
-      flex: 1;
-      background: linear-gradient(180deg, #4F46E5 0%, #7C3AED 100%);
-      border-radius: 1.5px; min-height: 3px;
-      opacity: 0.55;
-    }
-    .email-mock-bar:last-child { opacity: 1; }
-    .email-mock-hist-label {
-      font-size: 10px; color: #78716C; margin-top: 6px; letter-spacing: 0.2px;
-    }
-    .email-mock-footer {
-      font-size: 12px; color: #78716C; margin-top: 20px;
-      padding-top: 16px; border-top: 1px solid rgba(28,25,23,0.06);
-      letter-spacing: -0.1px;
-    }
-    .email-mock-disclaimer {
-      padding: 12px 22px;
-      background: rgba(28,25,23,0.02);
-      border-top: 1px solid rgba(28,25,23,0.04);
-      font-size: 10px; color: #78716C; text-align: center;
-      letter-spacing: 0.2px;
-      font-feature-settings: 'cv11' on;
-    }
-    @media (max-width: 600px) {
-      .email-mock-body { padding: 22px 18px 16px; }
-      .email-mock-h { font-size: 17px; }
-      .email-mock-header { padding: 14px 16px; }
-      .email-mock-item { gap: 10px; padding: 14px 0; }
-      .email-mock-thumb { width: 44px; height: 44px; }
-      .email-mock-rank { width: 22px; font-size: 10px; }
-      .email-mock-item-title { font-size: 13.5px; }
-      .email-mock-bars { max-width: 100%; }
-    }
 
     /* DEAD CODE 2026-06-09: why-section / why-inner / why-sub / why-grid / why-card / why-icon-wrap
        제거 — HTML 라운드 26에서 제거됨 (pricing 뒤 위치 + 중복 콘텐츠). */
@@ -1698,30 +822,6 @@
     /* ── FAQ ── */
     /* FIX 2026-06-08 (cleanup): 위 padding 0→112px — 윗 섹션과 호흡 회복, visual rhythm 통일. */
     .faq-section { padding: 112px 24px 100px; }
-
-    /* UPGRADE 2026-06-08: FAQ 3 카테고리화 — Stripe pricing FAQ 패턴.
-       Linear-style numbered label (01/02/03 monospace) — 검색 시간 ↓. */
-    .faq-category { margin-top: 56px; }
-    .faq-category:first-of-type { margin-top: 48px; }
-    .faq-category-label {
-      display: flex; align-items: center; gap: 12px;
-      font-size: 13px; font-weight: 700;
-      color: #1C1917; letter-spacing: -0.1px;
-      padding-bottom: 14px;
-      margin-bottom: 24px;
-      border-bottom: 1px solid rgba(28,25,23,0.08);
-    }
-    .faq-category-num {
-      font-family: 'JetBrains Mono', 'SF Mono', monospace;
-      font-size: 11px; font-weight: 700;
-      padding: 4px 9px; border-radius: 8px;
-      background: rgba(79,70,229,0.08);
-      color: #4F46E5; letter-spacing: 0.6px;
-    }
-    @media (max-width: 600px) {
-      .faq-category { margin-top: 40px; }
-      .faq-category-label { font-size: 12px; padding-bottom: 10px; margin-bottom: 16px; }
-    }
     .faq-inner { max-width: 1200px; margin: 0 auto; }
     .faq-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0; margin-top: 48px; border: 1px solid var(--border); border-radius: 16px; overflow: hidden; }
     .faq-item { border-right: 1px solid var(--border); border-bottom: 1px solid var(--border); }
@@ -1818,20 +918,6 @@
       background: #F5F3FF !important;
       box-shadow: 0 1px 2px rgba(28,25,23,0.04), 0 8px 24px rgba(79,70,229,0.08) !important;
     }
-
-    /* ── FOMO BADGE ── */
-    .fomo-badge {
-      display: inline-flex; align-items: center; gap: 4px;
-      background: rgba(251,146,60,0.12); color: #FB923C;
-      border: 1px solid rgba(251,146,60,0.25);
-      font-size: 10px; font-weight: 800; letter-spacing: 0.3px;
-      padding: 2px 7px; border-radius: 4px; margin-left: 6px;
-      vertical-align: middle; text-transform: uppercase;
-    }
-
-    /* ── REVIEWS (updated) ── */
-    .review-stars { display: flex; gap: 2px; }
-    .star-svg { width: 15px; height: 15px; fill: #F59E0B; flex-shrink: 0; }
 
     /* ── X-RAY LEAD GEN ── */
     .xray-section { padding: 0 24px 80px; }
@@ -1938,90 +1024,6 @@
       0%   { background-position: -800px 0; }
       100% { background-position:  800px 0; }
     }
-    .xr-skeleton-table {
-      border: 1px solid var(--border); border-radius: 12px; overflow: hidden;
-    }
-    .xr-sk-head {
-      display: grid; grid-template-columns: 48px 1fr 80px 110px 110px;
-      gap: 12px; padding: 12px 16px;
-      background: rgba(244,241,236,1); border-bottom: 1px solid var(--border);
-    }
-    .xr-sk-row {
-      display: grid; grid-template-columns: 48px 1fr 80px 110px 110px;
-      gap: 12px; padding: 14px 16px; align-items: center;
-      border-bottom: 1px solid rgba(148,163,184,0.1);
-    }
-    .xr-sk-row:last-child { border-bottom: none; }
-    .sk {
-      border-radius: 8px; height: 12px;
-      background: linear-gradient(
-        90deg,
-        rgba(148,163,184,0.1) 25%,
-        rgba(148,163,184,0.22) 50%,
-        rgba(148,163,184,0.1) 75%
-      );
-      background-size: 800px 100%;
-      animation: xr-shimmer 1.6s infinite;
-    }
-    .sk-thumb  { width: 40px; height: 40px; border-radius: 8px; }
-    .sk-short  { width: 60%; }
-    .sk-xshort { width: 40%; margin-top: 6px; }
-    .sk-med    { width: 55px; }
-    .sk-wide   { width: 85px; }
-    .sk-col    { display: flex; flex-direction: column; gap: 6px; }
-    .sk-head-cell { height: 9px; border-radius: 4px; }
-
-    /* ── STEP 3 : gate ── */
-    .xr-gate-box {
-      border: 1px solid var(--border); border-radius: 12px; overflow: hidden;
-    }
-    /* 1 visible row */
-    .xr-visible-row {
-      display: grid; grid-template-columns: 48px 1fr 80px 110px 110px;
-      gap: 12px; padding: 14px 16px; align-items: center;
-      border-bottom: 1px solid var(--border);
-    }
-    .xr-vthumb { width: 40px; height: 40px; border-radius: 8px; background: linear-gradient(135deg,#1C1917,#4F46E5); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-    .xr-vname  { font-size: 13px; font-weight: 600; color: var(--white); }
-    .xr-vcat   { font-size: 10px; color: var(--muted); background: rgba(148,163,184,0.12); padding: 1px 6px; border-radius: 4px; width: fit-content; margin-top: 3px; }
-    .xr-vnum   { font-size: 13px; color: var(--muted-2); }
-    .xr-vbadge { font-size: 11px; font-weight: 700; padding: 3px 8px; border-radius: 4px; background: rgba(16,185,129,0.12); color: #34D399; border: 1px solid rgba(16,185,129,0.2); width: fit-content; }
-    .xr-vscore { font-size: 14px; font-weight: 800; color: #A78BFA; }
-    /* 2 blurred rows */
-    .xr-blur-rows { position: relative; }
-    .xr-blur-row {
-      display: grid; grid-template-columns: 48px 1fr 80px 110px 110px;
-      gap: 12px; padding: 14px 16px; align-items: center;
-      border-bottom: 1px solid rgba(255,255,255,0.03);
-      filter: blur(5px); user-select: none; pointer-events: none;
-    }
-    .xr-blur-row:last-child { border-bottom: none; }
-    .xr-blur-overlay {
-      position: absolute; inset: 0;
-      background: linear-gradient(180deg, transparent 0%, rgba(249,248,246,0.7) 40%, rgba(249,248,246,0.97) 100%);
-    }
-    /* lock gate */
-    .xr-lock-gate {
-      padding: 36px 32px 40px; text-align: center;
-      background: linear-gradient(135deg, rgba(79,70,229,0.04), rgba(99,102,241,0.03));
-      border-top: 1px solid rgba(79,70,229,0.15);
-    }
-    .xr-lock-icon {
-      width: 52px; height: 52px; background: rgba(79,70,229,0.06); border: 1px solid rgba(79,70,229,0.2);
-      border-radius: 12px; display: flex; align-items: center; justify-content: center;
-      margin: 0 auto 18px;
-    }
-    .xr-gate-count {
-      display: inline-flex; align-items: center; gap: 6px;
-      background: rgba(79,70,229,0.06); border: 1px solid rgba(79,70,229,0.2);
-      color: #4F46E5; font-size: 12px; font-weight: 700; padding: 4px 12px;
-      border-radius: 100px; margin-bottom: 16px;
-    }
-    .xr-gate-title {
-      font-size: clamp(20px, 3vw, 28px); font-weight: 800; letter-spacing: -0.8px;
-      margin-bottom: 10px; color: var(--white);
-    }
-    .xr-gate-desc { font-size: 15px; color: var(--muted-2); max-width: 420px; margin: 0 auto 28px; line-height: 1.7; }
     .xr-email-row {
       display: flex; gap: 10px; max-width: 500px; margin: 0 auto;
     }
@@ -2069,53 +1071,12 @@
     @media (max-width: 640px) {
       .xr-url-row, .xr-email-row { flex-direction: column; }
       .xr-analyze-btn, .xr-submit-btn { width: 100%; }
-      .xr-sk-head, .xr-sk-row, .xr-visible-row, .xr-blur-row {
-        grid-template-columns: 40px 1fr 70px; }
-      .xr-sk-head > *:nth-child(n+4),
-      .xr-sk-row  > *:nth-child(n+4),
-      .xr-visible-row > *:nth-child(n+4),
-      .xr-blur-row    > *:nth-child(n+4) { display: none; }
     }
 
     /* ── TOAST ── */
     .toast { position: fixed; bottom: 32px; left: 50%; transform: translateX(-50%); background: var(--card); color: var(--white); padding: 14px 24px; border-radius: 12px; font-size: 14px; font-weight: 500; box-shadow: 0 8px 30px rgba(0,0,0,0.4); z-index: 9999; opacity: 0; transition: opacity 0.3s; pointer-events: none; border: 1px solid var(--border); }
     .toast.show { opacity: 1; }
     .success-banner { background: rgba(16,185,129,0.1); border-bottom: 1px solid rgba(16,185,129,0.2); color: #34D399; text-align: center; padding: 14px; font-size: 14px; font-weight: 600; }
-
-    /* DEAD CODE 2026-06-08: hero-alerts / hero-alert / ha-icon / ha-name / ha-eyebrow
-       제거 — HTML 라운드 25에서 단일 .hero-scale-note 로 통합 (시각 중복 제거). */
-
-    /* UPGRADE 2026-06-08: hero scale note — 단일 라인 통계, Linear/Vercel 패턴. */
-    .hero-scale-note {
-      font-size: 13px; color: var(--muted-2);
-      margin: 0 auto 40px; max-width: 580px;
-      letter-spacing: -0.1px; line-height: 1.5;
-      font-feature-settings: 'tnum' on, 'cv11' on;
-      font-variant-numeric: tabular-nums;
-    }
-    .hero-scale-note strong {
-      color: var(--white); font-weight: 700;
-      background: linear-gradient(135deg, #1C1917 0%, #4F46E5 100%);
-      -webkit-background-clip: text; background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-    @media (max-width: 640px) { .hero-scale-note { font-size: 12px; max-width: 320px; } }
-
-
-    /* ── INTEGRATIONS STRIP ── */
-    .int-strip { padding: 18px 24px; border-bottom: 1px solid var(--border); }
-    .int-strip-inner {
-      max-width: 1200px; margin: 0 auto;
-      display: flex; align-items: center; justify-content: center; gap: 32px; flex-wrap: wrap;
-    }
-    .int-label { font-size: 12px; color: var(--muted); font-weight: 500; white-space: nowrap; }
-    .int-logo {
-      display: flex; align-items: center; gap: 7px;
-      opacity: 0.55; transition: opacity 0.2s;
-    }
-    .int-logo:hover { opacity: 0.85; }
-    .int-logo span { font-size: 13px; font-weight: 700; color: #57534E; letter-spacing: -0.3px; }
-    .int-divider { width: 1px; height: 16px; background: var(--border); }
 
     /* .lifestyle-section / .ls-* removed — replaced by .ba-section (Before/After) in P5 edit */
 
@@ -2126,36 +1087,10 @@
         radial-gradient(ellipse 40% 50% at 5% 70%, rgba(99,102,241,0.025) 0%, transparent 55%);
     }
 
-    /* ── BETTER CARD DEPTH ── */
-    .review-card {
-      background: #FFFFFF !important;
-      border: 1px solid rgba(28,25,23,0.12) !important;
-      box-shadow: 0 1px 2px rgba(0,0,0,0.04), 0 8px 24px rgba(0,0,0,0.06) !important;
-    }
-
-    /* ── BETTER TESTIMONIAL AVATARS ── */
-    .review-av {
-      width: 44px; height: 44px; border-radius: 12px !important;
-      font-weight: 800; font-size: 15px; flex-shrink: 0;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-    }
-    .av-p { background: linear-gradient(135deg, #7C3AED, #a855f7) !important; color: #fff !important; }
-    .av-g { background: linear-gradient(135deg, #059669, #34D399) !important; color: #fff !important; }
-    .av-b { background: linear-gradient(135deg, #4F46E5, #60a5fa) !important; color: #fff !important; }
-
-    /* ── REVIEW STARS GLOW ── */
-    .star-svg { filter: drop-shadow(0 0 3px rgba(245,158,11,0.4)); }
-
     /* ── PRICING SECTION AMBIENT ── */
     .pricing-section {
       background-image:
         radial-gradient(ellipse 60% 50% at 50% 50%, rgba(79,70,229,0.04) 0%, transparent 60%);
-    }
-
-    /* ── REVIEWS SECTION AMBIENT ── */
-    .reviews-section {
-      background-image:
-        radial-gradient(ellipse 50% 50% at 20% 50%, rgba(79,70,229,0.025) 0%, transparent 55%);
     }
 
     /* ── STRONGER BORDER VISIBILITY ── */
@@ -2169,25 +1104,13 @@
     /* ── RESPONSIVE ── */
     @media (max-width: 1024px) {
       .product-grid { grid-template-columns: repeat(2, 1fr); }
-      .dg-head, .dg-row { grid-template-columns: 44px 1.5fr 60px 1fr 1fr; }
-      .dg-head span:last-child, .dg-row > *:last-child { display: none; }
-      .bento-grid { grid-template-columns: 1fr 1fr; }
-      .bento-card.wide { grid-column: span 2; }
     }
     @media (max-width: 768px) {
       .hero h1 { letter-spacing: -1.5px; }
       .section-h2, .section-heading { letter-spacing: -1.5px; }
       .hero-mockup-inner { transform: none; }
       .dash-sidebar, .demo-sidebar { display: none; }
-      .demo-layout { grid-template-columns: 1fr; }
       .product-grid { grid-template-columns: repeat(2, 1fr); }
-      .steps-grid { grid-template-columns: 1fr; gap: 32px; }
-      .step-line { display: none; }
-      .bento-grid { grid-template-columns: 1fr; }
-      .bento-card.wide { grid-column: span 1; }
-      .bento-card { padding: 32px 28px; }
-      .bc-row { grid-template-columns: 110px 1fr 32px 44px; }
-      .reviews-grid { grid-template-columns: 1fr; }
       .faq-grid { grid-template-columns: 1fr; }
       .faq-item { border-right: none; }
       .faq-item:nth-last-child(-n+2) { border-bottom: 1px solid var(--border); }
@@ -2208,8 +1131,6 @@
       .nav-hamburger { display: inline-flex; }
     }
     @media (max-width: 500px) {
-      .dg-head, .dg-row { grid-template-columns: 44px 1fr 80px; }
-      .dg-head span:nth-child(n+4), .dg-row > *:nth-child(n+4) { display: none; }
       .footer-inner { grid-template-columns: 1fr; }
     }
 
@@ -2222,19 +1143,6 @@
     .toast { box-shadow: 0 4px 24px rgba(15,23,42,0.12); }
     /* xr-url-input base needs white bg */
     .xr-url-input { background: var(--card); }
-    /* bc-prod text on light bento */
-    .bc-prod { color: #1C1917; }
-    .bc-chart-title { color: #78716C; }
-    .bc-pt-store { color: #78716C; }
-    .bc-notif-title { color: #1C1917; }
-    .bc-notif-meta  { color: #78716C; }
-    /* DEAD CODE 2026-06-09: bc-store-name / bc-store-sub light theme override 제거 */
-    .bc-file-name   { color: #1C1917; }
-    .bc-file-meta   { color: #78716C; }
-    /* bento eyebrow on white card */
-    .bento-eyebrow  { color: #78716C; }
-    .bento-card h3  { color: #1C1917; }
-    .bento-card p   { color: #78716C; }
     /* bc-term-body stays dark — hardcoded bg #050810 */
 
     /* ══════════════════════════════════════════════════════════
@@ -2251,19 +1159,6 @@
     /* 1 ── GLOBAL FONT: Inter only */
     body, button, input, select, textarea {
       font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif !important;
-    }
-
-    /* 2 ── HERO H1 — maximum impact */
-    .hero-h1 {
-      font-family: 'Inter', -apple-system, sans-serif !important;
-      font-size: clamp(52px, 7vw, 88px) !important;
-      font-weight: 900 !important;
-      letter-spacing: -4px !important;
-      line-height: 1.03 !important;
-      color: #1C1917 !important;
-    }
-    @media (max-width: 768px) {
-      .hero-h1 { letter-spacing: -2px !important; }
     }
 
     /* 3 ── SECTION H2 — clear authority */
@@ -2287,38 +1182,6 @@
       line-height: 1.85 !important;
       color: #6B655F !important;
       letter-spacing: -0.01em !important;
-    }
-
-    /* 5 ── BENTO CARD H3 — clean authority */
-    .bento-card h3 {
-      font-family: 'Inter', sans-serif !important;
-      font-size: 19px !important;
-      font-weight: 700 !important;
-      letter-spacing: -0.5px !important;
-      line-height: 1.3 !important;
-      color: #1C1917 !important;
-    }
-    .bento-card p {
-      font-size: 14px !important;
-      line-height: 1.8 !important;
-      color: #78716C !important;
-    }
-
-    /* 6 ── COUNTER NUMBERS — bold display data (enlarged scale) */
-    .counter-num {
-      font-family: 'Inter', sans-serif !important;
-      font-size: clamp(48px, 6vw, 76px) !important;
-      font-weight: 900 !important;
-      letter-spacing: -3.5px !important;
-      line-height: 1 !important;
-    }
-    .counter-label {
-      font-size: 13px !important;
-      font-weight: 600 !important;
-      color: #78716C !important;
-      letter-spacing: 0.4px !important;
-      text-transform: uppercase !important;
-      margin-top: 12px !important;
     }
 
     /* 7 ── LIFESTYLE SECTION removed — Before/After section uses .ba-* in P5 edit */
@@ -2366,36 +1229,6 @@
       line-height: 1.6 !important;
     }
 
-    /* 9 ── HOW IT WORKS STEPS */
-    .step h3 {
-      font-size: 19px !important;
-      font-weight: 700 !important;
-      letter-spacing: -0.4px !important;
-      color: #1C1917 !important;
-    }
-    .step p {
-      font-size: 15px !important;
-      line-height: 1.8 !important;
-      color: #78716C !important;
-    }
-
-    /* 10 ── REVIEWS */
-    .review-text {
-      font-size: 15px !important;
-      line-height: 1.8 !important;
-      color: #57534E !important;
-    }
-    .review-name {
-      font-size: 14px !important;
-      font-weight: 700 !important;
-      letter-spacing: -0.2px !important;
-      color: #1C1917 !important;
-    }
-    .review-role {
-      font-size: 12px !important;
-      color: #78716C !important;
-    }
-
     /* 11 ── FAQ */
     .faq-item details summary {
       font-size: 16px !important;
@@ -2427,22 +1260,6 @@
     }
     .footer-col a:hover { color: #1C1917 !important; }
 
-    /* 13 ── NAV */
-    .nav-brand {
-      font-family: 'Inter', sans-serif !important;
-      font-size: 17px !important;
-      font-weight: 800 !important;
-      letter-spacing: -0.5px !important;
-      color: #1C1917 !important;
-    }
-    .nav-link {
-      font-size: 14px !important;
-      font-weight: 500 !important;
-      letter-spacing: -0.1px !important;
-      color: #57534E !important;
-    }
-    .nav-link:hover { color: #1C1917 !important; }
-
     /* 14 ── SECTION EYEBROW PILLS */
     .section-pill {
       font-size: 11px !important;
@@ -2468,18 +1285,6 @@
       font-weight: 800 !important;
       margin-top: 2px !important;
     }
-
-    /* Divider between base and locked features */
-    .plan-feat-sep {
-      font-size: 10px !important; font-weight: 700 !important;
-      letter-spacing: 0.7px !important; text-transform: uppercase !important;
-      color: #78716C !important;
-      padding: 6px 0 2px !important;
-      border-top: 1px dashed rgba(148,163,184,0.3) !important;
-      margin-top: 4px !important;
-      list-style: none !important;
-    }
-    .plan-feat-sep::before { display: none !important; }
     .plan-card.featured .plan-feat-sep { color: #4F46E5 !important; border-top-color: rgba(79,70,229,0.25) !important; border-top-style: solid !important; }
 
     /* Pro featured plan: darker base text */
@@ -2498,32 +1303,6 @@
       font-weight: 800 !important;
     }
 
-    /* Feature badges */
-    .feat-badge-hot {
-      display: inline-flex; align-items: center; gap: 2px;
-      background: rgba(234,88,12,0.1); color: #c2410c;
-      border: 1px solid rgba(234,88,12,0.22);
-      border-radius: 4px; font-size: 10px; font-weight: 800;
-      padding: 1px 6px; margin-left: 6px;
-      vertical-align: middle; letter-spacing: 0.3px;
-    }
-    .feat-badge-new {
-      display: inline-flex; align-items: center;
-      background: rgba(79,70,229,0.08); color: #4F46E5;
-      border: 1px solid rgba(79,70,229,0.18);
-      border-radius: 4px; font-size: 10px; font-weight: 800;
-      padding: 1px 6px; margin-left: 6px;
-      vertical-align: middle;
-    }
-    .feat-badge-unlimited {
-      display: inline-flex; align-items: center;
-      background: rgba(5,150,105,0.08); color: #047857;
-      border: 1px solid rgba(5,150,105,0.2);
-      border-radius: 4px; font-size: 10px; font-weight: 800;
-      padding: 1px 6px; margin-left: 6px;
-      vertical-align: middle;
-    }
-
     /* 15 ── XR SECTION */
     .xr-sub {
       font-size: 17px !important;
@@ -2535,9 +1314,6 @@
 
     /* ── COLOR CONTRAST FIXES ── */
     .hero-sub { color: #57534E !important; }
-    .hero-trust { color: #78716C !important; font-size: 13px !important; }
-    .hero-trust span::before { color: #047857; }
-    .counter-label { color: #57534E !important; font-size: 14px !important; }
 
     /* ── SCROLL REVEAL ── */
     .reveal {
@@ -2573,15 +1349,6 @@
     }
     .hero::before { animation: heroBgPulse 8s ease-in-out infinite; }
 
-    /* ── BENTO CARD HOVER — more pronounced ── */
-    .bento-card:hover {
-      transform: translateY(-5px) !important;
-      box-shadow:
-        0 8px 24px rgba(15,23,42,0.1),
-        0 24px 64px rgba(15,23,42,0.08),
-        0 0 0 1px rgba(79,70,229,0.12) !important;
-    }
-
     /* ── PLAN CARD HOVER ── */
     .plan-card {
       transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1),
@@ -2593,22 +1360,11 @@
       box-shadow: 0 12px 40px rgba(15,23,42,0.12), 0 0 0 1px rgba(79,70,229,0.15) !important;
     }
 
-    /* ── REVIEW CARD HOVER ── */
-    .review-card {
-      transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1),
-                  box-shadow 0.3s cubic-bezier(0.22, 1, 0.36, 1) !important;
-    }
-    .review-card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 8px 32px rgba(15,23,42,0.1) !important;
-    }
-
     /* ── COUNTER ANIMATE ── */
     @keyframes counterReveal {
       from { opacity: 0; transform: translateY(12px); }
       to   { opacity: 1; transform: none; }
     }
-    .counter-num.counting { animation: counterReveal 0.5s ease forwards; }
 
     /* ── SECTION HEADING GRADIENT ACCENT ── */
     .features-section .section-h2 .grad-text {
@@ -2686,40 +1442,12 @@
       .nav-hamburger { display: inline-flex; }
     }
 
-    /* .seats-bar / .seats-track / .seats-fill / .seats-label removed
-       — fake scarcity replaced by founding-banner in P2 edit */
-
-    /* ── 30-DAY HISTORY CHART ── */
-    .bc-history-wrap {
-      margin-top: 24px; background: rgba(244,241,236,0.9);
-      border: 1px solid rgba(28,25,23,0.07); border-radius: 12px; padding: 16px 18px;
-    }
-    .bc-history-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; }
-    .bc-history-title { font-size:11px; font-weight:600; color:#78716C; letter-spacing:0.2px; text-transform: uppercase; }
-    .bc-history-peak { font-size:12px; font-weight:700; color:#7C3AED; }
-    .bc-history-bars { display:flex; align-items:flex-end; gap:3px; height:68px; }
-    .bc-hbar { flex:1; background:rgba(124,58,237,0.18); border-radius: 4px 2px 0 0; min-width:0; transition: background 0.2s; }
-    .bc-hbar-hot { background:linear-gradient(0deg,#4F46E5 0%,#7C3AED 100%) !important; box-shadow:0 0 8px rgba(124,58,237,0.4); }
-    .bc-history-axis { display:flex; justify-content:space-between; margin-top:8px; font-size:10px; color:#78716C; font-weight:500; }
-
-
-    /* ── HERO SECONDARY LINK — Linear/Vercel 패턴 (text link with arrow, not button) ── */
-    .hero-secondary-link {
-      display: inline-flex; align-items: center; gap: 4px;
-      font-size: 15px; font-weight: 600; color: #57534E;
-      text-decoration: none; padding: 14px 14px; transition: color 0.2s, transform 0.2s;
-    }
-    .hero-secondary-link:hover { color: #4F46E5; transform: translateX(2px); }
-    @media (max-width: 640px) { .hero-secondary-link { font-size: 14px; padding: 12px 10px; } }
-
     /* ── MOBILE LAYOUT FIXES ── */
     @media (max-width: 640px) {
       /* Hero H1: clamp minimum was 56px — too wide for 375px screen */
       .hero h1 { font-size: clamp(34px, 9vw, 56px) !important; letter-spacing: -2px !important; }
       /* Eyebrow pill: allow wrapping on narrow screens */
       .hero-eyebrow { font-size: 11px !important; padding: 6px 14px !important; white-space: normal; text-align: center; max-width: 260px; }
-      /* Section padding: 112px top/bottom is excessive on mobile */
-      .section { padding-top: 64px !important; padding-bottom: 64px !important; }
     }
 
     /* ══════════════════════════════════════════════════════════
@@ -2763,11 +1491,6 @@
         overflow-y: hidden !important;
         -webkit-overflow-scrolling: touch;
       }
-      /* Bento cards: 이미 1 column 이지만 padding 축소로 컨텐츠 여유 확보 */
-      .bento-card { padding: 24px 20px !important; }
-      /* Before/After Grid: 2-column 강제 stack */
-      /* Container padding 축소 */
-      .container, main > section > div, .section-inner { padding-left: 16px !important; padding-right: 16px !important; }
       /* Section heading 축소 (Your Monday morning, condensed) */
       .section-heading, .section-h2 { font-size: clamp(24px, 7vw, 38px) !important; letter-spacing: -1px !important; padding: 0 12px !important; }
       /* Cookie banner: mobile 에서 CTA 안 가리게 max-width 축소 + 위치 조정 */
@@ -2792,18 +1515,6 @@
     .plan-card.muted .plan-desc { color: #78716C !important; }
     .plan-card.muted .plan-features li { color: #78716C !important; }
     .plan-card.muted .plan-features li::before { content: "✕" !important; color: rgba(28,25,23,0.3) !important; }
-    .plan-current-pill {
-      display: inline-block; padding: 4px 12px; border-radius: 100px;
-      background: rgba(28,25,23,0.06); color: #78716C;
-      font-size: 11px; font-weight: 700; letter-spacing: 0.4px; text-transform: uppercase;
-      margin-bottom: 14px;
-    }
-    .plan-disabled-cta {
-      display: block; width: 100%; padding: 12px; text-align: center;
-      border: 1px dashed rgba(28,25,23,0.2); border-radius: 12px;
-      font-size: 13px; font-weight: 600; color: #78716C;
-      background: transparent;
-    }
 
     @media (max-width: 900px) {
       .plans-grid-v2 { grid-template-columns: 1fr; max-width: 460px; }
@@ -2949,7 +1660,6 @@
       text-align: center; margin-bottom: 22px;
     }
     .xr-modal-desc-store { color: var(--white); font-weight: 700; }
-    .xr-modal-desc-stat  { color: #047857; font-weight: 700; }
     .xr-modal-form { display: flex; flex-direction: column; gap: 10px; }
     .xr-modal-form input[type="email"] {
       padding: 15px 18px; background: #F9F8F6;
@@ -2981,32 +1691,9 @@
     }
     .xr-modal-trust span { display: inline-flex; align-items: center; gap: 4px; }
     .xr-modal-trust-dot { width: 3px; height: 3px; border-radius: 50%; background: rgba(28,25,23,0.18); }
-
-    /* ══════════════════════════════════════════════════════════
-       M2: STOCK-APP STYLE PULSE + ARROW ON BADGES
-       ══════════════════════════════════════════════════════════ */
-    .badge-green, .badge-amber, .badge-red {
-      position: relative; padding-left: 18px !important;
-    }
-    .badge-green::before, .badge-amber::before, .badge-red::before {
-      content: ''; position: absolute;
-      left: 7px; top: 50%; transform: translateY(-50%);
-      width: 5px; height: 5px; border-radius: 50%;
-    }
-    .badge-green::before { background: #059669; box-shadow: 0 0 0 0 rgba(5,150,105,0.55); animation: pulse-green 1.8s ease-in-out infinite; }
-    .badge-amber::before { background: #D97706; box-shadow: 0 0 0 0 rgba(217,119,6,0.55); animation: pulse-amber 1.8s ease-in-out infinite; }
-    .badge-red::before   { background: #DC2626; box-shadow: 0 0 0 0 rgba(220,38,38,0.55); animation: pulse-red   1.8s ease-in-out infinite; }
     @keyframes pulse-green { 0% { box-shadow: 0 0 0 0 rgba(5,150,105,0.55); } 70% { box-shadow: 0 0 0 6px rgba(5,150,105,0); } 100% { box-shadow: 0 0 0 0 rgba(5,150,105,0); } }
     @keyframes pulse-amber { 0% { box-shadow: 0 0 0 0 rgba(217,119,6,0.55); } 70% { box-shadow: 0 0 0 6px rgba(217,119,6,0); } 100% { box-shadow: 0 0 0 0 rgba(217,119,6,0); } }
     @keyframes pulse-red   { 0% { box-shadow: 0 0 0 0 rgba(220,38,38,0.55); } 70% { box-shadow: 0 0 0 6px rgba(220,38,38,0); } 100% { box-shadow: 0 0 0 0 rgba(220,38,38,0); } }
-
-    /* growth-arrow utility — applies bounce to ↑ ↓ characters */
-    .growth-arrow {
-      display: inline-block;
-      animation: arrow-bounce 1.6s ease-in-out infinite;
-      font-weight: 800;
-      margin-right: 1px;
-    }
     @keyframes arrow-bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-2px); } }
 
     @media (prefers-reduced-motion: reduce) {
@@ -3020,25 +1707,9 @@
       .badge-live, .nav-beta-dot, .step-mock-status, .footer-status-dot,
       .hero-live-dot { animation: none !important; }
     }
-
-    /* ══════════════════════════════════════════════════════════
-       M3: SCROLL REVEAL — fade up on viewport entry
-       ══════════════════════════════════════════════════════════ */
-    .reveal-up {
-      opacity: 0;
-      transform: translateY(28px);
-      transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
-      will-change: opacity, transform;
-    }
     .reveal-up.is-visible {
       opacity: 1;
       transform: translateY(0);
-    }
-    .reveal-up.delay-1 { transition-delay: 100ms; }
-    .reveal-up.delay-2 { transition-delay: 200ms; }
-    .reveal-up.delay-3 { transition-delay: 300ms; }
-    @media (prefers-reduced-motion: reduce) {
-      .reveal-up { opacity: 1; transform: none; transition: none; }
     }
 
     /* ══════════════════════════════════════════════════════════
@@ -3057,36 +1728,6 @@
       .plans-grid-v2 .plan-card:not(.featured):not(.muted):hover {
         opacity: 1;
       }
-    }
-
-    /* ══════════════════════════════════════════════════════════
-       REVIEW METRIC CHIP — replaces star ratings
-       ══════════════════════════════════════════════════════════ */
-    .review-metric {
-      display: inline-flex; align-items: center; gap: 7px;
-      padding: 5px 12px; border-radius: 100px;
-      font-size: 12px; font-weight: 700; letter-spacing: -0.1px;
-      margin-bottom: 18px;
-    }
-    .rm-dot { width: 6px; height: 6px; border-radius: 50%; }
-    .review-metric-emerald {
-      background: rgba(5,150,105,0.08); color: #047857;
-      border: 1px solid rgba(5,150,105,0.22);
-    }
-    .review-metric-emerald .rm-dot { background: #059669; }
-    .review-metric-indigo {
-      background: rgba(79,70,229,0.08); color: #4F46E5;
-      border: 1px solid rgba(79,70,229,0.22);
-    }
-    .review-metric-indigo .rm-dot { background: #4F46E5; }
-    .review-metric-amber {
-      background: rgba(217,119,6,0.08); color: #D97706;
-      border: 1px solid rgba(217,119,6,0.22);
-    }
-    .review-metric-amber .rm-dot { background: #D97706; }
-    .review-date {
-      color: #78716C; font-size: 11px; font-weight: 500;
-      margin-left: 4px;
     }
 
     /* D+20 U3: Apple HIG 44×44px tap targets — touch device 에서 모든 interactive 강제.
@@ -3214,20 +1855,6 @@
       margin-bottom: 16px;
       text-align: center;
     }
-
-    /* D+29 beta: sandbox 모드 상단 sticky 배너 — 실 결제 X / 베타 명시 (광고 정직성 룰 + 사용자 보호) */
-    .ss-beta-banner {
-      position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
-      background: linear-gradient(90deg, #fef3c7 0%, #fde68a 100%);
-      color: #78350f;
-      border-bottom: 1px solid #f59e0b;
-      padding: 8px 16px;
-      font-size: 13px; font-weight: 600;
-      text-align: center;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.08);
-    }
-    .ss-beta-banner a { color: #78350f; text-decoration: underline; }
-    body.ss-beta-on { padding-top: 36px; }
 
     /* D+22 R3: scroll-to-top button — long landing (262KB+) mobile UX */
     .ss-scroll-top {
