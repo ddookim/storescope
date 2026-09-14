@@ -84,14 +84,19 @@ fi
 # 6. 파일 사이즈 임계 갱신 이력:
 #    D+24: 320-365KB (visible 100% sweep 반영)
 #    D+72: 320-395KB (D+58 SEO 5-blog + Article schema + WCAG 확장 + i18n 322 keys 자연 증가 반영)
-#    > 395KB 초과 시 재검토 (컴포넌트 부풀림 vs 필수 SEO/i18n 증가 판정)
+#    D+42 pass 12 (2026-09-15): 421개 top-level dead CSS 블록(전체 style의 ~47%,
+#    D+40 simplify 13→5 섹션 이후 한 번도 정리 안 된 잔재) 제거 → ~252KB 로 하향.
+#    HTML class="..." + classList.add/toggle/contains/remove + className= 전체를
+#    스캔해 selector의 모든 class token이 body 어디에도 없는 top-level 규칙만 제거
+#    (mixed selector·no-class selector·@media 내부 개별 규칙은 보수적으로 보존).
+#    > 320KB 초과 시 재검토 (컴포넌트 부풀림 vs 필수 SEO/i18n 증가 판정)
 SIZE=$(wc -c < "$FILE")
 if [ "$SIZE" -lt 180000 ]; then
-    mark_warn "파일 사이즈 $SIZE byte — 너무 작음 (예상 320-395KB), 의도치 않게 컴포넌트 손실 가능"
-elif [ "$SIZE" -gt 395000 ]; then
-    mark_warn "파일 사이즈 $SIZE byte — 너무 큼 (예상 320-395KB), 디자인 빼는 방향 룰 재검토 필요"
+    mark_warn "파일 사이즈 $SIZE byte — 너무 작음 (예상 180-320KB), 의도치 않게 컴포넌트 손실 가능"
+elif [ "$SIZE" -gt 320000 ]; then
+    mark_warn "파일 사이즈 $SIZE byte — 너무 큼 (예상 180-320KB), 디자인 빼는 방향 룰 재검토 필요"
 else
-    mark_pass "파일 사이즈 $SIZE byte (정상 범위 320-395KB)"
+    mark_pass "파일 사이즈 $SIZE byte (정상 범위 180-320KB)"
 fi
 
 # 7. 외부 의존 부활 차단
