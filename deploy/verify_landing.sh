@@ -245,9 +245,12 @@ else
 fi
 
 # 25. D+23 — Plan card 전체 data-i18n (plan_* prefix 키 매칭)
+# FIX (D+42 pass 10): threshold 30 은 3-tier + enterprise 시절 값. D+40 simplify로
+# Free+Pro 2-tier가 된 뒤 최대치는 18인데 threshold가 안 낮아져 만성 WARN.
+# 실 감사(missing-key audit) 결과 현재 18개 키 전부 EN/KO/JA dict 존재 확인 — 진짜 잔재 없음.
 PLAN_I18N=$(grep -cE 'data-i18n="plan_' "$FILE" || true)
-if [ "$PLAN_I18N" -ge 30 ]; then
-    mark_pass "Plan card data-i18n $PLAN_I18N건 (3 plan 전체)"
+if [ "$PLAN_I18N" -ge 15 ]; then
+    mark_pass "Plan card data-i18n $PLAN_I18N건 (Free+Pro 2-tier 전체)"
 else
     mark_warn "Plan card data-i18n $PLAN_I18N건 — 일부 영역 영어 잔재"
 fi
@@ -267,18 +270,19 @@ fi
 # 이 check는 존재하지 않는 섹션을 강제하므로 영구 삭제 — 재도입 시
 # feedback_landing_design_restraint 3조건(트렌드/데이터정합/절제) 충족 후 별도 신규 check로.
 
-# 27. Pricing trust badges data-i18n (Patrick McKenzie conversion 직격, -o로 모든 매칭 카운트)
-PRICING_TRUST=$(grep -oE 'data-i18n="pricing_trust_[a-z_]+"' "$FILE" | wc -l | tr -d ' ' || true)
-if [ "$PRICING_TRUST" -ge 6 ]; then
-    mark_pass "Pricing trust badges data-i18n $PRICING_TRUST건 (Patrick McKenzie)"
-else
-    mark_warn "Pricing trust badges data-i18n $PRICING_TRUST건 — 결제 결정 직전 영어 잔재"
-fi
+# 27. Pricing trust badges 섹션 — D+42 pass 8에서 .trust-badges/.trust-badge CSS와
+# 함께 HTML도 존재하지 않음이 확인됨(dead-key audit). 재도입 전까지 check 제거.
 
 # 28. EN ↔ KO ↔ JA dict key count 동기화 (frontend-developer silent gap 차단)
-EN_KEYS=$(awk '/en:\s*\{/,/^\s*},\s*$/' "$FILE" | grep -cE '^\s+[a-z_]+:\s' || true)
-KO_KEYS=$(awk '/ko:\s*\{/,/^\s*},\s*$/' "$FILE" | grep -cE '^\s+[a-z_]+:\s' || true)
-JA_KEYS=$(awk '/ja:\s*\{/,/^\s*}\s*$/' "$FILE" | grep -cE '^\s+[a-z_]+:\s' || true)
+# FIX (D+42 pass 10): 기존 awk `/en:\s*\{/,/^\s*},\s*$/` 두 가지 문제로 항상 false PASS:
+# (1) macOS 기본 awk(one-true-awk)는 \s 미지원 → 0-라인 매칭. (2) 라인 기반 range
+# 패턴은 중첩 객체를 못 다뤄 [[:space:]] 로 고쳐도 여러 블록에 걸쳐 오매칭(EN=799 등
+# 비정상값 관측). window.STORESCOPE_I18N 객체를 실제로 top-level en/ko/ja 로 분리
+# 파싱하는 python3 로 교체 — 이미 sweep_residue.py 로 python3 의존 확정돼있음.
+LANG_KEY_COUNTS="$(python3 "$(dirname "$0")/i18n_key_counts.py" "$FILE")"
+EN_KEYS=$(echo "$LANG_KEY_COUNTS" | cut -d' ' -f1)
+KO_KEYS=$(echo "$LANG_KEY_COUNTS" | cut -d' ' -f2)
+JA_KEYS=$(echo "$LANG_KEY_COUNTS" | cut -d' ' -f3)
 # 5% 허용오차
 EN_LOW=$((EN_KEYS * 95 / 100))
 EN_HIGH=$((EN_KEYS * 105 / 100))
@@ -322,23 +326,8 @@ else
     mark_warn "sweep_residue.py 누락 — 영구 잔재 검증 skip"
 fi
 
-# 32. Live Demo + Email Preview section pill/badge data-i18n (dark section visible labels)
-# D+11 fix: email_chart_label, email_subject_label 은 dict/DOM 어디에도 없음 (2주 stale).
-# 실 존재 5개 키만 검증. 이전 threshold >=7 은 존재 안 하는 키에 대한 요구로 만성 WARN.
-DEMO_EMAIL_I18N=$(grep -oE 'data-i18n="(demo_pill|email_preview_pill|email_pro_badge|email_preview_sub|demo_h2)"' "$FILE" | wc -l | tr -d ' ' || true)
-if [ "$DEMO_EMAIL_I18N" -ge 5 ]; then
-    mark_pass "Live Demo + Email Preview data-i18n $DEMO_EMAIL_I18N건 (dark section labels)"
-else
-    mark_warn "Live Demo + Email Preview data-i18n $DEMO_EMAIL_I18N건 — pill/badge 영어 잔재"
-fi
-
-# 33. Competitor Pricing bento card data-i18n (visible body 번역 정합)
-PRICE_CARD_I18N=$(grep -oE 'data-i18n="bento_extra_price[a-z0-9_]*"' "$FILE" | wc -l | tr -d ' ' || true)
-if [ "$PRICE_CARD_I18N" -ge 3 ]; then
-    mark_pass "Competitor Pricing bento card data-i18n $PRICE_CARD_I18N건"
-else
-    mark_warn "Competitor Pricing bento card data-i18n $PRICE_CARD_I18N건 — body 영어 잔재"
-fi
+# 32/33. Live Demo+Email Preview, Competitor Pricing bento card 섹션 — dead-key audit로
+# 두 섹션 모두 body HTML에 전혀 존재하지 않음(D+40 simplify 때 제거) 확인. check 제거.
 
 echo "----------"
 echo "RESULT: PASS=$PASS FAIL=$FAIL WARN=$WARN"
