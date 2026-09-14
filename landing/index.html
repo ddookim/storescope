@@ -1,6 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<script>
+  // a11y audit LOW: <html lang> 이 정적으로 "en" 고정 → 실제 콘텐츠는 아래
+  // DOMContentLoaded 시점에 STORESCOPE_I18N_APPLY 로 KO/JA 전환되지만 그 사이
+  // 짧은 순간 스크린리더가 잘못된 언어로 발음. lang 속성만 동일한 감지 로직으로
+  // 최대한 빨리(head 최상단, 동기) 먼저 맞춰둠 — 텍스트 교체는 기존 로직 그대로.
+  (function () {
+    try {
+      var saved = localStorage.getItem('ss-lang');
+      var query = new URLSearchParams(location.search).get('lang');
+      var browser = (navigator.language || 'en').toLowerCase().split('-')[0];
+      var supported = { en: 1, ko: 1, ja: 1 };
+      var lang = (query && supported[query]) ? query
+              : (saved && supported[saved]) ? saved
+              : (supported[browser] ? browser : 'en');
+      document.documentElement.lang = lang;
+    } catch (e) {}
+  })();
+</script>
   <meta charset="UTF-8" />
   <script>
     // Clickjacking framebuster — GH Pages 가 X-Frame-Options HTTP header 미지원이므로 JS-level.
@@ -2995,6 +3013,12 @@
       .badge-green::before, .badge-amber::before, .badge-red::before,
       .growth-arrow, .xr-progress-step.is-active .xr-progress-icon,
       .xr-progress-fill { animation: none !important; }
+      /* a11y audit CRITICAL: heroFloat/heroBgPulse/xr-shimmer/xr-ping/livepulse
+         (5개 keyframe, 9개 사용처) 는 reduced-motion 미대응이었음 — WCAG 2.3.3. */
+      .hero-mockup-inner, .hero::before,
+      .sk, .xr-progress-live-dot::before,
+      .badge-live, .nav-beta-dot, .step-mock-status, .footer-status-dot,
+      .hero-live-dot { animation: none !important; }
     }
 
     /* ══════════════════════════════════════════════════════════
@@ -4613,7 +4637,9 @@
         autocomplete="email"
         aria-label="Your email address"
       />
-      <button type="submit" class="xr-submit-btn">
+      <!-- a11y audit LOW: 제출 후 button 텍스트가 Sending.../success/retry 로 바뀌는데
+           aria-live 없어 스크린리더가 상태 변화를 못 읽음. role=status + aria-live=polite 추가. -->
+      <button type="submit" class="xr-submit-btn" role="status" aria-live="polite">
         <span data-i18n="hero_email_submit">Get sample data →</span>
       </button>
     </div>
@@ -4733,7 +4759,7 @@
                   <div class="product-row"><span class="product-stores" data-product-stores="1">31<span data-i18n="product_stores_suffix_v2">stores</span></span><span class="product-price" data-product-price="1">$39–$89</span></div>
                   <div class="product-growth-row">
                     <span class="growth-badge-hot">+44%</span>
-                    <svg class="mini-spark" width="44" height="18" viewBox="0 0 44 18"><polyline points="0,16 7,12 14,9 21,6 29,4 37,2 44,0" fill="none" stroke="#34D399" stroke-width="1.5" stroke-linecap="round"/></svg>
+                    <svg class="mini-spark" width="44" height="18" viewBox="0 0 44 18" aria-hidden="true"><polyline points="0,16 7,12 14,9 21,6 29,4 37,2 44,0" fill="none" stroke="#34D399" stroke-width="1.5" stroke-linecap="round"/></svg>
                   </div>
                   <div class="score-bar-wrap">
                     <div class="score-bar-label"><span data-i18n="dash_trend_score">Storm Score</span><span style="color:#C084FC;font-weight:700;">85</span></div>
@@ -4758,7 +4784,7 @@
                   <div class="product-row"><span class="product-stores" data-product-stores="2">23<span data-i18n="product_stores_suffix_v2">stores</span></span><span class="product-price" data-product-price="2">$12–$34</span></div>
                   <div class="product-growth-row">
                     <span class="growth-badge-hot">+31%</span>
-                    <svg class="mini-spark" width="44" height="18" viewBox="0 0 44 18"><polyline points="0,16 7,13 14,10 21,7 29,5 37,3 44,1" fill="none" stroke="#34D399" stroke-width="1.5" stroke-linecap="round"/></svg>
+                    <svg class="mini-spark" width="44" height="18" viewBox="0 0 44 18" aria-hidden="true"><polyline points="0,16 7,13 14,10 21,7 29,5 37,3 44,1" fill="none" stroke="#34D399" stroke-width="1.5" stroke-linecap="round"/></svg>
                   </div>
                   <div class="score-bar-wrap">
                     <div class="score-bar-label"><span data-i18n="dash_trend_score">Storm Score</span><span style="color:#C084FC;font-weight:700;">72</span></div>
@@ -4791,7 +4817,7 @@
                   <div class="product-row"><span class="product-stores" data-product-stores="3">18<span data-i18n="product_stores_suffix_v2">stores</span></span><span class="product-price" data-product-price="3">$9–$24</span></div>
                   <div class="product-growth-row">
                     <span class="growth-badge-warm">+18%</span>
-                    <svg class="mini-spark" width="44" height="18" viewBox="0 0 44 18"><polyline points="0,16 7,14 14,12 21,10 29,8 37,6 44,4" fill="none" stroke="#FBBF24" stroke-width="1.5" stroke-linecap="round"/></svg>
+                    <svg class="mini-spark" width="44" height="18" viewBox="0 0 44 18" aria-hidden="true"><polyline points="0,16 7,14 14,12 21,10 29,8 37,6 44,4" fill="none" stroke="#FBBF24" stroke-width="1.5" stroke-linecap="round"/></svg>
                   </div>
                   <div class="score-bar-wrap">
                     <div class="score-bar-label"><span data-i18n="dash_trend_score">Storm Score</span><span style="color:#FBBF24;font-weight:700;">58</span></div>
@@ -4823,7 +4849,7 @@
                   <div class="product-row"><span class="product-stores" data-product-stores="4">14<span data-i18n="product_stores_suffix_v2">stores</span></span><span class="product-price" data-product-price="4">$16–$38</span></div>
                   <div class="product-growth-row">
                     <span class="growth-badge-warm">+12%</span>
-                    <svg class="mini-spark" width="44" height="18" viewBox="0 0 44 18"><polyline points="0,16 7,15 14,13 21,11 29,9 37,8 44,6" fill="none" stroke="#FBBF24" stroke-width="1.5" stroke-linecap="round"/></svg>
+                    <svg class="mini-spark" width="44" height="18" viewBox="0 0 44 18" aria-hidden="true"><polyline points="0,16 7,15 14,13 21,11 29,9 37,8 44,6" fill="none" stroke="#FBBF24" stroke-width="1.5" stroke-linecap="round"/></svg>
                   </div>
                   <div class="score-bar-wrap">
                     <div class="score-bar-label"><span data-i18n="dash_trend_score">Storm Score</span><span style="color:#FBBF24;font-weight:700;">47</span></div>
@@ -5646,6 +5672,11 @@
     var s2 = document.getElementById('xr-step2');
     s2.style.display = 'none';
     s2.style.opacity = '';
+    // a11y (accessibility audit CRITICAL): modal 닫힐 때 포커스가 사라져 키보드
+    // 사용자가 방향을 잃던 버그. 흐름이 항상 step1(URL 입력)로 리셋되므로 xr-url
+    // 로 포커스 복귀 — WCAG 2.4.3.
+    var urlInput = document.getElementById('xr-url');
+    if (urlInput) setTimeout(function() { urlInput.focus(); }, 50);
   }
 
   // UPGRADE 2026-07-29: hero above-fold email capture handler.
