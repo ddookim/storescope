@@ -48,7 +48,7 @@ else
 fi
 
 # 3. OG image
-OG_URL=$(grep -oE 'property="og:image" content="[^"]+"' "$FILE" | sed -E 's/.*content="([^"]+)".*/\1/')
+OG_URL=$(grep -oE 'property="og:image" content="[^"]+"' "$FILE" | sed -E 's/.*content="([^"]+)".*/\1/' || true)
 if [ -n "$OG_URL" ]; then
     OG_CODE=$(curl -s -o /dev/null -w "%{http_code}" "$OG_URL" --max-time 8 || echo "000")
     if [ "$OG_CODE" = "200" ]; then
@@ -268,7 +268,7 @@ fi
 # feedback_landing_design_restraint 3조건(트렌드/데이터정합/절제) 충족 후 별도 신규 check로.
 
 # 27. Pricing trust badges data-i18n (Patrick McKenzie conversion 직격, -o로 모든 매칭 카운트)
-PRICING_TRUST=$(grep -oE 'data-i18n="pricing_trust_[a-z_]+"' "$FILE" | wc -l | tr -d ' ')
+PRICING_TRUST=$(grep -oE 'data-i18n="pricing_trust_[a-z_]+"' "$FILE" | wc -l | tr -d ' ' || true)
 if [ "$PRICING_TRUST" -ge 6 ]; then
     mark_pass "Pricing trust badges data-i18n $PRICING_TRUST건 (Patrick McKenzie)"
 else
@@ -325,7 +325,7 @@ fi
 # 32. Live Demo + Email Preview section pill/badge data-i18n (dark section visible labels)
 # D+11 fix: email_chart_label, email_subject_label 은 dict/DOM 어디에도 없음 (2주 stale).
 # 실 존재 5개 키만 검증. 이전 threshold >=7 은 존재 안 하는 키에 대한 요구로 만성 WARN.
-DEMO_EMAIL_I18N=$(grep -oE 'data-i18n="(demo_pill|email_preview_pill|email_pro_badge|email_preview_sub|demo_h2)"' "$FILE" | wc -l | tr -d ' ')
+DEMO_EMAIL_I18N=$(grep -oE 'data-i18n="(demo_pill|email_preview_pill|email_pro_badge|email_preview_sub|demo_h2)"' "$FILE" | wc -l | tr -d ' ' || true)
 if [ "$DEMO_EMAIL_I18N" -ge 5 ]; then
     mark_pass "Live Demo + Email Preview data-i18n $DEMO_EMAIL_I18N건 (dark section labels)"
 else
@@ -333,7 +333,7 @@ else
 fi
 
 # 33. Competitor Pricing bento card data-i18n (visible body 번역 정합)
-PRICE_CARD_I18N=$(grep -oE 'data-i18n="bento_extra_price[a-z0-9_]*"' "$FILE" | wc -l | tr -d ' ')
+PRICE_CARD_I18N=$(grep -oE 'data-i18n="bento_extra_price[a-z0-9_]*"' "$FILE" | wc -l | tr -d ' ' || true)
 if [ "$PRICE_CARD_I18N" -ge 3 ]; then
     mark_pass "Competitor Pricing bento card data-i18n $PRICE_CARD_I18N건"
 else
