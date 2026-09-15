@@ -330,7 +330,12 @@
       };
       var m = _msgs[lang] || _msgs.en;
       var el = document.createElement('div');
-      el.style.cssText = 'position:fixed;bottom:16px;right:16px;max-width:340px;background:#1C1917;color:#F5F5F4;padding:14px 16px;border-radius:10px;font:14px/1.4 -apple-system,system-ui,sans-serif;box-shadow:0 8px 24px rgba(0,0,0,0.2);z-index:99999;';
+      el.id = 'ss-consent-banner';
+      // FIX (D+42 pass 13, 실 스크린샷 검증으로 발견): max-width만 있고 width가 없어
+      // position:fixed shrink-to-fit 계산으로 모바일 좁은 화면에서 텍스트가 줄바꿈 없이
+      // 잘려 보이던 버그(개인정보처리방침 링크 텍스트 clip). width를 명시해 shrink-to-fit
+      // 모호성 제거 + 뷰포트보다 넓어질 수 없도록 보장.
+      el.style.cssText = 'position:fixed;bottom:16px;right:16px;width:min(340px, calc(100vw - 32px));background:#1C1917;color:#F5F5F4;padding:14px 16px;border-radius:10px;font:14px/1.4 -apple-system,system-ui,sans-serif;box-shadow:0 8px 24px rgba(0,0,0,0.2);z-index:99999;overflow-wrap:break-word;';
       el.innerHTML = '<div style="margin-bottom:8px">' + m.body + ' <a href="./privacy.html" style="color:#A5B4FC;text-decoration:underline">' + m.privacy + '</a></div><button id="ss-consent-accept" style="background:#4F46E5;color:#fff;border:0;padding:6px 14px;border-radius:6px;font-weight:600;cursor:pointer;margin-right:6px">' + m.accept + '</button><button id="ss-consent-decline" style="background:transparent;color:#D6D3D1;border:1px solid #57534E;padding:6px 14px;border-radius:6px;font-weight:600;cursor:pointer">' + m.decline + '</button>';
       document.body.appendChild(el);
       document.getElementById('ss-consent-accept').onclick = function() {
@@ -2111,7 +2116,6 @@
         hero_h1_line2: "One Monday email.",
         hero_sub: "Last week: 1,144 new products across Everlane, Gymshark, Allbirds, Ridge, and 54 more. We check every Sunday night. You get the recap Monday morning. Free.",
         hero_scale: "Tracking 50+ curated DTC brands · ~1,000 new products each week · refreshed every Monday",
-        beta_banner_text: "🧪 <strong>Early access</strong> — Public launch coming soon. Join the waitlist above for the first Monday digest (free). Product feedback: reply to any digest email.",
         contact_pill: "Contact",
         contact_h2: "Reach the founder directly.",
         contact_sub: "Questions, feedback, or want to discuss a custom setup? Send a note — response within 24 hours.",
@@ -2122,7 +2126,7 @@
         contact_topic_bug: "Bug / issue",
         contact_topic_press: "Press / interview",
         contact_submit: "Send message →",
-        contact_note: "Or email <strong>support@storescope.com</strong> once the custom domain launches (Q4 2026).",
+        contact_note: "Or email support@storescope.com once the custom domain launches (Q4 2026).",
         hero_email_submit: "Get Monday's digest →",
         hero_email_trust_1: "First Monday digest free",
         hero_email_trust_2: "No spam",
@@ -2473,7 +2477,6 @@
         hero_h1_line2: "월요일 이메일 한 통.",
         hero_sub: "지난주 신제품 1,144개 — Everlane, Gymshark, Allbirds, Ridge 등 58 브랜드. 매주 일요일 밤에 크롤링, 월요일 아침 이메일 발송. 무료.",
         hero_scale: "엄선 50개+ DTC 브랜드 · 주간 신규 ~1,000개 상품 · 매주 월요일 갱신",
-        beta_banner_text: "🧪 <strong>얼리 액세스</strong> — 정식 출시 준비 중. 위 폼으로 waitlist 참여 시 첫 월요 리포트 무료. 피드백: 리포트 이메일 회신 요청.",
         contact_pill: "연락처",
         contact_h2: "창업자에게 직접 연락.",
         contact_sub: "질문, 피드백, 커스텀 설정 문의? 메시지 남겨주세요 — 24시간 내 회신.",
@@ -2484,7 +2487,7 @@
         contact_topic_bug: "버그 / 오류",
         contact_topic_press: "미디어 / 인터뷰",
         contact_submit: "메시지 보내기 →",
-        contact_note: "또는 <strong>support@storescope.com</strong> (도메인 출시 후, 2026 Q4 예정).",
+        contact_note: "또는 support@storescope.com (도메인 출시 후, 2026 Q4 예정).",
         hero_email_submit: "월요 다이제스트 받기 →",
         hero_email_trust_1: "첫 월요 리포트 무료",
         hero_email_trust_2: "스팸 없음",
@@ -2803,7 +2806,6 @@
         hero_h1_line2: "毎週月曜日。",
         hero_sub: "先週の新製品1,144点 — Everlane、Gymshark、Allbirds、Ridge など 58 ブランド。毎週日曜夜にクロール、月曜朝にメール配信。無料。",
         hero_scale: "厳選50以上のDTCブランド · 週間新規約1,000商品 · 毎週月曜更新",
-        beta_banner_text: "🧪 <strong>早期アクセス</strong> — 正式リリース準備中。上のフォームから waitlist 参加で初回月曜ダイジェスト無料。フィードバックはダイジェストメールへ返信ください。",
         contact_pill: "お問い合わせ",
         contact_h2: "創業者に直接連絡。",
         contact_sub: "質問、フィードバック、カスタム設定のご相談。メッセージをお送りください — 24時間以内に返信します。",
@@ -2814,7 +2816,7 @@
         contact_topic_bug: "バグ / 不具合",
         contact_topic_press: "メディア / インタビュー",
         contact_submit: "メッセージ送信 →",
-        contact_note: "またはドメインリリース後 <strong>support@storescope.com</strong> (2026 Q4 予定)。",
+        contact_note: "またはドメインリリース後 support@storescope.com (2026 Q4 予定)。",
         hero_email_submit: "月曜ダイジェスト受信 →",
         hero_email_trust_1: "初回月曜ダイジェスト無料",
         hero_email_trust_2: "スパムなし",
