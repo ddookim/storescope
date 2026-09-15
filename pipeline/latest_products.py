@@ -916,12 +916,25 @@ def _write_sample_html(products: list[dict], categories: list[dict], now: dateti
 
     # D+12 category filter tabs — CSS-only via <details> or JS via tabbed data-cat filter.
     # data-cat slug 로 filter 하는 minimal JS (5 line).
+    # FIX (2026-09-15, 사용자 리포트: "카테고리 클릭했는데 진행 안 됨"): 기존엔 tabs를
+    # 30일 전체 모집단 상위 카테고리(categories, 예: "Knit Tops·109개")에서 뽑았는데,
+    # 실제 카드/행은 products[:20] 샘플 뿐이라 그 20개 안에 해당 카테고리 상품이
+    # 0개면 탭 클릭 시 빈 결과 → 사용자에게는 "아무 반응 없음"으로 보임. 이제 실제
+    # 화면에 보이는 20개 샘플 안에서 직접 카테고리를 집계해 탭을 만들어 모든 탭이
+    # 항상 최소 1개 이상의 결과를 갖도록 보장.
     filter_tabs = ""
-    if categories and products:
-        tabs = ['<button class="pd-tab pd-tab-active" data-cat="all">All ({total})</button>'.format(total=len(products[:20]))]
-        for c in categories[:6]:
-            slug = re.sub(r'[^a-z0-9]+', '-', (c.get('product_type') or 'other').lower()).strip('-')[:30] or 'other'
-            tabs.append(f'<button class="pd-tab" data-cat="{slug}">{h(c.get("product_type") or "?")[:30]}</button>')
+    if products:
+        sample = products[:20]
+        from collections import Counter as _Counter
+        sample_counts: _Counter[str] = _Counter()
+        sample_labels: dict[str, str] = {}
+        for sp in sample:
+            s_slug = re.sub(r'[^a-z0-9]+', '-', (sp.get('product_type') or 'other').lower()).strip('-')[:30] or 'other'
+            sample_counts[s_slug] += 1
+            sample_labels.setdefault(s_slug, (sp.get('product_type') or 'Other')[:30])
+        tabs = ['<button class="pd-tab pd-tab-active" data-cat="all">All ({total})</button>'.format(total=len(sample))]
+        for slug, cnt in sample_counts.most_common(6):
+            tabs.append(f'<button class="pd-tab" data-cat="{slug}">{h(sample_labels[slug])} ({cnt})</button>')
         filter_tabs = f'''
 <div class="pd-filter">
   <span class="pd-filter-label">Filter:</span>
