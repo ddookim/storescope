@@ -728,6 +728,23 @@
       color: var(--white);
     }
     .section-sub { font-size: 16.5px; color: var(--muted-2); max-width: 520px; line-height: 1.7; }
+    /* D+42 pass 14: HOW IT WORKS — 숫자+타이포만, 카드/그림자/그라디언트 없음
+       (pass 6-8 flat 원칙). #how-it-works id 도 nav "How it works" 링크가
+       가리키던 존재하지 않던 앵커를 실제로 채움. */
+    .how-section { padding: 96px 24px; border-top: 1px solid rgba(28,25,23,0.07); }
+    .how-inner { max-width: 1100px; margin: 0 auto; }
+    .how-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; margin-top: 48px; }
+    .how-num {
+      font-family: 'Inter', -apple-system, sans-serif;
+      font-size: 13px; font-weight: 700; letter-spacing: 0.08em;
+      color: #4F46E5; margin-bottom: 14px;
+    }
+    .how-step h3 { font-size: 18px; font-weight: 700; letter-spacing: -0.01em; margin-bottom: 8px; color: var(--white); }
+    .how-step p { font-size: 14.5px; line-height: 1.65; color: var(--muted-2); }
+    @media (max-width: 860px) {
+      .how-grid { grid-template-columns: 1fr; gap: 32px; }
+      .how-section { padding: 64px 20px; }
+    }
     .steps-bg .section-pill { background: rgba(79,70,229,0.07); border-color: rgba(79,70,229,0.2); color: #4F46E5; }
     .steps-bg .section-heading { color: #1C1917; }
     .steps-bg .section-heading .grad-text {
@@ -2105,6 +2122,14 @@
         cmp_new_5: "Entry timing: early, unsaturated margins",
         cmp_footer: "Neither approach is wrong — but they answer different questions. Cross-store answers \"what's rising.\"",
         nav_how: "How it works",
+        steps_pill: "How it works",
+        steps_h2: "Three steps. No dashboard required.",
+        steps_1_h3: "We crawl every Sunday night",
+        steps_1_desc: "50+ curated DTC Shopify brands, via each store's public /products.json — the same data any browser sees.",
+        steps_2_h3: "We rank what's rising",
+        steps_2_desc: "Storm Score (0-100) weighs momentum, log-scaled store count, and age decay — so products still climbing surface first.",
+        steps_3_h3: "You get Monday's picks",
+        steps_3_desc: "Free: top 20 new products by email. Pro: full dashboard, CSV export, API, 30-day history.",
         nav_pricing: "Pricing",
         nav_faq: "FAQ",
         nav_xray: "Free X-Ray Tool",
@@ -2466,6 +2491,14 @@
         cmp_new_5: "진입 타이밍: 이르고 포화되지 않은 마진",
         cmp_footer: "어느 접근도 틀린 건 아닙니다 — 답하는 질문이 다를 뿐. 크로스 스토어는 \"무엇이 뜨고 있는가\"에 답합니다.",
         nav_how: "작동 원리",
+        steps_pill: "작동 원리",
+        steps_h2: "세 단계. 대시보드 필요 없음.",
+        steps_1_h3: "매주 일요일 밤 크롤링",
+        steps_1_desc: "선별된 DTC Shopify 브랜드 50+곳 — 각 스토어의 공개 /products.json 데이터, 어떤 브라우저든 볼 수 있는 정보입니다.",
+        steps_2_h3: "부상 중인 상품 랭킹",
+        steps_2_desc: "Storm Score(0-100)가 모멘텀, 로그 스케일 스토어 수, 시간 감쇠를 반영 — 아직 부상 중인 상품이 먼저 노출됩니다.",
+        steps_3_h3: "월요일에 픽 받기",
+        steps_3_desc: "무료: 이메일로 신제품 상위 20개. Pro: 전체 대시보드, CSV 내보내기, API, 30일 히스토리.",
         nav_pricing: "가격",
         nav_faq: "자주 묻는 질문",
         nav_xray: "무료 X-Ray 도구",
@@ -2795,6 +2828,14 @@
         cmp_new_5: "参入タイミング: 早く、飽和していないマージン",
         cmp_footer: "どちらのアプローチも間違いではありません — 答える質問が異なるだけです。クロスストアは「何が上昇中か」に答えます。",
         nav_how: "しくみ",
+        steps_pill: "仕組み",
+        steps_h2: "3ステップ。ダッシュボード不要。",
+        steps_1_h3: "毎週日曜の夜にクロール",
+        steps_1_desc: "厳選されたDTC Shopifyブランド50+社 — 各ストアの公開 /products.json データ、どのブラウザでも見られる情報です。",
+        steps_2_h3: "台頭中の商品をランキング",
+        steps_2_desc: "Storm Score(0-100)がモメンタム、対数スケールのストア数、時間減衰を反映 — まだ台頭中の商品を優先表示します。",
+        steps_3_h3: "月曜日にピックを受け取る",
+        steps_3_desc: "無料:メールで新製品トップ20。Pro:フルダッシュボード、CSVエクスポート、API、30日間履歴。",
         nav_pricing: "料金",
         nav_faq: "よくある質問",
         nav_xray: "無料X-Rayツール",
@@ -3495,6 +3536,34 @@
   </div>
 </div>
 </section>
+
+<!-- HOW IT WORKS — D+42 pass 14 신규 (사용자 리포트: 5섹션 축소 이후 너무 허술함
+     + nav "How it works" 링크가 #how-it-works 존재하지 않는 id 를 가리키던
+     dead link 였음, 이번에 실 id 부여로 같이 해결). 3단계, 카드/그라디언트/
+     아이콘 없이 숫자+타이포만 — pass 6-8 flat 원칙 유지. -->
+<div class="how-section" id="how-it-works">
+  <div class="how-inner">
+    <div class="section-pill" data-i18n="steps_pill">How it works</div>
+    <h2 class="section-heading" data-i18n="steps_h2">Three steps. No dashboard required.</h2>
+    <div class="how-grid">
+      <div class="how-step">
+        <div class="how-num">01</div>
+        <h3 data-i18n="steps_1_h3">We crawl every Sunday night</h3>
+        <p data-i18n="steps_1_desc">50+ curated DTC Shopify brands, via each store's public /products.json — the same data any browser sees.</p>
+      </div>
+      <div class="how-step">
+        <div class="how-num">02</div>
+        <h3 data-i18n="steps_2_h3">We rank what's rising</h3>
+        <p data-i18n="steps_2_desc">Storm Score (0-100) weighs momentum, log-scaled store count, and age decay — so products still climbing surface first.</p>
+      </div>
+      <div class="how-step">
+        <div class="how-num">03</div>
+        <h3 data-i18n="steps_3_h3">You get Monday's picks</h3>
+        <p data-i18n="steps_3_desc">Free: top 20 new products by email. Pro: full dashboard, CSV export, API, 30-day history.</p>
+      </div>
+    </div>
+  </div>
+</div>
 
 <!-- COUNTER BAR (restored to Round 3 / pre-medvi state) -->
 <!-- X-RAY LEAD GEN -->
