@@ -189,8 +189,11 @@ fi
 echo ""
 echo "── Rule 7: dead-code ─────────────────────────────────"
 # orphan price ID — openCheckout('pri_...') OR data-price-mo="pri_..." 사용 감지
-ALL_PRICES=$(grep -oE 'pri_[a-z0-9]+' "$LANDING" | sort -u)
-USED_PRICES=$(grep -oE "openCheckout\('pri_[a-z0-9]+'|data-price-mo=\"pri_[a-z0-9]+" "$LANDING" | grep -oE 'pri_[a-z0-9]+' | sort -u)
+# set -euo pipefail 하에서 grep 이 매치 0건이면 exit 1 -> pipe 전체가 죽어 스크립트가
+# 여기서 중단됨 (2026-09-16 발견: Pro 버튼 비활성화로 data-price-mo 가 완전히 사라지자
+# 실제로 재현됨). "|| true" 로 매치 0건도 정상 케이스로 처리.
+ALL_PRICES=$(grep -oE 'pri_[a-z0-9]+' "$LANDING" | sort -u || true)
+USED_PRICES=$(grep -oE "openCheckout\('pri_[a-z0-9]+'|data-price-mo=\"pri_[a-z0-9]+" "$LANDING" | grep -oE 'pri_[a-z0-9]+' | sort -u || true)
 ORPHAN_PRICES=$(comm -23 <(echo "$ALL_PRICES") <(echo "$USED_PRICES") | wc -l | tr -d ' ')
 if [ "$ORPHAN_PRICES" -eq 0 ]; then
     _pass "orphan price ID 0건"
