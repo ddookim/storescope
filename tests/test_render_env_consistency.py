@@ -133,3 +133,31 @@ def test_app_url_does_not_default_to_nonexistent_domain():
         f"APP_URL default '{app_url}' — 사용자 도메인 의존. "
         f"안전한 fallback (ddookim.github.io 또는 onrender.com) 권장."
     )
+
+
+def test_landing_pro_button_price_id_not_stale():
+    """Pro 플랜 체크아웃 버튼의 data-price-mo 가 폐기된/틀린 price ID 를 쓰지 않음.
+
+    회귀 시나리오 (2026-09-16 발견): landing/index.html 의 Pro 버튼이
+    실제 PADDLE_PRO_PRICE_ID 와 다른 구(舊) price ID(pri_01ksj3qpjyxsv2kprvxn7dpk10,
+    .env 상 어느 현재 plan 과도 불일치하는 레거시 값)를 참조 →
+    api/paddle_routes.py 의 price_id→plan 역매핑이 실패해 default "starter" 로
+    떨어짐 → Pro 결제 고객이 Starter 권한(무제한 API/30일 히스토리 미제공)만 받음.
+    """
+    html_path = _here / "landing" / "index.html"
+    text = html_path.read_text()
+    STALE_PRICE_ID = "pri_01ksj3qpjyxsv2kprvxn7dpk10"
+    assert STALE_PRICE_ID not in text, (
+        f"landing/index.html 에 폐기된 price ID {STALE_PRICE_ID} 가 남아 있음 — "
+        f"Pro/Starter 요금제 mismatch 재발 가능. api/paddle_routes.py 의 "
+        f"PADDLE_PRO_PRICE_ID/PADDLE_STARTER_PRICE_ID 와 대조해 올바른 ID로 교체."
+    )
+
+    m = re.search(
+        r'data-price-mo="([^"]+)"[^>]*data-i18n="plan_pro_cta"', text
+    )
+    assert m, "Pro CTA 버튼(data-i18n=plan_pro_cta)을 찾을 수 없음"
+    pro_button_price_id = m.group(1)
+    assert pro_button_price_id.startswith("pri_"), (
+        f"Pro 버튼 price ID 형식 이상: {pro_button_price_id!r}"
+    )
