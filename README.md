@@ -1,13 +1,8 @@
 # StoreScope
 
-**Status: Discontinued (2026-09-16).** Kill switch fired: D+30 checkpoint (paid 0 AND organic
-signups < 15) confirmed via cross-verified data (Netlify Forms + Paddle). No zombie SaaS, as
-promised below. Code stays up as a reference/portfolio piece; crawler stack is MIT-licensed
-(see [LICENSE](LICENSE)). Not accepting new signups.
-
 **Weekly digest of new products from 58 curated independent DTC Shopify brands** — delivered every Monday morning.
 
-**Live site**: https://ddookim.github.io/storescope/ (archived, read-only)
+**Live site**: https://ddookim.github.io/storescope/
 
 ---
 
@@ -30,11 +25,7 @@ Not for: dropshippers running FB ads (see [alternatives](https://ddookim.github.
 - Code: **5,000+ LOC Python/FastAPI**, 80 tests passing, weekly crawl pipeline, HMAC-SHA256 Paddle webhook with idempotency + replay defense, dead-man freshness switch that blocks payments if data stales > 48h.
 - Site: **live in demo mode** (real weekly-refreshed data — 58 brands crawled every Sunday, 20 latest products + 8 categories auto-committed to gh-pages).
 - Real backend infra (Neon PostgreSQL + Render): **only wire up when 10 signups arrive**. No point paying for compute on a graveyard product.
-- Traction (final, 2026-09-16): **0 real organic signups since D0**, cross-verified via Netlify
-  Forms submissions (3 total, all test/placeholder emails) and the backend DB. Paid: 0 confirmed
-  subscriptions locally; a checkout wiring bug (Pro button pointed at a stale price ID) meant
-  the Pro plan couldn't have converted anyone correctly before it was fixed on 2026-09-16 —
-  fixed too late to change the outcome.
+- Traction: **0 organic signups in 14 days** as of D+14 (2026-08-13). Kill switch fires D+30 if organic <10 AND paid <1.
 
 ## Stack
 
@@ -84,15 +75,15 @@ Data-driven decisions posted publicly. New D0 = 2026-07-30.
 
 | Checkpoint | Condition | Action |
 |---|---|---|
-| D+7 | organic signup < 5 | fired — channel reset |
-| D+14 | organic signup < 10 | fired — red zone (2026-08-13) |
-| D+30 (2026-08-29) | paid 0 AND organic < 15 | **fired — confirmed 2026-09-16, 18 days late** |
+| D+7 | organic signup < 5 | (fired) — channel reset |
+| D+14 | organic signup < 10 | (red zone — 2026-08-13) |
+| D+30 (2026-08-29) | paid 0 AND organic < 15 | **KILL** + retire URL + open-source crawler |
 
-No zombie SaaS. It didn't earn its keep in 30 days, so it ends here.
+No zombie SaaS. If it doesn't earn its keep in 30 days, it ends.
 
 ## License
 
-Crawler/pipeline stack is MIT-licensed as committed above (see [LICENSE](LICENSE)).
+Not open-sourced during private beta. If the kill switch fires D+30, the crawler stack ships MIT.
 
 ---
 
