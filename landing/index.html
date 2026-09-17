@@ -2156,9 +2156,6 @@
         hero_email_trust_1: "First Monday digest free",
         hero_email_trust_2: "No spam",
         hero_email_trust_3: "Unsubscribe anytime",
-        hero_discontinued_notice: "This project has concluded and isn't accepting new signups. Code, data reports, and blog posts stay up as a reference.",
-        hero_discontinued_link: "→ full writeup",
-        plan_pro_cta_discontinued: "Not accepting new signups",
         hero_trust_line: "Independent · Bootstrapped · Built for Shopify operators",
         lang_switch_label: "Language",
         xr_url_error: "Please enter a Shopify store URL — e.g. example.myshopify.com",
@@ -2528,9 +2525,6 @@
         hero_email_trust_1: "첫 월요 리포트 무료",
         hero_email_trust_2: "스팸 없음",
         hero_email_trust_3: "1클릭 구독 해지",
-        hero_discontinued_notice: "이 프로젝트는 종료되어 신규 가입을 받지 않습니다. 코드, 데이터 리포트, 블로그는 참고용으로 계속 공개됩니다.",
-        hero_discontinued_link: "→ 전체 내용 보기",
-        plan_pro_cta_discontinued: "신규 가입 불가",
         hero_trust_line: "독립 · 부트스트랩 · Shopify 운영자를 위한 도구",
         lang_switch_label: "언어",
         xr_url_error: "Shopify 스토어 URL을 입력하세요 — 예: example.myshopify.com",
@@ -2868,9 +2862,6 @@
         hero_email_trust_1: "初回月曜ダイジェスト無料",
         hero_email_trust_2: "スパムなし",
         hero_email_trust_3: "いつでも解除可",
-        hero_discontinued_notice: "本プロジェクトは終了し、新規登録は受け付けていません。コード・データレポート・ブログは参考資料として公開を継続します。",
-        hero_discontinued_link: "→ 詳細を見る",
-        plan_pro_cta_discontinued: "新規登録受付終了",
         hero_trust_line: "独立系 · ブートストラップ · Shopify運営者向け",
         lang_switch_label: "言語",
         xr_url_error: "ShopifyストアのURLを入力してください — 例: example.myshopify.com",
@@ -3298,15 +3289,38 @@
        기존: btn-hero-primary + See pricing + email form = attention split.
        현재: email form (validation phase primary) + Try X-Ray secondary text link. -->
 
-  <!-- 2026-09-16: kill switch fired (D+30 checkpoint confirmed, 18 days late — paid 0 AND
-       organic signups < 15). Signup CTA replaced with a static notice; rest of the site
-       (blog/category/report pages, code) stays up as reference. See README for the writeup. -->
-  <div class="xr-discontinued-notice" style="max-width:460px;margin:4px 0 16px;padding:14px 16px;border:1px solid var(--border,#e5e1da);border-radius:10px;background:var(--surface,#f7f5f1);font-size:14px;line-height:1.55;color:var(--muted-2,#6b6b6b);">
-    <span data-i18n="hero_discontinued_notice">This project has concluded and isn't accepting new signups. Code, data reports, and blog posts stay up as a reference.</span>
-    <a href="https://github.com/ddookim/storescope#readme" style="color:#4338ca;text-decoration:underline;text-decoration-color:rgba(67,56,202,0.35);text-underline-offset:3px;font-weight:600;">
-      <span data-i18n="hero_discontinued_link">→ full writeup</span>
-    </a>
-  </div>
+  <!-- UPGRADE 2026-07-29: above-fold email capture (2026 SaaS pattern: single-field CTA = 15-120% conversion lift).
+       Netlify Forms 연동 (100 submissions/mo 무료, spam honeypot 자동, support@storescope.com 알림). -->
+  <form id="hero-email-form" name="hero-email-form" onsubmit="heroEmailSubmit(event)"
+        data-netlify="true" netlify-honeypot="bot-field"
+        style="max-width:460px;margin:4px 0 16px;">
+    <input type="hidden" name="form-name" value="hero-email-form" />
+    <p style="display:none;"><label>Leave empty: <input name="bot-field" /></label></p>
+    <div class="xr-email-row">
+      <input
+        type="email"
+        name="email"
+        class="xr-email-input"
+        id="hero-email"
+        placeholder="you@yourstore.com"
+        required
+        autocomplete="email"
+        aria-label="Your email address"
+      />
+      <!-- a11y audit LOW: 제출 후 button 텍스트가 Sending.../success/retry 로 바뀌는데
+           aria-live 없어 스크린리더가 상태 변화를 못 읽음. role=status + aria-live=polite 추가. -->
+      <button type="submit" class="xr-submit-btn" role="status" aria-live="polite">
+        <span data-i18n="hero_email_submit">Get sample data →</span>
+      </button>
+    </div>
+    <!-- D+42 pass 6 (2026-09-10): emoji ✓ check list 제거 (Bubble/Framer template signature).
+         이제 typography-separated micro-caption 만 (Linear/Vercel form 표준). -->
+    <div class="xr-trust-note" style="margin-top:10px;justify-content:flex-start;">
+      <span style="padding-left:0;"><span data-i18n="hero_email_trust_1">Weekly digest</span></span>
+      <span><span data-i18n="hero_email_trust_2">No spam</span></span>
+      <span><span data-i18n="hero_email_trust_3">Unsubscribe anytime</span></span>
+    </div>
+  </form>
 
   <!-- Secondary action — text link, low visual weight (single-CTA rule 유지) -->
   <p class="hero-secondary-action" style="margin:8px 0;font-size:13.5px;color:var(--muted-2);">
@@ -3742,7 +3756,7 @@
           <li data-i18n="plan_pro_feat_5">30-day product history · check trajectory before you commit</li>
           <li data-i18n="plan_pro_feat_6">X-Ray any Shopify store · unlimited lookups</li>
         </ul>
-        <button type="button" disabled class="plan-btn plan-btn-grad" style="opacity:0.6;cursor:not-allowed;" data-i18n="plan_pro_cta_discontinued">Not accepting new signups</button>
+        <button data-price-mo="pri_01ksh172kehejf3xc2ws26e6vy" onclick="openCheckoutForBilling(this)" class="plan-btn plan-btn-grad" data-i18n="plan_pro_cta">Start 7-day free trial</button>
       </div>
 
     </div>
