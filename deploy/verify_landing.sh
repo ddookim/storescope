@@ -107,10 +107,13 @@ else
 fi
 
 # 8. Hero primary CTA 존재 검증 — D+58 3-CTA 정리 후 새 구조:
-#    hero-email-form (primary email capture) + hero_xray_link secondary text link.
+#    hero-email-form (primary email capture) + hero_digest_sample_link secondary text link.
 #    이전 `class="hero-ctas"` 지표는 obsolete (32380bf 에서 제거).
+#    2026-09-17: 키 이름이 hero_xray_link → hero_digest_sample_link 로 리네임된 뒤에도
+#    이 체크는 옛 이름을 계속 찾고 있었음 (dead key 정리로 옛 이름이 파일에서 완전히
+#    사라지며 처음 드러남) — 실제 링크는 항상 있었음, 체크가 stale 했던 것.
 HERO_EMAIL_FORM=$(grep -c 'id="hero-email-form"' "$FILE" || true)
-HERO_XRAY_LINK=$(grep -c 'hero_xray_link' "$FILE" || true)
+HERO_XRAY_LINK=$(grep -c 'hero_digest_sample_link' "$FILE" || true)
 if [ "$HERO_EMAIL_FORM" -ge 1 ] && [ "$HERO_XRAY_LINK" -ge 1 ]; then
     mark_pass "Hero above-fold email capture + X-Ray secondary link (D+58 single-CTA rule)"
 else
