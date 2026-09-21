@@ -338,14 +338,28 @@
       el.style.cssText = 'position:fixed;bottom:16px;right:16px;width:min(340px, calc(100vw - 32px));background:#1C1917;color:#F5F5F4;padding:14px 16px;border-radius:10px;font:14px/1.4 -apple-system,system-ui,sans-serif;box-shadow:0 8px 24px rgba(0,0,0,0.2);z-index:99999;overflow-wrap:break-word;';
       el.innerHTML = '<div style="margin-bottom:8px">' + m.body + ' <a href="./privacy.html" style="color:#A5B4FC;text-decoration:underline">' + m.privacy + '</a></div><button id="ss-consent-accept" style="background:#4F46E5;color:#fff;border:0;padding:6px 14px;border-radius:6px;font-weight:600;cursor:pointer;margin-right:6px">' + m.accept + '</button><button id="ss-consent-decline" style="background:transparent;color:#D6D3D1;border:1px solid #57534E;padding:6px 14px;border-radius:6px;font-weight:600;cursor:pointer">' + m.decline + '</button>';
       document.body.appendChild(el);
+      // FIX 2026-09-17 (ui-designer 실 스크린샷 검증): position:fixed 배너가 스크롤
+      // 위치와 무관하게 항상 화면 하단에 떠있어, 모바일에서 pricing CTA/hero mockup
+      // 위에 그대로 덮이던 버그. body 하단에 배너 높이만큼 padding을 예약해 실제
+      // 콘텐츠가 배너 아래로 절대 깔리지 않도록 보장 (위치 특정 대응이 아니라
+      // 스크롤 전체 구간에 일반적으로 적용됨).
+      var _consentPad = document.createElement('style');
+      _consentPad.id = 'ss-consent-pad';
+      _consentPad.textContent = 'body{padding-bottom:' + (el.offsetHeight + 28) + 'px !important;}';
+      document.head.appendChild(_consentPad);
+      function _removeConsentBanner() {
+        el.remove();
+        var pad = document.getElementById('ss-consent-pad');
+        if (pad) pad.remove();
+      }
       document.getElementById('ss-consent-accept').onclick = function() {
         gtag('consent', 'update', {'analytics_storage': 'granted'});
         try { localStorage.setItem('ss_consent','accepted'); } catch(e){}
-        el.remove();
+        _removeConsentBanner();
       };
       document.getElementById('ss-consent-decline').onclick = function() {
         try { localStorage.setItem('ss_consent','declined'); } catch(e){}
-        el.remove();
+        _removeConsentBanner();
       };
     });
   </script>
@@ -1410,12 +1424,17 @@
     }
     /* UPGRADE 2026-06-14: Mobile nav panel premium — frosted backdrop + slide + chevron */
     .nav-mobile-panel {
-      display: block; position: fixed; top: 57px; left: 0; right: 0; z-index: 998;
-      background: rgba(255,255,255,0.92);
+      /* FIX 2026-09-17 (ui-designer 실 스크린샷 검증): 패널 높이가 내부 콘텐츠(nav 링크)
+         만큼만 잡혀서, 뷰포트가 더 길면 그 아래로 hero CTA/mockup/쿠키배너가 그대로
+         비쳐 보이던 버그 ("깨진 것처럼 보임"). 뷰포트 하단까지 채우는 실질 풀스크린
+         오버레이로 변경 + 배경 불투명도 상향(backdrop-filter 미지원 환경 대비 안전망). */
+      display: block; position: fixed; top: 57px; left: 0; right: 0; bottom: 0; z-index: 998;
+      background: rgba(255,255,255,0.98);
       backdrop-filter: blur(24px) saturate(1.6);
       -webkit-backdrop-filter: blur(24px) saturate(1.6);
       border-bottom: 1px solid var(--border);
       padding: 8px 0 16px;
+      overflow-y: auto;
       box-shadow: 0 12px 32px rgba(15,23,42,0.08), 0 4px 12px rgba(15,23,42,0.04);
       transform: translateY(-12px);
       opacity: 0;
@@ -2110,7 +2129,7 @@
         nav_pricing: "Pricing",
         nav_faq: "FAQ",
         nav_xray: "Free X-Ray Tool",
-        nav_cta: "Get Monday's list",
+        nav_cta: "Get Monday's digest",
         hero_eyebrow: "Free · Weekly · No account needed",
         mockup_preview_label: "Illustrative preview",
         hero_h1_line1: "58 brands.  Every new product.",
@@ -2126,6 +2145,7 @@
         contact_topic_bug: "Bug / issue",
         contact_topic_press: "Press / interview",
         contact_submit: "Send message →",
+        contact_message_placeholder: "Your message…",
         contact_note: "Or email support@storescope.com once the custom domain launches (Q4 2026).",
         hero_email_submit: "Get Monday's digest →",
         hero_email_trust_1: "First Monday digest free",
@@ -2288,6 +2308,9 @@
         xr_stat_price_v2: "price range",
         xr_stat_delivery_v2: "delivery",
         product_stores_suffix_v2: "stores",
+        product_launch_suffix_v2: "launch",
+        time_today_label: "Today",
+        time_days_ago_suffix: "d ago",
       },
       ko: {
         nav_features: "기능",
@@ -2316,7 +2339,7 @@
         nav_pricing: "가격",
         nav_faq: "자주 묻는 질문",
         nav_xray: "무료 X-Ray 도구",
-        nav_cta: "월요일 리스트 받기",
+        nav_cta: "월요 다이제스트 받기",
         hero_eyebrow: "무료 · 매주 · 계정 불필요",
         mockup_preview_label: "예시 미리보기",
         hero_h1_line1: "58 브랜드. 모든 신제품.",
@@ -2332,6 +2355,7 @@
         contact_topic_bug: "버그 / 오류",
         contact_topic_press: "미디어 / 인터뷰",
         contact_submit: "메시지 보내기 →",
+        contact_message_placeholder: "메시지를 입력하세요…",
         contact_note: "또는 support@storescope.com (도메인 출시 후, 2026 Q4 예정).",
         hero_email_submit: "월요 다이제스트 받기 →",
         hero_email_trust_1: "첫 월요 리포트 무료",
@@ -2462,6 +2486,9 @@
         xr_stat_price_v2: "가격대",
         xr_stat_delivery_v2: "배송",
         product_stores_suffix_v2: "스토어",
+        product_launch_suffix_v2: "출시",
+        time_today_label: "오늘",
+        time_days_ago_suffix: "일 전",
       },
       ja: {
         nav_features: "機能",
@@ -2490,7 +2517,7 @@
         nav_pricing: "料金",
         nav_faq: "よくある質問",
         nav_xray: "無料X-Rayツール",
-        nav_cta: "月曜のリストを受け取る",
+        nav_cta: "月曜ダイジェスト受信",
         hero_eyebrow: "無料 · 毎週 · アカウント不要",
         mockup_preview_label: "イメージプレビュー",
         hero_h1_line1: "Shopify商品のトレンドを",
@@ -2506,6 +2533,7 @@
         contact_topic_bug: "バグ / 不具合",
         contact_topic_press: "メディア / インタビュー",
         contact_submit: "メッセージ送信 →",
+        contact_message_placeholder: "メッセージを入力…",
         contact_note: "またはドメインリリース後 support@storescope.com (2026 Q4 予定)。",
         hero_email_submit: "月曜ダイジェスト受信 →",
         hero_email_trust_1: "初回月曜ダイジェスト無料",
@@ -2636,6 +2664,9 @@
         xr_stat_price_v2: "価格帯",
         xr_stat_delivery_v2: "配送",
         product_stores_suffix_v2: "ストア",
+        product_launch_suffix_v2: "発売",
+        time_today_label: "今日",
+        time_days_ago_suffix: "日前",
       }
     };
 
@@ -2668,6 +2699,14 @@
         var val = dict[el.dataset.titleI18n];
         if (val !== undefined) el.setAttribute('title', val);
       });
+      // FIX 2026-09-17 (ui-designer 실 스크린샷 검증): lang switch <select> 들의 value가
+      // 여기서 한 번도 동기화 안 돼서, 실제 적용 언어와 무관하게 항상 첫 <option>(English)
+      // 으로 보이던 버그 — 모바일 메뉴 첫 탭에서 "페이지는 한국어인데 언어선택은 English"
+      // 로 보이는 상태 불일치. 적용될 때마다 두 select 모두 값 동기화.
+      var _langSwitchDesktop = document.getElementById('ss-lang-switch');
+      var _langSwitchMobile = document.getElementById('ss-lang-switch-mobile');
+      if (_langSwitchDesktop) _langSwitchDesktop.value = lang;
+      if (_langSwitchMobile) _langSwitchMobile.value = lang;
       try { localStorage.setItem('ss-lang', lang); } catch (e) {}
       if (typeof gtag === 'function') {
         gtag('event', 'language_select', { language: lang });
@@ -2753,10 +2792,10 @@
         <option value="ko">한국어</option>
         <option value="ja">日本語</option>
       </select>
-      <button onclick="focusHeroEmail()" class="btn-glow" data-i18n="nav_cta">Get Monday's list</button>
+      <button onclick="focusHeroEmail()" class="btn-glow" data-i18n="nav_cta">Get Monday's digest</button>
     </div>
     <div class="nav-mobile">
-      <button onclick="focusHeroEmail()" class="btn-glow" style="font-size:13px;padding:7px 14px;" data-i18n="nav_cta">Get Monday's list</button>
+      <button onclick="focusHeroEmail()" class="btn-glow" style="font-size:13px;padding:7px 14px;" data-i18n="nav_cta">Get Monday's digest</button>
       <button class="nav-hamburger" onclick="toggleMobileNav()" aria-label="Open menu" data-aria-i18n="aria-label:aria_open_menu" id="navHamburger">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
       </button>
@@ -3099,6 +3138,7 @@
           autocomplete="off"
           spellcheck="false"
           aria-label="Shopify store URL"
+          aria-describedby="xr-url-error"
           inputmode="url"
           enterkeyhint="search"
         />
@@ -3249,7 +3289,7 @@
           <li data-i18n="plan_free_feat_3">Link to buy from the original store</li>
           <li data-i18n="plan_free_feat_4">Unsubscribe in one click, any time</li>
         </ul>
-        <a href="#hero-email" onclick="document.getElementById('hero-email').focus();return false;" class="plan-btn plan-btn-outline" data-i18n="plan_free_cta">Get Monday's digest →</a>
+        <button type="button" onclick="document.getElementById('hero-email').focus();" class="plan-btn plan-btn-outline" data-i18n="plan_free_cta">Get Monday's digest →</button>
       </div>
 
       <!-- ── PRO ── -->
@@ -3399,6 +3439,7 @@
       </div>
       <textarea name="message" required rows="4"
         placeholder="Your message…" aria-label="Your message"
+        data-placeholder-i18n="contact_message_placeholder" data-aria-i18n="aria-label:contact_message_placeholder"
         style="width:100%;padding:14px 16px;border:1px solid rgba(28,25,23,0.15);border-radius:10px;font-size:14px;background:#fff;font-family:inherit;resize:vertical;box-sizing:border-box;"></textarea>
       <button type="submit" class="xr-submit-btn" style="margin-top:14px;width:100%;">
         <span data-i18n="contact_submit">Send message →</span>
@@ -3710,9 +3751,17 @@
             }
             if (storesEl) {
               // 실제 store count = 1 (single brand crawl). "1 store" 대신 fresh signal 로 대체
+              // FIX 2026-09-17 (ui-designer 실 스크린샷 검증): "Today"/"Nd ago" 가 언어 무관
+              // 하드코딩 영어였음 — i18n dict 값 사용으로 교체. product_stores_suffix_v2 는
+              // 위 static fallback 4줄("stores")과 의미가 달라 별도 키(product_launch_suffix_v2)
+              // 로 분리 — 같은 키를 재사용하면 언어 전환 시 "launch"가 "stores"로 덮어써짐.
+              var _dict = (window.STORESCOPE_I18N && window.STORESCOPE_I18N[document.documentElement.lang || 'en']) || {};
               var days = Math.max(0, Math.round(p.age_days || 0));
-              storesEl.innerHTML = (days === 0 ? 'Today' : days + 'd ago')
-                + ' <span data-i18n="product_stores_suffix_v2">launch</span>';
+              var _timeLabel = days === 0
+                ? (_dict.time_today_label || 'Today')
+                : days + (_dict.time_days_ago_suffix || 'd ago');
+              storesEl.innerHTML = _timeLabel
+                + ' <span data-i18n="product_launch_suffix_v2">' + (_dict.product_launch_suffix_v2 || 'launch') + '</span>';
             }
           }
         })
