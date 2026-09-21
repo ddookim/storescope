@@ -1,45 +1,59 @@
 {
-  "generated_at": "2026-09-14T00:58:56.712827+00:00",
-  "week": "2026-W38",
+  "generated_at": "2026-09-21T01:02:39.871875+00:00",
+  "week": "2026-W39",
   "total_products_before_dedupe": null,
-  "total_after_dedupe": 1188,
+  "total_after_dedupe": 1607,
   "top_products_returned": 20,
   "categories": [
     {
       "product_type": "Knit Tops",
-      "product_count": 109,
+      "product_count": 156,
       "vendor_count": 1,
       "top_vendors": [
         "Everlane"
       ]
     },
     {
-      "product_type": "Sweaters",
-      "product_count": 102,
+      "product_type": "Bottoms",
+      "product_count": 130,
       "vendor_count": 2,
       "top_vendors": [
         "Everlane",
-        "Lunya"
+        "Taylor Stitch"
+      ]
+    },
+    {
+      "product_type": "Sweaters",
+      "product_count": 124,
+      "vendor_count": 1,
+      "top_vendors": [
+        "Everlane"
       ]
     },
     {
       "product_type": "EDC",
-      "product_count": 99,
-      "vendor_count": 4,
+      "product_count": 120,
+      "vendor_count": 3,
       "top_vendors": [
         "Ridge",
-        "Ridge Wallet",
-        "The Ridge"
+        "The Ridge",
+        "The Ridge Wallet"
       ]
     },
     {
-      "product_type": "Bottoms",
-      "product_count": 99,
-      "vendor_count": 3,
+      "product_type": "Denim",
+      "product_count": 89,
+      "vendor_count": 1,
       "top_vendors": [
-        "Everlane",
-        "Lunya",
-        "Mack Weldon"
+        "Everlane"
+      ]
+    },
+    {
+      "product_type": "Full Length",
+      "product_count": 63,
+      "vendor_count": 1,
+      "top_vendors": [
+        "Gymshark"
       ]
     },
     {
@@ -51,27 +65,13 @@
       ]
     },
     {
-      "product_type": "Denim",
-      "product_count": 59,
-      "vendor_count": 1,
+      "product_type": "Outerwear",
+      "product_count": 56,
+      "vendor_count": 3,
       "top_vendors": [
-        "Everlane"
-      ]
-    },
-    {
-      "product_type": "Tech",
-      "product_count": 51,
-      "vendor_count": 1,
-      "top_vendors": [
-        "Ridge"
-      ]
-    },
-    {
-      "product_type": "T Shirt",
-      "product_count": 31,
-      "vendor_count": 1,
-      "top_vendors": [
-        "Gymshark"
+        "Everlane",
+        "Taylor Stitch",
+        "Todd Snyder"
       ]
     }
   ]
