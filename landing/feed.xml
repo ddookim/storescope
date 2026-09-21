@@ -1,174 +1,174 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>StoreScope Weekly · 2026-W38</title>
+    <title>StoreScope Weekly · 2026-W39</title>
     <link>https://ddookim.github.io/storescope/digest-sample.html</link>
     <atom:link href="https://ddookim.github.io/storescope/feed.xml" rel="self" type="application/rss+xml"/>
-    <description>Newest DTC brand product launches from 50+ curated Shopify brands. Updated every Monday. Hot: Knit Tops (109), Sweaters (102), EDC (99), Bottoms (99), Shirting (59).</description>
+    <description>Newest DTC brand product launches from 50+ curated Shopify brands. Updated every Monday. Hot: Knit Tops (156), Bottoms (130), Sweaters (124), EDC (120), Denim (89).</description>
     <language>en-us</language>
-    <lastBuildDate>Mon, 14 Sep 2026 00:58:56 +0000</lastBuildDate>
-    <pubDate>Mon, 14 Sep 2026 00:58:56 +0000</pubDate>
+    <lastBuildDate>Mon, 21 Sep 2026 01:02:39 +0000</lastBuildDate>
+    <pubDate>Mon, 21 Sep 2026 01:02:39 +0000</pubDate>
     <ttl>10080</ttl>
     <generator>StoreScope pipeline/latest_products.py</generator>
     <item>
-      <title>W ECM Cashmere Classic Polo</title>
+      <title>M HRC Heavy Twill Slim Chino</title>
       <link>https://ddookim.github.io/storescope/digest-sample.html#p1</link>
-      <guid isPermaLink="false">everlane.com#f-swtr-ecm-cr-polo-nvy</guid>
-      <pubDate>Sun, 13 Sep 2026 07:17:45 -0700</pubDate>
-      <description>Everlane · Sweaters · $168.00 · 0.4d old</description>
-      <category>Sweaters</category>
+      <guid isPermaLink="false">everlane.com#m-btm-hrc-slim-pnt-coco-men-s-core-size-range</guid>
+      <pubDate>Sat, 19 Sep 2026 06:10:16 -0700</pubDate>
+      <description>Everlane · Bottoms · $118.00 · 1.5d old</description>
+      <category>Bottoms</category>
     </item>
     <item>
-      <title>Italian Wool Military Overshirt</title>
+      <title>Teca Fleece Scarf</title>
       <link>https://ddookim.github.io/storescope/digest-sample.html#p2</link>
-      <guid isPermaLink="false">toddsnyder.com#military-camp-shirtbrown</guid>
-      <pubDate>Sun, 13 Sep 2026 11:23:26 -0400</pubDate>
-      <description>Todd Snyder · Shirt · $428.00 · 0.4d old</description>
-      <category>Shirt</category>
+      <guid isPermaLink="false">cotopaxi.com#teca-fleece-scarf-4</guid>
+      <pubDate>Fri, 18 Sep 2026 15:50:38 -0600</pubDate>
+      <description>F24-Semiannual · Accessories · $18.00 · 2.1d old</description>
+      <category>Accessories</category>
     </item>
     <item>
-      <title>Mini Tube Glowscreen SPF 40 in Sunrise 10ml</title>
+      <title>Teca Fleece Gloves</title>
       <link>https://ddookim.github.io/storescope/digest-sample.html#p3</link>
-      <guid isPermaLink="false">supergoop.com#mini-tube-glowscreen-spf-40-10ml</guid>
-      <pubDate>Sat, 12 Sep 2026 22:35:07 -0400</pubDate>
-      <description>Supergoop! · Free Samples · — · 0.9d old</description>
-      <category>Free Samples</category>
+      <guid isPermaLink="false">cotopaxi.com#teca-fleece-gloves-4</guid>
+      <pubDate>Fri, 18 Sep 2026 15:34:59 -0600</pubDate>
+      <description>Cotopaxi-Amigos-24 · Accessories · $18.00 · 2.1d old</description>
+      <category>Accessories</category>
     </item>
     <item>
-      <title>Girl Scout Sparkables™</title>
+      <title>Todd Snyder X CQP Engadin Boot</title>
       <link>https://ddookim.github.io/storescope/digest-sample.html#p4</link>
-      <guid isPermaLink="false">partakefoods.com#girl-scouts-sparkables</guid>
-      <pubDate>Sat, 12 Sep 2026 13:03:23 -0400</pubDate>
-      <description>Partake Foods · Cookies · — · 1.3d old</description>
-      <category>Cookies</category>
+      <guid isPermaLink="false">toddsnyder.com#ts-exclusive-cqp-engadin-bootcharcoal</guid>
+      <pubDate>Fri, 18 Sep 2026 17:40:03 -0400</pubDate>
+      <description>CQP · Shoes · $668.00 · 2.1d old</description>
+      <category>Shoes</category>
     </item>
     <item>
-      <title>Ridge KeyCase - Burnt Damascus</title>
+      <title>The Eastmoor Cardigan in Oatmeal Wool</title>
       <link>https://ddookim.github.io/storescope/digest-sample.html#p5</link>
-      <guid isPermaLink="false">ridgewallet.com#burnt-damascus-keycase</guid>
-      <pubDate>Sat, 12 Sep 2026 11:01:40 -0700</pubDate>
-      <description>The Ridge · EDC · $95.00 · 1.3d old</description>
-      <category>EDC</category>
+      <guid isPermaLink="false">taylorstitch.com#eastmoor-cardigan-in-oatmeal-wool-2609</guid>
+      <pubDate>Fri, 18 Sep 2026 13:36:39 -0700</pubDate>
+      <description>Taylor Stitch · Knits · $198.00 · 2.2d old</description>
+      <category>Knits</category>
     </item>
     <item>
-      <title>Doominati Thermal Shirt</title>
+      <title>Pot Head Planter</title>
       <link>https://ddookim.github.io/storescope/digest-sample.html#p6</link>
-      <guid isPermaLink="false">liquiddeath.com#doominati-thermal-shirt</guid>
-      <pubDate>Fri, 11 Sep 2026 21:01:23 -0700</pubDate>
-      <description>Liquid Death · LS Tee · $39.00 · 1.9d old</description>
-      <category>LS Tee</category>
+      <guid isPermaLink="false">liquiddeath.com#pot-head-planter</guid>
+      <pubDate>Fri, 18 Sep 2026 05:05:21 -0700</pubDate>
+      <description>Liquid Death · Misc · $34.00 · 2.5d old</description>
+      <category>Misc</category>
     </item>
     <item>
-      <title>Mocha Moment</title>
+      <title>Italian Cavalry Twill Gurkha Trouser</title>
       <link>https://ddookim.github.io/storescope/digest-sample.html#p7</link>
-      <guid isPermaLink="false">colourpop.com#mocha-moment-cloud-whip-lip-liner-fresh-kiss-glossy-balm</guid>
-      <pubDate>Fri, 11 Sep 2026 09:46:24 -0700</pubDate>
-      <description>ColourPop · Lip Bundle · $17.00 · 2.3d old</description>
-      <category>Lip Bundle</category>
+      <guid isPermaLink="false">toddsnyder.com#cavalry-twill-single-belt-gurkha-trousercharcoal</guid>
+      <pubDate>Fri, 18 Sep 2026 09:15:38 -0400</pubDate>
+      <description>Todd Snyder · Pants · $298.00 · 2.5d old</description>
+      <category>Pants</category>
     </item>
     <item>
-      <title>Gymshark Diffuse Sweat Headwrap - Black</title>
+      <title>Ridge Wallet - UCLA Bruins</title>
       <link>https://ddookim.github.io/storescope/digest-sample.html#p8</link>
-      <guid isPermaLink="false">gymshark.com#gymshark-diffuse-sweat-headwrap-headwear</guid>
-      <pubDate>Fri, 11 Sep 2026 10:14:04 -0700</pubDate>
-      <description>Gymshark · Headband · $26.00 · 2.3d old</description>
-      <category>Headband</category>
-    </item>
-    <item>
-      <title>Washed Velvet Quilt Set Checkout</title>
-      <link>https://ddookim.github.io/storescope/digest-sample.html#p9</link>
-      <guid isPermaLink="false">brooklinen.com#washed-velvet-quilt-set-checkout</guid>
-      <pubDate>Fri, 11 Sep 2026 10:20:06 -0400</pubDate>
-      <description>Brooklinen · Sheets · — · 2.4d old</description>
-      <category>Sheets</category>
-    </item>
-    <item>
-      <title>Key Lime</title>
-      <link>https://ddookim.github.io/storescope/digest-sample.html#p10</link>
-      <guid isPermaLink="false">colourpop.com#key-lime-lip-balm</guid>
-      <pubDate>Thu, 10 Sep 2026 23:59:28 -0700</pubDate>
-      <description>Fourth Ray Beauty · Lip Balm · $8.00 · 2.7d old</description>
-      <category>Lip Balm</category>
-    </item>
-    <item>
-      <title>Silksweats™ Midweight Reversible Short</title>
-      <link>https://ddookim.github.io/storescope/digest-sample.html#p11</link>
-      <guid isPermaLink="false">lunya.co#womens-silksweats-midweight-reversible-short-chili-pepper</guid>
-      <pubDate>Wed, 09 Sep 2026 18:42:34 -0400</pubDate>
-      <description>Lunya · Bottoms · $98.00 · 4.1d old</description>
-      <category>Bottoms</category>
-    </item>
-    <item>
-      <title>Everyday Charging Kit - iPhone Duo - Carbon</title>
-      <link>https://ddookim.github.io/storescope/digest-sample.html#p12</link>
-      <guid isPermaLink="false">ridgewallet.com#everyday-charging-kit-iphone-duo-carbon</guid>
-      <pubDate>Wed, 09 Sep 2026 11:05:45 -0700</pubDate>
-      <description>Ridge · Tech · $135.00 · 4.3d old</description>
-      <category>Tech</category>
-    </item>
-    <item>
-      <title>No Frills Exclusive Starter Set</title>
-      <link>https://ddookim.github.io/storescope/digest-sample.html#p13</link>
-      <guid isPermaLink="false">dollarshaveclub.com#no-frills-exclusive</guid>
-      <pubDate>Wed, 09 Sep 2026 07:48:38 -0700</pubDate>
-      <description>Dollar Shave Club · Kits · $11.99 · 4.4d old</description>
-      <category>Kits</category>
-    </item>
-    <item>
-      <title>Ridge Wallet - Indianapolis Colts</title>
-      <link>https://ddookim.github.io/storescope/digest-sample.html#p14</link>
-      <guid isPermaLink="false">ridgewallet.com#indianapolis-colts</guid>
-      <pubDate>Tue, 08 Sep 2026 13:11:46 -0700</pubDate>
-      <description>The Ridge Wallet · EDC · $150.00 · 5.2d old</description>
+      <guid isPermaLink="false">ridgewallet.com#ucla-bruins</guid>
+      <pubDate>Thu, 17 Sep 2026 14:42:13 -0700</pubDate>
+      <description>Ridge · EDC · $150.00 · 3.1d old</description>
       <category>EDC</category>
     </item>
     <item>
-      <title>Baudoin &amp; Lange Patent Leather Sagan Opera Pump</title>
+      <title>Ridge Wallet - Washington State Cougars</title>
+      <link>https://ddookim.github.io/storescope/digest-sample.html#p9</link>
+      <guid isPermaLink="false">ridgewallet.com#washington-state-cougars</guid>
+      <pubDate>Thu, 17 Sep 2026 14:42:01 -0700</pubDate>
+      <description>The Ridge Wallet · EDC · $150.00 · 3.1d old</description>
+      <category>EDC</category>
+    </item>
+    <item>
+      <title>Death Grip Bottle Opener</title>
+      <link>https://ddookim.github.io/storescope/digest-sample.html#p10</link>
+      <guid isPermaLink="false">deathwishcoffee.com#death-grip-bottle-opener</guid>
+      <pubDate>Wed, 16 Sep 2026 15:20:29 -0400</pubDate>
+      <description>BAMKO · Accessories · $8.00 · 4.2d old</description>
+      <category>Accessories</category>
+    </item>
+    <item>
+      <title>Gymshark Everyday Holdall Medium - Black</title>
+      <link>https://ddookim.github.io/storescope/digest-sample.html#p11</link>
+      <guid isPermaLink="false">gymshark.com#gymshark-medium-everyday-holdall-black-ss23</guid>
+      <pubDate>Wed, 16 Sep 2026 08:23:05 -0700</pubDate>
+      <description>Gymshark · Uncategorized · $54.00 · 4.4d old</description>
+      <category>Uncategorized</category>
+    </item>
+    <item>
+      <title>Gymshark Premium Sharkhead Crew Sock - White</title>
+      <link>https://ddookim.github.io/storescope/digest-sample.html#p12</link>
+      <guid isPermaLink="false">gymshark.com#gymshark-premium-sharkhead-crew-single-white-aw22</guid>
+      <pubDate>Wed, 16 Sep 2026 08:23:02 -0700</pubDate>
+      <description>Gymshark Pre Prod · Uncategorized · $12.60 · 4.4d old</description>
+      <category>Uncategorized</category>
+    </item>
+    <item>
+      <title>Yuketen Moc Ischia Horsebit Loafer</title>
+      <link>https://ddookim.github.io/storescope/digest-sample.html#p13</link>
+      <guid isPermaLink="false">toddsnyder.com#yuketen-moc-ischia-horsebit-loafer-blackblack</guid>
+      <pubDate>Wed, 16 Sep 2026 10:33:38 -0400</pubDate>
+      <description>Yuketen · Shoes · $671.00 · 4.4d old</description>
+      <category>Shoes</category>
+    </item>
+    <item>
+      <title>Asics GT 2160 Sneaker</title>
+      <link>https://ddookim.github.io/storescope/digest-sample.html#p14</link>
+      <guid isPermaLink="false">toddsnyder.com#asics-gt-2160-in-white-creamwhite</guid>
+      <pubDate>Tue, 15 Sep 2026 17:21:22 -0400</pubDate>
+      <description>ASICS · Shoes · $135.00 · 5.2d old</description>
+      <category>Shoes</category>
+    </item>
+    <item>
+      <title>UNIMATIC Modello Uno U1-AEG Diver Watch</title>
       <link>https://ddookim.github.io/storescope/digest-sample.html#p15</link>
-      <guid isPermaLink="false">toddsnyder.com#baudoin-lange-sagan-opera-bow-patentblack</guid>
-      <pubDate>Tue, 08 Sep 2026 14:12:26 -0400</pubDate>
-      <description>Baudoin &amp; Lange · Shoes · $920.00 · 5.3d old</description>
-      <category>Shoes</category>
+      <guid isPermaLink="false">toddsnyder.com#u1-aeg-impronte-modello-unoolive</guid>
+      <pubDate>Tue, 15 Sep 2026 16:44:05 -0400</pubDate>
+      <description>UNIMATIC · Watches · $900.00 · 5.2d old</description>
+      <category>Watches</category>
     </item>
     <item>
-      <title>Quilted Rib Sweatpant - Tall</title>
+      <title>Call of the Wild Mug</title>
       <link>https://ddookim.github.io/storescope/digest-sample.html#p16</link>
-      <guid isPermaLink="false">mackweldon.com#quilted-rib-sweatpant-tall</guid>
-      <pubDate>Tue, 08 Sep 2026 09:51:47 -0400</pubDate>
-      <description>Mack Weldon · Bottoms · $118.00 · 5.5d old</description>
-      <category>Bottoms</category>
+      <guid isPermaLink="false">deathwishcoffee.com#call-of-the-wild-mug</guid>
+      <pubDate>Tue, 15 Sep 2026 10:34:05 -0400</pubDate>
+      <description>Deneen Pottery · Mugs · $38.00 · 5.4d old</description>
+      <category>Mugs</category>
     </item>
     <item>
-      <title>New Balance 204V Sneaker</title>
+      <title>TechSweat 3.5&quot; Short</title>
       <link>https://ddookim.github.io/storescope/digest-sample.html#p17</link>
-      <guid isPermaLink="false">toddsnyder.com#new-balance-fw26-204v-sneakerwhite</guid>
-      <pubDate>Tue, 08 Sep 2026 09:54:20 -0400</pubDate>
-      <description>New Balance · Shoes · $120.00 · 5.5d old</description>
-      <category>Shoes</category>
+      <guid isPermaLink="false">outdoorvoices.com#w-techsweat-3-5-short-night</guid>
+      <pubDate>Tue, 15 Sep 2026 10:36:53 -0400</pubDate>
+      <description>Outdoor Voices · Shorts · $78.00 · 5.4d old</description>
+      <category>Shorts</category>
     </item>
     <item>
-      <title>Jacques Solovière Hairy Loafer</title>
+      <title>Todd Snyder X UNIMATIC U5S-TS Watch</title>
       <link>https://ddookim.github.io/storescope/digest-sample.html#p18</link>
-      <guid isPermaLink="false">toddsnyder.com#jacques-soloviere-new-loafer-in-nat-brown-hairybrown</guid>
-      <pubDate>Tue, 08 Sep 2026 09:53:35 -0400</pubDate>
-      <description>Jacques Solovière · Shoes · $433.00 · 5.5d old</description>
-      <category>Shoes</category>
+      <guid isPermaLink="false">toddsnyder.com#ts-x-unimatic-u5s-ts-watcholive</guid>
+      <pubDate>Tue, 15 Sep 2026 07:54:28 -0400</pubDate>
+      <description>Todd Snyder + UNIMATIC · Watches · $1150.00 · 5.5d old</description>
+      <category>Watches</category>
     </item>
     <item>
-      <title>Free Returns Coverage</title>
+      <title>Down Mitten</title>
       <link>https://ddookim.github.io/storescope/digest-sample.html#p19</link>
-      <guid isPermaLink="false">allbirds.com#free-returns-coverage</guid>
-      <pubDate>Wed, 02 Sep 2026 11:33:11 -0700</pubDate>
-      <description>re:do · Return,Package Protection · $0.80 · 11.3d old</description>
-      <category>Return,Package Protection</category>
+      <guid isPermaLink="false">cotopaxi.com#down-mitten-3</guid>
+      <pubDate>Mon, 14 Sep 2026 12:14:55 -0600</pubDate>
+      <description>Cotopaxi · Apparel Accessories · $26.00 · 6.3d old</description>
+      <category>Apparel Accessories</category>
     </item>
     <item>
-      <title>Todd Snyder X Rubinacci Simple Loafer</title>
+      <title>Personalization Charge</title>
       <link>https://ddookim.github.io/storescope/digest-sample.html#p20</link>
-      <guid isPermaLink="false">toddsnyder.com#todd-snyder-x-rubinacci-simple-loafer-in-black-crocblack</guid>
-      <pubDate>Mon, 31 Aug 2026 11:05:47 -0400</pubDate>
-      <description>Rubinacci · Shoes · $718.00 · 13.4d old</description>
-      <category>Shoes</category>
+      <guid isPermaLink="false">ridgewallet.com#personalization-charge-uv-icon</guid>
+      <pubDate>Mon, 14 Sep 2026 09:55:09 -0700</pubDate>
+      <description>The Ridge · Personalization Charge · $20.00 · 6.3d old</description>
+      <category>Personalization Charge</category>
     </item>
   </channel>
 </rss>
