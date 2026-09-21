@@ -782,6 +782,11 @@
       background: var(--card); border: 1px solid var(--border);
       border-radius: var(--radius-lg); padding: 40px; position: relative; transition: all 0.25s;
       box-shadow: 0 1px 2px rgba(0,0,0,0.04), 0 4px 16px rgba(0,0,0,0.04);
+      /* FIX 2026-09-21 (미학 검토): 2-column grid 기본 align-items:stretch 로 두 카드
+         높이가 맞춰지는데, Free 카드는 feature가 적어 CTA 버튼 아래 빈 공간이 붕 떠
+         보였음. flex column + CTA margin-top:auto 로 버튼을 카드 바닥에 고정 —
+         Pro 카드와 CTA 위치가 수평으로 맞아 짝이 되는 느낌(Gestalt similarity). */
+      display: flex; flex-direction: column;
     }
     /* UPGRADE 2026-06-08: Stripe 시그너처 elevated shadow (ladder system).
        3-layer shadow → 깊이감 + soft warm tint. transform 함께 → 자연스러운 lift. */
@@ -836,6 +841,7 @@
       font-weight: 600; font-size: 15px; letter-spacing: -0.005em;
       text-decoration: none; cursor: pointer;
       border: none; width: 100%; transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+      margin-top: auto; /* pins CTA to card bottom — see .plan-card flex-column comment */
     }
     .plan-btn-grad {
       background: #1C1917; color: #fff;
@@ -956,7 +962,10 @@
     }
 
     /* ── X-RAY LEAD GEN ── */
-    .xray-section { padding: 0 24px 80px; }
+    /* FIX 2026-09-21 (미학 검토, 실 스크린샷 확인): X-Ray 섹션과 pricing 섹션의
+       padding(80px+100px=180px)이 겹쳐서 두 섹션 사이 빈 공간만 190px 가까이 떠
+       있던 것 — 다른 섹션 전환 리듬(88-112px)과 안 맞음. 48px로 좁힘. */
+    .xray-section { padding: 0 24px 48px; }
     .xray-inner  { max-width: 860px; margin: 0 auto; }
 
     /* pill / headings reuse existing .section-pill, .section-h2 */
