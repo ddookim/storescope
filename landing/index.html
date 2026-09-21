@@ -1478,6 +1478,10 @@
     .nav-mobile-panel a:active::after { transform: translateX(2px); }
     @media (prefers-reduced-motion: reduce) {
       .nav-mobile-panel { transition: none; }
+      /* FIX 2026-09-21 (ux-ui-agent-skills verify_reduced_motion.mjs 실측): nav-links,
+         히어로 목업 product-card hover transition이 reduce 환경에서도 살아있던 것 —
+         WCAG 2.3.3 엄격 준수. */
+      .nav-links a, .product-card { transition: none; }
     }
     @media (max-width: 768px) {
       .nav-hamburger { display: inline-flex; }
@@ -1931,6 +1935,23 @@
     }
     @media (prefers-reduced-motion: reduce) {
       .ss-scroll-top { transition: none; }
+    }
+
+    /* FIX 2026-09-21 (ux-ui-agent-skills verify_reduced_motion.mjs 실측): 위 개별
+       reduced-motion 블록들이 특정 셀렉터만 다뤄서 plan-card/plan-features li 등
+       계속 새로 발견됨 — 하나씩 patch 대신 전역 안전망 추가. transition:none 대신
+       거의-0 duration을 쓰는 표준 패턴(WCAG 2.3.3) — 순간 전환 자체는 유지하되
+       모션으로 지각되지 않게 함. 기존 개별 규칙은 문서화 가치가 있어 그대로 둠. */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.001ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.001ms !important;
+        scroll-behavior: auto !important;
+      }
+      /* .plan-card 의 4번째(마지막) 정의가 shorthand transition 에 !important 를 걸어놔서
+         universal selector 는 specificity 로 못 이김 — class selector 로 동률 맞춤. */
+      .plan-card { transition-duration: 0.001ms !important; }
     }
 
   </style>
@@ -2858,8 +2879,12 @@
         aria-label="Your email address"
       />
       <!-- a11y audit LOW: 제출 후 button 텍스트가 Sending.../success/retry 로 바뀌는데
-           aria-live 없어 스크린리더가 상태 변화를 못 읽음. role=status + aria-live=polite 추가. -->
-      <button type="submit" class="xr-submit-btn" role="status" aria-live="polite">
+           aria-live 없어 스크린리더가 상태 변화를 못 읽음. aria-live=polite 추가.
+           FIX 2026-09-21 (axe-core 실측: button-name violation): role="status" 를
+           button에 같이 주면 버튼의 implicit role이 status로 덮어써져서 스크린리더가
+           더 이상 버튼으로 인식 못함 (submit 불가능한 것처럼 보임). aria-live 만으로도
+           텍스트 변경 announce 되므로 role 제거. -->
+      <button type="submit" class="xr-submit-btn" aria-live="polite">
         <span data-i18n="hero_email_submit">Get sample data →</span>
       </button>
     </div>
