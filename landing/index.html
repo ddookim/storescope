@@ -41,90 +41,15 @@
       return 'https://api.storescope.com';
     })();
 
-    // D+23 Mock API mode — trycloudflare placeholder 감지 시 정적 mock 응답으로 사용자 X-Ray full flow 평가 가능.
-    // Render launch 후 API_BASE → onrender.com 으로 변경 시 자동 비활성 (real fetch 사용).
-    // Honest UX: global sticky banner 로 사용자에게 mock mode 명시 ([[feedback-no-false-advertising]] 준수).
-    (function setupMockAPI() {
-      var apiBase = window.STORESCOPE_API || '';
-      window.STORESCOPE_DEMO_MODE = /trycloudflare\.com|^$/.test(apiBase);
-      if (!window.STORESCOPE_DEMO_MODE) return;
-
-      var _origFetch = window.fetch.bind(window);
-      function jsonResponse(body, status) {
-        return new Response(JSON.stringify(body),
-          { status: status || 200, headers: { 'Content-Type': 'application/json' } });
-      }
-
-      window.fetch = function(input, init) {
-        var url = (typeof input === 'string') ? input : (input && input.url);
-        if (!url || url.indexOf(apiBase) !== 0) return _origFetch(input, init);
-        var endpoint = url.substring(apiBase.length).split('?')[0];
-
-        // GET /health
-        if (endpoint === '/health') {
-          return Promise.resolve(jsonResponse({ status: 'ok' }));
-        }
-        // GET /health/freshness — Dead-man switch (live mode)
-        if (endpoint === '/health/freshness') {
-          var twoHoursAgo = new Date(Date.now() - 2 * 3600 * 1000).toISOString();
-          return Promise.resolve(jsonResponse({
-            status: 'ok', mode: 'live',
-            updated_at: twoHoursAgo, hours_since: 2.1, days_since: 0.09,
-            payments_blocked: false
-          }));
-        }
-        // POST /leads — email capture (simulated 600ms latency)
-        if (endpoint === '/leads') {
-          return new Promise(function(resolve) {
-            setTimeout(function() {
-              resolve(jsonResponse({ success: true, lead_id: 'demo_' + Date.now() }));
-            }, 600);
-          });
-        }
-        // GET /trending — real latest_products.json (D+11: overlay real data over static mock).
-        // 우선 fetch 시도, 실패 시 기본 mock 응답. 실 API 배포 전까지 mock 유지.
-        if (endpoint === '/trending') {
-          return _origFetch('./latest_products.json').then(function(r) {
-            if (!r.ok) throw new Error('no live data');
-            return r.json();
-          }).then(function(items) {
-            // Adapt latest_products schema → mock /trending schema.
-            var data = (items || []).slice(0, 3).map(function(p, i) {
-              return {
-                cluster_id: i + 1,
-                store_count: 1,
-                week_delta: null,
-                momentum_score: null,
-                representative_title: p.title || 'Untitled',
-                representative_price: p.price || 0,
-                representative_image: p.image_url || ''
-              };
-            });
-            if (data.length === 0) throw new Error('empty live data');
-            return jsonResponse({ success: true, data: data, source: 'live-latest' });
-          }).catch(function() {
-            // Fallback mock (D+10 curated DTC 예시).
-            return jsonResponse({
-              success: true,
-              data: [
-                { cluster_id: 1, store_count: 8, week_delta: 3, momentum_score: 7.42,
-                  representative_title: 'Merino Wool Sneakers', representative_price: 95.00, representative_image: '' },
-                { cluster_id: 2, store_count: 5, week_delta: 2, momentum_score: 6.18,
-                  representative_title: 'Refillable Lip Balm', representative_price: 12.50, representative_image: '' },
-                { cluster_id: 3, store_count: 4, week_delta: 2, momentum_score: 5.83,
-                  representative_title: 'Percale Cotton Sheet Set', representative_price: 149.00, representative_image: '' }
-              ]
-            });
-          });
-        }
-        // 기타 endpoint = 404
-        return Promise.resolve(jsonResponse({ error: 'mock not found', endpoint: endpoint }, 404));
-      };
-
-      // D+14 removed: global sticky demo banner (nav bar 및 hero 최상단 요소 시각 차단).
-      // 데모 상태 안내는 hero 안의 "Early access preview" trust line 으로 충분.
-      // X-Ray form submit 후 개별 demo banner (#xr-demo-banner) 는 유지.
-    })();
+    // REMOVED 2026-09-22 (red-team P0 #5): 전역 window.fetch monkey-patch 가 production
+    // (ddookim.github.io → STORESCOPE_API 가 trycloudflare 도메인이라 DEMO_MODE=true) 에서
+    // 상시 활성 상태였음. /health, /health/freshness 를 항상 { status:'ok', payments_blocked:false }
+    // 로 가짜 응답 — deadManSwitch() 의 stale-data 결제 차단 로직이 real backend 죽어도
+    // 절대 안 걸리게 무력화되고 있었음. /leads, /trending 분기는 실제로 어디서도 더 이상
+    // 호출 안 함(Netlify Forms + latest_products.json 직접 fetch 로 대체된 지 오래된 dead code) —
+    // 즉 이 mock 이 실제로 하던 유일한 일은 "백엔드 상태를 가리는 것"뿐이라 전체 삭제.
+    // 필요해지면 로컬 개발 전용으로 ?mock=1 같은 명시적 opt-in 플래그로 재도입할 것 —
+    // hostname/도메인 패턴 매칭으로 암묵 활성화하지 말 것 (이번에 발생한 문제의 근본 원인).
 
     // D+11 Live overlay — demo dashboard rows 을 실 latest_products.json 상위 N개로 교체.
     // Fetch 실패/파일 부재/JSON 파손 시 hardcoded fallback 유지 (silent).
@@ -1694,8 +1619,11 @@
       white-space: nowrap;
     }
     .xr-modal-close {
-      position: absolute; top: 14px; right: 14px;
-      width: 32px; height: 32px; padding: 0;
+      position: absolute; top: 6px; right: 6px;
+      /* 2026-09-22 red-team fix: 실 box 32x32 → 44x44 (WCAG 2.5.8 minimum target size,
+       * 가상요소 hit-area 트릭 아니라 실 버튼 크기 자체). top/right 를 14px→6px 로 줄여
+       * 커진 버튼이 모달 카드 밖으로 안 나가게 보정. */
+      width: 44px; height: 44px; padding: 0;
       display: flex; align-items: center; justify-content: center;
       border-radius: 50%; border: none; background: transparent;
       color: var(--muted); cursor: pointer; font-size: 16px;
@@ -2217,19 +2145,19 @@
         // X-Ray Section
         xr_section_pill: "Free Tool",
         xr_section_h2: "Try it on any Shopify store. Free.",
-        xr_section_sub: "Paste a competitor's URL — we email you their full catalog snapshot, trending hits, and price range.",
+        xr_section_sub: "Paste a competitor's URL — we're in beta, so we'll email you their catalog snapshot, trending hits, and price range once it's ready (no fixed ETA yet).",
         xr_analyze_btn: "Analyze Store",
         xr_hint_text: "Enter domain or full URL · No signup required",
-        xr_modal_pill: "Report ready",
+        xr_modal_pill: "Beta",
         xr_modal_title: "Where should we send it?",
-        xr_modal_desc_prefix: "The report on",
-        xr_modal_desc_suffix: "is ready. We'll email you the full product list, the trending items they're stocking, and the price range across stores.",
+        xr_modal_desc_prefix: "We're in beta — leave your email and we'll send your report for",
+        xr_modal_desc_suffix: "as soon as it's ready. No fixed delivery time yet.",
         xr_modal_submit: "Send my report →",
         xr_modal_trust_1: "No spam",
         xr_modal_trust_2: "Unsubscribe in 1 click",
-        xr_modal_trust_3: "Delivered < 60s",
-        xr_success_title: "Report Sent!",
-        xr_success_desc: "Your analysis report is on its way — check spam if you don't see it within 5 minutes.",
+        xr_modal_trust_3: "Beta — no fixed ETA",
+        xr_success_title: "Request received",
+        xr_success_desc: "We're in beta — reports are prepared by hand right now, so there's no fixed delivery time yet. We'll email you as soon as yours is ready.",
         // XR_STEPS JS array (X-Ray progress)
 
         // Pricing
@@ -2350,7 +2278,8 @@
         xr_stat_products_v2: "products",
         xr_stat_trending_v2: "trending now",
         xr_stat_price_v2: "price range",
-        xr_stat_delivery_v2: "delivery",
+        xr_stat_delivery_v2: "status",
+        xr_stat_delivery_val_v2: "Beta",
         product_stores_suffix_v2: "stores",
         product_launch_suffix_v2: "launch",
         time_today_label: "Today",
@@ -2423,19 +2352,19 @@
 
         xr_section_pill: "무료 도구",
         xr_section_h2: "어떤 Shopify 스토어든 무료로 분석.",
-        xr_section_sub: "경쟁사 URL을 입력하세요 — 전체 카탈로그 스냅샷, 트렌드 적중 상품, 가격대를 이메일로 보내드립니다.",
+        xr_section_sub: "경쟁사 URL을 입력하세요 — 현재 베타 운영 중이라 카탈로그 스냅샷, 트렌드 적중 상품, 가격대를 준비되는 대로 이메일로 보내드립니다 (확정된 시간은 아직 없습니다).",
         xr_analyze_btn: "스토어 분석",
         xr_hint_text: "도메인 또는 전체 URL 입력 · 가입 불필요",
-        xr_modal_pill: "리포트 준비됨",
+        xr_modal_pill: "베타",
         xr_modal_title: "어디로 보낼까요?",
-        xr_modal_desc_prefix: "다음 스토어의 리포트가 준비되었습니다:",
-        xr_modal_desc_suffix: "전체 상품 목록, 진열 중인 트렌드 상품, 스토어별 가격대를 이메일로 보내드립니다.",
+        xr_modal_desc_prefix: "현재 베타 운영 중입니다 — 이메일을 남기시면",
+        xr_modal_desc_suffix: "의 리포트를 준비되는 대로 보내드립니다. 아직 확정된 발송 시간은 없습니다.",
         xr_modal_submit: "리포트 보내기 →",
         xr_modal_trust_1: "스팸 없음",
         xr_modal_trust_2: "1클릭 구독 해지",
-        xr_modal_trust_3: "60초 이내 전송",
-        xr_success_title: "리포트 발송 완료!",
-        xr_success_desc: "분석 리포트가 발송되었습니다 — 5분 내 도착 안 하면 스팸함을 확인하세요.",
+        xr_modal_trust_3: "베타 — 확정된 시간 없음",
+        xr_success_title: "요청이 접수되었습니다",
+        xr_success_desc: "현재 베타 운영 중이라 리포트는 수작업으로 준비됩니다. 아직 확정된 발송 시간은 없으며, 준비되는 대로 이메일로 보내드립니다.",
 
         pricing_pill: "가격",
         pricing_h2: "이용하는 두 가지 방법.",
@@ -2531,7 +2460,8 @@
         xr_stat_products_v2: "상품",
         xr_stat_trending_v2: "트렌딩 중",
         xr_stat_price_v2: "가격대",
-        xr_stat_delivery_v2: "배송",
+        xr_stat_delivery_v2: "상태",
+        xr_stat_delivery_val_v2: "베타",
         product_stores_suffix_v2: "스토어",
         product_launch_suffix_v2: "출시",
         time_today_label: "오늘",
@@ -2604,19 +2534,19 @@
 
         xr_section_pill: "無料ツール",
         xr_section_h2: "任意のShopifyストアで無料お試し。",
-        xr_section_sub: "競合のURLを入力 — 全カタログのスナップショット、トレンドヒット商品、価格帯をメールでお届けします。",
+        xr_section_sub: "競合のURLを入力してください — 現在ベータ版のため、カタログのスナップショット、トレンドヒット商品、価格帯を準備でき次第メールでお届けします（配信時間はまだ確定していません）。",
         xr_analyze_btn: "ストアを分析",
         xr_hint_text: "ドメインまたは完全URLを入力 · サインアップ不要",
-        xr_modal_pill: "レポート準備完了",
+        xr_modal_pill: "ベータ版",
         xr_modal_title: "どちらへお送りしますか?",
-        xr_modal_desc_prefix: "次のストアのレポートが準備できました:",
-        xr_modal_desc_suffix: "全商品リスト、扱っているトレンド商品、ストアごとの価格帯をメールでお送りします。",
+        xr_modal_desc_prefix: "現在ベータ版です — メールアドレスを登録すると、",
+        xr_modal_desc_suffix: "のレポートを準備でき次第お送りします。配信時間はまだ確定していません。",
         xr_modal_submit: "レポートを送信 →",
         xr_modal_trust_1: "スパムなし",
         xr_modal_trust_2: "1クリックで配信停止",
-        xr_modal_trust_3: "60秒以内に配信",
-        xr_success_title: "レポート送信完了!",
-        xr_success_desc: "分析レポートを送信しました — 5分以内に届かない場合は迷惑メールフォルダをご確認ください。",
+        xr_modal_trust_3: "ベータ版 — 配信時間未定",
+        xr_success_title: "リクエストを受け付けました",
+        xr_success_desc: "現在ベータ版のため、レポートは手作業で準備しています。配信時間はまだ確定していませんが、準備が整い次第メールでお送りします。",
 
         pricing_pill: "料金",
         pricing_h2: "ご利用いただく2つの方法。",
@@ -2712,7 +2642,8 @@
         xr_stat_products_v2: "商品",
         xr_stat_trending_v2: "トレンド中",
         xr_stat_price_v2: "価格帯",
-        xr_stat_delivery_v2: "配送",
+        xr_stat_delivery_v2: "ステータス",
+        xr_stat_delivery_val_v2: "ベータ版",
         product_stores_suffix_v2: "ストア",
         product_launch_suffix_v2: "発売",
         time_today_label: "今日",
@@ -3204,7 +3135,7 @@
     <h2 class="section-h2" style="text-align:center;margin-bottom:14px;" data-i18n="xr_section_h2">
       Try it on any Shopify store. Free.
     </h2>
-    <p class="xr-sub" data-i18n="xr_section_sub">Paste a competitor's URL. We'll send you their full catalog, the products they're already selling, and the price range. Free, no signup needed beyond your email.</p>
+    <p class="xr-sub" data-i18n="xr_section_sub">Paste a competitor's URL — we're in beta, so we'll email you their catalog snapshot, trending hits, and price range once it's ready (no fixed ETA yet).</p>
 
     <!-- STEP 1: URL input -->
     <div id="xr-step1">
@@ -3247,9 +3178,11 @@
             <span class="xr-receive-stat-val">$12–$89</span>
             <span class="xr-receive-stat-lbl" data-i18n="xr_stat_price_v2">price range</span>
           </div>
+          <!-- 2026-09-22 red-team fix: "~30s delivery" 는 실 backend 없는 상태에서 거짓
+               속도 약속(모달의 "Delivered<60s" 와 같은 문제) — status/beta 표시로 교체. -->
           <div class="xr-receive-stat">
-            <span class="xr-receive-stat-val">~30s</span>
-            <span class="xr-receive-stat-lbl" data-i18n="xr_stat_delivery_v2">delivery</span>
+            <span class="xr-receive-stat-val" data-i18n="xr_stat_delivery_val_v2">Beta</span>
+            <span class="xr-receive-stat-lbl" data-i18n="xr_stat_delivery_v2">status</span>
           </div>
         </div>
         <div class="xr-receive-footer">
@@ -3284,7 +3217,7 @@
     <!-- STEP 3: Modal email gate (full overlay) -->
     <div id="xr-step3" class="xr-modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="xr-modal-title" onclick="closeXrModal(event)">
       <div class="xr-modal-card" onclick="event.stopPropagation()">
-        <div class="xr-modal-pill" data-i18n="xr_modal_pill">Report ready</div>
+        <div class="xr-modal-pill" data-i18n="xr_modal_pill">Beta</div>
         <button type="button" class="xr-modal-close" onclick="closeXrModal()" aria-label="Close" data-aria-i18n="aria-label:aria_close_modal">✕</button>
 
         <div class="xr-modal-icon" style="display:flex;">
@@ -3296,7 +3229,7 @@
 
         <h3 id="xr-modal-title" class="xr-modal-title" data-i18n="xr_modal_title">Where should we send it?</h3>
         <p class="xr-modal-desc">
-          <span data-i18n="xr_modal_desc_prefix">The report on</span> <span class="xr-modal-desc-store" id="xr-modal-store-name">store.myshopify.com</span> <span data-i18n="xr_modal_desc_suffix">is ready. We'll email you the full product list, the trending items they're stocking, and the price range across stores.</span>
+          <span data-i18n="xr_modal_desc_prefix">We're in beta — leave your email and we'll send your report for</span> <span class="xr-modal-desc-store" id="xr-modal-store-name">store.myshopify.com</span> <span data-i18n="xr_modal_desc_suffix">as soon as it's ready. No fixed delivery time yet.</span>
         </p>
 
         <form id="xr-email-form" class="xr-modal-form" onsubmit="xraySubmit(event)">
@@ -3320,7 +3253,7 @@
           <span class="xr-modal-trust-dot"></span>
           <span>✓ <span data-i18n="xr_modal_trust_2">Unsubscribe in 1 click</span></span>
           <span class="xr-modal-trust-dot"></span>
-          <span>✓ <span data-i18n="xr_modal_trust_3">Delivered &lt; 60s</span></span>
+          <span>✓ <span data-i18n="xr_modal_trust_3">Beta — no fixed ETA</span></span>
         </div>
       </div>
     </div>
@@ -3335,9 +3268,9 @@
         <div class="xr-success-icon">
           <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#34D399" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
         </div>
-        <div class="xr-success-title" data-i18n="xr_success_title">Report Sent!</div>
+        <div class="xr-success-title" data-i18n="xr_success_title">Request received</div>
         <p class="xr-success-desc" data-i18n="xr_success_desc">
-          Your analysis report is on its way — check spam if you don't see it within 5 minutes.
+          We're in beta — reports are prepared by hand right now, so there's no fixed delivery time yet. We'll email you as soon as yours is ready.
         </p>
       </div>
     </div>
@@ -3755,7 +3688,7 @@
     'Matching products against our curated DTC brand index...',
     'Checking which items are trending this week...',
     'Pulling price ranges across stores...',
-    'Analysis complete. Preparing your report...'
+    'Request ready — tell us where to send it'
   ];
 
   window.STORESCOPE_REFRESH_XR_STEPS = function() {
@@ -3918,9 +3851,14 @@
 
     // D+20 U2: Render free cold start (~50초) 워밍업 — 첫 X-Ray 클릭 시 background ping
     // 사용자 progress bar 진행하는 동안 API 가 spin up → 실제 fetch 시 latency 감소.
+    // FIX 2026-09-22 red-team P0: API_BASE 는 deadManSwitch() IIFE 안에서만 선언된
+    // 지역변수라 여기선 ReferenceError — 실 URL 제출 시 xrayAnalyze() 전체가 여기서
+    // throw 되어 progress bar/모달로 전혀 못 넘어가던 crash. 전역 window.STORESCOPE_API
+    // 를 직접 참조하도록 교체 (deadManSwitch 와 동일 fallback 패턴).
     if (!window.__xrWarmed) {
       window.__xrWarmed = true;
-      fetch(API_BASE + '/health', { cache: 'no-store', mode: 'cors' })
+      var _xrApiBase = window.STORESCOPE_API || 'https://api.storescope.com';
+      fetch(_xrApiBase + '/health', { cache: 'no-store', mode: 'cors' })
         .then(function(r) {
           if (typeof gtag === 'function') {
             gtag('event', 'api_warmup', { status: r.status, cold_start: r.status === 200 ? 'warm' : 'cold' });
