@@ -1,0 +1,76 @@
+{
+  "generated_at": "2026-09-07T00:52:47.085984+00:00",
+  "week": "2026-W37",
+  "total_products_before_dedupe": null,
+  "total_after_dedupe": 1144,
+  "top_products_returned": 20,
+  "categories": [
+    {
+      "product_type": "Bottoms",
+      "product_count": 104,
+      "vendor_count": 2,
+      "top_vendors": [
+        "Everlane",
+        "Taylor Stitch"
+      ]
+    },
+    {
+      "product_type": "Knit Tops",
+      "product_count": 98,
+      "vendor_count": 1,
+      "top_vendors": [
+        "Everlane"
+      ]
+    },
+    {
+      "product_type": "Sweaters",
+      "product_count": 86,
+      "vendor_count": 2,
+      "top_vendors": [
+        "Everlane",
+        "Taylor Stitch"
+      ]
+    },
+    {
+      "product_type": "Denim",
+      "product_count": 67,
+      "vendor_count": 1,
+      "top_vendors": [
+        "Everlane"
+      ]
+    },
+    {
+      "product_type": "Shirting",
+      "product_count": 55,
+      "vendor_count": 1,
+      "top_vendors": [
+        "Everlane"
+      ]
+    },
+    {
+      "product_type": "EDC - WALLET - RIDGE WALLET - SINGLE",
+      "product_count": 41,
+      "vendor_count": 2,
+      "top_vendors": [
+        "Ridge",
+        "The Ridge Wallet"
+      ]
+    },
+    {
+      "product_type": "Mens>Apparel>SS Tops>t_shirt",
+      "product_count": 37,
+      "vendor_count": 1,
+      "top_vendors": [
+        "Gymshark | Be a visionary."
+      ]
+    },
+    {
+      "product_type": "Womens>Apparel>Leggings>full_length",
+      "product_count": 27,
+      "vendor_count": 1,
+      "top_vendors": [
+        "Gymshark | Be a visionary."
+      ]
+    }
+  ]
+}

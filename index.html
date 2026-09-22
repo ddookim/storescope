@@ -161,7 +161,7 @@
   </script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>StoreScope — Shopify product trends, a week early</title>
-  <meta name="description" content="StoreScope scans 58 curated DTC brands weekly and produces a Monday-morning digest of new products by category. 100k+ products crawled cumulatively, 1,000+ new items surfaced each week. Free 7-day trial, no card required." />
+  <meta name="description" content="StoreScope scans 58 curated DTC brands weekly and sends a Monday-morning digest of the top 20 new products by category. 100k+ products crawled cumulatively, 1,000+ new items surfaced each week. Free weekly digest, no card required." />
   <meta name="robots" content="index, follow, max-image-preview:large" />
   <meta name="theme-color" content="#4F46E5" />
 
@@ -206,7 +206,7 @@
   <meta http-equiv="Content-Security-Policy" content="
     default-src 'self';
     script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.paddle.com https://www.googletagmanager.com https://www.google-analytics.com https://public.profitwell.com;
-    style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.jsdelivr.net https://cdn.paddle.com;
+    style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.jsdelivr.net https://cdn.paddle.com https://sandbox-cdn.paddle.com;
     font-src 'self' https://fonts.gstatic.com https://cdn.jsdelivr.net;
     img-src 'self' data: https:;
     connect-src 'self' https://storescope-api.onrender.com https://*.trycloudflare.com https://api.paddle.com https://*.paddle.com https://www.google-analytics.com https://*.google-analytics.com https://*.profitwell.com https://api.storescope.com https://storescope.netlify.app;
@@ -1425,8 +1425,13 @@
       border-radius: 8px; cursor: pointer; padding: 6px 8px; color: var(--white);
       align-items: center; justify-content: center; margin-left: 8px;
       position: relative; /* WCAG 2.5.5 hit area anchor */
+      /* 2026-09-22 red-team fix: 실 엘리먼트 box 자체를 44x44 로 — 이전엔 padding(34x30)
+         만으로 부족해 ::before invisible overlay 로 hit area 만 늘렸는데, red team 이
+         "가상요소 hit area 만으로 처리 금지" 지적. min-width/height 로 실 box 를 키움. */
+      min-width: 44px; min-height: 44px;
     }
-    /* WCAG 2.5.5: visible 36x32 + 8px each side = 52x48 (>= 44x44) */
+    /* 위 min-width/height 로 실 box 가 이미 44x44 이상이라 ::before 확장은 불필요해졌지만,
+       hover/border 여유분까지 여전히 안전망으로 유지 (제거해도 되지만 회귀 방지용 보존). */
     .nav-hamburger::before {
       content: ''; position: absolute;
       top: -8px; left: -8px; right: -8px; bottom: -8px;
@@ -2003,6 +2008,12 @@
     var _PADDLE_SANDBOX_TOKEN = 'test_REPLACE_AFTER_PADDLE_SANDBOX_SIGNUP';
     var _PADDLE_LIVE_TOKEN    = 'live_d4e17395606608d2b4eaec9b46d';
 
+    // 2026-09-22 fix: BETA + placeholder sandbox token = checkout not actually live yet.
+    // 이 flag 로 Pro CTA 라벨/문구를 "waitlist" 톤으로 통일 (버튼이 실제로는 hero 이메일
+    // 폼으로 리다이렉트하는데 라벨은 "7일 무료 체험 시작"이라 실제 동작과 불일치했음).
+    window.STORESCOPE_PRO_WAITLIST_MODE =
+      window.STORESCOPE_BETA_MODE && _PADDLE_SANDBOX_TOKEN.indexOf('test_REPLACE') === 0;
+
     if (window.STORESCOPE_PADDLE_ENV === 'sandbox' && Paddle && Paddle.Environment) {
       Paddle.Environment.set('sandbox');
     }
@@ -2029,7 +2040,7 @@
     function openCheckout(priceId) {
       // FIX 2026-07-29 D+58: BETA + placeholder sandbox token = Paddle checkout silent fail.
       // Redirect to hero email form (validation phase 정합) 대신 broken alert.
-      if (window.STORESCOPE_BETA_MODE && _PADDLE_SANDBOX_TOKEN.indexOf('test_REPLACE') === 0) {
+      if (window.STORESCOPE_PRO_WAITLIST_MODE) {
         var heroInput = document.getElementById('hero-email');
         if (heroInput) {
           heroInput.scrollIntoView({behavior: 'smooth', block: 'center'});
@@ -2140,6 +2151,7 @@
         hero_live_status_prefix: "Last refresh",
         hero_live_status_products: "·",
         hero_live_status_suffix: "new items",
+        hero_live_status_stale: "Updating — new data soon",
         compliance_label: "Compliance & data practices",
         compliance_gdpr: "GDPR ready",
         compliance_pipa: "Korea PIPA aligned",
@@ -2162,9 +2174,9 @@
         nav_cta: "Get Monday's digest",
         hero_eyebrow: "Free · Weekly · No account needed",
         mockup_preview_label: "Illustrative preview",
-        hero_h1_line1: "58 brands.  Every new product.",
-        hero_h1_line2: "One Monday email.",
-        hero_sub: "Last week: 1,144 new products across Everlane, Gymshark, Allbirds, Ridge, and 54 more. We check every Sunday night. You get the recap Monday morning. Free.",
+        hero_h1_line1: "58 brands, tracked weekly.",
+        hero_h1_line2: "Monday's top 20 — one email.",
+        hero_sub: "Last week: 1,144 new products across Everlane, Gymshark, Allbirds, Ridge, and 54 more. We check every Sunday night. Monday morning, we send you the top 20. Free.",
         contact_pill: "Contact",
         contact_h2: "Reach the founder directly.",
         contact_sub: "Questions, feedback, or want to discuss a custom setup? Send a note — response within 24 hours.",
@@ -2225,6 +2237,7 @@
         pricing_h2: "Two ways to use it.",
         plan_pro_name: "Pro",
         pricing_footnote: "7-day free trial · No card required · Cancel any time · 14-day refund window",
+        pricing_footnote_beta: "Pro is launching soon — join the waitlist below and we'll email you the moment it opens.",
 
         // FAQ section
         faq_pill: "FAQ",
@@ -2287,6 +2300,7 @@
         plan_pro_feat_5: "30-day product history · check trajectory before you commit",
         plan_pro_feat_6: "X-Ray any Shopify store · unlimited lookups",
         plan_pro_cta: "Start 7-day free trial",
+        plan_pro_cta_beta: "Get notified when Pro launches",
 
         // D+42 pass 8: faq_q_digest 는 라이브 <summary> 와 매핑되어 있었으나
         // faq_q_diff/trial_value 는 HTML에 대응하는 <summary>가 없어 dead였음 (제거).
@@ -2350,6 +2364,7 @@
         hero_live_status_prefix: "마지막 갱신",
         hero_live_status_products: "·",
         hero_live_status_suffix: "개 신규",
+        hero_live_status_stale: "업데이트 중 — 곧 새 데이터",
         compliance_label: "컴플라이언스 및 데이터 취급",
         compliance_gdpr: "GDPR 대응",
         compliance_pipa: "한국 PIPA 정합",
@@ -2372,9 +2387,9 @@
         nav_cta: "월요 다이제스트 받기",
         hero_eyebrow: "무료 · 매주 · 계정 불필요",
         mockup_preview_label: "예시 미리보기",
-        hero_h1_line1: "58 브랜드. 모든 신제품.",
-        hero_h1_line2: "월요일 이메일 한 통.",
-        hero_sub: "지난주 신제품 1,144개 — Everlane, Gymshark, Allbirds, Ridge 등 58 브랜드. 매주 일요일 밤에 크롤링, 월요일 아침 이메일 발송. 무료.",
+        hero_h1_line1: "58 브랜드, 매주 추적합니다.",
+        hero_h1_line2: "월요일 상위 20개 — 이메일 한 통.",
+        hero_sub: "지난주 신제품 1,144개 — Everlane, Gymshark, Allbirds, Ridge 등 58 브랜드. 매주 일요일 밤에 크롤링, 월요일 아침 상위 20개를 이메일로 보내드립니다. 무료.",
         contact_pill: "연락처",
         contact_h2: "창업자에게 직접 연락.",
         contact_sub: "질문, 피드백, 커스텀 설정 문의? 메시지 남겨주세요 — 24시간 내 회신.",
@@ -2426,6 +2441,7 @@
         pricing_h2: "이용하는 두 가지 방법.",
         plan_pro_name: "Pro",
         pricing_footnote: "7일 무료 체험 · 카드 불필요 · 언제든 해지 · 14일 환불 기간",
+        pricing_footnote_beta: "Pro 출시 준비 중입니다 — 아래에서 이메일을 남기면 오픈 시 바로 알려드립니다.",
 
         faq_pill: "자주 묻는 질문",
         faq_h2: "가장 자주 듣는 질문들.",
@@ -2477,6 +2493,7 @@
         plan_pro_feat_5: "30일 상품 히스토리 · 커밋 전에 추이 확인",
         plan_pro_feat_6: "모든 Shopify 스토어 X-Ray · 무제한 조회",
         plan_pro_cta: "7일 무료 체험 시작",
+        plan_pro_cta_beta: "Pro 출시 알림 받기",
 
         faq_q_digest: "월요일 다이제스트에 정확히 무엇이 포함되나요?",
         faq_a_digest: "무료 주간 다이제스트 이메일: 58개 브랜드의 지난 7일 신제품 상위 20개 (제목, 벤더, 카테고리, 가격, 출시일). Pro 대시보드 추가: Storm Score 랭킹 (0-100), 채택 스토어 수, 주간 변화, 가격 분포, 모든 판매 스토어 링크.",
@@ -2528,6 +2545,7 @@
         hero_live_status_prefix: "最終更新",
         hero_live_status_products: "·",
         hero_live_status_suffix: "件新規",
+        hero_live_status_stale: "更新中 — まもなく新データ",
         compliance_label: "コンプライアンス・データ取り扱い",
         compliance_gdpr: "GDPR対応",
         compliance_pipa: "韓国PIPA準拠",
@@ -2604,6 +2622,7 @@
         pricing_h2: "ご利用いただく2つの方法。",
         plan_pro_name: "Pro",
         pricing_footnote: "7日間無料トライアル · カード不要 · いつでも解約 · 14日間返金期間",
+        pricing_footnote_beta: "Pro は近日公開予定です — 下のフォームにメールを登録すると開設時すぐにお知らせします。",
 
         faq_pill: "よくある質問",
         faq_h2: "よく寄せられる質問。",
@@ -2655,6 +2674,7 @@
         plan_pro_feat_5: "30日間の商品履歴 · 契約前にトレンドを確認",
         plan_pro_feat_6: "あらゆるShopifyストアをX-Ray · 無制限検索",
         plan_pro_cta: "7日間無料トライアル開始",
+        plan_pro_cta_beta: "Pro公開時に通知を受け取る",
 
         faq_q_digest: "月曜ダイジェストに正確には何が含まれますか?",
         faq_a_digest: "無料週次ダイジェストメール:58ブランドの過去7日新製品トップ20 (タイトル、ベンダー、カテゴリ、価格、発売日)。Pro ダッシュボード追加:Storm Score ランキング (0-100)、採用ストア数、週次変化、価格分布、全販売ストアへのリンク。",
@@ -2699,6 +2719,17 @@
         time_days_ago_suffix: "日前",
       }
     };
+    // 2026-09-22 fix: waitlist mode 일 때 Pro CTA/footnote 를 모든 언어에서
+    // "출시 알림" 톤으로 교체 — 버튼 라벨과 실제 클릭 결과(hero 이메일 폼 스크롤)를
+    // 정합시킴. 정식 출시(STORESCOPE_PRO_WAITLIST_MODE=false) 시 원래 문구로 자동 복귀.
+    if (window.STORESCOPE_PRO_WAITLIST_MODE) {
+      ['en', 'ko', 'ja'].forEach(function(l) {
+        var d = window.STORESCOPE_I18N[l];
+        if (!d) return;
+        if (d.plan_pro_cta_beta) d.plan_pro_cta = d.plan_pro_cta_beta;
+        if (d.pricing_footnote_beta) d.pricing_footnote = d.pricing_footnote_beta;
+      });
+    }
 
     window.STORESCOPE_I18N_APPLY = function(lang) {
       var dict = window.STORESCOPE_I18N[lang] || window.STORESCOPE_I18N.en;
@@ -2781,6 +2812,14 @@
       });
     })();
   </script>
+  <!-- 2026-09-22 red-team fix: no-JS 환경 안전망. .reveal(opacity:0) 클래스는 JS 로만
+       붙는데(el.classList.add('reveal')) JS 가 아예 안 돌면 그 클래스 자체가 안 붙어
+       기본 visible 상태 유지 — 원래도 안전. 그래도 "no-JS safe 기본값 보장"을 암묵적
+       설계 특성이 아니라 명시 CSS 규칙으로 고정 — 어떤 이유로든 .reveal 이 붙어도
+       JS 없이는 즉시 강제 표시. -->
+  <noscript>
+    <style>.reveal { opacity: 1 !important; transform: none !important; }</style>
+  </noscript>
 </head>
 <body>
 <!-- D+14 removed: sticky yellow Early access beta banner (nav 및 hero 최상단 시각 차단).
@@ -2826,7 +2865,7 @@
     </div>
     <div class="nav-mobile">
       <button onclick="focusHeroEmail()" class="btn-glow" style="font-size:13px;padding:7px 14px;" data-i18n="nav_cta">Get Monday's digest</button>
-      <button class="nav-hamburger" onclick="toggleMobileNav()" aria-label="Open menu" data-aria-i18n="aria-label:aria_open_menu" id="navHamburger">
+      <button class="nav-hamburger" onclick="toggleMobileNav()" aria-label="Open menu" data-aria-i18n="aria-label:aria_open_menu" aria-expanded="false" aria-controls="navMobilePanel" id="navHamburger">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
       </button>
     </div>
@@ -2860,10 +2899,10 @@
     <span data-i18n="hero_eyebrow">Free · Weekly · No account needed</span>
   </div>
   <h1>
-    <span data-i18n="hero_h1_line1">58 brands. Every new product.</span><br>
-    <span class="grad-text" data-i18n="hero_h1_line2">One Monday email.</span>
+    <span data-i18n="hero_h1_line1">58 brands, tracked weekly.</span><br>
+    <span class="grad-text" data-i18n="hero_h1_line2">Monday's top 20 — one email.</span>
   </h1>
-  <p class="hero-sub" data-i18n="hero_sub">Last week: 1,144 new products across Everlane, Gymshark, Allbirds, Ridge, and 54 more. We check every Sunday night. You get the recap Monday morning. Free.</p>
+  <p class="hero-sub" data-i18n="hero_sub">Last week: 1,144 new products across Everlane, Gymshark, Allbirds, Ridge, and 54 more. We check every Sunday night. Monday morning, we send you the top 20. Free.</p>
 
   <!-- FIX 2026-07-30 D+59 (design red team CRIT R3): 3 competing CTAs 제거.
        기존: btn-hero-primary + See pricing + email form = attention split.
@@ -2914,13 +2953,19 @@
   <!-- D+40 fix (2026-09-08) social proof: 실 최신 pipeline 실행 데이터 표시.
        latest_products_meta.json 에서 값 로드 (fallback = static). "Live · builds
        weekly" 신뢰 시각 — 실 트래픽 있어야만 있는 정보 노출. -->
+  <!-- 2026-09-22 fix: 72h staleness check 추가 — data-i18n="hero_live_status_stale" span 은
+       generated_at 이 72h 초과했거나 fetch 실패 시에만 노출 (JS 가 fresh/stale 토글).
+       Fresh 상태 없인 절대 초록 pulsing dot 노출 금지 (허위 "live" 신호 방지). -->
   <p id="hero-live-status" class="hero-live-status" style="margin:0 0 12px;font-size:12px;color:var(--muted-2);letter-spacing:0.2px;">
-    <span class="hero-live-dot" aria-hidden="true" style="display:inline-block;width:5px;height:5px;border-radius:50%;background:#059669;box-shadow:0 0 0 3px rgba(5,150,105,0.15);margin-right:6px;vertical-align:middle;animation:livepulse 2s infinite;"></span>
-    <span data-i18n="hero_live_status_prefix">Last refresh</span>
-    <span id="hero-live-date" style="font-family:'JetBrains Mono','SF Mono',monospace;font-size:11.5px;color:#3D3935;letter-spacing:-0.2px;">…</span>
-    <span data-i18n="hero_live_status_products" style="margin-left:6px;">·</span>
-    <span id="hero-live-count" style="font-family:'JetBrains Mono','SF Mono',monospace;font-size:11.5px;color:#3D3935;letter-spacing:-0.2px;">…</span>
-    <span data-i18n="hero_live_status_suffix" style="margin-left:2px;">new items</span>
+    <span id="hero-live-dot" class="hero-live-dot" aria-hidden="true" style="display:inline-block;width:5px;height:5px;border-radius:50%;background:#A8A29E;margin-right:6px;vertical-align:middle;"></span>
+    <span id="hero-live-fresh" hidden>
+      <span data-i18n="hero_live_status_prefix">Last refresh</span>
+      <span id="hero-live-date" style="font-family:'JetBrains Mono','SF Mono',monospace;font-size:11.5px;color:#3D3935;letter-spacing:-0.2px;">…</span>
+      <span data-i18n="hero_live_status_products" style="margin-left:6px;">·</span>
+      <span id="hero-live-count" style="font-family:'JetBrains Mono','SF Mono',monospace;font-size:11.5px;color:#3D3935;letter-spacing:-0.2px;">…</span>
+      <span data-i18n="hero_live_status_suffix" style="margin-left:2px;">new items</span>
+    </span>
+    <span id="hero-live-stale-msg" data-i18n="hero_live_status_stale">Updating — new data soon</span>
   </p>
 
   <!-- D+42 pass 7 (2026-09-11): 3-column stat block (hero-counters) 완전 제거.
@@ -3341,12 +3386,14 @@
           <li data-i18n="plan_pro_feat_5">30-day product history · check trajectory before you commit</li>
           <li data-i18n="plan_pro_feat_6">X-Ray any Shopify store · unlimited lookups</li>
         </ul>
-        <button data-price-mo="pri_01ksh172kehejf3xc2ws26e6vy" onclick="openCheckoutForBilling(this)" class="plan-btn plan-btn-grad" data-i18n="plan_pro_cta">Start 7-day free trial</button>
+        <!-- 2026-09-22: static fallback text (JS 비활성 시 노출) = beta/waitlist 문구.
+             STORESCOPE_BETA_MODE=false 로 정식 전환 시 이 fallback 도 "Start 7-day free trial" 로 되돌릴 것. -->
+        <button data-price-mo="pri_01ksh172kehejf3xc2ws26e6vy" onclick="openCheckoutForBilling(this)" class="plan-btn plan-btn-grad" data-i18n="plan_pro_cta">Get notified when Pro launches</button>
       </div>
 
     </div>
 
-    <p style="text-align:center;font-size:12.5px;color:#78716C;margin-top:28px;" data-i18n="pricing_footnote">Pro trial: no card required · Cancel any time · 14-day refund window · Paddle handles VAT + payment.</p>
+    <p style="text-align:center;font-size:12.5px;color:#78716C;margin-top:28px;" data-i18n="pricing_footnote">Pro is launching soon — join the waitlist below and we'll email you the moment it opens.</p>
 
   </div>
 </div>
@@ -3601,6 +3648,7 @@
     var btn = document.getElementById('navHamburger');
     var open = panel.classList.toggle('open');
     btn.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+    btn.setAttribute('aria-expanded', open ? 'true' : 'false');
     btn.innerHTML = open
       ? '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>'
       : '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>';
@@ -3610,6 +3658,7 @@
     var btn = document.getElementById('navHamburger');
     panel.classList.remove('open');
     btn.setAttribute('aria-label', 'Open menu');
+    btn.setAttribute('aria-expanded', 'false');
     btn.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>';
   }
   document.addEventListener('click', function(e) {
@@ -3736,25 +3785,60 @@
         });
     }
 
+    // 2026-09-22 fix: 72h freshness threshold — generated_at 이 이보다 오래되면
+    // "live" 로 표시하지 않음 (허위 최신성 신호 금지). fetch 실패 시도 동일 취급.
+    var FRESHNESS_MAX_AGE_MS = 72 * 60 * 60 * 1000;
+
+    function showHeroLiveFresh(m) {
+      var dotEl   = document.getElementById('hero-live-dot');
+      var freshEl = document.getElementById('hero-live-fresh');
+      var staleEl = document.getElementById('hero-live-stale-msg');
+      var dateEl  = document.getElementById('hero-live-date');
+      var countEl = document.getElementById('hero-live-count');
+      if (dateEl && m.generated_at) {
+        var dt = new Date(m.generated_at);
+        dateEl.textContent = dt.toISOString().slice(0, 10);
+      }
+      if (countEl && typeof m.total_after_dedupe === 'number') {
+        countEl.textContent = m.total_after_dedupe.toLocaleString('en-US');
+      }
+      if (dotEl) {
+        dotEl.style.background = '#059669';
+        dotEl.style.boxShadow = '0 0 0 3px rgba(5,150,105,0.15)';
+        dotEl.style.animation = 'livepulse 2s infinite';
+      }
+      if (freshEl) freshEl.hidden = false;
+      if (staleEl) staleEl.hidden = true;
+    }
+
+    function showHeroLiveStale() {
+      // dot/fresh 는 HTML 기본값(회색, hidden)이 이미 stale 상태이므로 손댈 것 없음 —
+      // fresh 로 전환된 적이 있을 경우(언어 전환 re-run 등)만 되돌림.
+      var dotEl   = document.getElementById('hero-live-dot');
+      var freshEl = document.getElementById('hero-live-fresh');
+      var staleEl = document.getElementById('hero-live-stale-msg');
+      if (dotEl) {
+        dotEl.style.background = '#A8A29E';
+        dotEl.style.boxShadow = 'none';
+        dotEl.style.animation = 'none';
+      }
+      if (freshEl) freshEl.hidden = true;
+      if (staleEl) staleEl.hidden = false;
+    }
+
     var loadIt = function() {
       // ── (1) meta = hero live status ─────────────────────────────
       tryFetch('./latest_products_meta.json')
         .then(function(m) {
-          var dateEl  = document.getElementById('hero-live-date');
-          var countEl = document.getElementById('hero-live-count');
-          if (dateEl && m.generated_at) {
-            var dt = new Date(m.generated_at);
-            dateEl.textContent = dt.toISOString().slice(0, 10);
-          }
-          if (countEl && typeof m.total_after_dedupe === 'number') {
-            countEl.textContent = m.total_after_dedupe.toLocaleString('en-US');
+          var ageMs = m.generated_at ? (Date.now() - new Date(m.generated_at).getTime()) : Infinity;
+          if (m.generated_at && ageMs <= FRESHNESS_MAX_AGE_MS) {
+            showHeroLiveFresh(m);
+          } else {
+            showHeroLiveStale();
           }
         })
         .catch(function() {
-          var dateEl  = document.getElementById('hero-live-date');
-          var countEl = document.getElementById('hero-live-count');
-          if (dateEl)  dateEl.textContent  = 'this Monday';
-          if (countEl) countEl.textContent = '1,000';
+          showHeroLiveStale();
         });
 
       // ── (2) latest_products = mockup card override ──────────────
@@ -4265,6 +4349,15 @@
     }, { threshold: 0.08, rootMargin: '0px 0px -24px 0px' });
 
     document.querySelectorAll('.reveal').forEach(function(el) { revObs.observe(el); });
+
+    // 2026-09-22 fix: IntersectionObserver 가 어떤 이유로든(레이아웃 버그, 드문 브라우저
+    // 엣지케이스) 못 터지면 .reveal 요소가 opacity:0 로 영구히 숨겨짐. 3초 후 강제 표시
+    // fail-safe — 정상 스크롤 시나리오에서는 이미 is-visible 이라 아무 영향 없음.
+    setTimeout(function() {
+      document.querySelectorAll('.reveal:not(.is-visible)').forEach(function(el) {
+        el.classList.add('is-visible');
+      });
+    }, 3000);
   });
 
   /* ── NAV SCROLL STATE ── */
