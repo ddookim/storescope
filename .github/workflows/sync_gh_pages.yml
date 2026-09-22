@@ -68,6 +68,12 @@ jobs:
           if [ -f landing/latest_products.json ]; then
             cp landing/latest_products.json /tmp/gh-pages-wt/latest_products.json
           fi
+          # 2026-09-22 fix: latest_products_meta.json root 누락 → hero-live-status fetch
+          # 404 (fallback './landing/...' 경로로 복구는 됐지만 불필요 404 + 콘솔 노이즈).
+          # latest_products.json 과 동일 패턴으로 root 도 sync.
+          if [ -f landing/latest_products_meta.json ]; then
+            cp landing/latest_products_meta.json /tmp/gh-pages-wt/latest_products_meta.json
+          fi
           # D+11: RSS feed 도 root (autodiscovery + Feedly 등 reader 표준)
           if [ -f landing/feed.xml ]; then
             cp landing/feed.xml /tmp/gh-pages-wt/feed.xml
