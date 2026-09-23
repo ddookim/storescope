@@ -256,12 +256,18 @@
       var m = _msgs[lang] || _msgs.en;
       var el = document.createElement('div');
       el.id = 'ss-consent-banner';
+      el.setAttribute('role', 'region');
+      el.setAttribute('aria-label', m.privacy);
       // FIX (D+42 pass 13, 실 스크린샷 검증으로 발견): max-width만 있고 width가 없어
       // position:fixed shrink-to-fit 계산으로 모바일 좁은 화면에서 텍스트가 줄바꿈 없이
       // 잘려 보이던 버그(개인정보처리방침 링크 텍스트 clip). width를 명시해 shrink-to-fit
       // 모호성 제거 + 뷰포트보다 넓어질 수 없도록 보장.
-      el.style.cssText = 'position:fixed;bottom:16px;right:16px;width:min(340px, calc(100vw - 32px));background:#1C1917;color:#F5F5F4;padding:14px 16px;border-radius:10px;font:14px/1.4 -apple-system,system-ui,sans-serif;box-shadow:0 8px 24px rgba(0,0,0,0.2);z-index:99999;overflow-wrap:break-word;';
-      el.innerHTML = '<div style="margin-bottom:8px">' + m.body + ' <a href="./privacy.html" style="color:#A5B4FC;text-decoration:underline">' + m.privacy + '</a></div><button id="ss-consent-accept" style="background:#4F46E5;color:#fff;border:0;padding:6px 14px;border-radius:6px;font-weight:600;cursor:pointer;margin-right:6px">' + m.accept + '</button><button id="ss-consent-decline" style="background:transparent;color:#D6D3D1;border:1px solid #57534E;padding:6px 14px;border-radius:6px;font-weight:600;cursor:pointer">' + m.decline + '</button>';
+      // FIX 2026-09-23 (red-team #pricing 재검증): 이전엔 solid #1C1917 + 8px 24px shadow —
+      // plan-btn-grad(같은 #1C1917 solid) 와 동일 시각 무게라 페이지의 실제 전환 버튼과
+      // 경쟁하던 문제. 밝은 카드 스타일(--card/--border 재사용) + 더 작은 padding/폰트로
+      // 전환 버튼 대비 명확히 하위 우선순위로 낮춤 + 크기 자체도 줄여 겹침 면적 축소.
+      el.style.cssText = 'position:fixed;bottom:16px;right:16px;width:min(300px, calc(100vw - 32px));background:#FFFFFF;color:#1C1917;padding:12px 14px;border-radius:10px;border:1px solid rgba(28,25,23,0.12);font:12.5px/1.4 -apple-system,system-ui,sans-serif;box-shadow:0 4px 16px rgba(28,25,23,0.12);z-index:99999;overflow-wrap:break-word;';
+      el.innerHTML = '<div style="margin-bottom:8px;color:#57534E;">' + m.body + ' <a href="./privacy.html" style="color:#4F46E5;text-decoration:underline">' + m.privacy + '</a></div><button id="ss-consent-accept" style="background:#4F46E5;color:#fff;border:0;padding:5px 12px;border-radius:6px;font-weight:600;font-size:12px;cursor:pointer;margin-right:6px;min-height:32px;">' + m.accept + '</button><button id="ss-consent-decline" style="background:transparent;color:#78716C;border:1px solid rgba(28,25,23,0.16);padding:5px 12px;border-radius:6px;font-weight:600;font-size:12px;cursor:pointer;min-height:32px;">' + m.decline + '</button>';
       document.body.appendChild(el);
       // FIX 2026-09-17 (ui-designer 실 스크린샷 검증): position:fixed 배너가 스크롤
       // 위치와 무관하게 항상 화면 하단에 떠있어, 모바일에서 pricing CTA/hero mockup
@@ -272,6 +278,51 @@
       _consentPad.id = 'ss-consent-pad';
       _consentPad.textContent = 'body{padding-bottom:' + (el.offsetHeight + 28) + 'px !important;}';
       document.head.appendChild(_consentPad);
+      // FIX 2026-09-23 (red-team): 위 body padding-bottom 은 "문서 끝"만 보호 — #pricing
+      // 같은 앵커 딥링크로 진입하면 스크롤 위치와 무관하게 뷰포트 하단에 실제 CTA(예:
+      // Free 플랜 버튼)가 떠 있을 수 있고, 고정 배너가 그 위에 그대로 겹침 (실측: 375px
+      // #pricing 진입 시 Free CTA 245x53px 겹침 확인됨). 렌더 직후 뷰포트 안에 있는
+      // CTA 요소와 실제로 겹치는지 검사해서, 겹치면 배너를 하단 대신 nav 바로 아래
+      // (상단, 비-인터랙티브 heading 영역)로 옮김 — 겹침 없는 일반 케이스는 기존 하단
+      // 배치 그대로 유지.
+      // FIX 2026-09-23 (실측으로 발견 — 단발성 delay/폴링 둘 다 안 됨): '#pricing' 같은
+      // URL 앵커로 진입 시 DOMContentLoaded 시점엔 scrollY=0 (스크롤 시작도 안 함).
+      // webfont/이미지 로드로 문서 높이가 계속 바뀌면서 Chrome scroll anchoring 이
+      // scrollY 를 최종 위치까지 점진적으로 밀어올리는데, 이 과정이 중간에 몇 프레임
+      // 멈췄다가 다시 움직이기를 반복함(실측: 0→111(150ms)→1892(load, 500ms+)→
+      // 최종 2918 — "4프레임 연속 무변화"로 판단한 1차 시도도 중간 정지 구간에 속아
+      // 조기 확정, 겹침 못 잡음). 한 번 판단하고 끝내는 대신 최초 3초간 250ms 간격으로
+      // 반복 검사 — 겹치는 순간 즉시 상단으로 옮기고 반복 중단.
+      function avoidCtaOverlap() {
+        var bannerRect = el.getBoundingClientRect();
+        var ctas = document.querySelectorAll(
+          '.plan-btn, .btn-hero-primary, .btn-hero-secondary, .xr-analyze-btn, .xr-submit-btn, .nav-ctas button, #hero-email-form button[type="submit"]'
+        );
+        for (var i = 0; i < ctas.length; i++) {
+          var r = ctas[i].getBoundingClientRect();
+          if (r.width === 0 || r.height === 0) continue;
+          if (r.bottom < 0 || r.top > window.innerHeight) continue;
+          if (r.left < bannerRect.right && r.right > bannerRect.left &&
+              r.top < bannerRect.bottom && r.bottom > bannerRect.top) {
+            var navEl = document.querySelector('nav');
+            var navBottom = navEl ? navEl.getBoundingClientRect().bottom : 68;
+            el.style.bottom = '';
+            el.style.top = Math.max(navBottom, 0) + 10 + 'px';
+            return true;
+          }
+        }
+        return false;
+      }
+      (function pollForOverlap() {
+        var checks = 0;
+        var maxChecks = 12; // 12 * 250ms = 3s — 관측된 최종 scroll 정착 시점(~1s) 보다 여유
+        var iv = setInterval(function() {
+          checks++;
+          if (!document.body.contains(el) || avoidCtaOverlap() || checks >= maxChecks) {
+            clearInterval(iv);
+          }
+        }, 250);
+      })();
       function _removeConsentBanner() {
         el.remove();
         var pad = document.getElementById('ss-consent-pad');
@@ -701,7 +752,12 @@
 
     /* ── PRICING ── */
     .pricing-section { padding: 100px 24px; }
-    .pricing-inner { max-width: 1200px; margin: 0 auto; }
+    /* 2026-09-23 red-team fix: .section-pill 은 display:inline-block(shrink-to-fit) 라
+       자기 자신에 text-align:center 를 줘도 박스 위치 자체는 안 움직임(inline 컨텐츠만
+       중앙정렬됨) — 실측으로 발견(pillCenter=145 vs h2/sub/grid=720). 부모에서
+       text-align:center 를 줘야 inline-block 인 pill 이 실제로 가운데로 옴. h2/grid는
+       이미 각자 명시적 정렬이 있어 부작용 없음. */
+    .pricing-inner { max-width: 1200px; margin: 0 auto; text-align: center; }
     /* .pricing-trust removed — replaced by single <p> in P2/P4 edit */
     .plan-card {
       background: var(--card); border: 1px solid var(--border);
@@ -733,6 +789,23 @@
       border: 1.5px solid rgba(79,70,229,0.4);
     }
     .plan-label { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); }
+    /* 2026-09-23 red-team fix: Pro 카드가 "즉시 구매 가능한 현재가"처럼 보이던 문제.
+       배지 + 캡션 둘 다로 미출시 상태를 명시 — 하나만으로는 스크롤/스캔 중 놓치기 쉬움. */
+    .plan-badge-soon {
+      font-size: 10.5px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase;
+      /* 2026-09-23: 실측 대비 검증 — #B45309(4.07:1) 는 이 배지의 옅은 amber 배경(카드
+         lavender 위 합성) 기준 AA(4.5:1) 미달이라 #9A3412(5.92:1)로 교체 */
+      color: #9A3412; background: rgba(180,83,9,0.09); border: 1px solid rgba(180,83,9,0.18);
+      padding: 3px 8px; border-radius: 100px; white-space: nowrap;
+    }
+    .plan-price-caption {
+      font-size: 11px; font-weight: 600; color: var(--muted-2);
+      text-transform: uppercase; letter-spacing: 0.06em; margin-top: 16px;
+    }
+    .plan-price-caption + .plan-price { margin-top: 2px; }
+    .plan-feat-intro {
+      font-size: 12px; font-weight: 600; color: var(--muted-2); margin: 0 0 10px;
+    }
     .plan-price { font-size: 52px; font-weight: 900; letter-spacing: -2.5px; margin: 14px 0 4px; }
     .plan-price sup { font-size: 22px; font-weight: 700; vertical-align: super; letter-spacing: 0; }
     .plan-price span { font-size: 16px; font-weight: 400; color: var(--muted); letter-spacing: 0; }
@@ -1193,6 +1266,12 @@
       line-height: 1.75 !important;
       color: #78716C !important;
     }
+    /* 2026-09-23 red-team fix: 실측 대비 검증 — 위 #78716C 는 흰 카드(4.80:1)에선 AA
+       통과하지만 Pro 카드의 라벤더 배경(#F5F3FF, 실측 4.37:1)에선 AA(4.5:1) 미달.
+       featured 카드만 스코프해서 더 어두운 톤으로 교체 (6.96:1). */
+    .plan-card.featured .plan-desc {
+      color: #57534E !important;
+    }
     .plan-features li {
       font-size: 14px !important;
       color: #57534E !important;
@@ -1477,8 +1556,10 @@
       }
       /* Section heading 축소 (Your Monday morning, condensed) */
       .section-heading, .section-h2 { font-size: clamp(24px, 7vw, 38px) !important; letter-spacing: -1px !important; padding: 0 12px !important; }
-      /* Cookie banner: mobile 에서 CTA 안 가리게 max-width 축소 + 위치 조정 */
-      #ss-consent-banner { max-width: calc(100vw - 32px) !important; right: 16px !important; bottom: 12px !important; font-size: 12.5px !important; }
+      /* 2026-09-23: 배너 크기/폰트는 이제 JS 생성 시 base cssText 에서 직접 관리
+         (width:min(300px, calc(100vw-32px)) 로 이미 모바일 대응 완료). 이 규칙의
+         bottom:12px !important 는 CTA 겹침 감지 시 JS 가 top 으로 전환하는 로직과
+         충돌(둘 다 세팅되면 배너가 top~bottom 사이로 늘어남) — 삭제. */
     }
 
     /* ══════════════════════════════════════════════════════════
@@ -2165,7 +2246,7 @@
         pricing_h2: "Two ways to use it.",
         plan_pro_name: "Pro",
         pricing_footnote: "7-day free trial · No card required · Cancel any time · 14-day refund window",
-        pricing_footnote_beta: "Pro is launching soon — join the waitlist below and we'll email you the moment it opens.",
+        pricing_footnote_beta: "Pro is launching soon — leave your email above and we'll notify you the moment it opens.",
 
         // FAQ section
         faq_pill: "FAQ",
@@ -2210,17 +2291,20 @@
         // Starter feat visible (5) + 4 disabled
 
         // Pro feat visible (5) + 4 unlocked
-        plan_pro_desc: "The raw data behind the digest. For sourcing agents and DTC operators. One sourcing win pays for the year.",
+        plan_pro_desc: "The raw data behind the digest, for sourcing agents and DTC operators — launching soon.",
+        plan_pro_badge: "Coming soon",
+        plan_pro_price_caption: "Launch price",
+        plan_pro_feat_intro: "Included at launch:",
         // D+42 pass 10: Free/Pro plan card 전체 (섹션 중 최고 전환 비중) i18n dict 완전 누락 발견 —
         // KO/JA 는 물론 EN 조차 dict 미존재로 raw HTML fallback 텍스트만 표시되던 상태.
-        pricing_sub: "Start free. Upgrade if you need the raw data.",
+        pricing_sub: "Start free today. Pro — raw data, API, CSV — launches soon.",
         plan_free_name: "Free",
         plan_free_desc: "The weekly email. Everything you need to see what's new.",
         plan_free_feat_1: "Monday email · top 20 new products across 58 brands",
         plan_free_feat_2: "Product name, vendor, category, price, launch date",
         plan_free_feat_3: "Link to buy from the original store",
         plan_free_feat_4: "Unsubscribe in one click, any time",
-        plan_free_cta: "Get Monday's digest →",
+        plan_free_cta: "Sign up for the free digest →",
         plan_pro_feat_1: "Everything in Free",
         plan_pro_feat_2: "API access · pull data into your own tools",
         plan_pro_feat_3: "CSV export · every product, every week",
@@ -2370,7 +2454,7 @@
         pricing_h2: "이용하는 두 가지 방법.",
         plan_pro_name: "Pro",
         pricing_footnote: "7일 무료 체험 · 카드 불필요 · 언제든 해지 · 14일 환불 기간",
-        pricing_footnote_beta: "Pro 출시 준비 중입니다 — 아래에서 이메일을 남기면 오픈 시 바로 알려드립니다.",
+        pricing_footnote_beta: "Pro 출시 준비 중입니다 — 위에서 이메일을 남기시면 오픈 시 바로 알려드립니다.",
 
         faq_pill: "자주 묻는 질문",
         faq_h2: "가장 자주 듣는 질문들.",
@@ -2406,15 +2490,18 @@
 
 
 
-        plan_pro_desc: "다이제스트 뒤의 원본 데이터. 소싱 에이전트와 DTC 운영자를 위한. 소싱 성공 1건이면 연간 비용을 회수합니다.",
-        pricing_sub: "무료로 시작하세요. 원본 데이터가 필요하면 업그레이드.",
+        plan_pro_desc: "다이제스트 뒤의 원본 데이터. 소싱 에이전트와 DTC 운영자를 위한 기능입니다 — 곧 출시됩니다.",
+        plan_pro_badge: "출시 준비 중",
+        plan_pro_price_caption: "출시 예정가",
+        plan_pro_feat_intro: "출시 시 포함 예정:",
+        pricing_sub: "무료로 지금 바로 시작하세요. Pro 출시 시 원본 데이터, API, CSV를 제공합니다.",
         plan_free_name: "무료",
         plan_free_desc: "매주 이메일. 신제품을 확인하는 데 필요한 전부.",
         plan_free_feat_1: "월요일 이메일 · 58개 브랜드 신제품 상위 20개",
         plan_free_feat_2: "상품명, 벤더, 카테고리, 가격, 출시일",
         plan_free_feat_3: "원본 스토어 구매 링크",
         plan_free_feat_4: "언제든 원클릭 구독 해지",
-        plan_free_cta: "월요일 다이제스트 받기 →",
+        plan_free_cta: "무료 다이제스트 신청하기 →",
         plan_pro_feat_1: "무료 플랜의 모든 것",
         plan_pro_feat_2: "API 접근 · 데이터를 직접 도구로 가져오기",
         plan_pro_feat_3: "CSV 내보내기 · 매주 모든 상품",
@@ -2552,7 +2639,7 @@
         pricing_h2: "ご利用いただく2つの方法。",
         plan_pro_name: "Pro",
         pricing_footnote: "7日間無料トライアル · カード不要 · いつでも解約 · 14日間返金期間",
-        pricing_footnote_beta: "Pro は近日公開予定です — 下のフォームにメールを登録すると開設時すぐにお知らせします。",
+        pricing_footnote_beta: "Pro は近日公開予定です — 上のフォームにメールを登録すると開設時すぐにお知らせします。",
 
         faq_pill: "よくある質問",
         faq_h2: "よく寄せられる質問。",
@@ -2588,15 +2675,18 @@
 
 
 
-        plan_pro_desc: "ダイジェストの背後にある生データ。ソーシングエージェントとDTC運営者向け。1回のソーシング成功で年間費用を回収。",
-        pricing_sub: "無料で始める。生データが必要ならアップグレード。",
+        plan_pro_desc: "ダイジェストの背後にある生データ。ソーシングエージェントとDTC運営者向け — 近日公開予定です。",
+        plan_pro_badge: "近日公開",
+        plan_pro_price_caption: "予定価格",
+        plan_pro_feat_intro: "公開時に含まれる内容:",
+        pricing_sub: "今すぐ無料で始められます。Pro 公開後は生データ・API・CSV に対応予定です。",
         plan_free_name: "無料",
         plan_free_desc: "週次メール。新着商品を確認するために必要なすべて。",
         plan_free_feat_1: "月曜メール · 58ブランドの新製品トップ20",
         plan_free_feat_2: "商品名、ベンダー、カテゴリ、価格、発売日",
         plan_free_feat_3: "元のストアへの購入リンク",
         plan_free_feat_4: "いつでもワンクリックで配信停止",
-        plan_free_cta: "月曜ダイジェストを受け取る →",
+        plan_free_cta: "無料ダイジェストに申し込む →",
         plan_pro_feat_1: "無料プランのすべて",
         plan_pro_feat_2: "APIアクセス · データを自分のツールに取り込む",
         plan_pro_feat_3: "CSVエクスポート · 毎週すべての商品",
@@ -3284,9 +3374,12 @@
 <!-- PRICING (D+40 simplified · 3-tier + enterprise + founding banner 제거) -->
 <div class="pricing-section" id="pricing">
   <div class="pricing-inner">
-    <div class="section-pill" data-i18n="pricing_pill">Pricing</div>
-    <h2 class="section-heading" data-i18n="pricing_h2">Two ways to use it.</h2>
-    <p class="section-sub" style="text-align:center;max-width:520px;margin:12px auto 40px;color:var(--muted-2);" data-i18n="pricing_sub">Start free. Upgrade if you need the raw data.</p>
+    <!-- 2026-09-23 red-team fix: pill/heading 이 기본 좌측 정렬이라 아래(sub/grid, 둘 다
+         inline text-align:center) 와 시각 축이 어긋나 있었음 — 동일 관례(인라인 center)로
+         통일해 헤드라인·설명·카드가 하나의 중앙 축을 공유하는 editorial 정렬로 정리. -->
+    <div class="section-pill" style="text-align:center;" data-i18n="pricing_pill">Pricing</div>
+    <h2 class="section-heading" style="text-align:center;" data-i18n="pricing_h2">Two ways to use it.</h2>
+    <p class="section-sub" style="text-align:center;max-width:520px;margin:12px auto 40px;color:var(--muted-2);" data-i18n="pricing_sub">Start free today. Pro — raw data, API, CSV — launches soon.</p>
 
     <div class="plans-grid-v2 plans-2col" style="max-width:720px;margin:0 auto;">
 
@@ -3301,16 +3394,24 @@
           <li data-i18n="plan_free_feat_3">Link to buy from the original store</li>
           <li data-i18n="plan_free_feat_4">Unsubscribe in one click, any time</li>
         </ul>
-        <button type="button" onclick="document.getElementById('hero-email').focus();" class="plan-btn plan-btn-outline" data-i18n="plan_free_cta">Get Monday's digest →</button>
+        <button type="button" onclick="document.getElementById('hero-email').focus();" class="plan-btn plan-btn-outline" data-i18n="plan_free_cta">Sign up for the free digest →</button>
       </div>
 
       <!-- ── PRO ── -->
       <div class="plan-card featured">
-        <div class="plan-label" data-i18n="plan_pro_name">Pro</div>
+        <!-- 2026-09-23 red-team fix: "$19/month" 가 즉시 구매 가능한 현재가처럼 보이던 문제.
+             (1) label 옆 "Coming soon" 배지, (2) 가격 위 "Launch price" 캡션, (3) feature
+             리스트 위 "Included at launch:" 인트로로 미출시 상태를 3중으로 명시. -->
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;">
+          <div class="plan-label" data-i18n="plan_pro_name">Pro</div>
+          <span class="plan-badge-soon" data-i18n="plan_pro_badge">Coming soon</span>
+        </div>
+        <div class="plan-price-caption" data-i18n="plan_pro_price_caption">Launch price</div>
         <div class="plan-price">
           <sup>$</sup><span class="price-amount">19</span><span data-i18n="plan_per_month">/month</span>
         </div>
-        <p class="plan-desc" data-i18n="plan_pro_desc">The raw data behind the digest. For sourcing agents and DTC operators. One sourcing win pays for the year.</p>
+        <p class="plan-desc" data-i18n="plan_pro_desc">The raw data behind the digest, for sourcing agents and DTC operators — launching soon.</p>
+        <p class="plan-feat-intro" data-i18n="plan_pro_feat_intro">Included at launch:</p>
         <ul class="plan-features">
           <li data-i18n="plan_pro_feat_1">Everything in Free</li>
           <li data-i18n="plan_pro_feat_2">API access · pull data into your own tools</li>
@@ -3326,7 +3427,7 @@
 
     </div>
 
-    <p style="text-align:center;font-size:12.5px;color:#78716C;margin-top:28px;" data-i18n="pricing_footnote">Pro is launching soon — join the waitlist below and we'll email you the moment it opens.</p>
+    <p style="text-align:center;font-size:12.5px;color:#78716C;margin-top:28px;" data-i18n="pricing_footnote">Pro is launching soon — leave your email above and we'll notify you the moment it opens.</p>
 
   </div>
 </div>
