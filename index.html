@@ -4361,8 +4361,13 @@
 
     var vh = window.innerHeight;
     /* D+42 pass 8 (2026-09-14): 5-section 구조(hero/xray/pricing/faq/contact)에
-       실제 존재하는 셀렉터만 유지. 나머지는 D+40 simplify 이후 HTML 없는 dead selector. */
-    var revealSels = ['.plan-card', '.faq-item'];
+       실제 존재하는 셀렉터만 유지. 나머지는 D+40 simplify 이후 HTML 없는 dead selector.
+       xray-inner/contact-inner 추가 (사용자 요청: 스크롤 시 애니메이션 없어 심심함 —
+       pricing/faq는 이미 카드 단위 reveal 있었는데 xray/contact 섹션은 빠져있었음).
+       버튼 hover lift/bounce는 별개 — D+42 pass 6 에서 세 곳(.btn-glow/.plan-btn/
+       .xr-analyze-btn/.xr-submit-btn) 모두 "템플릿 tell"이라 명시적으로 제거한 결정이라
+       건드리지 않음. */
+    var revealSels = ['.plan-card', '.faq-item', '.xray-inner', '.contact-inner'];
     var allReveal = document.querySelectorAll(revealSels.join(','));
 
     allReveal.forEach(function(el) {
