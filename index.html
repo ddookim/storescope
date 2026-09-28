@@ -1384,6 +1384,20 @@
                   transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
     }
     .reveal.is-visible { opacity: 1; transform: none; }
+    /* BUG (found 2026-09-28): #xr-step3 (email-gate modal, position:fixed) is
+       a descendant of .xray-inner. A non-'none' transform on an ancestor
+       creates a new containing block for position:fixed descendants (CSS
+       Transforms spec) — so while .xray-inner still has .reveal without
+       .is-visible (translateY(28px) active), openXrModal() renders the
+       "fixed" modal positioned inside .xray-inner's box instead of covering
+       the viewport, i.e. invisible. Not reachable through a normal
+       scroll-then-click (IntersectionObserver already resolves .is-visible
+       by the time the section is clickable) but is reachable during the
+       documented "IO fails to fire" up-to-3s fail-safe window, since
+       opacity:0 elements stay clickable unless pointer-events:none is set.
+       Fade-only reveal (no translateY) for this one container removes the
+       containing-block trigger entirely. */
+    .xray-inner.reveal { transform: none !important; }
     .reveal-d1 { transition-delay: 0.08s !important; }
     .reveal-d2 { transition-delay: 0.16s !important; }
     .reveal-d3 { transition-delay: 0.24s !important; }
