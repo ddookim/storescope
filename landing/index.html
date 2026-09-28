@@ -404,7 +404,7 @@
       --red:         #DC2626;
       --grad:        linear-gradient(135deg, #4F46E5 0%, #3730A3 100%);
       --grad-amber:  linear-gradient(160deg, #1C1917 0%, #0C0A09 100%);  /* warm charcoal CTA */
-      --grad-text:   linear-gradient(135deg, #4F46E5 0%, #7C3AED 55%, #2563EB 100%);
+      --grad-text:   linear-gradient(135deg, #1C1917 0%, #0EA5E9 35%, #4F46E5 70%, #7C3AED 100%);
     }
 
     html { scroll-behavior: smooth; }
@@ -425,12 +425,23 @@
     }
 
     /* ── UTILS ── */
-    /* D+42 pass 6 (2026-09-10): grad-text 애니메이션 gradient 제거 (AI-generated SaaS
-       템플릿 signature). GitHub/Linear/Anthropic 2026 표준 = font-weight + color contrast
-       로 시각 위계 확보, decoration 없이 typography 단독으로 hierarchy 표현. */
+    /* 2026-09-28: D+42 정적 스타일 위에 shimmer 복원 (사용자 명시 요청).
+       Antigravity 스펙 원본은 dark bg 기준 white→cyan→purple 시작이라 cream bg에선
+       텍스트가 거의 안 보임 — 시작색을 기존 --white(잉크 다크) 로 바꿔 라이트 테마에 맞춤,
+       색 자체는 기존 브랜드 토큰(--cyan/--purple/--blue) 그대로 사용. */
     .grad-text {
-      color: var(--white);
       font-weight: 900;
+      background: var(--grad-text);
+      background-size: 250% auto;
+      -webkit-background-clip: text; background-clip: text;
+      -webkit-text-fill-color: transparent; color: transparent;
+      animation: antTextShimmer 5s linear infinite;
+    }
+    @keyframes antTextShimmer {
+      to { background-position: 250% center; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .grad-text { animation: none; background-position: 0 center; }
     }
     .badge {
       display: inline-flex; align-items: center; gap: 4px;
@@ -517,6 +528,15 @@
        Hero 여백이 typography 로만 존재하도록 clean. */
     .hero::after { display: none; }
     .hero > * { position: relative; z-index: 1; }
+
+    /* ── ANTIGRAVITY HERO PARTICLE CANVAS ── */
+    #antigravity-hero-canvas {
+      position: absolute; inset: 0; width: 100%; height: 100%;
+      pointer-events: none; z-index: 0; opacity: 0.5;
+    }
+    @media (prefers-reduced-motion: reduce) {
+      #antigravity-hero-canvas { display: none; }
+    }
     /* D+42 pass 6 (2026-09-10): eyebrow = typography-only caption (Linear/Anthropic 2026).
        이전: purple pill + pulse dot = 2023 AI template. 이제: uppercase muted micro-caption. */
     .hero-eyebrow {
@@ -801,6 +821,43 @@
       background: #F5F3FF;
       border: 1.5px solid rgba(79,70,229,0.4);
     }
+
+    /* ── ANTIGRAVITY 3D TILT + MOUSE SPOTLIGHT ── */
+    .plan-card, .xr-receive-preview {
+      transform-style: preserve-3d; will-change: transform;
+      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      isolation: isolate;
+    }
+    .plan-card::before, .xr-receive-preview::before {
+      content: ''; position: absolute; inset: 0; border-radius: inherit;
+      background: radial-gradient(500px circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+        rgba(79,70,229,0.10), transparent 45%);
+      opacity: 0; transition: opacity 0.3s ease; pointer-events: none; z-index: 0;
+    }
+    .plan-card.tilting::before, .xr-receive-preview.tilting::before { opacity: 1; }
+    .plan-card > *, .xr-receive-preview > * { position: relative; z-index: 1; }
+    /* outer neon aura — Pro plan only, glow not a "live/popular" claim.
+       box-shadow (not a ::after + z-index:-1 pseudo) because box-shadow is
+       guaranteed by spec to paint behind the box's own background/border —
+       no stacking-context trick needed, so it can never wash over the card
+       interior the way a negative-z-index pseudo can. */
+    .plan-card.featured {
+      box-shadow:
+        0 0 20px 1px rgba(14,165,233,0.30),
+        0 0 32px 4px rgba(79,70,229,0.26),
+        0 0 44px 8px rgba(124,58,237,0.18);
+      transition: box-shadow 0.4s ease;
+    }
+    .plan-card.featured.tilting {
+      box-shadow:
+        0 0 26px 2px rgba(14,165,233,0.45),
+        0 0 40px 6px rgba(79,70,229,0.40),
+        0 0 56px 12px rgba(124,58,237,0.28);
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .plan-card, .xr-receive-preview { transform: none !important; transition: none !important; }
+      .plan-card::before, .xr-receive-preview::before { display: none; }
+    }
     .plan-label { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); }
     /* 2026-09-23 red-team fix: Pro 카드가 "즉시 구매 가능한 현재가"처럼 보이던 문제.
        배지 + 캡션 둘 다로 미출시 상태를 명시 — 하나만으로는 스크롤/스캔 중 놓치기 쉬움. */
@@ -1013,6 +1070,7 @@
       border: 1px solid rgba(28,25,23,0.08);
       border-radius: 14px;
       overflow: hidden;
+      position: relative;
       box-shadow:
         0 1px 2px rgba(28,25,23,0.04),
         0 10px 24px rgba(28,25,23,0.05);
@@ -2943,6 +3001,7 @@
      이후: 3 element (status pill + h1 single + sub single + primary CTA + secondary text link). -->
 <main id="main-content">
 <section class="hero">
+<canvas id="antigravity-hero-canvas" aria-hidden="true"></canvas>
 <div class="hero-inner">
 <div class="hero-text">
   <div class="hero-eyebrow">
@@ -4470,6 +4529,135 @@
     }, { passive: true });
   })();
 
+  /* ── ANTIGRAVITY HERO PARTICLE CANVAS ──
+     65 nodes, linear drift, connect lines <130px, mouse aura+repulsion <150px.
+     Skips entirely under prefers-reduced-motion (WCAG 2.3.3). */
+  (function() {
+    var canvas = document.getElementById('antigravity-hero-canvas');
+    var hero = document.querySelector('.hero');
+    if (!canvas || !hero) return;
+    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    var ctx = canvas.getContext('2d');
+    var NODE_COUNT = 65;
+    var LINK_DIST = 130;
+    var MOUSE_RADIUS = 150;
+    var nodes = [];
+    var mouse = { x: -9999, y: -9999 };
+    var w = 0, h = 0, raf = null;
+
+    function resize() {
+      var rect = hero.getBoundingClientRect();
+      w = canvas.width = rect.width;
+      h = canvas.height = rect.height;
+    }
+
+    function seed() {
+      nodes = [];
+      for (var i = 0; i < NODE_COUNT; i++) {
+        nodes.push({
+          x: Math.random() * w,
+          y: Math.random() * h,
+          vx: (Math.random() - 0.5) * 0.25,
+          vy: (Math.random() - 0.5) * 0.25,
+          cyan: Math.random() > 0.5
+        });
+      }
+    }
+
+    function step() {
+      ctx.clearRect(0, 0, w, h);
+      for (var i = 0; i < nodes.length; i++) {
+        var n = nodes[i];
+        var dxm = n.x - mouse.x, dym = n.y - mouse.y;
+        var dm = Math.sqrt(dxm * dxm + dym * dym);
+        if (dm < MOUSE_RADIUS) {
+          var force = (MOUSE_RADIUS - dm) / MOUSE_RADIUS * 0.04;
+          n.vx += (dxm / (dm || 1)) * force;
+          n.vy += (dym / (dm || 1)) * force;
+          ctx.strokeStyle = 'rgba(56,189,248,0.35)';
+          ctx.lineWidth = 1;
+          ctx.beginPath();
+          ctx.moveTo(n.x, n.y);
+          ctx.lineTo(mouse.x, mouse.y);
+          ctx.stroke();
+        }
+        n.vx *= 0.98; n.vy *= 0.98;
+        n.x += n.vx; n.y += n.vy;
+        if (n.x < 0 || n.x > w) n.vx *= -1;
+        if (n.y < 0 || n.y > h) n.vy *= -1;
+        n.x = Math.max(0, Math.min(w, n.x));
+        n.y = Math.max(0, Math.min(h, n.y));
+      }
+      for (var a = 0; a < nodes.length; a++) {
+        for (var b = a + 1; b < nodes.length; b++) {
+          var dx = nodes[a].x - nodes[b].x, dy = nodes[a].y - nodes[b].y;
+          var d = Math.sqrt(dx * dx + dy * dy);
+          if (d < LINK_DIST) {
+            ctx.strokeStyle = 'rgba(99,102,241,' + (0.12 * (1 - d / LINK_DIST)) + ')';
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.moveTo(nodes[a].x, nodes[a].y);
+            ctx.lineTo(nodes[b].x, nodes[b].y);
+            ctx.stroke();
+          }
+        }
+      }
+      for (var j = 0; j < nodes.length; j++) {
+        var nd = nodes[j];
+        ctx.fillStyle = nd.cyan ? 'rgba(14,165,233,0.55)' : 'rgba(99,102,241,0.55)';
+        ctx.beginPath();
+        ctx.arc(nd.x, nd.y, 2, 0, Math.PI * 2);
+        ctx.fill();
+      }
+      raf = requestAnimationFrame(step);
+    }
+
+    hero.addEventListener('mousemove', function(e) {
+      var rect = hero.getBoundingClientRect();
+      mouse.x = e.clientX - rect.left;
+      mouse.y = e.clientY - rect.top;
+    });
+    hero.addEventListener('mouseleave', function() {
+      mouse.x = -9999; mouse.y = -9999;
+    });
+    window.addEventListener('resize', function() {
+      cancelAnimationFrame(raf);
+      resize();
+      step();
+    }, { passive: true });
+
+    resize();
+    seed();
+    step();
+  })();
+
+  /* ── ANTIGRAVITY 3D CARD TILT + SPOTLIGHT ──
+     Real card selectors on this page (.bento-card/.review-card/.email-mock/.ba-card
+     from the original spec don't exist here — applied to the actual pricing and
+     X-Ray report preview cards instead). Skips under prefers-reduced-motion. */
+  (function() {
+    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    var cards = document.querySelectorAll('.plan-card, .xr-receive-preview');
+    cards.forEach(function(card) {
+      card.addEventListener('mousemove', function(e) {
+        var rect = card.getBoundingClientRect();
+        var x = e.clientX - rect.left;
+        var y = e.clientY - rect.top;
+        var cx = rect.width / 2, cy = rect.height / 2;
+        var rotateX = ((y - cy) / cy) * -8;
+        var rotateY = ((x - cx) / cx) * 8;
+        card.style.transform = 'perspective(1000px) rotateX(' + rotateX + 'deg) rotateY(' + rotateY + 'deg) translateZ(8px)';
+        card.style.setProperty('--mouse-x', (x / rect.width * 100) + '%');
+        card.style.setProperty('--mouse-y', (y / rect.height * 100) + '%');
+        card.classList.add('tilting');
+      });
+      card.addEventListener('mouseleave', function() {
+        card.style.transform = '';
+        card.classList.remove('tilting');
+      });
+    });
+  })();
 
 </script>
 </body>
