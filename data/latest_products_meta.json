@@ -1,10 +1,30 @@
 {
-  "generated_at": "2026-09-21T01:02:39.871875+00:00",
-  "week": "2026-W39",
+  "generated_at": "2026-09-28T01:41:32.802236+00:00",
+  "week": "2026-W40",
   "total_products_before_dedupe": null,
-  "total_after_dedupe": 1607,
+  "total_after_dedupe": 2419,
   "top_products_returned": 20,
   "categories": [
+    {
+      "product_type": "Shoes",
+      "product_count": 398,
+      "vendor_count": 8,
+      "top_vendors": [
+        "ASICS",
+        "Allbirds",
+        "CQP"
+      ]
+    },
+    {
+      "product_type": "Semi Permanent Tattoo",
+      "product_count": 161,
+      "vendor_count": 27,
+      "top_vendors": [
+        "Angelo R",
+        "Beirxt",
+        "Burgercat"
+      ]
+    },
     {
       "product_type": "Knit Tops",
       "product_count": 156,
@@ -14,25 +34,28 @@
       ]
     },
     {
-      "product_type": "Bottoms",
-      "product_count": 130,
-      "vendor_count": 2,
+      "product_type": "Sweaters",
+      "product_count": 143,
+      "vendor_count": 3,
       "top_vendors": [
         "Everlane",
+        "Lunya",
         "Taylor Stitch"
       ]
     },
     {
-      "product_type": "Sweaters",
-      "product_count": 124,
-      "vendor_count": 1,
+      "product_type": "Bottoms",
+      "product_count": 128,
+      "vendor_count": 3,
       "top_vendors": [
-        "Everlane"
+        "Everlane",
+        "Lunya",
+        "Taylor Stitch"
       ]
     },
     {
       "product_type": "EDC",
-      "product_count": 120,
+      "product_count": 107,
       "vendor_count": 3,
       "top_vendors": [
         "Ridge",
@@ -41,37 +64,19 @@
       ]
     },
     {
-      "product_type": "Denim",
-      "product_count": 89,
-      "vendor_count": 1,
-      "top_vendors": [
-        "Everlane"
-      ]
-    },
-    {
       "product_type": "Full Length",
-      "product_count": 63,
+      "product_count": 97,
       "vendor_count": 1,
       "top_vendors": [
         "Gymshark"
       ]
     },
     {
-      "product_type": "Shirting",
-      "product_count": 59,
+      "product_type": "Denim",
+      "product_count": 79,
       "vendor_count": 1,
       "top_vendors": [
         "Everlane"
-      ]
-    },
-    {
-      "product_type": "Outerwear",
-      "product_count": 56,
-      "vendor_count": 3,
-      "top_vendors": [
-        "Everlane",
-        "Taylor Stitch",
-        "Todd Snyder"
       ]
     }
   ]
