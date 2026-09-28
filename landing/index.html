@@ -725,7 +725,7 @@
     /* D+42 pass 14: HOW IT WORKS — 숫자+타이포만, 카드/그림자/그라디언트 없음
        (pass 6-8 flat 원칙). #how-it-works id 도 nav "How it works" 링크가
        가리키던 존재하지 않던 앵커를 실제로 채움. */
-    .how-section { padding: 96px 24px; border-top: 1px solid rgba(28,25,23,0.07); }
+    .how-section { padding: 96px 24px; border-top: 1px solid rgba(28,25,23,0.07); position: relative; overflow: hidden; }
     .how-inner { max-width: 1200px; margin: 0 auto; }
     .how-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; margin-top: 48px; }
     /* 2026-09-26: 사용자 요청 — 텍스트만 있던 3단계에 아이콘 배지 추가 (Feather Icons,
@@ -1012,6 +1012,7 @@
       border: 1px solid rgba(28,25,23,0.08);
       border-radius: 14px;
       overflow: hidden;
+      position: relative;
       box-shadow:
         0 1px 2px rgba(28,25,23,0.04),
         0 10px 24px rgba(28,25,23,0.05);
@@ -1384,6 +1385,20 @@
                   transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
     }
     .reveal.is-visible { opacity: 1; transform: none; }
+    /* BUG (found 2026-09-28 while testing this branch, but also live on main):
+       #xr-step3 (the email-gate modal, position:fixed) is a descendant of
+       .xray-inner. Any non-'none' CSS transform on an ancestor creates a new
+       containing block for position:fixed descendants (CSS Transforms spec) —
+       so while .xray-inner still has .reveal without .is-visible (translateY
+       active), openXrModal() would render the "fixed" modal positioned inside
+       .xray-inner's box instead of covering the viewport, i.e. invisible.
+       Not reachable through normal scroll-then-click (IO already resolves
+       .is-visible by the time the section is clickable) but IS reachable
+       during the documented "IO fails to fire" up-to-3s fail-safe window,
+       since opacity:0 elements are still clickable unless pointer-events:none
+       is set. Fade-only reveal (no translateY) for this one container removes
+       the containing-block trigger entirely, for free. */
+    .xray-inner.reveal { transform: none !important; }
     .reveal-d1 { transition-delay: 0.08s !important; }
     .reveal-d2 { transition-delay: 0.16s !important; }
     .reveal-d3 { transition-delay: 0.24s !important; }
@@ -2853,6 +2868,295 @@
   <noscript>
     <style>.reveal { opacity: 1 !important; transform: none !important; }</style>
   </noscript>
+
+  <!-- ══════════════════════════════════════════════════════════════════
+       ANTIGRAVITY DARK THEME — experimental branch (redesign/antigravity-dark)
+       ══════════════════════════════════════════════════════════════════
+       Not on main/live. Everything below is an override layer on top of
+       the existing light Stripe/Linear stylesheet above — structure,
+       forms, i18n, modal JS all untouched; only color/surface/motion.
+
+       Contrast: palette below was checked with the WCAG relative-luminance
+       formula for the main text/background pairs (body bg, glass card,
+       headings, body copy, muted labels, footer, accent text) — all land
+       at 5.4:1–18.8:1, comfortably past AA 4.5:1. That covers what a
+       visitor actually reads scrolling through; it is NOT a line-by-line
+       audit of every micro-label/badge in this 4400-line file the way the
+       hero/pricing/footer contrast passes earlier in this doc were — flag
+       that explicitly rather than claim more than was checked.
+  -->
+  <style id="antigravity-theme">
+    :root {
+      --bg:          #05070D;
+      --surface:     #0A0E18;
+      --card:        rgba(16,20,32,0.65);
+      --card-2:      rgba(16,20,32,0.5);
+      --border:      rgba(255,255,255,0.08);
+      --border-hi:   rgba(0,242,254,0.35);
+      --white:       #F5F7FA;   /* primary text */
+      --muted:       #A8B0C3;   /* 9.3:1 on --bg */
+      --muted-2:     #8B93A7;   /* 6.6:1 on --bg */
+      --purple:      #7F00FF;   /* decorative/glow only, not small text */
+      --purple-hi:   #A78BFA;
+      --cyan:        #00F2FE;
+      --green:       #00F5A0;
+      --grad:        linear-gradient(135deg, #00F2FE 0%, #7F00FF 100%);
+      --grad-text:   linear-gradient(90deg, #F5F7FA 0%, #00F2FE 30%, #7F00FF 60%, #F5F7FA 100%);
+    }
+
+    body {
+      background: var(--bg) !important;
+      color: var(--white) !important;
+    }
+    body::before { display: none !important; } /* old grain texture — replaced by aurora mesh below */
+
+    /* ── AURORA MESH BACKDROP (fixed, behind everything, ambient) ── */
+    body::after {
+      content: '';
+      position: fixed; inset: 0; z-index: -2; pointer-events: none;
+      background:
+        radial-gradient(ellipse 60% 45% at 15% 10%,  rgba(127,0,255,0.20), transparent 60%),
+        radial-gradient(ellipse 55% 50% at 90% 20%,  rgba(0,242,254,0.14), transparent 60%),
+        radial-gradient(ellipse 50% 45% at 50% 95%,  rgba(0,245,160,0.10), transparent 60%),
+        var(--bg);
+    }
+    @media (prefers-reduced-motion: no-preference) {
+      body::after { animation: auroraDrift 22s ease-in-out infinite alternate; }
+    }
+    @keyframes auroraDrift {
+      0%   { background-position: 0% 0%, 0% 0%, 0% 0%, 0 0; filter: hue-rotate(0deg); }
+      100% { background-position: 4% -3%, -3% 4%, 2% -2%, 0 0; filter: hue-rotate(8deg); }
+    }
+
+    /* ── HERO: obsidian + stronger aurora + canvas node graph ── */
+    .hero {
+      background:
+        radial-gradient(ellipse 70% 55% at 50% -5%, rgba(0,242,254,0.14) 0%, transparent 65%),
+        radial-gradient(ellipse 40% 40% at 88% 15%, rgba(127,0,255,0.12) 0%, transparent 55%),
+        radial-gradient(ellipse 30% 35% at 5% 85%,  rgba(0,245,160,0.08) 0%, transparent 55%) !important;
+    }
+    .hero::before { background: radial-gradient(ellipse, rgba(0,242,254,0.16), transparent 70%) !important; }
+    #antigravity-hero-canvas {
+      position: absolute !important; inset: 0; width: 100%; height: 100%;
+      z-index: 0; pointer-events: none; opacity: 0.55;
+    }
+    /* real DOM layer (not background-position) so scroll parallax can use
+       transform:translate3d — the .hero background itself is set via an
+       !important shorthand above, which would silently eat any attempt to
+       animate background-position from JS (shorthand !important implicitly
+       flags every sub-property, including position, as important too). */
+    .ag-hero-parallax {
+      position: absolute !important; inset: -15% -10%; z-index: 0;
+      pointer-events: none; will-change: transform;
+      background:
+        radial-gradient(ellipse 45% 40% at 75% 20%, rgba(0,242,254,0.10), transparent 60%),
+        radial-gradient(ellipse 40% 35% at 20% 75%, rgba(127,0,255,0.10), transparent 60%);
+    }
+
+    .hero h1, .hero-h1, .hero .section-h2, .hero .section-heading { color: var(--white) !important; }
+    .hero-sub { color: var(--muted) !important; }
+    .hero-eyebrow, .hero-trust-line { color: var(--muted) !important; }
+
+    /* text shimmer for gradient headline accents */
+    .grad-text {
+      background: var(--grad-text) !important;
+      background-size: 200% auto !important;
+      -webkit-background-clip: text !important; background-clip: text !important;
+      -webkit-text-fill-color: transparent !important;
+    }
+    @media (prefers-reduced-motion: no-preference) {
+      .grad-text { animation: shine 6s linear infinite; }
+    }
+    @keyframes shine { to { background-position: -200% center; } }
+
+    /* ── GLASS SURFACES: nav / footer / cards ── */
+    nav, nav.nav-scrolled {
+      background: rgba(10,14,24,0.55) !important;
+      backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border) !important;
+      box-shadow: none !important;
+    }
+    .logo-text, .nav-links a { color: var(--white) !important; }
+    .nav-links a:hover { background: rgba(255,255,255,0.06) !important; color: var(--cyan) !important; }
+    .btn-glow { background: #F5F7FA !important; color: #05070D !important; }
+    .btn-glow:hover { background: #FFFFFF !important; }
+
+    .plan-card, .faq-item, .xr-receive-preview, .contact-inner form, .how-icon, footer {
+      background: var(--card) !important;
+      backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+      border: 1px solid var(--border) !important;
+    }
+    footer { border-top: 1px solid var(--border) !important; background: rgba(6,9,16,0.7) !important; }
+    .how-icon { background: rgba(0,242,254,0.1) !important; color: var(--cyan) !important; border-color: rgba(0,242,254,0.25) !important; }
+
+    /* cyber border glow on hover — cards + primary CTAs */
+    .plan-card, .faq-item, .btn-glow, .xr-submit-btn, .xr-analyze-btn, .plan-btn-grad {
+      position: relative; transition: box-shadow 0.3s ease, transform 0.3s ease, border-color 0.3s ease;
+    }
+    .plan-card:hover, .faq-item:hover {
+      border-color: rgba(0,242,254,0.4) !important;
+      box-shadow: 0 0 0 1px rgba(0,242,254,0.15), 0 12px 40px rgba(127,0,255,0.18) !important;
+    }
+    .btn-glow:hover, .xr-submit-btn:hover, .xr-analyze-btn:hover, .plan-btn-grad:hover {
+      box-shadow: 0 0 0 1px rgba(0,242,254,0.5), 0 0 24px rgba(0,242,254,0.35) !important;
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .plan-card, .faq-item, .btn-glow, .xr-submit-btn, .xr-analyze-btn, .plan-btn-grad { transition: none !important; }
+    }
+
+    /* ── TEXT: re-point every hardcoded light-theme !important color ── */
+    .section-h2, .section-heading, .plan-price, .faq-item details summary,
+    .xr-modal-title, .contact_h2, h1, h2, h3 { color: var(--white) !important; }
+    .section-sub, .hero-sub, .plan-desc, .plan-features li, .plan-price span,
+    .faq-item details[open] p, .footer-brand p, .xr-hint, .xr-sub,
+    .contact_sub, p { color: var(--muted) !important; }
+    .plan-card.featured .plan-desc, .plan-card.featured .plan-features li { color: #C7CCDA !important; }
+    .plan-label, .footer-col h3 { color: var(--muted-2) !important; }
+    .footer-col a { color: var(--muted) !important; }
+    .footer-col a:hover { color: var(--cyan) !important; }
+    .section-pill { color: var(--cyan) !important; background: rgba(0,242,254,0.08) !important; border-color: rgba(0,242,254,0.25) !important; }
+    .steps-bg .section-pill { background: rgba(127,0,255,0.1) !important; border-color: rgba(127,0,255,0.28) !important; color: var(--purple-hi) !important; }
+    .plan-card.featured .plan-feat-sep { color: var(--cyan) !important; border-top-color: rgba(0,242,254,0.25) !important; }
+    .plan-card.featured .plan-features li.pro-only { color: var(--white) !important; }
+    .xr-url-input, input, textarea, select {
+      background: rgba(255,255,255,0.04) !important; color: var(--white) !important;
+      border-color: var(--border) !important;
+    }
+    .xr-url-input::placeholder, input::placeholder, textarea::placeholder { color: #5B6478 !important; }
+
+    /* xr-receive-preview ("what you'll get" sample report card) — was still
+       plain white/light, unmatched selector typo (xray- vs xr-) earlier. */
+    .xr-receive-preview-head {
+      background: rgba(255,255,255,0.03) !important;
+      border-bottom-color: var(--border) !important;
+    }
+    .xr-receive-tag { color: var(--muted) !important; }
+    .xr-receive-pill { background: rgba(0,242,254,0.12) !important; color: var(--cyan) !important; }
+    .xr-receive-stat { border-right-color: var(--border) !important; }
+    .xr-receive-stat-val { color: var(--white) !important; }
+    .xr-receive-stat-lbl { color: var(--muted-2) !important; }
+    .xr-receive-footer {
+      background: rgba(0,245,160,0.06) !important;
+      border-top-color: rgba(0,245,160,0.18) !important;
+      color: var(--green) !important;
+    }
+
+    /* xr-modal (email-gate lead form) — CRITICAL: this card used a hardcoded
+       #fff background while its title/desc already read var(--white), which
+       we just flipped to a light color for the new dark theme. Unfixed, that
+       is white text on a white card — the site's main lead-capture form
+       rendered invisible. */
+    .xr-modal-card {
+      background: rgba(10,14,24,0.92) !important;
+      backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
+      border: 1px solid var(--border) !important;
+    }
+    .xr-modal-form input[type="email"] {
+      background: rgba(255,255,255,0.05) !important;
+      border-color: var(--border) !important;
+      color: var(--white) !important;
+    }
+    .xr-modal-form input[type="email"]:focus {
+      background: rgba(255,255,255,0.07) !important;
+      border-color: var(--cyan) !important;
+      box-shadow: 0 0 0 4px rgba(0,242,254,0.12) !important;
+    }
+    .xr-modal-submit { background: var(--grad) !important; box-shadow: 0 4px 20px rgba(0,242,254,0.28) !important; }
+    .xr-modal-close:hover { background: rgba(255,255,255,0.08) !important; }
+    .xr-modal-trust-dot { background: rgba(255,255,255,0.18) !important; }
+
+    /* xr-progress-card ("Analyzing store…" loading state) — same white-card
+       + var(--white)-text bug as the modal above. */
+    .xr-progress-card { background: var(--card) !important; border-color: var(--border) !important; backdrop-filter: blur(20px); }
+    .xr-progress-bar { background: rgba(255,255,255,0.08) !important; }
+    .xr-progress-fill { background: var(--grad) !important; }
+    .xr-progress-step { color: rgba(255,255,255,0.25) !important; }
+    .xr-progress-step.is-done { color: var(--muted-2) !important; }
+    .xr-progress-step.is-active { color: var(--white) !important; }
+    .xr-progress-icon { background: rgba(255,255,255,0.06) !important; color: rgba(255,255,255,0.3) !important; }
+    .xr-progress-step.is-active .xr-progress-icon { background: rgba(0,242,254,0.14) !important; color: var(--cyan) !important; }
+    .xr-progress-step.is-done .xr-progress-icon { background: rgba(0,245,160,0.14) !important; color: var(--green) !important; }
+
+    .nav-lang-switch option { background: var(--surface) !important; color: var(--white) !important; }
+
+    /* ── FAQ: existing chevron (line ~892) already does smooth rotate-on-open
+       with hover/open color swaps — it's a light-theme data-URI SVG (stroke
+       %2378716C / %234F46E5) so it doesn't pick up CSS variables. Re-point
+       the three states to cyan instead of adding a second competing chevron. */
+    .faq-item details summary::after {
+      background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23A8B0C3' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'/></svg>") !important;
+    }
+    .faq-item details summary:hover::after,
+    .faq-item details[open] summary::after {
+      background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2300F2FE' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'/></svg>") !important;
+    }
+    .faq-item details summary:hover { color: var(--cyan) !important; background: rgba(0,242,254,0.05) !important; }
+    .faq-item details[open] summary { color: var(--cyan) !important; background: rgba(0,242,254,0.06) !important; }
+    .faq-item details[open] p a { color: var(--cyan) !important; }
+    .faq-item { border-color: var(--border) !important; }
+    .faq-grid { border-color: var(--border) !important; }
+    /* smooth fade-in for the answer, on top of the existing open/close */
+    .faq-item details[open] p { animation: faqOpen 0.35s cubic-bezier(0.16,1,0.3,1); }
+    @keyframes faqOpen { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: none; } }
+    @media (prefers-reduced-motion: reduce) {
+      .faq-item details summary::after { transition: none !important; }
+      .faq-item details[open] p { animation: none; }
+    }
+
+    /* ── magnetic-button target cursor (JS adds inline transform) ── */
+    .magnetic-btn { will-change: transform; }
+
+    /* ── DECORATIVE SVG ILLUSTRATIONS ── */
+    /* Weekly Trend Radar — how-it-works corner accent */
+    .ag-radar {
+      position: absolute; top: -20px; right: -20px; width: 260px; height: 260px;
+      opacity: 0.35; pointer-events: none; z-index: 0;
+    }
+    .ag-radar-ring { fill: none; stroke: rgba(0,242,254,0.25); stroke-width: 1; }
+    .ag-radar-sweep path { fill: rgba(0,242,254,0.18); }
+    .ag-radar-sweep { transform-origin: 100px 100px; }
+    .ag-radar-dot { fill: var(--green); }
+    @media (prefers-reduced-motion: no-preference) {
+      .ag-radar-sweep { animation: radarSpin 4s linear infinite; }
+      .ag-radar-dot { animation: radarBlip 2.4s ease-in-out infinite; }
+      .ag-radar-dot:nth-child(6) { animation-delay: 0.6s; }
+      .ag-radar-dot:nth-child(7) { animation-delay: 1.2s; }
+    }
+    @keyframes radarSpin { to { transform: rotate(360deg); } }
+    @keyframes radarBlip { 0%,100% { opacity: 0.3; } 50% { opacity: 1; } }
+    .how-inner { position: relative; z-index: 1; }
+
+    /* Store X-Ray Scanner Graphic — beam sweeping over the sample-report card */
+    .ag-scan-beam {
+      position: absolute; inset: 0; z-index: 2; pointer-events: none;
+      background: linear-gradient(100deg, transparent 40%, rgba(0,242,254,0.25) 50%, transparent 60%);
+      background-size: 250% 100%;
+    }
+    @media (prefers-reduced-motion: no-preference) {
+      .ag-scan-beam { animation: scanSweep 3.2s ease-in-out infinite; }
+    }
+    @keyframes scanSweep { 0% { background-position: 120% 0; } 100% { background-position: -20% 0; } }
+
+    /* CSV / API Data Stream Node Graphic — Pro pricing card header strip */
+    .ag-datastream { width: 100%; height: 32px; margin-bottom: 12px; overflow: visible; }
+    .ag-ds-line { stroke: url(#ag-ds-grad); stroke-width: 1.5; stroke-dasharray: 6 5; }
+    .ag-ds-node { fill: var(--cyan); filter: drop-shadow(0 0 4px rgba(0,242,254,0.8)); }
+    @media (prefers-reduced-motion: no-preference) {
+      .ag-ds-line { animation: dsFlow 2.4s linear infinite; }
+      .ag-ds-node { animation: dsMove 3.6s linear infinite; offset-path: path('M0 18 L60 18 L75 6 L95 30 L115 18 L220 18'); }
+    }
+    @keyframes dsFlow { to { stroke-dashoffset: -22; } }
+    @keyframes dsMove { to { offset-distance: 100%; } }
+  </style>
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <linearGradient id="ag-ds-grad" x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0%" stop-color="#00F2FE"/>
+        <stop offset="50%" stop-color="#7F00FF"/>
+        <stop offset="100%" stop-color="#00F5A0"/>
+      </linearGradient>
+    </defs>
+  </svg>
 </head>
 <body>
 <!-- D+14 removed: sticky yellow Early access beta banner (nav 및 hero 최상단 시각 차단).
@@ -2925,6 +3229,8 @@
      이후: 3 element (status pill + h1 single + sub single + primary CTA + secondary text link). -->
 <main id="main-content">
 <section class="hero">
+  <div class="ag-hero-parallax" aria-hidden="true"></div>
+  <canvas id="antigravity-hero-canvas" aria-hidden="true"></canvas>
 <div class="hero-inner">
 <div class="hero-text">
   <div class="hero-eyebrow">
@@ -2965,7 +3271,7 @@
            button에 같이 주면 버튼의 implicit role이 status로 덮어써져서 스크린리더가
            더 이상 버튼으로 인식 못함 (submit 불가능한 것처럼 보임). aria-live 만으로도
            텍스트 변경 announce 되므로 role 제거. -->
-      <button type="submit" class="xr-submit-btn" aria-live="polite">
+      <button type="submit" class="xr-submit-btn magnetic-btn" aria-live="polite">
         <span data-i18n="hero_email_submit">Get sample data →</span>
       </button>
     </div>
@@ -3204,6 +3510,15 @@
      dead link 였음, 이번에 실 id 부여로 같이 해결). 3단계, 카드/그라디언트/
      아이콘 없이 숫자+타이포만 — pass 6-8 flat 원칙 유지. -->
 <div class="how-section" id="how-it-works">
+  <svg class="ag-radar" aria-hidden="true" viewBox="0 0 200 200">
+    <circle class="ag-radar-ring" cx="100" cy="100" r="40"/>
+    <circle class="ag-radar-ring" cx="100" cy="100" r="70"/>
+    <circle class="ag-radar-ring" cx="100" cy="100" r="98"/>
+    <g class="ag-radar-sweep"><path d="M100 100 L100 2 A98 98 0 0 1 169 31 Z"/></g>
+    <circle class="ag-radar-dot" cx="140" cy="70" r="3"/>
+    <circle class="ag-radar-dot" cx="70" cy="130" r="2.5"/>
+    <circle class="ag-radar-dot" cx="150" cy="140" r="2"/>
+  </svg>
   <div class="how-inner">
     <div class="section-pill" data-i18n="steps_pill">How it works</div>
     <h2 class="section-heading" data-i18n="steps_h2">Three steps. No dashboard required.</h2>
@@ -3272,6 +3587,7 @@
 
       <!-- UPGRADE 2026-06-13: "What you'll get" — Stripe email-receipt 패턴 (실 data 형식) -->
       <div class="xr-receive-preview">
+        <div class="ag-scan-beam" aria-hidden="true"></div>
         <div class="xr-receive-preview-head">
           <span class="xr-receive-tag" data-i18n="xr_sample_tag_v2">SAMPLE REPORT · example.myshopify.com</span>
           <span class="xr-receive-pill">.PDF</span>
@@ -3420,6 +3736,10 @@
 
       <!-- ── PRO ── -->
       <div class="plan-card featured">
+        <svg class="ag-datastream" aria-hidden="true" viewBox="0 0 220 36" preserveAspectRatio="none">
+          <path class="ag-ds-line" d="M0 18 L60 18 L75 6 L95 30 L115 18 L220 18" fill="none"/>
+          <circle class="ag-ds-node" cx="0" cy="18" r="3"/>
+        </svg>
         <!-- 2026-09-23 red-team fix: "$19/month" 가 즉시 구매 가능한 현재가처럼 보이던 문제.
              (1) label 옆 "Coming soon" 배지, (2) 가격 위 "Launch price" 캡션, (3) feature
              리스트 위 "Included at launch:" 인트로로 미출시 상태를 3중으로 명시. -->
@@ -4442,7 +4762,142 @@
     }, { passive: true });
   })();
 
+  /* ══════════════════════════════════════════════════════════════════
+     ANTIGRAVITY DARK THEME — motion engine (experimental branch only)
+     Three independent, self-guarding pieces: hero particle canvas,
+     scroll parallax on the hero glow, magnetic-pull on .magnetic-btn.
+     Every piece bails out under prefers-reduced-motion or a missing
+     canvas/API, and none of them touch i18n/forms/modal code above.
+     ══════════════════════════════════════════════════════════════════ */
+  (function antigravityHeroCanvas() {
+    var canvas = document.getElementById('antigravity-hero-canvas');
+    if (!canvas || !canvas.getContext) return;
+    var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduceMotion) return;
 
+    var ctx = canvas.getContext('2d');
+    var hero = canvas.parentElement;
+    var W, H, DPR = Math.min(window.devicePixelRatio || 1, 2);
+    var NODE_COUNT = 46; // capped — keeps this well under frame budget even on low-end laptops
+    var LINK_DIST = 130;
+    var nodes = [];
+    var mouse = { x: -9999, y: -9999 };
+    var rafId = null;
+    var running = true;
+
+    function resize() {
+      W = hero.clientWidth; H = hero.clientHeight;
+      canvas.width = W * DPR; canvas.height = H * DPR;
+      canvas.style.width = W + 'px'; canvas.style.height = H + 'px';
+      ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+    }
+
+    function seed() {
+      nodes = [];
+      for (var i = 0; i < NODE_COUNT; i++) {
+        nodes.push({
+          x: Math.random() * W, y: Math.random() * H,
+          vx: (Math.random() - 0.5) * 0.25, vy: (Math.random() - 0.5) * 0.25
+        });
+      }
+    }
+
+    function step() {
+      if (!running) return;
+      ctx.clearRect(0, 0, W, H);
+      for (var i = 0; i < nodes.length; i++) {
+        var n = nodes[i];
+        // gentle repel from cursor — "interactive mouse hover" per spec, capped radius
+        var dx = n.x - mouse.x, dy = n.y - mouse.y;
+        var d2 = dx * dx + dy * dy;
+        if (d2 < 90 * 90) {
+          var d = Math.sqrt(d2) || 1;
+          n.vx += (dx / d) * 0.04; n.vy += (dy / d) * 0.04;
+        }
+        n.vx *= 0.99; n.vy *= 0.99;
+        n.x += n.vx; n.y += n.vy;
+        if (n.x < 0 || n.x > W) n.vx *= -1;
+        if (n.y < 0 || n.y > H) n.vy *= -1;
+        n.x = Math.max(0, Math.min(W, n.x));
+        n.y = Math.max(0, Math.min(H, n.y));
+      }
+      for (var a = 0; a < nodes.length; a++) {
+        for (var b = a + 1; b < nodes.length; b++) {
+          var ndx = nodes[a].x - nodes[b].x, ndy = nodes[a].y - nodes[b].y;
+          var dist = Math.sqrt(ndx * ndx + ndy * ndy);
+          if (dist < LINK_DIST) {
+            ctx.strokeStyle = 'rgba(0,242,254,' + (0.14 * (1 - dist / LINK_DIST)) + ')';
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.moveTo(nodes[a].x, nodes[a].y);
+            ctx.lineTo(nodes[b].x, nodes[b].y);
+            ctx.stroke();
+          }
+        }
+      }
+      for (var k = 0; k < nodes.length; k++) {
+        ctx.fillStyle = 'rgba(127,0,255,0.55)';
+        ctx.beginPath();
+        ctx.arc(nodes[k].x, nodes[k].y, 1.6, 0, Math.PI * 2);
+        ctx.fill();
+      }
+      rafId = requestAnimationFrame(step);
+    }
+
+    resize(); seed();
+    rafId = requestAnimationFrame(step);
+    window.addEventListener('resize', function() { resize(); seed(); }, { passive: true });
+    hero.addEventListener('mousemove', function(e) {
+      var r = hero.getBoundingClientRect();
+      mouse.x = e.clientX - r.left; mouse.y = e.clientY - r.top;
+    }, { passive: true });
+    hero.addEventListener('mouseleave', function() { mouse.x = -9999; mouse.y = -9999; }, { passive: true });
+    // pause off-screen / hidden tab — avoids burning CPU when nobody sees it
+    document.addEventListener('visibilitychange', function() {
+      running = !document.hidden;
+      if (running && !rafId) rafId = requestAnimationFrame(step);
+    });
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver(function(entries) {
+        running = entries[0].isIntersecting && !document.hidden;
+        if (running && !rafId) rafId = requestAnimationFrame(step);
+      }, { threshold: 0 }).observe(hero);
+    }
+  })();
+
+  (function antigravityParallax() {
+    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    var layer = document.querySelector('.ag-hero-parallax');
+    if (!layer) return;
+    var ticking = false;
+    window.addEventListener('scroll', function() {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(function() {
+        var y = Math.min(window.scrollY, 600) * 0.15;
+        layer.style.transform = 'translate3d(0,' + y + 'px,0)';
+        ticking = false;
+      });
+    }, { passive: true });
+  })();
+
+  (function antigravityMagneticButtons() {
+    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    var RADIUS = 60, STRENGTH = 0.35;
+    document.querySelectorAll('.magnetic-btn').forEach(function(btn) {
+      btn.addEventListener('mousemove', function(e) {
+        var r = btn.getBoundingClientRect();
+        var mx = e.clientX - (r.left + r.width / 2);
+        var my = e.clientY - (r.top + r.height / 2);
+        var dist = Math.sqrt(mx * mx + my * my);
+        if (dist > RADIUS) return;
+        btn.style.transform = 'translate3d(' + (mx * STRENGTH) + 'px,' + (my * STRENGTH) + 'px,0)';
+      }, { passive: true });
+      btn.addEventListener('mouseleave', function() {
+        btn.style.transform = 'translate3d(0,0,0)';
+      });
+    });
+  })();
 </script>
 </body>
 </html>
