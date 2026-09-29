@@ -789,6 +789,24 @@
       display: flex; align-items: center; justify-content: center;
       margin-bottom: 16px;
     }
+    /* 2026-09-29: 3단계가 개별 카드처럼 따로 놀아 "순서/흐름"이 안 읽힌다는 반복 피드백
+       (D+42 pass 14, 2026-09-26 아이콘 추가 두 번 다 "허술함" 재지적) — 아이콘 사이를
+       실제로 잇는 커넥터로 "크롤 → 랭킹 → 발송" 파이프라인임을 시각화. 장식용 무한
+       루프가 아니라 스크롤 진입 시 1회 draw, 기존 .reveal 옵저버 재사용. */
+    .how-step { position: relative; }
+    .how-connector {
+      position: absolute; top: 22px; left: 44px; height: 2px; width: 0;
+      background: linear-gradient(90deg, #4F46E5, rgba(79,70,229,0.25));
+      transition: width 0.5s cubic-bezier(0.16,1,0.3,1) 0.3s;
+      pointer-events: none;
+    }
+    .how-step.is-visible .how-connector { width: 40px; }
+    @media (max-width: 860px) {
+      .how-connector { display: none; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .how-connector { transition: none; width: 40px; }
+    }
     .how-num {
       font-family: 'Inter', -apple-system, sans-serif;
       font-size: 13px; font-weight: 700; letter-spacing: 0.08em;
@@ -3306,23 +3324,25 @@
     <div class="section-pill" data-i18n="steps_pill">How it works</div>
     <h2 class="section-heading" data-i18n="steps_h2">Three steps. No dashboard required.</h2>
     <div class="how-grid">
-      <div class="how-step">
+      <div class="how-step reveal reveal-d1">
         <div class="how-icon" aria-hidden="true">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
         </div>
+        <span class="how-connector" aria-hidden="true"></span>
         <div class="how-num">01</div>
         <h3 data-i18n="steps_1_h3">We crawl every Sunday night</h3>
         <p data-i18n="steps_1_desc">58 curated DTC Shopify brands, via each store's public /products.json — the same data any browser sees.</p>
       </div>
-      <div class="how-step">
+      <div class="how-step reveal reveal-d2">
         <div class="how-icon" aria-hidden="true">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
         </div>
+        <span class="how-connector" aria-hidden="true"></span>
         <div class="how-num">02</div>
         <h3 data-i18n="steps_2_h3">We rank what's rising</h3>
         <p data-i18n="steps_2_desc">Storm Score (0-100) weighs momentum, log-scaled store count, and age decay — so products still climbing surface first.</p>
       </div>
-      <div class="how-step">
+      <div class="how-step reveal reveal-d3">
         <div class="how-icon" aria-hidden="true">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 6-10 7L2 6"/></svg>
         </div>
