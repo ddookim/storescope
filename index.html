@@ -516,6 +516,54 @@
       text-align: left; position: relative; overflow: hidden;
     }
     .hero-inner { max-width: 1200px; margin: 0 auto; }
+    /* 2026-09-29: hero-text(640px) alone in a 1200px container leaves a large
+       empty right side on wide desktop viewports — reads as off-balance/
+       lopsided (user report). hero-mockup-wrap stays full-width below as-is
+       (its internal dashboard layout isn't built to shrink into a side
+       column); this adds a second, purpose-built narrow column instead of
+       resizing the fragile existing one. */
+    .hero-visual-aside { display: none; }
+    @media (min-width: 1120px) {
+      .hero-inner {
+        display: grid;
+        grid-template-columns: minmax(0, 640px) minmax(280px, 1fr);
+        align-items: center;
+        gap: 48px;
+      }
+      .hero-mockup-wrap { grid-column: 1 / -1; }
+      .hero-visual-aside { display: flex; justify-content: center; }
+    }
+    .hero-aside-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: var(--radius-lg); padding: 24px;
+      box-shadow: 0 1px 2px rgba(28,25,23,0.04), 0 12px 32px rgba(28,25,23,0.06);
+      max-width: 320px; width: 100%;
+      animation: heroAsideFloat 6s ease-in-out infinite;
+    }
+    @keyframes heroAsideFloat {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+    .hero-aside-label {
+      font-size: 11px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.06em; color: var(--muted-2); margin-bottom: 10px;
+    }
+    .hero-aside-row { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+    .hero-aside-name { font-size: 14px; font-weight: 700; color: var(--white); }
+    .hero-aside-chart { display: block; width: 100%; height: auto; margin: 16px 0 10px; }
+    .hero-aside-path {
+      stroke-dasharray: 320; stroke-dashoffset: 320;
+      animation: heroAsideDraw 1.6s cubic-bezier(0.16,1,0.3,1) 0.3s forwards;
+    }
+    @keyframes heroAsideDraw { to { stroke-dashoffset: 0; } }
+    .hero-aside-dot { opacity: 0; animation: heroAsideDotIn 0.4s ease 1.7s forwards; }
+    @keyframes heroAsideDotIn { to { opacity: 1; } }
+    .hero-aside-stat { font-size: 12px; color: var(--muted-2); }
+    @media (prefers-reduced-motion: reduce) {
+      .hero-aside-card { animation: none; }
+      .hero-aside-path { animation: none; stroke-dashoffset: 0; }
+      .hero-aside-dot { animation: none; opacity: 1; }
+    }
     .hero-text { max-width: 640px; }
     @media (max-width: 640px) {
       .hero { padding: 88px 20px 56px; text-align: left; }
@@ -3091,6 +3139,34 @@
     <span data-i18n="hero_trust_line">Independent · Bootstrapped · Built for Shopify operators</span>
   </p>
 </div>
+
+  <!-- Wide-desktop only (see @media min-width:1120px) — fills the dead space to the
+       right of the 640px text column instead of leaving it empty. Static copy
+       matching the slot-1 fallback already hardcoded below (no data-product-slot
+       attribute — that attribute is looked up via querySelector, singular, so
+       reusing it here would steal the live-data update meant for the real
+       dashboard row instead of duplicating it). -->
+  <div class="hero-visual-aside" aria-hidden="true">
+    <div class="hero-aside-card">
+      <div class="hero-aside-label">This week's breakout</div>
+      <div class="hero-aside-row">
+        <span class="hero-aside-name">Portable Mini Projector 1080p</span>
+        <span class="growth-badge-hot">+44%</span>
+      </div>
+      <svg class="hero-aside-chart" viewBox="0 0 260 84" fill="none">
+        <defs>
+          <linearGradient id="heroAsideGrad" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%" stop-color="#0EA5E9"/>
+            <stop offset="100%" stop-color="#7C3AED"/>
+          </linearGradient>
+        </defs>
+        <path class="hero-aside-path" d="M4,66 C40,60 60,46 90,48 C120,50 140,26 170,22 C200,18 220,8 256,4"
+          stroke="url(#heroAsideGrad)" stroke-width="3"/>
+        <circle class="hero-aside-dot" cx="256" cy="4" r="4" fill="#7C3AED"/>
+      </svg>
+      <div class="hero-aside-stat">31 stores · $39–$89</div>
+    </div>
+  </div>
 
   <!-- product mockup -->
   <div class="hero-mockup-wrap" id="features">
