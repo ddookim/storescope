@@ -92,6 +92,10 @@
 
   <!-- PWA manifest — 2026-08-01 D+61 (add-to-home-screen 지원) -->
   <link rel="manifest" href="./manifest.json" />
+  <!-- iOS Safari는 apple-touch-icon에 SVG를 지원 안 함 (PNG 필수) — 홈스크린 추가 시
+       실제 아이콘 대신 페이지 스크린샷 썸네일로 대체되는 문제 방지. favicon/manifest와
+       동일 디자인(인디고 사각 + 체크마크)으로 180x180 PNG 렌더. -->
+  <link rel="apple-touch-icon" href="./apple-touch-icon.png" />
   <!-- D+11: RSS 자동발견 — Feedly/Inoreader 등 reader 가 이 tag 로 feed URL 인식 -->
   <link rel="alternate" type="application/rss+xml" title="StoreScope Weekly" href="./feed.xml" />
   <meta name="apple-mobile-web-app-title" content="StoreScope" />
