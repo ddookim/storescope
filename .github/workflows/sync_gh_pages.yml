@@ -60,6 +60,12 @@ jobs:
           cp landing/404.html /tmp/gh-pages-wt/404.html 2>/dev/null || true
           # D+12: og-image.png root 도 (호환성; 일부 크롤러 root 우선 fetch).
           cp landing/og-image.png /tmp/gh-pages-wt/og-image.png 2>/dev/null || true
+          # 2026-09-30 P0: index.html은 root로 복사되지만 <picture>/<link> 는 "./x" 상대경로
+          # (다른 모든 root 자산과 동일 관례) — landing/ 서브폴더 복사본만으론 404.
+          # 실 프로덕션에서 히어로 일러스트+apple-touch-icon 깨짐으로 발견 (사용자 스크린샷).
+          cp landing/hero-illustration.webp /tmp/gh-pages-wt/hero-illustration.webp 2>/dev/null || true
+          cp landing/hero-illustration.jpg /tmp/gh-pages-wt/hero-illustration.jpg 2>/dev/null || true
+          cp landing/apple-touch-icon.png /tmp/gh-pages-wt/apple-touch-icon.png 2>/dev/null || true
           # D+11: digest-sample.html 도 root (canonical URL 정합)
           if [ -f landing/digest-sample.html ]; then
             cp landing/digest-sample.html /tmp/gh-pages-wt/digest-sample.html
