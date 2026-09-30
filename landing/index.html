@@ -429,12 +429,20 @@
     }
 
     /* ── UTILS ── */
-    /* D+42 pass 6 (2026-09-10): grad-text 애니메이션 gradient 제거 (AI-generated SaaS
-       템플릿 signature). GitHub/Linear/Anthropic 2026 표준 = font-weight + color contrast
-       로 시각 위계 확보, decoration 없이 typography 단독으로 hierarchy 표현. */
+    /* 2026-09-30: shimmer 복원 (toned-down retry) — 이전엔 cyan/indigo/purple/blue
+       4-stop 무지개, 5s. 이번엔 기존 --grad-text var 그대로(인디고 계열 3-stop만,
+       cyan 안 섞음) 재사용 + 8s로 느리게 — 색 종류를 늘리지 않고 있던 팔레트만 움직임. */
     .grad-text {
-      color: var(--white);
       font-weight: 900;
+      background: var(--grad-text);
+      background-size: 220% auto;
+      -webkit-background-clip: text; background-clip: text;
+      -webkit-text-fill-color: transparent; color: transparent;
+      animation: gradTextShimmer 8s linear infinite;
+    }
+    @keyframes gradTextShimmer { to { background-position: 220% center; } }
+    @media (prefers-reduced-motion: reduce) {
+      .grad-text { animation: none; background-position: 0 center; }
     }
     .badge {
       display: inline-flex; align-items: center; gap: 4px;
@@ -569,6 +577,13 @@
        Hero 여백이 typography 로만 존재하도록 clean. */
     .hero::after { display: none; }
     .hero > * { position: relative; z-index: 1; }
+    #hero-particle-canvas {
+      position: absolute; inset: 0; width: 100%; height: 100%;
+      pointer-events: none; z-index: 0; opacity: 0.4;
+    }
+    @media (prefers-reduced-motion: reduce) {
+      #hero-particle-canvas { display: none; }
+    }
     /* bottom:-10% was measured against .hero's FULL height (1500px+, since the
        big dashboard mockup lives inside .hero too) — put it 1200px below the
        fold, invisible without scrolling. top: anchors it to the visible
@@ -890,6 +905,10 @@
     .plan-card.featured {
       background: #F5F3FF;
       border: 1.5px solid rgba(79,70,229,0.4);
+      /* single-hue glow (was 3-color cyan/indigo/violet rainbow blur, reverted
+         for reading too AI-generated) — box-shadow, not a ::after pseudo, so
+         it can't wash over the card face (see 2a16167/0820e6b history). */
+      box-shadow: 0 0 24px 2px rgba(79,70,229,0.16), 0 0 40px 8px rgba(79,70,229,0.10);
     }
     .plan-label { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); }
     /* 2026-09-23 red-team fix: Pro 카드가 "즉시 구매 가능한 현재가"처럼 보이던 문제.
@@ -3033,10 +3052,13 @@
      이후: 3 element (status pill + h1 single + sub single + primary CTA + secondary text link). -->
 <main id="main-content">
 <section class="hero">
-  <!-- 2026-09-29: 사용자 반복 피드백 — "시각적 효과가 없다", 파티클/tilt/네온 revert
-       이후에도 3번째 동일 지적. Canva AI 이미지 생성으로 실제 그래픽 자산 추가
-       (MCP 연동). 파티클 물리 시뮬레이션 대신 정적 이미지 + 단순 float만 —
-       장식이 다시 "AI 템플릿" 처럼 보이지 않도록 모션 최소화. -->
+  <!-- 2026-09-30: 파티클 캔버스 재도입, 이전 버전(0820e6b, revert됨)과 톤 다름 —
+       "너무 AI스럽다" 피드백이 정확히 뭘 가리켰는지 재추정: 65노드 2-color(cyan+purple)
+       + 마우스 반발 물리 + 네온 3-color rainbow aura + 4-stop shimmer 조합이 "이펙트
+       총량"이 많고 채도가 높았음. 이번엔: 노드 수 1/3, 단색(인디고 단일톤), 마우스
+       인터랙션(반발 물리) 완전 제거 — 순수 ambient drift만, 결과 aura/shimmer도
+       단색·저채도로. -->
+  <canvas id="hero-particle-canvas" aria-hidden="true"></canvas>
   <picture class="hero-illustration" aria-hidden="true">
     <source srcset="./hero-illustration.webp" type="image/webp">
     <img src="./hero-illustration.jpg" alt="" loading="eager" width="1200" height="675">
@@ -4598,6 +4620,85 @@
     }, { passive: true });
   })();
 
+  /* ── HERO PARTICLE CANVAS (toned-down retry, 2026-09-30) ──
+     Prior version (commit 0820e6b, reverted): 65 nodes, 2 colors, mouse
+     repulsion physics, paired with a 3-color rainbow pricing aura and a
+     4-stop shimmer — read as "too AI-generated." This pass: ~1/3 the
+     nodes, single hue, no mouse interaction at all (pure ambient drift).
+     Skips entirely under prefers-reduced-motion. */
+  (function() {
+    var canvas = document.getElementById('hero-particle-canvas');
+    var hero = document.querySelector('.hero');
+    if (!canvas || !hero) return;
+    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    var ctx = canvas.getContext('2d');
+    var NODE_COUNT = 22;
+    var LINK_DIST = 120;
+    var nodes = [];
+    var w = 0, h = 0, raf = null;
+
+    function resize() {
+      var rect = hero.getBoundingClientRect();
+      w = canvas.width = rect.width;
+      h = canvas.height = Math.min(rect.height, 700);
+    }
+
+    function seed() {
+      nodes = [];
+      for (var i = 0; i < NODE_COUNT; i++) {
+        nodes.push({
+          x: Math.random() * w,
+          y: Math.random() * h,
+          vx: (Math.random() - 0.5) * 0.15,
+          vy: (Math.random() - 0.5) * 0.15
+        });
+      }
+    }
+
+    function step() {
+      ctx.clearRect(0, 0, w, h);
+      for (var i = 0; i < nodes.length; i++) {
+        var n = nodes[i];
+        n.x += n.vx; n.y += n.vy;
+        if (n.x < 0 || n.x > w) n.vx *= -1;
+        if (n.y < 0 || n.y > h) n.vy *= -1;
+        n.x = Math.max(0, Math.min(w, n.x));
+        n.y = Math.max(0, Math.min(h, n.y));
+      }
+      for (var a = 0; a < nodes.length; a++) {
+        for (var b = a + 1; b < nodes.length; b++) {
+          var dx = nodes[a].x - nodes[b].x, dy = nodes[a].y - nodes[b].y;
+          var d = Math.sqrt(dx * dx + dy * dy);
+          if (d < LINK_DIST) {
+            ctx.strokeStyle = 'rgba(79,70,229,' + (0.14 * (1 - d / LINK_DIST)) + ')';
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.moveTo(nodes[a].x, nodes[a].y);
+            ctx.lineTo(nodes[b].x, nodes[b].y);
+            ctx.stroke();
+          }
+        }
+      }
+      for (var j = 0; j < nodes.length; j++) {
+        ctx.fillStyle = 'rgba(79,70,229,0.45)';
+        ctx.beginPath();
+        ctx.arc(nodes[j].x, nodes[j].y, 1.8, 0, Math.PI * 2);
+        ctx.fill();
+      }
+      raf = requestAnimationFrame(step);
+    }
+
+    window.addEventListener('resize', function() {
+      cancelAnimationFrame(raf);
+      resize();
+      step();
+    }, { passive: true });
+
+    resize();
+    seed();
+    step();
+  })();
 
 </script>
 </body>
