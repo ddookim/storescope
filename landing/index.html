@@ -4130,7 +4130,7 @@
     // 지역변수라 여기선 ReferenceError — 실 URL 제출 시 xrayAnalyze() 전체가 여기서
     // throw 되어 progress bar/모달로 전혀 못 넘어가던 crash. 전역 window.STORESCOPE_API
     // 를 직접 참조하도록 교체 (deadManSwitch 와 동일 fallback 패턴).
-    if (!window.__xrWarmed) {
+    if (!window.__xrWarmed && !/trycloudflare\.com|localhost/.test(window.STORESCOPE_API || '')) {
       window.__xrWarmed = true;
       var _xrApiBase = window.STORESCOPE_API || 'https://api.storescope.com';
       fetch(_xrApiBase + '/health', { cache: 'no-store', mode: 'cors' })
