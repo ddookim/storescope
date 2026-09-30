@@ -584,26 +584,6 @@
     @media (prefers-reduced-motion: reduce) {
       #hero-particle-canvas { display: none; }
     }
-    /* bottom:-10% was measured against .hero's FULL height (1500px+, since the
-       big dashboard mockup lives inside .hero too) — put it 1200px below the
-       fold, invisible without scrolling. top: anchors it to the visible
-       text/card area instead (verified via puppeteer getBoundingClientRect). */
-    .hero-illustration {
-      position: absolute; z-index: 0; pointer-events: none;
-      top: 40px; right: -6%; width: 58%; max-width: 860px;
-      animation: heroIllustrationFloat 8s ease-in-out infinite;
-    }
-    .hero-illustration img { width: 100%; height: auto; display: block; }
-    @keyframes heroIllustrationFloat {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-14px); }
-    }
-    @media (max-width: 900px) {
-      .hero-illustration { width: 85%; opacity: 0.45; right: -14%; top: 90px; }
-    }
-    @media (prefers-reduced-motion: reduce) {
-      .hero-illustration { animation: none; }
-    }
     /* D+42 pass 6 (2026-09-10): eyebrow = typography-only caption (Linear/Anthropic 2026).
        이전: purple pill + pulse dot = 2023 AI template. 이제: uppercase muted micro-caption. */
     .hero-eyebrow {
@@ -3059,10 +3039,6 @@
        인터랙션(반발 물리) 완전 제거 — 순수 ambient drift만, 결과 aura/shimmer도
        단색·저채도로. -->
   <canvas id="hero-particle-canvas" aria-hidden="true"></canvas>
-  <picture class="hero-illustration" aria-hidden="true">
-    <source srcset="./hero-illustration.webp" type="image/webp">
-    <img src="./hero-illustration.jpg" alt="" loading="eager" width="1200" height="675">
-  </picture>
 <div class="hero-inner">
 <div class="hero-text">
   <div class="hero-eyebrow">
