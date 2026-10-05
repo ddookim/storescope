@@ -1,174 +1,174 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>StoreScope Weekly · 2026-W40</title>
+    <title>StoreScope Weekly · 2026-W41</title>
     <link>https://ddookim.github.io/storescope/digest-sample.html</link>
     <atom:link href="https://ddookim.github.io/storescope/feed.xml" rel="self" type="application/rss+xml"/>
-    <description>Newest DTC brand product launches from 50+ curated Shopify brands. Updated every Monday. Hot: Shoes (398), Semi Permanent Tattoo (161), Knit Tops (156), Sweaters (143), Bottoms (128).</description>
+    <description>Newest DTC brand product launches from 50+ curated Shopify brands. Updated every Monday. Hot: Semi Permanent Tattoo (171), Cloud Whip Blurring Lip Liner (14), Peel Off Lip Stain (8), Lip Bundle (7), Lip and Cheek Pudding (5).</description>
     <language>en-us</language>
-    <lastBuildDate>Mon, 28 Sep 2026 01:41:32 +0000</lastBuildDate>
-    <pubDate>Mon, 28 Sep 2026 01:41:32 +0000</pubDate>
+    <lastBuildDate>Mon, 05 Oct 2026 01:47:22 +0000</lastBuildDate>
+    <pubDate>Mon, 05 Oct 2026 01:47:22 +0000</pubDate>
     <ttl>10080</ttl>
     <generator>StoreScope pipeline/latest_products.py</generator>
     <item>
-      <title>Classic Straight-Fit Jean</title>
+      <title>Pencil Sharpener</title>
       <link>https://ddookim.github.io/storescope/digest-sample.html#p1</link>
-      <guid isPermaLink="false">everlane.com#m-btm-dnm-auth-strt-brn-men-s-core-size-range</guid>
-      <pubDate>Sat, 26 Sep 2026 18:10:14 -0700</pubDate>
-      <description>Everlane · Denim · $98.00 · 1.0d old</description>
-      <category>Denim</category>
+      <guid isPermaLink="false">colourpop.com#pencil-sharpener</guid>
+      <pubDate>Fri, 02 Oct 2026 11:11:31 -0700</pubDate>
+      <description>ColourPop · Makeup Tools &amp; Accessories · $5.00 · 2.3d old</description>
+      <category>Makeup Tools &amp; Accessories</category>
     </item>
     <item>
-      <title>Washable Silk High Rise Pant Set</title>
+      <title>Infinite Sparkle</title>
       <link>https://ddookim.github.io/storescope/digest-sample.html#p2</link>
-      <guid isPermaLink="false">lunya.co#womens-washable-silk-high-rise-pant-set-tranquil-white-frosted-lagoon</guid>
-      <pubDate>Sat, 26 Sep 2026 12:36:45 -0400</pubDate>
-      <description>Lunya · Sleep Sets · $288.00 · 1.4d old</description>
-      <category>Sleep Sets</category>
-    </item>
-    <item>
-      <title>Dreamy Death Mini Fridge</title>
-      <link>https://ddookim.github.io/storescope/digest-sample.html#p3</link>
-      <guid isPermaLink="false">liquiddeath.com#dreamy-death-mini-fridge</guid>
-      <pubDate>Sat, 26 Sep 2026 00:01:01 -0700</pubDate>
-      <description>Liquid Death · Misc · $1800.00 · 1.8d old</description>
-      <category>Misc</category>
-    </item>
-    <item>
-      <title>Women&#x27;s Allbirds Flip Flop - Dusty Pink</title>
-      <link>https://ddookim.github.io/storescope/digest-sample.html#p4</link>
-      <guid isPermaLink="false">allbirds.com#womens-allbirds-flip-flop-dusty-pink</guid>
-      <pubDate>Fri, 25 Sep 2026 16:58:13 -0700</pubDate>
-      <description>Allbirds · Shoes · $25.00 · 2.1d old</description>
-      <category>Shoes</category>
-    </item>
-    <item>
-      <title>Ridge Carry-On Lavender</title>
-      <link>https://ddookim.github.io/storescope/digest-sample.html#p5</link>
-      <guid isPermaLink="false">ridgewallet.com#ridge-carry-on-lavender</guid>
-      <pubDate>Fri, 25 Sep 2026 16:55:45 -0700</pubDate>
-      <description>Ridge · Travel · $345.00 · 2.1d old</description>
-      <category>Travel</category>
+      <guid isPermaLink="false">inkbox.com#infinite-sparkle-tattoo</guid>
+      <pubDate>Fri, 02 Oct 2026 10:40:07 -0700</pubDate>
+      <description>Inkbox · Semi Permanent Tattoo · $7.00 · 2.3d old</description>
+      <category>Semi Permanent Tattoo</category>
     </item>
     <item>
       <title>Glossy Pouch in Jet Lag Blue</title>
-      <link>https://ddookim.github.io/storescope/digest-sample.html#p6</link>
+      <link>https://ddookim.github.io/storescope/digest-sample.html#p3</link>
       <guid isPermaLink="false">summerfridays.com#glossy-pouch-in-jet-lag</guid>
       <pubDate>Fri, 25 Sep 2026 19:30:56 -0400</pubDate>
-      <description>Summer Fridays · Merch · $25.00 · 2.1d old</description>
+      <description>Summer Fridays · Merch · $25.00 · 9.1d old</description>
       <category>Merch</category>
     </item>
     <item>
-      <title>Build Your Own Makeup Bundle</title>
+      <title>Solar System</title>
+      <link>https://ddookim.github.io/storescope/digest-sample.html#p4</link>
+      <guid isPermaLink="false">inkbox.com#solar-system</guid>
+      <pubDate>Wed, 23 Sep 2026 12:59:07 -0700</pubDate>
+      <description>Wolf And Bear · Semi Permanent Tattoo · $20.00 · 11.2d old</description>
+      <category>Semi Permanent Tattoo</category>
+    </item>
+    <item>
+      <title>Midnight Fan</title>
+      <link>https://ddookim.github.io/storescope/digest-sample.html#p5</link>
+      <guid isPermaLink="false">inkbox.com#midnight-fan</guid>
+      <pubDate>Tue, 22 Sep 2026 09:40:26 -0700</pubDate>
+      <description>Floriane Tattoo · Semi Permanent Tattoo · $15.00 · 12.4d old</description>
+      <category>Semi Permanent Tattoo</category>
+    </item>
+    <item>
+      <title>The Liminal Dragon</title>
+      <link>https://ddookim.github.io/storescope/digest-sample.html#p6</link>
+      <guid isPermaLink="false">inkbox.com#the-liminal-dragon</guid>
+      <pubDate>Tue, 22 Sep 2026 09:40:25 -0700</pubDate>
+      <description>Symbol.supply · Semi Permanent Tattoo · $20.00 · 12.4d old</description>
+      <category>Semi Permanent Tattoo</category>
+    </item>
+    <item>
+      <title>Girl Scout Sparkables™</title>
       <link>https://ddookim.github.io/storescope/digest-sample.html#p7</link>
-      <guid isPermaLink="false">kyliecosmetics.com#build-your-own-makeup-bundle</guid>
-      <pubDate>Fri, 25 Sep 2026 13:05:21 -0700</pubDate>
-      <description>kylie-cosmetics · Bundle · $1.00 · 2.2d old</description>
-      <category>Bundle</category>
+      <guid isPermaLink="false">partakefoods.com#girl-scouts-sparkables</guid>
+      <pubDate>Sat, 12 Sep 2026 13:03:23 -0400</pubDate>
+      <description>Partake Foods · Cookies · — · 22.4d old</description>
+      <category>Cookies</category>
     </item>
     <item>
-      <title>Kosas Yellow Vanity Case</title>
+      <title>Key Lime</title>
       <link>https://ddookim.github.io/storescope/digest-sample.html#p8</link>
-      <guid isPermaLink="false">kosas.com#vanity-train-case</guid>
-      <pubDate>Fri, 25 Sep 2026 10:40:24 -0700</pubDate>
-      <description>Kosas Cosmetics · Bag · $48.00 · 2.3d old</description>
-      <category>Bag</category>
+      <guid isPermaLink="false">colourpop.com#key-lime-lip-balm</guid>
+      <pubDate>Thu, 10 Sep 2026 23:59:28 -0700</pubDate>
+      <description>Fourth Ray Beauty · Lip Balm · $8.00 · 23.8d old</description>
+      <category>Lip Balm</category>
     </item>
     <item>
-      <title>72-Piece Dinnerware + Flatware Set (Serves 8) - White / Polished</title>
+      <title>Mini Sun</title>
       <link>https://ddookim.github.io/storescope/digest-sample.html#p9</link>
-      <guid isPermaLink="false">misen.com#dinnerware-flatware-set-72-piece-white-polished</guid>
-      <pubDate>Fri, 25 Sep 2026 15:29:17 -0400</pubDate>
-      <description>Misen · Tableware · $999.00 · 2.3d old</description>
-      <category>Tableware</category>
+      <guid isPermaLink="false">inkbox.com#mini-sun-tattoo</guid>
+      <pubDate>Fri, 02 Oct 2026 10:40:04 -0700</pubDate>
+      <description>Inkbox · Semi Permanent Tattoo · $7.00 · 2.3d old</description>
+      <category>Semi Permanent Tattoo</category>
     </item>
     <item>
-      <title>Barbour Fleece Transport Jacket</title>
+      <title>Fire Flame</title>
       <link>https://ddookim.github.io/storescope/digest-sample.html#p10</link>
-      <guid isPermaLink="false">toddsnyder.com#barbour-transport-fleece-jacket-in-sagesage</guid>
-      <pubDate>Fri, 25 Sep 2026 10:56:53 -0400</pubDate>
-      <description>Barbour · Outerwear · $300.00 · 2.4d old</description>
-      <category>Outerwear</category>
+      <guid isPermaLink="false">inkbox.com#fire-flame-tattoo</guid>
+      <pubDate>Fri, 02 Oct 2026 10:39:58 -0700</pubDate>
+      <description>Inkbox · Semi Permanent Tattoo · $7.00 · 2.3d old</description>
+      <category>Semi Permanent Tattoo</category>
     </item>
     <item>
-      <title>CQP Stillo Sneaker</title>
+      <title>Infinite</title>
       <link>https://ddookim.github.io/storescope/digest-sample.html#p11</link>
-      <guid isPermaLink="false">toddsnyder.com#cqp-stillo-sneakerbrown</guid>
-      <pubDate>Fri, 25 Sep 2026 10:30:55 -0400</pubDate>
-      <description>CQP · Shoes · $559.00 · 2.5d old</description>
-      <category>Shoes</category>
+      <guid isPermaLink="false">inkbox.com#infinite-tattoo</guid>
+      <pubDate>Fri, 02 Oct 2026 10:39:55 -0700</pubDate>
+      <description>Inkbox · Semi Permanent Tattoo · $7.00 · 2.3d old</description>
+      <category>Semi Permanent Tattoo</category>
     </item>
     <item>
-      <title>Pomegranate Sparkle</title>
+      <title>Hollow Bow</title>
       <link>https://ddookim.github.io/storescope/digest-sample.html#p12</link>
-      <guid isPermaLink="false">drinkolipop.com#pomegranate-sparkle</guid>
-      <pubDate>Fri, 25 Sep 2026 05:03:57 -0700</pubDate>
-      <description>OLIPOP · 6g Fiber · $35.99 · 2.6d old</description>
-      <category>6g Fiber</category>
+      <guid isPermaLink="false">inkbox.com#hollow-bow-tattoo</guid>
+      <pubDate>Fri, 02 Oct 2026 10:39:49 -0700</pubDate>
+      <description>Inkbox · Semi Permanent Tattoo · $7.00 · 2.3d old</description>
+      <category>Semi Permanent Tattoo</category>
     </item>
     <item>
-      <title>The Bounce Besties Mini Leave-In Conditioner Spray + Full Size Curl-Defining Cream</title>
+      <title>Solid Bow</title>
       <link>https://ddookim.github.io/storescope/digest-sample.html#p13</link>
-      <guid isPermaLink="false">fentybeauty.com#the-bounce-besties-mini-leave-in-conditioner-spray-full-size-curl-defining-cream</guid>
-      <pubDate>Thu, 24 Sep 2026 16:49:41 -0700</pubDate>
-      <description>Fenty Hair · Hair Styling Products · $37.00 · 3.1d old</description>
-      <category>Hair Styling Products</category>
+      <guid isPermaLink="false">inkbox.com#solid-bow-tattoo</guid>
+      <pubDate>Fri, 02 Oct 2026 10:39:46 -0700</pubDate>
+      <description>Inkbox · Semi Permanent Tattoo · $7.00 · 2.3d old</description>
+      <category>Semi Permanent Tattoo</category>
     </item>
     <item>
-      <title>Jacques Solovière Leather Croc Stamp Loafer</title>
+      <title>Middle Finger</title>
       <link>https://ddookim.github.io/storescope/digest-sample.html#p14</link>
-      <guid isPermaLink="false">toddsnyder.com#jacques-black-croc-stamped-patent-calf-leatherblack</guid>
-      <pubDate>Thu, 24 Sep 2026 16:01:08 -0400</pubDate>
-      <description>Jacques Solovière · Shoes · $440.00 · 3.2d old</description>
-      <category>Shoes</category>
+      <guid isPermaLink="false">inkbox.com#middle-finger-tattoo</guid>
+      <pubDate>Fri, 02 Oct 2026 10:39:43 -0700</pubDate>
+      <description>Inkbox · Semi Permanent Tattoo · $7.00 · 2.3d old</description>
+      <category>Semi Permanent Tattoo</category>
     </item>
     <item>
-      <title>Gymshark Whitney Mid-Rise Leggings - Heavy Blue</title>
+      <title>Chrome Sparks</title>
       <link>https://ddookim.github.io/storescope/digest-sample.html#p15</link>
-      <guid isPermaLink="false">gymshark.com#gymshark-whitney-mid-rise-legging-leggings-blue-aw26</guid>
-      <pubDate>Thu, 24 Sep 2026 12:00:00 -0700</pubDate>
-      <description>Gymshark · Full Length · $54.00 · 3.3d old</description>
-      <category>Full Length</category>
+      <guid isPermaLink="false">inkbox.com#chrome-sparks-tattoo</guid>
+      <pubDate>Fri, 02 Oct 2026 10:39:41 -0700</pubDate>
+      <description>Inkbox · Semi Permanent Tattoo · $12.00 · 2.3d old</description>
+      <category>Semi Permanent Tattoo</category>
     </item>
     <item>
-      <title>Suede Derby Shoe</title>
+      <title>Crowned Queen</title>
       <link>https://ddookim.github.io/storescope/digest-sample.html#p16</link>
-      <guid isPermaLink="false">toddsnyder.com#ts-suede-city-derbytobacco</guid>
-      <pubDate>Thu, 24 Sep 2026 14:20:49 -0400</pubDate>
-      <description>Todd Snyder · Shoes · $398.00 · 3.3d old</description>
-      <category>Shoes</category>
+      <guid isPermaLink="false">inkbox.com#crowned-queen-tattoo</guid>
+      <pubDate>Fri, 02 Oct 2026 10:39:38 -0700</pubDate>
+      <description>Inkbox · Semi Permanent Tattoo · $7.00 · 2.3d old</description>
+      <category>Semi Permanent Tattoo</category>
     </item>
     <item>
-      <title>Carry the Universe</title>
+      <title>Crowned King</title>
       <link>https://ddookim.github.io/storescope/digest-sample.html#p17</link>
-      <guid isPermaLink="false">colourpop.com#carry-the-universe</guid>
-      <pubDate>Thu, 24 Sep 2026 09:25:24 -0700</pubDate>
-      <description>ColourPop · Gloss Bundle + Bag · $62.00 · 3.4d old</description>
-      <category>Gloss Bundle + Bag</category>
+      <guid isPermaLink="false">inkbox.com#crowned-king-tattoo</guid>
+      <pubDate>Fri, 02 Oct 2026 10:39:35 -0700</pubDate>
+      <description>Inkbox · Semi Permanent Tattoo · $7.00 · 2.3d old</description>
+      <category>Semi Permanent Tattoo</category>
     </item>
     <item>
-      <title>The Camden Pant in Rinsed Indigo Sashiko</title>
+      <title>Cin Cin II</title>
       <link>https://ddookim.github.io/storescope/digest-sample.html#p18</link>
-      <guid isPermaLink="false">taylorstitch.com#camden-pant-in-rinsed-indigo-sashiko-2608</guid>
-      <pubDate>Thu, 24 Sep 2026 08:30:37 -0700</pubDate>
-      <description>Taylor Stitch · Bottoms · $178.00 · 3.4d old</description>
-      <category>Bottoms</category>
+      <guid isPermaLink="false">inkbox.com#cin-cin-ii-tattoo</guid>
+      <pubDate>Fri, 02 Oct 2026 10:39:27 -0700</pubDate>
+      <description>Inkbox · Semi Permanent Tattoo · $7.00 · 2.3d old</description>
+      <category>Semi Permanent Tattoo</category>
     </item>
     <item>
-      <title>PLAY Lip Balm SPF 30 in Acai (GIFT)</title>
+      <title>Cin Cin I</title>
       <link>https://ddookim.github.io/storescope/digest-sample.html#p19</link>
-      <guid isPermaLink="false">supergoop.com#play-lip-balm-spf-30-12-value</guid>
-      <pubDate>Thu, 24 Sep 2026 07:15:24 -0400</pubDate>
-      <description>Supergoop! · Free Samples · — · 3.6d old</description>
-      <category>Free Samples</category>
+      <guid isPermaLink="false">inkbox.com#cin-cin-i-tattoo</guid>
+      <pubDate>Fri, 02 Oct 2026 10:39:23 -0700</pubDate>
+      <description>Inkbox · Semi Permanent Tattoo · $7.00 · 2.3d old</description>
+      <category>Semi Permanent Tattoo</category>
     </item>
     <item>
-      <title>John Hardy Curb Chain Necklace</title>
+      <title>Stuck on U</title>
       <link>https://ddookim.github.io/storescope/digest-sample.html#p20</link>
-      <guid isPermaLink="false">toddsnyder.com#curb-chain-necklace-sterling-silver-2-1mm-size-22silver</guid>
-      <pubDate>Wed, 23 Sep 2026 18:37:33 -0400</pubDate>
-      <description>John Hardy · Jewelry · $325.00 · 4.1d old</description>
-      <category>Jewelry</category>
+      <guid isPermaLink="false">colourpop.com#stuck-on-u</guid>
+      <pubDate>Thu, 01 Oct 2026 09:27:03 -0700</pubDate>
+      <description>ColourPop · Peel Off Lip Stain · $42.00 · 3.4d old</description>
+      <category>Peel Off Lip Stain</category>
     </item>
   </channel>
 </rss>

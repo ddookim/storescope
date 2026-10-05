@@ -1,82 +1,74 @@
 {
-  "generated_at": "2026-09-28T01:41:32.802236+00:00",
-  "week": "2026-W40",
+  "generated_at": "2026-10-05T01:47:22.676374+00:00",
+  "week": "2026-W41",
   "total_products_before_dedupe": null,
-  "total_after_dedupe": 2419,
+  "total_after_dedupe": 252,
   "top_products_returned": 20,
   "categories": [
     {
-      "product_type": "Shoes",
-      "product_count": 398,
-      "vendor_count": 8,
-      "top_vendors": [
-        "ASICS",
-        "Allbirds",
-        "CQP"
-      ]
-    },
-    {
       "product_type": "Semi Permanent Tattoo",
-      "product_count": 161,
-      "vendor_count": 27,
+      "product_count": 171,
+      "vendor_count": 22,
       "top_vendors": [
-        "Angelo R",
         "Beirxt",
-        "Burgercat"
+        "C.kritzelt",
+        "Cvan"
       ]
     },
     {
-      "product_type": "Knit Tops",
-      "product_count": 156,
+      "product_type": "Cloud Whip Blurring Lip Liner",
+      "product_count": 14,
       "vendor_count": 1,
       "top_vendors": [
-        "Everlane"
+        "ColourPop"
       ]
     },
     {
-      "product_type": "Sweaters",
-      "product_count": 143,
-      "vendor_count": 3,
-      "top_vendors": [
-        "Everlane",
-        "Lunya",
-        "Taylor Stitch"
-      ]
-    },
-    {
-      "product_type": "Bottoms",
-      "product_count": 128,
-      "vendor_count": 3,
-      "top_vendors": [
-        "Everlane",
-        "Lunya",
-        "Taylor Stitch"
-      ]
-    },
-    {
-      "product_type": "EDC",
-      "product_count": 107,
-      "vendor_count": 3,
-      "top_vendors": [
-        "Ridge",
-        "The Ridge",
-        "The Ridge Wallet"
-      ]
-    },
-    {
-      "product_type": "Full Length",
-      "product_count": 97,
+      "product_type": "Peel Off Lip Stain",
+      "product_count": 8,
       "vendor_count": 1,
       "top_vendors": [
-        "Gymshark"
+        "ColourPop"
       ]
     },
     {
-      "product_type": "Denim",
-      "product_count": 79,
+      "product_type": "Lip Bundle",
+      "product_count": 7,
       "vendor_count": 1,
       "top_vendors": [
-        "Everlane"
+        "ColourPop"
+      ]
+    },
+    {
+      "product_type": "Lip and Cheek Pudding",
+      "product_count": 5,
+      "vendor_count": 1,
+      "top_vendors": [
+        "ColourPop"
+      ]
+    },
+    {
+      "product_type": "Cloud Whip Duo",
+      "product_count": 5,
+      "vendor_count": 1,
+      "top_vendors": [
+        "ColourPop"
+      ]
+    },
+    {
+      "product_type": "Lip Gloss Duo",
+      "product_count": 4,
+      "vendor_count": 1,
+      "top_vendors": [
+        "ColourPop"
+      ]
+    },
+    {
+      "product_type": "Merch",
+      "product_count": 4,
+      "vendor_count": 1,
+      "top_vendors": [
+        "Summer Fridays"
       ]
     }
   ]
