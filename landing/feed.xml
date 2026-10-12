@@ -1,174 +1,70 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>StoreScope Weekly · 2026-W41</title>
+    <title>StoreScope Weekly · 2026-W42</title>
     <link>https://ddookim.github.io/storescope/digest-sample.html</link>
     <atom:link href="https://ddookim.github.io/storescope/feed.xml" rel="self" type="application/rss+xml"/>
-    <description>Newest DTC brand product launches from 50+ curated Shopify brands. Updated every Monday. Hot: Semi Permanent Tattoo (171), Cloud Whip Blurring Lip Liner (14), Peel Off Lip Stain (8), Lip Bundle (7), Lip and Cheek Pudding (5).</description>
+    <description>Newest DTC brand product launches from 50+ curated Shopify brands. Updated every Monday. Hot: Finished Goods (3), Protein (2), Uncategorized (1), Personal Fragrance (1).</description>
     <language>en-us</language>
-    <lastBuildDate>Mon, 05 Oct 2026 01:47:22 +0000</lastBuildDate>
-    <pubDate>Mon, 05 Oct 2026 01:47:22 +0000</pubDate>
+    <lastBuildDate>Mon, 12 Oct 2026 02:12:27 +0000</lastBuildDate>
+    <pubDate>Mon, 12 Oct 2026 02:12:27 +0000</pubDate>
     <ttl>10080</ttl>
     <generator>StoreScope pipeline/latest_products.py</generator>
     <item>
-      <title>Pencil Sharpener</title>
+      <title>12 Days of Discovery Advent Calendar</title>
       <link>https://ddookim.github.io/storescope/digest-sample.html#p1</link>
-      <guid isPermaLink="false">colourpop.com#pencil-sharpener</guid>
-      <pubDate>Fri, 02 Oct 2026 11:11:31 -0700</pubDate>
-      <description>ColourPop · Makeup Tools &amp; Accessories · $5.00 · 2.3d old</description>
-      <category>Makeup Tools &amp; Accessories</category>
+      <guid isPermaLink="false">maisonlouismarie.com#advent-calendar</guid>
+      <pubDate>Wed, 07 Oct 2026 13:25:40 -0700</pubDate>
+      <description>Maison Louis Marie · Finished Goods · $160.00 · 4.2d old</description>
+      <category>Finished Goods</category>
     </item>
     <item>
-      <title>Infinite Sparkle</title>
+      <title>Eau de Parfum Gift Set</title>
       <link>https://ddookim.github.io/storescope/digest-sample.html#p2</link>
-      <guid isPermaLink="false">inkbox.com#infinite-sparkle-tattoo</guid>
-      <pubDate>Fri, 02 Oct 2026 10:40:07 -0700</pubDate>
-      <description>Inkbox · Semi Permanent Tattoo · $7.00 · 2.3d old</description>
-      <category>Semi Permanent Tattoo</category>
+      <guid isPermaLink="false">maisonlouismarie.com#eau-de-parfum-gift-set</guid>
+      <pubDate>Mon, 05 Oct 2026 12:04:44 -0700</pubDate>
+      <description>Maison Louis Marie® Official Site · Uncategorized · $100.00 · 6.3d old</description>
+      <category>Uncategorized</category>
     </item>
     <item>
-      <title>Glossy Pouch in Jet Lag Blue</title>
+      <title>Everyday Plant Protein</title>
       <link>https://ddookim.github.io/storescope/digest-sample.html#p3</link>
-      <guid isPermaLink="false">summerfridays.com#glossy-pouch-in-jet-lag</guid>
-      <pubDate>Fri, 25 Sep 2026 19:30:56 -0400</pubDate>
-      <description>Summer Fridays · Merch · $25.00 · 9.1d old</description>
-      <category>Merch</category>
+      <guid isPermaLink="false">gainful.com#everyday-plant-protein-42</guid>
+      <pubDate>Wed, 23 Sep 2026 13:26:53 -0400</pubDate>
+      <description>Gainful · Protein · $87.99 · 18.4d old</description>
+      <category>Protein</category>
     </item>
     <item>
-      <title>Solar System</title>
+      <title>Eau De Parfum Gift Set - No.04 Bois de Balincourt</title>
       <link>https://ddookim.github.io/storescope/digest-sample.html#p4</link>
-      <guid isPermaLink="false">inkbox.com#solar-system</guid>
-      <pubDate>Wed, 23 Sep 2026 12:59:07 -0700</pubDate>
-      <description>Wolf And Bear · Semi Permanent Tattoo · $20.00 · 11.2d old</description>
-      <category>Semi Permanent Tattoo</category>
+      <guid isPermaLink="false">maisonlouismarie.com#edp-no-04-gift-set</guid>
+      <pubDate>Mon, 05 Oct 2026 11:58:30 -0700</pubDate>
+      <description>Maison Louis Marie · Finished Goods · $100.00 · 6.3d old</description>
+      <category>Finished Goods</category>
     </item>
     <item>
-      <title>Midnight Fan</title>
+      <title>Eau De Parfum Gift Set - No.15 Vanille Infinie</title>
       <link>https://ddookim.github.io/storescope/digest-sample.html#p5</link>
-      <guid isPermaLink="false">inkbox.com#midnight-fan</guid>
-      <pubDate>Tue, 22 Sep 2026 09:40:26 -0700</pubDate>
-      <description>Floriane Tattoo · Semi Permanent Tattoo · $15.00 · 12.4d old</description>
-      <category>Semi Permanent Tattoo</category>
+      <guid isPermaLink="false">maisonlouismarie.com#edp-no-15-gift-set</guid>
+      <pubDate>Mon, 05 Oct 2026 11:58:11 -0700</pubDate>
+      <description>Maison Louis Marie · Finished Goods · $100.00 · 6.3d old</description>
+      <category>Finished Goods</category>
     </item>
     <item>
-      <title>The Liminal Dragon</title>
+      <title>Everyday Whey Protein</title>
       <link>https://ddookim.github.io/storescope/digest-sample.html#p6</link>
-      <guid isPermaLink="false">inkbox.com#the-liminal-dragon</guid>
-      <pubDate>Tue, 22 Sep 2026 09:40:25 -0700</pubDate>
-      <description>Symbol.supply · Semi Permanent Tattoo · $20.00 · 12.4d old</description>
-      <category>Semi Permanent Tattoo</category>
+      <guid isPermaLink="false">gainful.com#everyday-whey-protein-42</guid>
+      <pubDate>Wed, 23 Sep 2026 13:17:14 -0400</pubDate>
+      <description>Gainful · Protein · $87.99 · 18.4d old</description>
+      <category>Protein</category>
     </item>
     <item>
-      <title>Girl Scout Sparkables™</title>
+      <title>Mini Travel Set - No.15 Vanille Infinie</title>
       <link>https://ddookim.github.io/storescope/digest-sample.html#p7</link>
-      <guid isPermaLink="false">partakefoods.com#girl-scouts-sparkables</guid>
-      <pubDate>Sat, 12 Sep 2026 13:03:23 -0400</pubDate>
-      <description>Partake Foods · Cookies · — · 22.4d old</description>
-      <category>Cookies</category>
-    </item>
-    <item>
-      <title>Key Lime</title>
-      <link>https://ddookim.github.io/storescope/digest-sample.html#p8</link>
-      <guid isPermaLink="false">colourpop.com#key-lime-lip-balm</guid>
-      <pubDate>Thu, 10 Sep 2026 23:59:28 -0700</pubDate>
-      <description>Fourth Ray Beauty · Lip Balm · $8.00 · 23.8d old</description>
-      <category>Lip Balm</category>
-    </item>
-    <item>
-      <title>Mini Sun</title>
-      <link>https://ddookim.github.io/storescope/digest-sample.html#p9</link>
-      <guid isPermaLink="false">inkbox.com#mini-sun-tattoo</guid>
-      <pubDate>Fri, 02 Oct 2026 10:40:04 -0700</pubDate>
-      <description>Inkbox · Semi Permanent Tattoo · $7.00 · 2.3d old</description>
-      <category>Semi Permanent Tattoo</category>
-    </item>
-    <item>
-      <title>Fire Flame</title>
-      <link>https://ddookim.github.io/storescope/digest-sample.html#p10</link>
-      <guid isPermaLink="false">inkbox.com#fire-flame-tattoo</guid>
-      <pubDate>Fri, 02 Oct 2026 10:39:58 -0700</pubDate>
-      <description>Inkbox · Semi Permanent Tattoo · $7.00 · 2.3d old</description>
-      <category>Semi Permanent Tattoo</category>
-    </item>
-    <item>
-      <title>Infinite</title>
-      <link>https://ddookim.github.io/storescope/digest-sample.html#p11</link>
-      <guid isPermaLink="false">inkbox.com#infinite-tattoo</guid>
-      <pubDate>Fri, 02 Oct 2026 10:39:55 -0700</pubDate>
-      <description>Inkbox · Semi Permanent Tattoo · $7.00 · 2.3d old</description>
-      <category>Semi Permanent Tattoo</category>
-    </item>
-    <item>
-      <title>Hollow Bow</title>
-      <link>https://ddookim.github.io/storescope/digest-sample.html#p12</link>
-      <guid isPermaLink="false">inkbox.com#hollow-bow-tattoo</guid>
-      <pubDate>Fri, 02 Oct 2026 10:39:49 -0700</pubDate>
-      <description>Inkbox · Semi Permanent Tattoo · $7.00 · 2.3d old</description>
-      <category>Semi Permanent Tattoo</category>
-    </item>
-    <item>
-      <title>Solid Bow</title>
-      <link>https://ddookim.github.io/storescope/digest-sample.html#p13</link>
-      <guid isPermaLink="false">inkbox.com#solid-bow-tattoo</guid>
-      <pubDate>Fri, 02 Oct 2026 10:39:46 -0700</pubDate>
-      <description>Inkbox · Semi Permanent Tattoo · $7.00 · 2.3d old</description>
-      <category>Semi Permanent Tattoo</category>
-    </item>
-    <item>
-      <title>Middle Finger</title>
-      <link>https://ddookim.github.io/storescope/digest-sample.html#p14</link>
-      <guid isPermaLink="false">inkbox.com#middle-finger-tattoo</guid>
-      <pubDate>Fri, 02 Oct 2026 10:39:43 -0700</pubDate>
-      <description>Inkbox · Semi Permanent Tattoo · $7.00 · 2.3d old</description>
-      <category>Semi Permanent Tattoo</category>
-    </item>
-    <item>
-      <title>Chrome Sparks</title>
-      <link>https://ddookim.github.io/storescope/digest-sample.html#p15</link>
-      <guid isPermaLink="false">inkbox.com#chrome-sparks-tattoo</guid>
-      <pubDate>Fri, 02 Oct 2026 10:39:41 -0700</pubDate>
-      <description>Inkbox · Semi Permanent Tattoo · $12.00 · 2.3d old</description>
-      <category>Semi Permanent Tattoo</category>
-    </item>
-    <item>
-      <title>Crowned Queen</title>
-      <link>https://ddookim.github.io/storescope/digest-sample.html#p16</link>
-      <guid isPermaLink="false">inkbox.com#crowned-queen-tattoo</guid>
-      <pubDate>Fri, 02 Oct 2026 10:39:38 -0700</pubDate>
-      <description>Inkbox · Semi Permanent Tattoo · $7.00 · 2.3d old</description>
-      <category>Semi Permanent Tattoo</category>
-    </item>
-    <item>
-      <title>Crowned King</title>
-      <link>https://ddookim.github.io/storescope/digest-sample.html#p17</link>
-      <guid isPermaLink="false">inkbox.com#crowned-king-tattoo</guid>
-      <pubDate>Fri, 02 Oct 2026 10:39:35 -0700</pubDate>
-      <description>Inkbox · Semi Permanent Tattoo · $7.00 · 2.3d old</description>
-      <category>Semi Permanent Tattoo</category>
-    </item>
-    <item>
-      <title>Cin Cin II</title>
-      <link>https://ddookim.github.io/storescope/digest-sample.html#p18</link>
-      <guid isPermaLink="false">inkbox.com#cin-cin-ii-tattoo</guid>
-      <pubDate>Fri, 02 Oct 2026 10:39:27 -0700</pubDate>
-      <description>Inkbox · Semi Permanent Tattoo · $7.00 · 2.3d old</description>
-      <category>Semi Permanent Tattoo</category>
-    </item>
-    <item>
-      <title>Cin Cin I</title>
-      <link>https://ddookim.github.io/storescope/digest-sample.html#p19</link>
-      <guid isPermaLink="false">inkbox.com#cin-cin-i-tattoo</guid>
-      <pubDate>Fri, 02 Oct 2026 10:39:23 -0700</pubDate>
-      <description>Inkbox · Semi Permanent Tattoo · $7.00 · 2.3d old</description>
-      <category>Semi Permanent Tattoo</category>
-    </item>
-    <item>
-      <title>Stuck on U</title>
-      <link>https://ddookim.github.io/storescope/digest-sample.html#p20</link>
-      <guid isPermaLink="false">colourpop.com#stuck-on-u</guid>
-      <pubDate>Thu, 01 Oct 2026 09:27:03 -0700</pubDate>
-      <description>ColourPop · Peel Off Lip Stain · $42.00 · 3.4d old</description>
-      <category>Peel Off Lip Stain</category>
+      <guid isPermaLink="false">maisonlouismarie.com#mini-travel-set-no-15-vanille-infinie</guid>
+      <pubDate>Fri, 18 Sep 2026 12:47:21 -0700</pubDate>
+      <description>Maison Louis Marie · Personal Fragrance · $36.00 · 23.3d old</description>
+      <category>Personal Fragrance</category>
     </item>
   </channel>
 </rss>

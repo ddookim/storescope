@@ -1,74 +1,40 @@
 {
-  "generated_at": "2026-10-05T01:47:22.676374+00:00",
-  "week": "2026-W41",
+  "generated_at": "2026-10-12T02:12:27.894375+00:00",
+  "week": "2026-W42",
   "total_products_before_dedupe": null,
-  "total_after_dedupe": 252,
-  "top_products_returned": 20,
+  "total_after_dedupe": 7,
+  "top_products_returned": 7,
   "categories": [
     {
-      "product_type": "Semi Permanent Tattoo",
-      "product_count": 171,
-      "vendor_count": 22,
+      "product_type": "Finished Goods",
+      "product_count": 3,
+      "vendor_count": 1,
       "top_vendors": [
-        "Beirxt",
-        "C.kritzelt",
-        "Cvan"
+        "Maison Louis Marie"
       ]
     },
     {
-      "product_type": "Cloud Whip Blurring Lip Liner",
-      "product_count": 14,
+      "product_type": "Protein",
+      "product_count": 2,
       "vendor_count": 1,
       "top_vendors": [
-        "ColourPop"
+        "Gainful"
       ]
     },
     {
-      "product_type": "Peel Off Lip Stain",
-      "product_count": 8,
+      "product_type": "Uncategorized",
+      "product_count": 1,
       "vendor_count": 1,
       "top_vendors": [
-        "ColourPop"
+        "Maison Louis Marie® Official Site"
       ]
     },
     {
-      "product_type": "Lip Bundle",
-      "product_count": 7,
+      "product_type": "Personal Fragrance",
+      "product_count": 1,
       "vendor_count": 1,
       "top_vendors": [
-        "ColourPop"
-      ]
-    },
-    {
-      "product_type": "Lip and Cheek Pudding",
-      "product_count": 5,
-      "vendor_count": 1,
-      "top_vendors": [
-        "ColourPop"
-      ]
-    },
-    {
-      "product_type": "Cloud Whip Duo",
-      "product_count": 5,
-      "vendor_count": 1,
-      "top_vendors": [
-        "ColourPop"
-      ]
-    },
-    {
-      "product_type": "Lip Gloss Duo",
-      "product_count": 4,
-      "vendor_count": 1,
-      "top_vendors": [
-        "ColourPop"
-      ]
-    },
-    {
-      "product_type": "Merch",
-      "product_count": 4,
-      "vendor_count": 1,
-      "top_vendors": [
-        "Summer Fridays"
+        "Maison Louis Marie"
       ]
     }
   ]
