@@ -1,70 +1,174 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>StoreScope Weekly · 2026-W42</title>
+    <title>StoreScope Weekly · 2026-W43</title>
     <link>https://ddookim.github.io/storescope/digest-sample.html</link>
     <atom:link href="https://ddookim.github.io/storescope/feed.xml" rel="self" type="application/rss+xml"/>
-    <description>Newest DTC brand product launches from 50+ curated Shopify brands. Updated every Monday. Hot: Finished Goods (3), Protein (2), Uncategorized (1), Personal Fragrance (1).</description>
+    <description>Newest DTC brand product launches from 50+ curated Shopify brands. Updated every Monday. Hot: Womens (34), Christmas (29), Tea & Coffee (25), Mens (19), Napery (17).</description>
     <language>en-us</language>
-    <lastBuildDate>Mon, 12 Oct 2026 02:12:27 +0000</lastBuildDate>
-    <pubDate>Mon, 12 Oct 2026 02:12:27 +0000</pubDate>
+    <lastBuildDate>Mon, 19 Oct 2026 01:00:51 +0000</lastBuildDate>
+    <pubDate>Mon, 19 Oct 2026 01:00:51 +0000</pubDate>
     <ttl>10080</ttl>
     <generator>StoreScope pipeline/latest_products.py</generator>
     <item>
-      <title>12 Days of Discovery Advent Calendar</title>
+      <title>ComfortStretch Brief</title>
       <link>https://ddookim.github.io/storescope/digest-sample.html#p1</link>
-      <guid isPermaLink="false">maisonlouismarie.com#advent-calendar</guid>
-      <pubDate>Wed, 07 Oct 2026 13:25:40 -0700</pubDate>
-      <description>Maison Louis Marie · Finished Goods · $160.00 · 4.2d old</description>
-      <category>Finished Goods</category>
+      <guid isPermaLink="false">thirdlove.com#comfortstretch-brief-storm</guid>
+      <pubDate>Fri, 16 Oct 2026 16:21:14 -0700</pubDate>
+      <description>Thirdlove · Panties · $24.00 · 2.1d old</description>
+      <category>Panties</category>
     </item>
     <item>
-      <title>Eau de Parfum Gift Set</title>
+      <title>Sasquatch Peak Hat</title>
       <link>https://ddookim.github.io/storescope/digest-sample.html#p2</link>
-      <guid isPermaLink="false">maisonlouismarie.com#eau-de-parfum-gift-set</guid>
-      <pubDate>Mon, 05 Oct 2026 12:04:44 -0700</pubDate>
-      <description>Maison Louis Marie® Official Site · Uncategorized · $100.00 · 6.3d old</description>
-      <category>Uncategorized</category>
+      <guid isPermaLink="false">tentree.com#sasquatch-peak-hat-agave-green-hammock</guid>
+      <pubDate>Fri, 16 Oct 2026 12:50:49 -0700</pubDate>
+      <description>tentree · Accessories · $31.50 · 2.2d old</description>
+      <category>Accessories</category>
     </item>
     <item>
-      <title>Everyday Plant Protein</title>
+      <title>Mona Mug Purple/Blue</title>
       <link>https://ddookim.github.io/storescope/digest-sample.html#p3</link>
-      <guid isPermaLink="false">gainful.com#everyday-plant-protein-42</guid>
-      <pubDate>Wed, 23 Sep 2026 13:26:53 -0400</pubDate>
-      <description>Gainful · Protein · $87.99 · 18.4d old</description>
-      <category>Protein</category>
+      <guid isPermaLink="false">maxwellandwilliams.com#uk0109</guid>
+      <pubDate>Thu, 15 Oct 2026 17:10:40 +1100</pubDate>
+      <description>Maxwell &amp; Williams · Tea &amp; Coffee · $9.95 · 3.8d old</description>
+      <category>Tea &amp; Coffee</category>
     </item>
     <item>
-      <title>Eau De Parfum Gift Set - No.04 Bois de Balincourt</title>
+      <title>Mini Gift Set Curator</title>
       <link>https://ddookim.github.io/storescope/digest-sample.html#p4</link>
-      <guid isPermaLink="false">maisonlouismarie.com#edp-no-04-gift-set</guid>
-      <pubDate>Mon, 05 Oct 2026 11:58:30 -0700</pubDate>
-      <description>Maison Louis Marie · Finished Goods · $100.00 · 6.3d old</description>
-      <category>Finished Goods</category>
+      <guid isPermaLink="false">tatcha.com#mini-gift-set-curator</guid>
+      <pubDate>Tue, 13 Oct 2026 18:06:54 -0700</pubDate>
+      <description>Tatcha · Set · — · 5.0d old</description>
+      <category>Set</category>
     </item>
     <item>
-      <title>Eau De Parfum Gift Set - No.15 Vanille Infinie</title>
+      <title>Stash Mat - Pinot Fade (Leatherman x North Drinkware)</title>
       <link>https://ddookim.github.io/storescope/digest-sample.html#p5</link>
-      <guid isPermaLink="false">maisonlouismarie.com#edp-no-15-gift-set</guid>
-      <pubDate>Mon, 05 Oct 2026 11:58:11 -0700</pubDate>
-      <description>Maison Louis Marie · Finished Goods · $100.00 · 6.3d old</description>
-      <category>Finished Goods</category>
+      <guid isPermaLink="false">rumpl.com#stash-mat-leatherman-x-north</guid>
+      <pubDate>Tue, 13 Oct 2026 08:55:00 -0700</pubDate>
+      <description>Rumpl · Stash Mat · $89.95 · 5.4d old</description>
+      <category>Stash Mat</category>
     </item>
     <item>
-      <title>Everyday Whey Protein</title>
+      <title>SlimLink Case | iPhone 15 Pro V2 | Sun</title>
       <link>https://ddookim.github.io/storescope/digest-sample.html#p6</link>
-      <guid isPermaLink="false">gainful.com#everyday-whey-protein-42</guid>
-      <pubDate>Wed, 23 Sep 2026 13:17:14 -0400</pubDate>
-      <description>Gainful · Protein · $87.99 · 18.4d old</description>
-      <category>Protein</category>
+      <guid isPermaLink="false">peakdesign.com#everyday-case-iphone-15-pro-sun</guid>
+      <pubDate>Fri, 09 Oct 2026 12:17:41 -0700</pubDate>
+      <description>Peak Design · Mobile · $34.95 · 9.2d old</description>
+      <category>Mobile</category>
     </item>
     <item>
-      <title>Mini Travel Set - No.15 Vanille Infinie</title>
+      <title>Weekend Getaway</title>
       <link>https://ddookim.github.io/storescope/digest-sample.html#p7</link>
-      <guid isPermaLink="false">maisonlouismarie.com#mini-travel-set-no-15-vanille-infinie</guid>
-      <pubDate>Fri, 18 Sep 2026 12:47:21 -0700</pubDate>
-      <description>Maison Louis Marie · Personal Fragrance · $36.00 · 23.3d old</description>
-      <category>Personal Fragrance</category>
+      <guid isPermaLink="false">tentree.com#weekend-getaway</guid>
+      <pubDate>Wed, 07 Oct 2026 07:37:08 -0700</pubDate>
+      <description>Climate+ · Climate+ · $4.50 · 11.4d old</description>
+      <category>Climate+</category>
+    </item>
+    <item>
+      <title>Silken Sunscreen SPF 35</title>
+      <link>https://ddookim.github.io/storescope/digest-sample.html#p8</link>
+      <guid isPermaLink="false">tatcha.com#silken-pore-perfecting-sunscreen-spf-35</guid>
+      <pubDate>Thu, 01 Oct 2026 16:16:22 -0700</pubDate>
+      <description>Tatcha US DEV · Sunscreen · $72.00 · 17.1d old</description>
+      <category>Sunscreen</category>
+    </item>
+    <item>
+      <title>Prudence De Marchi Dancing Flowers 180g Candle &amp; Dif Set Gift Boxed</title>
+      <link>https://ddookim.github.io/storescope/digest-sample.html#p9</link>
+      <guid isPermaLink="false">maxwellandwilliams.com#jg0228</guid>
+      <pubDate>Thu, 01 Oct 2026 08:40:36 +1000</pubDate>
+      <description>Love Anna x · Fragrance · $59.95 · 18.1d old</description>
+      <category>Fragrance</category>
+    </item>
+    <item>
+      <title>ComfortStretch Bikini</title>
+      <link>https://ddookim.github.io/storescope/digest-sample.html#p10</link>
+      <guid isPermaLink="false">thirdlove.com#comfortstretch-bikini-storm</guid>
+      <pubDate>Fri, 16 Oct 2026 12:55:31 -0700</pubDate>
+      <description>Thirdlove · Panties · $22.00 · 2.2d old</description>
+      <category>Panties</category>
+    </item>
+    <item>
+      <title>ComfortStretch Thong</title>
+      <link>https://ddookim.github.io/storescope/digest-sample.html#p11</link>
+      <guid isPermaLink="false">thirdlove.com#comfortstretch-thong-storm</guid>
+      <pubDate>Fri, 16 Oct 2026 12:55:29 -0700</pubDate>
+      <description>Thirdlove · Panties · $20.00 · 2.2d old</description>
+      <category>Panties</category>
+    </item>
+    <item>
+      <title>Zero Edge® Invisible Hipster</title>
+      <link>https://ddookim.github.io/storescope/digest-sample.html#p12</link>
+      <guid isPermaLink="false">thirdlove.com#zero-edge-invisible-hipster-chianti</guid>
+      <pubDate>Fri, 16 Oct 2026 12:55:28 -0700</pubDate>
+      <description>Thirdlove · Panties · $22.00 · 2.2d old</description>
+      <category>Panties</category>
+    </item>
+    <item>
+      <title>Zero Edge® Invisible Thong</title>
+      <link>https://ddookim.github.io/storescope/digest-sample.html#p13</link>
+      <guid isPermaLink="false">thirdlove.com#zero-edge-invisible-thong-chianti</guid>
+      <pubDate>Fri, 16 Oct 2026 12:55:27 -0700</pubDate>
+      <description>Thirdlove · Panties · $20.00 · 2.2d old</description>
+      <category>Panties</category>
+    </item>
+    <item>
+      <title>Zero Edge® Wireless Push-Up Bra</title>
+      <link>https://ddookim.github.io/storescope/digest-sample.html#p14</link>
+      <guid isPermaLink="false">thirdlove.com#zero-edge-wireless-push-up-bra-chianti</guid>
+      <pubDate>Fri, 16 Oct 2026 12:55:25 -0700</pubDate>
+      <description>Thirdlove · Bra · $59.00 · 2.2d old</description>
+      <category>Bra</category>
+    </item>
+    <item>
+      <title>24/7® Classic Smoothing Scoop Wireless Bra</title>
+      <link>https://ddookim.github.io/storescope/digest-sample.html#p15</link>
+      <guid isPermaLink="false">thirdlove.com#24-7-classic-smoothing-scoop-wireless-bra-leopard</guid>
+      <pubDate>Thu, 15 Oct 2026 12:38:11 -0700</pubDate>
+      <description>Thirdlove · Sleepwear · $39.00 · 3.2d old</description>
+      <category>Sleepwear</category>
+    </item>
+    <item>
+      <title>24/7® Classic Adjustable Strap Wireless Bra</title>
+      <link>https://ddookim.github.io/storescope/digest-sample.html#p16</link>
+      <guid isPermaLink="false">thirdlove.com#24-7-classic-adjustable-strap-wireless-bra-black</guid>
+      <pubDate>Thu, 15 Oct 2026 12:32:03 -0700</pubDate>
+      <description>Thirdlove · Sleepwear · $48.00 · 3.2d old</description>
+      <category>Sleepwear</category>
+    </item>
+    <item>
+      <title>Mona Mug Green/Blue</title>
+      <link>https://ddookim.github.io/storescope/digest-sample.html#p17</link>
+      <guid isPermaLink="false">maxwellandwilliams.com#uk0108</guid>
+      <pubDate>Thu, 15 Oct 2026 17:10:40 +1100</pubDate>
+      <description>Maxwell &amp; Williams · Tea &amp; Coffee · $9.95 · 3.8d old</description>
+      <category>Tea &amp; Coffee</category>
+    </item>
+    <item>
+      <title>Mona Mug Grey/Blue</title>
+      <link>https://ddookim.github.io/storescope/digest-sample.html#p18</link>
+      <guid isPermaLink="false">maxwellandwilliams.com#uk0107</guid>
+      <pubDate>Thu, 15 Oct 2026 17:10:39 +1100</pubDate>
+      <description>Maxwell &amp; Williams · Tea &amp; Coffee · $9.95 · 3.8d old</description>
+      <category>Tea &amp; Coffee</category>
+    </item>
+    <item>
+      <title>Mona Mug Brown/Blue</title>
+      <link>https://ddookim.github.io/storescope/digest-sample.html#p19</link>
+      <guid isPermaLink="false">maxwellandwilliams.com#uk0106</guid>
+      <pubDate>Thu, 15 Oct 2026 17:10:36 +1100</pubDate>
+      <description>Maxwell &amp; Williams · Tea &amp; Coffee · $9.95 · 3.8d old</description>
+      <category>Tea &amp; Coffee</category>
+    </item>
+    <item>
+      <title>Barn Friends Kids Apron &amp; Cookie Set Chook Gift Boxed</title>
+      <link>https://ddookim.github.io/storescope/digest-sample.html#p20</link>
+      <guid isPermaLink="false">maxwellandwilliams.com#te0009</guid>
+      <pubDate>Thu, 15 Oct 2026 17:10:36 +1100</pubDate>
+      <description>Maxwell &amp; Williams · Childrens range · $39.95 · 3.8d old</description>
+      <category>Childrens range</category>
     </item>
   </channel>
 </rss>
