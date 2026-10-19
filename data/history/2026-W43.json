@@ -1,0 +1,93 @@
+[
+  {
+    "domain": "maisonlouismarie.com",
+    "title": "12 Days of Discovery Advent Calendar",
+    "handle": "advent-calendar",
+    "product_type": "Finished Goods",
+    "product_type_raw": "Finished Goods",
+    "vendor": "Maison Louis Marie",
+    "vendor_raw": "Maison Louis Marie",
+    "published_at": "2026-10-07T13:25:40-07:00",
+    "price": 160.0,
+    "image_url": "https://cdn.shopify.com/s/files/1/0203/7348/files/260825_MLM_Ecomm_AdventCalender_01583-AS.jpg?v=1791289176",
+    "age_days": 4.2
+  },
+  {
+    "domain": "maisonlouismarie.com",
+    "title": "Eau de Parfum Gift Set",
+    "handle": "eau-de-parfum-gift-set",
+    "product_type": "Uncategorized",
+    "product_type_raw": "",
+    "vendor": "Maison Louis Marie® Official Site",
+    "vendor_raw": "Maison Louis Marie® Official Site - Fragrances ",
+    "published_at": "2026-10-05T12:04:44-07:00",
+    "price": 100.0,
+    "image_url": "https://cdn.shopify.com/s/files/1/0203/7348/files/260825_MLM_Ecomm_No04_EDP_01620-AS_web.jpg?v=1791226594",
+    "age_days": 6.3
+  },
+  {
+    "domain": "gainful.com",
+    "title": "Everyday Plant Protein",
+    "handle": "everyday-plant-protein-42",
+    "product_type": "Protein",
+    "product_type_raw": "Protein",
+    "vendor": "Gainful",
+    "vendor_raw": "Gainful",
+    "published_at": "2026-09-23T13:26:53-04:00",
+    "price": 87.99,
+    "image_url": "https://cdn.shopify.com/s/files/1/0628/6475/2779/files/plant42.png?v=1790184401",
+    "age_days": 18.4
+  },
+  {
+    "domain": "maisonlouismarie.com",
+    "title": "Eau De Parfum Gift Set - No.04 Bois de Balincourt",
+    "handle": "edp-no-04-gift-set",
+    "product_type": "Finished Goods",
+    "product_type_raw": "Finished Goods",
+    "vendor": "Maison Louis Marie",
+    "vendor_raw": "Maison Louis Marie",
+    "published_at": "2026-10-05T11:58:30-07:00",
+    "price": 100.0,
+    "image_url": "https://cdn.shopify.com/s/files/1/0203/7348/files/260825_MLM_Ecomm_No04_EDP_01620-AS_web.jpg?v=1791226594",
+    "age_days": 6.3
+  },
+  {
+    "domain": "maisonlouismarie.com",
+    "title": "Eau De Parfum Gift Set - No.15 Vanille Infinie",
+    "handle": "edp-no-15-gift-set",
+    "product_type": "Finished Goods",
+    "product_type_raw": "Finished Goods",
+    "vendor": "Maison Louis Marie",
+    "vendor_raw": "Maison Louis Marie",
+    "published_at": "2026-10-05T11:58:11-07:00",
+    "price": 100.0,
+    "image_url": "https://cdn.shopify.com/s/files/1/0203/7348/files/260825_MLM_Ecomm_No15_EDP_01599-AS_EXPPLATE_2.jpg?v=1791215321",
+    "age_days": 6.3
+  },
+  {
+    "domain": "gainful.com",
+    "title": "Everyday Whey Protein",
+    "handle": "everyday-whey-protein-42",
+    "product_type": "Protein",
+    "product_type_raw": "Protein",
+    "vendor": "Gainful",
+    "vendor_raw": "Gainful",
+    "published_at": "2026-09-23T13:17:14-04:00",
+    "price": 87.99,
+    "image_url": "https://cdn.shopify.com/s/files/1/0628/6475/2779/files/whey42.png?v=1790184296",
+    "age_days": 18.4
+  },
+  {
+    "domain": "maisonlouismarie.com",
+    "title": "Mini Travel Set - No.15 Vanille Infinie",
+    "handle": "mini-travel-set-no-15-vanille-infinie",
+    "product_type": "Personal Fragrance",
+    "product_type_raw": "Personal Fragrance",
+    "vendor": "Maison Louis Marie",
+    "vendor_raw": "Maison Louis Marie",
+    "published_at": "2026-09-18T12:47:21-07:00",
+    "price": 36.0,
+    "image_url": "https://cdn.shopify.com/s/files/1/0203/7348/files/260825_MLM_Ecomm_No15_MiniTravelSet_01615-AS.jpg?v=1790004689",
+    "age_days": 23.3
+  }
+]

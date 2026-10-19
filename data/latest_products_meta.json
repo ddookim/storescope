@@ -1,40 +1,72 @@
 {
-  "generated_at": "2026-10-12T02:12:27.894375+00:00",
-  "week": "2026-W42",
+  "generated_at": "2026-10-19T01:00:51.263712+00:00",
+  "week": "2026-W43",
   "total_products_before_dedupe": null,
-  "total_after_dedupe": 7,
-  "top_products_returned": 7,
+  "total_after_dedupe": 235,
+  "top_products_returned": 20,
   "categories": [
     {
-      "product_type": "Finished Goods",
-      "product_count": 3,
+      "product_type": "Womens",
+      "product_count": 34,
       "vendor_count": 1,
       "top_vendors": [
-        "Maison Louis Marie"
+        "tentree"
       ]
     },
     {
-      "product_type": "Protein",
-      "product_count": 2,
+      "product_type": "Christmas",
+      "product_count": 29,
       "vendor_count": 1,
       "top_vendors": [
-        "Gainful"
+        "Maxwell & Williams"
       ]
     },
     {
-      "product_type": "Uncategorized",
-      "product_count": 1,
+      "product_type": "Tea & Coffee",
+      "product_count": 25,
       "vendor_count": 1,
       "top_vendors": [
-        "Maison Louis Marie® Official Site"
+        "Maxwell & Williams"
       ]
     },
     {
-      "product_type": "Personal Fragrance",
-      "product_count": 1,
+      "product_type": "Mens",
+      "product_count": 19,
       "vendor_count": 1,
       "top_vendors": [
-        "Maison Louis Marie"
+        "tentree"
+      ]
+    },
+    {
+      "product_type": "Napery",
+      "product_count": 17,
+      "vendor_count": 1,
+      "top_vendors": [
+        "Maxwell & Williams"
+      ]
+    },
+    {
+      "product_type": "Outdoor Leisure",
+      "product_count": 12,
+      "vendor_count": 1,
+      "top_vendors": [
+        "Maxwell & Williams"
+      ]
+    },
+    {
+      "product_type": "Glassware",
+      "product_count": 10,
+      "vendor_count": 1,
+      "top_vendors": [
+        "Maxwell & Williams"
+      ]
+    },
+    {
+      "product_type": "Servingware",
+      "product_count": 10,
+      "vendor_count": 1,
+      "top_vendors": [
+        "Maxwell & Williams"
       ]
     }
   ]
