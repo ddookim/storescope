@@ -1,72 +1,81 @@
 {
-  "generated_at": "2026-10-19T01:00:51.263712+00:00",
-  "week": "2026-W43",
+  "generated_at": "2026-10-26T01:09:37.300637+00:00",
+  "week": "2026-W44",
   "total_products_before_dedupe": null,
-  "total_after_dedupe": 235,
+  "total_after_dedupe": 1168,
   "top_products_returned": 20,
   "categories": [
     {
-      "product_type": "Womens",
-      "product_count": 34,
+      "product_type": "Full Length",
+      "product_count": 51,
       "vendor_count": 1,
       "top_vendors": [
-        "tentree"
+        "Gymshark"
       ]
     },
     {
-      "product_type": "Christmas",
-      "product_count": 29,
-      "vendor_count": 1,
+      "product_type": "Uncategorized",
+      "product_count": 50,
+      "vendor_count": 4,
       "top_vendors": [
-        "Maxwell & Williams"
+        "Dry Farm Wines",
+        "Gymshark",
+        "Harry's US"
       ]
     },
     {
-      "product_type": "Tea & Coffee",
-      "product_count": 25,
-      "vendor_count": 1,
+      "product_type": "Accessories",
+      "product_count": 49,
+      "vendor_count": 2,
       "top_vendors": [
-        "Maxwell & Williams"
+        "Casper",
+        "Fashion Nova"
       ]
     },
     {
-      "product_type": "Mens",
-      "product_count": 19,
-      "vendor_count": 1,
+      "product_type": "Outerwear",
+      "product_count": 48,
+      "vendor_count": 10,
       "top_vendors": [
-        "tentree"
+        "Barbour",
+        "Fashion Nova",
+        "OK Mens"
       ]
     },
     {
-      "product_type": "Napery",
-      "product_count": 17,
-      "vendor_count": 1,
+      "product_type": "Shoes",
+      "product_count": 43,
+      "vendor_count": 11,
       "top_vendors": [
-        "Maxwell & Williams"
+        "ASICS",
+        "CQP",
+        "Fashion Nova"
       ]
     },
     {
-      "product_type": "Outdoor Leisure",
-      "product_count": 12,
-      "vendor_count": 1,
+      "product_type": "Jewelry",
+      "product_count": 43,
+      "vendor_count": 3,
       "top_vendors": [
-        "Maxwell & Williams"
+        "Fashion Nova",
+        "Miansai",
+        "Samuel Gassmann"
       ]
     },
     {
-      "product_type": "Glassware",
-      "product_count": 10,
+      "product_type": "T Shirt",
+      "product_count": 41,
       "vendor_count": 1,
       "top_vendors": [
-        "Maxwell & Williams"
+        "Gymshark"
       ]
     },
     {
-      "product_type": "Servingware",
-      "product_count": 10,
+      "product_type": "Training",
+      "product_count": 41,
       "vendor_count": 1,
       "top_vendors": [
-        "Maxwell & Williams"
+        "Gymshark"
       ]
     }
   ]
