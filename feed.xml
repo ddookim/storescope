@@ -1,174 +1,174 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>StoreScope Weekly · 2026-W43</title>
+    <title>StoreScope Weekly · 2026-W44</title>
     <link>https://ddookim.github.io/storescope/digest-sample.html</link>
     <atom:link href="https://ddookim.github.io/storescope/feed.xml" rel="self" type="application/rss+xml"/>
-    <description>Newest DTC brand product launches from 50+ curated Shopify brands. Updated every Monday. Hot: Womens (34), Christmas (29), Tea & Coffee (25), Mens (19), Napery (17).</description>
+    <description>Newest DTC brand product launches from 50+ curated Shopify brands. Updated every Monday. Hot: Full Length (51), Uncategorized (50), Accessories (49), Outerwear (48), Shoes (43).</description>
     <language>en-us</language>
-    <lastBuildDate>Mon, 19 Oct 2026 01:00:51 +0000</lastBuildDate>
-    <pubDate>Mon, 19 Oct 2026 01:00:51 +0000</pubDate>
+    <lastBuildDate>Mon, 26 Oct 2026 01:09:37 +0000</lastBuildDate>
+    <pubDate>Mon, 26 Oct 2026 01:09:37 +0000</pubDate>
     <ttl>10080</ttl>
     <generator>StoreScope pipeline/latest_products.py</generator>
     <item>
-      <title>ComfortStretch Brief</title>
+      <title>Office Muse Airflow Jumpsuit - Olive</title>
       <link>https://ddookim.github.io/storescope/digest-sample.html#p1</link>
-      <guid isPermaLink="false">thirdlove.com#comfortstretch-brief-storm</guid>
-      <pubDate>Fri, 16 Oct 2026 16:21:14 -0700</pubDate>
-      <description>Thirdlove · Panties · $24.00 · 2.1d old</description>
-      <category>Panties</category>
+      <guid isPermaLink="false">fashionnova.com#office-muse-airflow-jumpsuit-fncolorname-olive</guid>
+      <pubDate>Sun, 25 Oct 2026 15:49:15 -0700</pubDate>
+      <description>Fashion Nova · Jumpsuits · $27.99 · 0.1d old</description>
+      <category>Jumpsuits</category>
     </item>
     <item>
-      <title>Sasquatch Peak Hat</title>
+      <title>Blanket Shirt - Outerworn</title>
       <link>https://ddookim.github.io/storescope/digest-sample.html#p2</link>
-      <guid isPermaLink="false">tentree.com#sasquatch-peak-hat-agave-green-hammock</guid>
-      <pubDate>Fri, 16 Oct 2026 12:50:49 -0700</pubDate>
-      <description>tentree · Accessories · $31.50 · 2.2d old</description>
+      <guid isPermaLink="false">outerknown.com#blanket-shirt-p_abytxcoa-resale</guid>
+      <pubDate>Fri, 23 Oct 2026 20:00:14 -0700</pubDate>
+      <description>Trove · Shirts · $125.00 · 1.9d old</description>
+      <category>Shirts</category>
+    </item>
+    <item>
+      <title>Voyage Cord Overalls - FINAL SALE</title>
+      <link>https://ddookim.github.io/storescope/digest-sample.html#p3</link>
+      <guid isPermaLink="false">outerknown.com#voyage-cord-overalls-copy</guid>
+      <pubDate>Fri, 23 Oct 2026 16:37:47 -0700</pubDate>
+      <description>OK Womens · Jumpsuits · $118.80 · 2.1d old</description>
+      <category>Jumpsuits</category>
+    </item>
+    <item>
+      <title>UNIMATIC UT1-GMT Watch</title>
+      <link>https://ddookim.github.io/storescope/digest-sample.html#p4</link>
+      <guid isPermaLink="false">toddsnyder.com#unimatic-ut1-gmtblack</guid>
+      <pubDate>Fri, 23 Oct 2026 14:13:01 -0400</pubDate>
+      <description>UNIMATIC · Watches · $620.00 · 2.3d old</description>
+      <category>Watches</category>
+    </item>
+    <item>
+      <title>Cologne Sample Card</title>
+      <link>https://ddookim.github.io/storescope/digest-sample.html#p5</link>
+      <guid isPermaLink="false">harrys.com#cologne-sample-card</guid>
+      <pubDate>Fri, 23 Oct 2026 11:55:37 -0400</pubDate>
+      <description>Harry&#x27;s US · Body skincare 5003 · $2.00 · 2.4d old</description>
+      <category>Body skincare 5003</category>
+    </item>
+    <item>
+      <title>Rose Bloom Supple Kiss Lip Glaze Deluxe Sample</title>
+      <link>https://ddookim.github.io/storescope/digest-sample.html#p6</link>
+      <guid isPermaLink="false">kyliecosmetics.com#rose-bloom-supple-kiss-lip-glaze-deluxe-sample</guid>
+      <pubDate>Fri, 23 Oct 2026 07:43:27 -0700</pubDate>
+      <description>kylie-samples · Sample · $5.00 · 2.4d old</description>
+      <category>Sample</category>
+    </item>
+    <item>
+      <title>Acne Routine</title>
+      <link>https://ddookim.github.io/storescope/digest-sample.html#p7</link>
+      <guid isPermaLink="false">tula.com#acne-routine</guid>
+      <pubDate>Fri, 23 Oct 2026 10:45:09 -0400</pubDate>
+      <description>TULA · Bundles &amp; Sets · $119.00 · 2.4d old</description>
+      <category>Bundles &amp; Sets</category>
+    </item>
+    <item>
+      <title>Brushed Cashmere Scarf</title>
+      <link>https://ddookim.github.io/storescope/digest-sample.html#p8</link>
+      <guid isPermaLink="false">toddsnyder.com#brushed-cashmere-scarfgrey</guid>
+      <pubDate>Fri, 23 Oct 2026 10:02:30 -0400</pubDate>
+      <description>Todd Snyder · Ts Coldweather · $228.00 · 2.5d old</description>
+      <category>Ts Coldweather</category>
+    </item>
+    <item>
+      <title>Gymshark Essentials Pocket Tote - Shadow Blue</title>
+      <link>https://ddookim.github.io/storescope/digest-sample.html#p9</link>
+      <guid isPermaLink="false">gymshark.com#gymshark-essentials-pocket-tote-bags-blue-aw26</guid>
+      <pubDate>Fri, 23 Oct 2026 02:00:00 -0700</pubDate>
+      <description>Gymshark · Tote · $38.00 · 2.7d old</description>
+      <category>Tote</category>
+    </item>
+    <item>
+      <title>Winter Kissed Matte Lip Kit &amp; Hybrid Blush Duo</title>
+      <link>https://ddookim.github.io/storescope/digest-sample.html#p10</link>
+      <guid isPermaLink="false">kyliecosmetics.com#winter-kissed-matte-lip-kit-hybrid-blush-duo</guid>
+      <pubDate>Thu, 22 Oct 2026 11:14:08 -0700</pubDate>
+      <description>kylie-cosmetics · Bundle · $52.20 · 3.3d old</description>
+      <category>Bundle</category>
+    </item>
+    <item>
+      <title>TS &amp; New Balance T500 Sneaker</title>
+      <link>https://ddookim.github.io/storescope/digest-sample.html#p11</link>
+      <guid isPermaLink="false">toddsnyder.com#ts-x-nb-t500desert-beige</guid>
+      <pubDate>Thu, 22 Oct 2026 07:15:34 -0400</pubDate>
+      <description>Todd Snyder + New Balance · Shoes · $130.00 · 3.6d old</description>
+      <category>Shoes</category>
+    </item>
+    <item>
+      <title>Hand Stitched Velvet Quilted Sham Set (Java)</title>
+      <link>https://ddookim.github.io/storescope/digest-sample.html#p12</link>
+      <guid isPermaLink="false">parachutehome.com#hand-stitched-velvet-quilted-sham-java</guid>
+      <pubDate>Wed, 21 Oct 2026 16:28:31 -0700</pubDate>
+      <description>Parachute Home · Sham Sets · $79.00 · 4.1d old</description>
+      <category>Sham Sets</category>
+    </item>
+    <item>
+      <title>The Holiday Look Set</title>
+      <link>https://ddookim.github.io/storescope/digest-sample.html#p13</link>
+      <guid isPermaLink="false">glossier.com#the-holiday-look-set</guid>
+      <pubDate>Wed, 21 Oct 2026 16:49:53 -0400</pubDate>
+      <description>Glossier · Makeup · $70.00 · 4.2d old</description>
+      <category>Makeup</category>
+    </item>
+    <item>
+      <title>A Mix of Our Red Wines</title>
+      <link>https://ddookim.github.io/storescope/digest-sample.html#p14</link>
+      <guid isPermaLink="false">dryfarmwines.com#a-mix-of-our-red-wines-38</guid>
+      <pubDate>Wed, 21 Oct 2026 10:51:54 -0700</pubDate>
+      <description>Dry Farm Wines · Uncategorized · $256.00 · 4.3d old</description>
+      <category>Uncategorized</category>
+    </item>
+    <item>
+      <title>The Checked KIDS Pyjamas Jumpsuit | Red</title>
+      <link>https://ddookim.github.io/storescope/digest-sample.html#p15</link>
+      <guid isPermaLink="false">onepiece.com#the-checked-kids-pyjamas-red</guid>
+      <pubDate>Wed, 21 Oct 2026 13:07:03 +0200</pubDate>
+      <description>Onepiece · Jumpsuit · $111.00 · 4.6d old</description>
+      <category>Jumpsuit</category>
+    </item>
+    <item>
+      <title>The Northwood Hooded Puffer</title>
+      <link>https://ddookim.github.io/storescope/digest-sample.html#p16</link>
+      <guid isPermaLink="false">outerknown.com#the-northwood-hooded-puffer-storm</guid>
+      <pubDate>Tue, 20 Oct 2026 13:09:24 -0700</pubDate>
+      <description>OK Mens · Outerwear · $398.00 · 5.2d old</description>
+      <category>Outerwear</category>
+    </item>
+    <item>
+      <title>Carry-On Essentials</title>
+      <link>https://ddookim.github.io/storescope/digest-sample.html#p17</link>
+      <guid isPermaLink="false">sundayriley.com#carry-on-essentials</guid>
+      <pubDate>Tue, 20 Oct 2026 14:58:13 -0500</pubDate>
+      <description>Sunday Riley · Uncategorized · $115.00 · 5.2d old</description>
+      <category>Uncategorized</category>
+    </item>
+    <item>
+      <title>Miansai Orson Bungee Bracelet</title>
+      <link>https://ddookim.github.io/storescope/digest-sample.html#p18</link>
+      <guid isPermaLink="false">toddsnyder.com#miansai-orson-bungee-bracelet-in-blackblack</guid>
+      <pubDate>Fri, 16 Oct 2026 14:23:28 -0400</pubDate>
+      <description>Miansai · Jewelry · $75.00 · 9.3d old</description>
+      <category>Jewelry</category>
+    </item>
+    <item>
+      <title>The Humbug Hush Cap</title>
+      <link>https://ddookim.github.io/storescope/digest-sample.html#p19</link>
+      <guid isPermaLink="false">casper.com#humbug-hush-cap</guid>
+      <pubDate>Fri, 16 Oct 2026 12:19:13 -0400</pubDate>
+      <description>Casper · Accessories · $50.00 · 9.4d old</description>
       <category>Accessories</category>
     </item>
     <item>
       <title>Mona Mug Purple/Blue</title>
-      <link>https://ddookim.github.io/storescope/digest-sample.html#p3</link>
+      <link>https://ddookim.github.io/storescope/digest-sample.html#p20</link>
       <guid isPermaLink="false">maxwellandwilliams.com#uk0109</guid>
       <pubDate>Thu, 15 Oct 2026 17:10:40 +1100</pubDate>
-      <description>Maxwell &amp; Williams · Tea &amp; Coffee · $9.95 · 3.8d old</description>
+      <description>Maxwell &amp; Williams · Tea &amp; Coffee · $9.95 · 10.8d old</description>
       <category>Tea &amp; Coffee</category>
-    </item>
-    <item>
-      <title>Mini Gift Set Curator</title>
-      <link>https://ddookim.github.io/storescope/digest-sample.html#p4</link>
-      <guid isPermaLink="false">tatcha.com#mini-gift-set-curator</guid>
-      <pubDate>Tue, 13 Oct 2026 18:06:54 -0700</pubDate>
-      <description>Tatcha · Set · — · 5.0d old</description>
-      <category>Set</category>
-    </item>
-    <item>
-      <title>Stash Mat - Pinot Fade (Leatherman x North Drinkware)</title>
-      <link>https://ddookim.github.io/storescope/digest-sample.html#p5</link>
-      <guid isPermaLink="false">rumpl.com#stash-mat-leatherman-x-north</guid>
-      <pubDate>Tue, 13 Oct 2026 08:55:00 -0700</pubDate>
-      <description>Rumpl · Stash Mat · $89.95 · 5.4d old</description>
-      <category>Stash Mat</category>
-    </item>
-    <item>
-      <title>SlimLink Case | iPhone 15 Pro V2 | Sun</title>
-      <link>https://ddookim.github.io/storescope/digest-sample.html#p6</link>
-      <guid isPermaLink="false">peakdesign.com#everyday-case-iphone-15-pro-sun</guid>
-      <pubDate>Fri, 09 Oct 2026 12:17:41 -0700</pubDate>
-      <description>Peak Design · Mobile · $34.95 · 9.2d old</description>
-      <category>Mobile</category>
-    </item>
-    <item>
-      <title>Weekend Getaway</title>
-      <link>https://ddookim.github.io/storescope/digest-sample.html#p7</link>
-      <guid isPermaLink="false">tentree.com#weekend-getaway</guid>
-      <pubDate>Wed, 07 Oct 2026 07:37:08 -0700</pubDate>
-      <description>Climate+ · Climate+ · $4.50 · 11.4d old</description>
-      <category>Climate+</category>
-    </item>
-    <item>
-      <title>Silken Sunscreen SPF 35</title>
-      <link>https://ddookim.github.io/storescope/digest-sample.html#p8</link>
-      <guid isPermaLink="false">tatcha.com#silken-pore-perfecting-sunscreen-spf-35</guid>
-      <pubDate>Thu, 01 Oct 2026 16:16:22 -0700</pubDate>
-      <description>Tatcha US DEV · Sunscreen · $72.00 · 17.1d old</description>
-      <category>Sunscreen</category>
-    </item>
-    <item>
-      <title>Prudence De Marchi Dancing Flowers 180g Candle &amp; Dif Set Gift Boxed</title>
-      <link>https://ddookim.github.io/storescope/digest-sample.html#p9</link>
-      <guid isPermaLink="false">maxwellandwilliams.com#jg0228</guid>
-      <pubDate>Thu, 01 Oct 2026 08:40:36 +1000</pubDate>
-      <description>Love Anna x · Fragrance · $59.95 · 18.1d old</description>
-      <category>Fragrance</category>
-    </item>
-    <item>
-      <title>ComfortStretch Bikini</title>
-      <link>https://ddookim.github.io/storescope/digest-sample.html#p10</link>
-      <guid isPermaLink="false">thirdlove.com#comfortstretch-bikini-storm</guid>
-      <pubDate>Fri, 16 Oct 2026 12:55:31 -0700</pubDate>
-      <description>Thirdlove · Panties · $22.00 · 2.2d old</description>
-      <category>Panties</category>
-    </item>
-    <item>
-      <title>ComfortStretch Thong</title>
-      <link>https://ddookim.github.io/storescope/digest-sample.html#p11</link>
-      <guid isPermaLink="false">thirdlove.com#comfortstretch-thong-storm</guid>
-      <pubDate>Fri, 16 Oct 2026 12:55:29 -0700</pubDate>
-      <description>Thirdlove · Panties · $20.00 · 2.2d old</description>
-      <category>Panties</category>
-    </item>
-    <item>
-      <title>Zero Edge® Invisible Hipster</title>
-      <link>https://ddookim.github.io/storescope/digest-sample.html#p12</link>
-      <guid isPermaLink="false">thirdlove.com#zero-edge-invisible-hipster-chianti</guid>
-      <pubDate>Fri, 16 Oct 2026 12:55:28 -0700</pubDate>
-      <description>Thirdlove · Panties · $22.00 · 2.2d old</description>
-      <category>Panties</category>
-    </item>
-    <item>
-      <title>Zero Edge® Invisible Thong</title>
-      <link>https://ddookim.github.io/storescope/digest-sample.html#p13</link>
-      <guid isPermaLink="false">thirdlove.com#zero-edge-invisible-thong-chianti</guid>
-      <pubDate>Fri, 16 Oct 2026 12:55:27 -0700</pubDate>
-      <description>Thirdlove · Panties · $20.00 · 2.2d old</description>
-      <category>Panties</category>
-    </item>
-    <item>
-      <title>Zero Edge® Wireless Push-Up Bra</title>
-      <link>https://ddookim.github.io/storescope/digest-sample.html#p14</link>
-      <guid isPermaLink="false">thirdlove.com#zero-edge-wireless-push-up-bra-chianti</guid>
-      <pubDate>Fri, 16 Oct 2026 12:55:25 -0700</pubDate>
-      <description>Thirdlove · Bra · $59.00 · 2.2d old</description>
-      <category>Bra</category>
-    </item>
-    <item>
-      <title>24/7® Classic Smoothing Scoop Wireless Bra</title>
-      <link>https://ddookim.github.io/storescope/digest-sample.html#p15</link>
-      <guid isPermaLink="false">thirdlove.com#24-7-classic-smoothing-scoop-wireless-bra-leopard</guid>
-      <pubDate>Thu, 15 Oct 2026 12:38:11 -0700</pubDate>
-      <description>Thirdlove · Sleepwear · $39.00 · 3.2d old</description>
-      <category>Sleepwear</category>
-    </item>
-    <item>
-      <title>24/7® Classic Adjustable Strap Wireless Bra</title>
-      <link>https://ddookim.github.io/storescope/digest-sample.html#p16</link>
-      <guid isPermaLink="false">thirdlove.com#24-7-classic-adjustable-strap-wireless-bra-black</guid>
-      <pubDate>Thu, 15 Oct 2026 12:32:03 -0700</pubDate>
-      <description>Thirdlove · Sleepwear · $48.00 · 3.2d old</description>
-      <category>Sleepwear</category>
-    </item>
-    <item>
-      <title>Mona Mug Green/Blue</title>
-      <link>https://ddookim.github.io/storescope/digest-sample.html#p17</link>
-      <guid isPermaLink="false">maxwellandwilliams.com#uk0108</guid>
-      <pubDate>Thu, 15 Oct 2026 17:10:40 +1100</pubDate>
-      <description>Maxwell &amp; Williams · Tea &amp; Coffee · $9.95 · 3.8d old</description>
-      <category>Tea &amp; Coffee</category>
-    </item>
-    <item>
-      <title>Mona Mug Grey/Blue</title>
-      <link>https://ddookim.github.io/storescope/digest-sample.html#p18</link>
-      <guid isPermaLink="false">maxwellandwilliams.com#uk0107</guid>
-      <pubDate>Thu, 15 Oct 2026 17:10:39 +1100</pubDate>
-      <description>Maxwell &amp; Williams · Tea &amp; Coffee · $9.95 · 3.8d old</description>
-      <category>Tea &amp; Coffee</category>
-    </item>
-    <item>
-      <title>Mona Mug Brown/Blue</title>
-      <link>https://ddookim.github.io/storescope/digest-sample.html#p19</link>
-      <guid isPermaLink="false">maxwellandwilliams.com#uk0106</guid>
-      <pubDate>Thu, 15 Oct 2026 17:10:36 +1100</pubDate>
-      <description>Maxwell &amp; Williams · Tea &amp; Coffee · $9.95 · 3.8d old</description>
-      <category>Tea &amp; Coffee</category>
-    </item>
-    <item>
-      <title>Barn Friends Kids Apron &amp; Cookie Set Chook Gift Boxed</title>
-      <link>https://ddookim.github.io/storescope/digest-sample.html#p20</link>
-      <guid isPermaLink="false">maxwellandwilliams.com#te0009</guid>
-      <pubDate>Thu, 15 Oct 2026 17:10:36 +1100</pubDate>
-      <description>Maxwell &amp; Williams · Childrens range · $39.95 · 3.8d old</description>
-      <category>Childrens range</category>
     </item>
   </channel>
 </rss>
