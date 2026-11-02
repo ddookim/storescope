@@ -1,81 +1,83 @@
 {
-  "generated_at": "2026-10-26T01:09:37.300637+00:00",
-  "week": "2026-W44",
+  "generated_at": "2026-11-02T02:20:33.910793+00:00",
+  "week": "2026-W45",
   "total_products_before_dedupe": null,
-  "total_after_dedupe": 1168,
+  "total_after_dedupe": 365,
   "top_products_returned": 20,
   "categories": [
     {
-      "product_type": "Full Length",
-      "product_count": 51,
-      "vendor_count": 1,
+      "product_type": "EDC",
+      "product_count": 46,
+      "vendor_count": 2,
       "top_vendors": [
-        "Gymshark"
+        "Ridge",
+        "The Ridge Wallet"
       ]
     },
     {
       "product_type": "Uncategorized",
-      "product_count": 50,
-      "vendor_count": 4,
+      "product_count": 31,
+      "vendor_count": 8,
       "top_vendors": [
-        "Dry Farm Wines",
-        "Gymshark",
+        "BYOMA",
+        "ColourPop",
         "Harry's US"
       ]
     },
     {
-      "product_type": "Accessories",
-      "product_count": 49,
-      "vendor_count": 2,
+      "product_type": "Wovens",
+      "product_count": 21,
+      "vendor_count": 1,
       "top_vendors": [
-        "Casper",
-        "Fashion Nova"
+        "Taylor Stitch"
       ]
     },
     {
       "product_type": "Outerwear",
-      "product_count": 48,
-      "vendor_count": 10,
+      "product_count": 19,
+      "vendor_count": 4,
       "top_vendors": [
-        "Barbour",
-        "Fashion Nova",
-        "OK Mens"
+        "OK Mens",
+        "OK Womens",
+        "Taylor Stitch"
       ]
     },
     {
-      "product_type": "Shoes",
-      "product_count": 43,
-      "vendor_count": 11,
-      "top_vendors": [
-        "ASICS",
-        "CQP",
-        "Fashion Nova"
-      ]
-    },
-    {
-      "product_type": "Jewelry",
-      "product_count": 43,
+      "product_type": "Sweaters",
+      "product_count": 19,
       "vendor_count": 3,
       "top_vendors": [
-        "Fashion Nova",
-        "Miansai",
-        "Samuel Gassmann"
+        "Lunya",
+        "Taylor Stitch",
+        "Trove"
       ]
     },
     {
-      "product_type": "T Shirt",
-      "product_count": 41,
-      "vendor_count": 1,
+      "product_type": "Tees",
+      "product_count": 18,
+      "vendor_count": 2,
       "top_vendors": [
-        "Gymshark"
+        "Lunya",
+        "Trove"
       ]
     },
     {
-      "product_type": "Training",
-      "product_count": 41,
-      "vendor_count": 1,
+      "product_type": "Woven Shirts",
+      "product_count": 14,
+      "vendor_count": 3,
       "top_vendors": [
-        "Gymshark"
+        "OK Mens",
+        "OK Womens",
+        "Trove"
+      ]
+    },
+    {
+      "product_type": "Bottoms",
+      "product_count": 13,
+      "vendor_count": 2,
+      "top_vendors": [
+        "Lunya",
+        "Taylor Stitch"
       ]
     }
   ]
