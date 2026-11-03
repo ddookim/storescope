@@ -240,11 +240,12 @@ else
     mark_warn "scroll-to-top button 누락"
 fi
 
-# 23. D+23 — Mock API mode (window.fetch wrap + global demo banner)
-if grep -q 'setupMockAPI' "$FILE" && grep -q 'STORESCOPE_DEMO_MODE' "$FILE"; then
-    mark_pass "Mock API mode (window.fetch wrap + DEMO_MODE flag)"
+# 23. Global fetch mock must stay removed (2026-09-22 red-team P0: masked backend
+#     failures and bypassed payment blocking). Regression guard, inverted from D+23.
+if ! grep -q 'function setupMockAPI' "$FILE"; then
+    mark_pass "global fetch mock absent (P0 2026-09-22 regression guard)"
 else
-    mark_warn "Mock API mode 누락 — trycloudflare 시 사용자 X-Ray flow 평가 불가"
+    mark_fail "setupMockAPI re-introduced — global fetch mock masks backend failures"
 fi
 
 # 24. D+23 — FAQ 8 summary 전체 data-i18n

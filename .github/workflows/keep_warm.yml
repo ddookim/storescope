@@ -30,7 +30,7 @@ concurrency:
 jobs:
   ping:
     runs-on: ubuntu-latest
-    timeout-minutes: 2
+    timeout-minutes: 3
     steps:
       - name: Ping /health
         run: |
@@ -38,7 +38,10 @@ jobs:
           if [ -z "$API_URL" ]; then
             API_URL="https://storescope-api.onrender.com"
           fi
-          STATUS=$(curl -s -o /dev/null -w "%{http_code}" "$API_URL/health" --max-time 30)
+          # Cold start measured at ~52s (2026-11-03). 30s timeout made curl exit 28
+          # under bash -e, failing every run since 2026-10-19. Allow 90s and never
+          # let a timeout fail the job (000 = no response, logged as warning).
+          STATUS=$(curl -s -o /dev/null -w "%{http_code}" "$API_URL/health" --max-time 90 || true)
           echo "::notice::Ping $API_URL/health → $STATUS"
           if [ "$STATUS" != "200" ]; then
             echo "::warning::Non-200 response from /health"

@@ -39,14 +39,14 @@ jobs:
       PYTHONUNBUFFERED: "1"
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           # DB-less 모드에서 data/*.json commit back 하려면 push 권한이 있는 token 필요.
           # 기본 GITHUB_TOKEN 은 persist-credentials=true 로 자동 wire 되지만 명시.
           persist-credentials: true
 
       - name: Setup Python 3.11
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v7
         with:
           python-version: "3.11"
           cache: "pip"
@@ -112,7 +112,7 @@ jobs:
           cp data/latest_products_meta.json landing/latest_products_meta.json 2>/dev/null || true
           # D+12: weekly blog auto-generated — glob catches this-week's file only.
           WEEKLY_BLOG=$(ls landing/blog/weekly-*.html 2>/dev/null | tail -1)
-          for f in data/trending.json data/clusters.json data/latest_products.json data/latest_products_meta.json data/sent_log.json landing/digest-sample.html landing/latest_products.json landing/sitemap.xml landing/feed.xml landing/blog/index.html $WEEKLY_BLOG; do
+          for f in data/trending.json data/clusters.json data/latest_products.json data/latest_products_meta.json data/sent_log.json landing/digest-sample.html landing/latest_products.json landing/latest_products_meta.json landing/sitemap.xml landing/feed.xml landing/blog/index.html $WEEKLY_BLOG; do
             if [ -f "$f" ]; then
               git add -f "$f"
               echo "  staged: $f ($(wc -c < "$f") bytes)"
