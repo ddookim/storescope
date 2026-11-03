@@ -1483,9 +1483,11 @@
     /* ── SCROLL REVEAL ── */
     .reveal {
       opacity: 0;
-      transform: translateY(28px);
-      transition: opacity 0.65s cubic-bezier(0.22, 1, 0.36, 1),
-                  transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
+      /* 2026-11-03: 28px/0.65s -> 16px/0.5s. Shorter travel reads as polish,
+         long travel reads as template motion. */
+      transform: translateY(16px);
+      transition: opacity 0.5s cubic-bezier(0.22, 1, 0.36, 1),
+                  transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
     }
     .reveal.is-visible { opacity: 1; transform: none; }
     /* BUG (found 2026-09-28): #xr-step3 (email-gate modal, position:fixed) is
@@ -2098,6 +2100,59 @@
        계속 새로 발견됨 — 하나씩 patch 대신 전역 안전망 추가. transition:none 대신
        거의-0 duration을 쓰는 표준 패턴(WCAG 2.3.3) — 순간 전환 자체는 유지하되
        모션으로 지각되지 않게 함. 기존 개별 규칙은 문서화 가치가 있어 그대로 둠. */
+    /* 2026-11-03 UI motion upgrade — native CSS only, zero new elements
+       (landing restraint rule). Every rule is progressive enhancement: browsers
+       without support keep the previous behavior. Reduced-motion is handled by
+       the global safety net below. */
+    :root {
+      /* Critically-damped spring (~1.6% overshoot) via linear() — Linear/Vercel
+         press feel without the bouncy "AI template" overshoot. */
+      --ease-spring: linear(0, 0.157, 0.438, 0.68, 0.842, 0.937, 0.987, 1.009, 1.016, 1.014, 1.008, 1.003, 1);
+    }
+
+    /* Typography: balanced headings, no orphaned last words in body copy. */
+    h1, h2, h3 { text-wrap: balance; }
+    p, li { text-wrap: pretty; }
+
+    /* Tactile press feedback on every primary/secondary CTA. `scale` is an
+       individual transform property, so it composes with any existing
+       transform (hover lifts, centering) instead of overriding it. */
+    .btn-glow, .xr-analyze-btn, .xr-submit-btn {
+      transition: background 0.15s ease, scale 0.45s var(--ease-spring);
+    }
+    .plan-btn {
+      transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease,
+                  scale 0.45s var(--ease-spring);
+    }
+    .btn-glow:active, .plan-btn:active, .xr-analyze-btn:active,
+    .xr-submit-btn:active, .xr-modal-submit:active {
+      scale: 0.97;
+      transition-duration: 0.08s;
+    }
+
+    /* FAQ: animate answer height on open AND close (::details-content +
+       interpolate-size). Padding moved off the [open] selector so closing
+       does not snap the text before the height collapses. */
+    .faq-item details { interpolate-size: allow-keywords; } /* scoped: no global height:auto side effects */
+    .faq-item details p { padding: 0 28px 24px; }
+    .faq-item details::details-content {
+      block-size: 0;
+      overflow: hidden;
+      opacity: 0;
+      transition: block-size 0.4s cubic-bezier(0.22, 1, 0.36, 1),
+                  opacity 0.3s ease,
+                  content-visibility 0.4s allow-discrete;
+    }
+    .faq-item details[open]::details-content { block-size: auto; opacity: 1; }
+    .faq-item details summary::after { transition: transform 0.45s var(--ease-spring); }
+
+    /* Language switch: short root crossfade instead of a hard text swap
+       (driven by document.startViewTransition in ssSwitchLang). */
+    ::view-transition-old(root), ::view-transition-new(root) {
+      animation-duration: 0.22s;
+      animation-timing-function: ease;
+    }
+
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after {
         animation-duration: 0.001ms !important;
@@ -2946,6 +3001,18 @@
       });
     };
 
+    // 2026-11-03: user-initiated language switch crossfades via the View
+    // Transitions API. Falls back to an instant swap when unsupported or when
+    // the user prefers reduced motion. Initial page-load apply stays instant.
+    window.ssSwitchLang = function(lang) {
+      var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (!document.startViewTransition || reduce) {
+        window.STORESCOPE_I18N_APPLY(lang);
+        return;
+      }
+      document.startViewTransition(function() { window.STORESCOPE_I18N_APPLY(lang); });
+    };
+
     // Auto-detect on load: URL ?lang= > localStorage > browser default (en/ko/ja만 지원)
     (function() {
       var saved = null;
@@ -2963,7 +3030,7 @@
         if (sel) {
           sel.value = lang;
           sel.addEventListener('change', function(e) {
-            window.STORESCOPE_I18N_APPLY(e.target.value);
+            window.ssSwitchLang(e.target.value);
           });
         }
       });
@@ -3036,7 +3103,7 @@
   <a href="#faq" onclick="closeMobileNav()" data-i18n="nav_faq">FAQ</a>
   <div class="nav-mobile-lang">
     <label for="ss-lang-switch-mobile" data-i18n="lang_switch_label">Language</label>
-    <select id="ss-lang-switch-mobile" class="nav-lang-switch nav-lang-switch-mobile" aria-label="Language" data-aria-i18n="aria-label:aria_language" onchange="document.getElementById('ss-lang-switch').value=this.value; window.STORESCOPE_I18N_APPLY(this.value);">
+    <select id="ss-lang-switch-mobile" class="nav-lang-switch nav-lang-switch-mobile" aria-label="Language" data-aria-i18n="aria-label:aria_language" onchange="document.getElementById('ss-lang-switch').value=this.value; window.ssSwitchLang(this.value);">
       <option value="en">English</option>
       <option value="ko">한국어</option>
       <option value="ja">日本語</option>
