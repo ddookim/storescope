@@ -43,6 +43,26 @@ MAX_PER_VENDOR     = 1      # D+22: 2→1 강화 (Red Team CRIT: digest sample 4
 MAX_PER_TYPE       = 4      # D+11: product_type 편중 방지 (Semi-Permanent 5개 등)
 
 
+# 2026-11-03: W45 digest top 20 contained 7 non-sellable items ($0 samples,
+# gift cards, gift-with-purchase). They are store mechanics, not launches, and
+# made the Monday email look like noise. Excluded before ranking.
+MIN_SELLABLE_PRICE = 5.0
+_GIVEAWAY_PATTERN = re.compile(
+    r"gift\s*card|e-?gift|\bsamples?\b|\bgwp\b|\(gift\)|\bvial\b|\bpackette\b|free\s+gift",
+    re.IGNORECASE,
+)
+
+
+def _is_giveaway_noise(product: dict) -> bool:
+    """True for items that are not real product launches (samples, gift cards,
+    GWP, zero/trivial price). Checks title and raw product_type."""
+    price = product.get("price")
+    if not isinstance(price, (int, float)) or price < MIN_SELLABLE_PRICE:
+        return True
+    text = f"{product.get('title', '')} {product.get('product_type_raw', '')}"
+    return bool(_GIVEAWAY_PATTERN.search(text))
+
+
 def _parse_iso(s: str) -> datetime | None:
     if not s:
         return None
@@ -135,7 +155,7 @@ def _extract_products(now: datetime) -> list[dict]:
                 except (ValueError, TypeError):
                     price = None
 
-            all_products.append({
+            item = {
                 "domain": domain,
                 "title": title[:120],
                 "handle": p.get("handle", ""),
@@ -149,7 +169,10 @@ def _extract_products(now: datetime) -> list[dict]:
                 "image_url": image_url,
                 # 'age_days' = for digest ranking + display (freshness signal).
                 "age_days": round((now.timestamp() - published.timestamp()) / 86400, 1),
-            })
+            }
+            if _is_giveaway_noise(item):
+                continue
+            all_products.append(item)
 
     return all_products
 

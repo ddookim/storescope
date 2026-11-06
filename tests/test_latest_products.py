@@ -13,6 +13,7 @@ from pipeline.latest_products import (
     _dedupe_by_title_domain,
     _diversity_cap,
     _extract_products,
+    _is_giveaway_noise,
     _parse_iso,
 )
 
@@ -182,3 +183,51 @@ class TestExtractProducts:
         assert len(result) == 1
         # allow small floating drift due to test execution time
         assert 1.8 <= result[0]["age_days"] <= 2.2
+
+
+class TestGiveawayNoiseFilter:
+    """2026-11-03: W45 digest top 20 had 7 non-sellable items ($0 samples,
+    gift cards, GWP). These must never reach the digest or landing visuals."""
+
+    def _p(self, title, ptype="Apparel", price=49.0):
+        return {"title": title, "product_type_raw": ptype, "price": price}
+
+    def test_gift_card_filtered(self):
+        assert _is_giveaway_noise(self._p("Onepiece Gift Card", "Gift Card", 0.0))
+
+    def test_free_sample_filtered(self):
+        assert _is_giveaway_noise(self._p("Brightening Body Lotion Sample", "Uncategorized", 0.0))
+        assert _is_giveaway_noise(self._p("Glow Stick SPF 50 (GIFT)", "Free Samples", 32.0))
+        assert _is_giveaway_noise(self._p("Mini Eau de Parfum - Vial", "Sample", 0.0))
+        assert _is_giveaway_noise(self._p("Hair Oil Packette", "Sample", 0.0))
+
+    def test_gwp_filtered(self):
+        assert _is_giveaway_noise(self._p("Wet Stick Gift", "GWP", 0.0))
+
+    def test_zero_or_missing_price_filtered(self):
+        assert _is_giveaway_noise(self._p("Layover Crew - Outerworn", "Uncategorized", 0.0))
+        assert _is_giveaway_noise(self._p("Layover Crew - Outerworn", "Uncategorized", None))
+
+    def test_trivial_price_filtered(self):
+        assert _is_giveaway_noise(self._p("Mickey Gift Tag Stickers", "Tools", 4.0))
+
+    def test_real_products_kept(self):
+        assert not _is_giveaway_noise(self._p("Washable Silk Bias Slip Dress", "Dresses", 198.0))
+        assert not _is_giveaway_noise(self._p("Harry's Plus Holiday Gift Set", "Shave Sets", 23.0))
+        assert not _is_giveaway_noise(self._p("Thrashed To Death Tee", "SS Tee", 10.0))
+
+    def test_extract_excludes_noise(self, tmp_path, monkeypatch):
+        now = datetime.now(timezone.utc)
+        recent = (now - timedelta(days=1)).isoformat()
+        (tmp_path / "s.myshopify.com.json").write_text(json.dumps({
+            "domain": "s.myshopify.com",
+            "products": [
+                {"title": "Merino Wool Sweater XL", "published_at": recent,
+                 "variants": [{"price": "89.00"}], "product_type": "Apparel"},
+                {"title": "Store Gift Card", "published_at": recent,
+                 "variants": [{"price": "0.00"}], "product_type": "Gift Card"},
+            ],
+        }))
+        monkeypatch.setattr("pipeline.latest_products.PRODUCTS_DIR", tmp_path)
+        result = _extract_products(now)
+        assert [r["title"] for r in result] == ["Merino Wool Sweater XL"]
