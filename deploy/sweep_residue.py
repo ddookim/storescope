@@ -53,6 +53,10 @@ for m in pattern.finditer(clean):
     surrounding = clean[max(0, start - 250):start + 100]
     if 'data-i18n' in surrounding[-200:]:
         continue
+    # Product names / proper nouns from store data are marked translate="no"
+    # (also tells browser auto-translate to leave them alone).
+    if 'translate="no"' in clean[max(0, start - 120):start]:
+        continue
     seen.add(text)
     residue.append(text)
 
