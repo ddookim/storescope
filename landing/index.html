@@ -1971,6 +1971,14 @@
     :lang(ja) .hero h1 {
       letter-spacing: -0.01em;
     }
+    /* 2026-11-06: :lang(ko/ja){line-height:1.6/1.7} matched the <span>s inside
+       headings directly, overriding the heading's own line-height (h1 1.08).
+       KO hero headline rendered at 1.6 = ~150px of wasted fold. Headings and
+       their descendants get display leading back. */
+    :lang(ko) :is(h1, h2, h3), :lang(ko) :is(h1, h2, h3) *,
+    :lang(ja) :is(h1, h2, h3), :lang(ja) :is(h1, h2, h3) * {
+      line-height: 1.22;
+    }
 
     /* D+22 i18n upgrade: lang switcher with globe icon (Ahrefs/Linear/Stripe nav 패턴)
        Source: Feather Icons MIT license (globe SVG) + URL-encoded data URI (HTTP request 0).
@@ -2152,6 +2160,188 @@
       animation-duration: 0.22s;
       animation-timing-function: ease;
     }
+
+    /* 2026-11-06 launch strip — competitor pattern (trend-card row on
+       Exploding Topics / Glimpse, product photos on Shophunter) rebuilt with
+       real data only: cards come from latest_products.json, section stays
+       hidden when data is missing (no fake fallback). */
+    .launch-strip {
+      position: relative;
+      grid-column: 1 / -1;   /* hero-inner is a 2-col grid >=1120px */
+      width: 100vw; margin: 8px 0 24px calc(50% - 50vw);
+    }
+    .launch-strip[hidden] { display: none; }
+    .launch-strip-head {
+      max-width: 1200px; margin: 0 auto 18px; padding: 0;
+      display: flex; align-items: center; gap: 10px;
+    }
+    .launch-strip-dot {
+      width: 8px; height: 8px; border-radius: 50%; background: #10B981;
+      box-shadow: 0 0 0 0 rgba(16,185,129,0.5);
+      animation: launchDot 2.4s ease-out infinite;
+    }
+    @keyframes launchDot { 70% { box-shadow: 0 0 0 8px rgba(16,185,129,0); } 100% { box-shadow: 0 0 0 0 rgba(16,185,129,0); } }
+    .launch-strip-title {
+      font-size: 13px; font-weight: 600; letter-spacing: 0.01em;
+      color: #57534E; margin: 0;
+    }
+    .launch-strip-viewport {
+      overflow: hidden;
+      -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 8%, #000 92%, transparent 100%);
+              mask-image: linear-gradient(90deg, transparent 0, #000 8%, #000 92%, transparent 100%);
+    }
+    .launch-strip-track {
+      display: flex; gap: 16px; width: max-content;
+      list-style: none; margin: 0; padding: 6px 0 14px;
+      animation: launchMarquee var(--launch-duration, 70s) linear infinite;
+    }
+    .launch-strip-viewport:hover .launch-strip-track,
+    .launch-strip-viewport:focus-within .launch-strip-track { animation-play-state: paused; }
+    @keyframes launchMarquee { to { transform: translateX(calc(-50% - 8px)); } }
+    .launch-card {
+      width: 196px; flex: none;
+      background: #FFFFFF; border: 1px solid rgba(28,25,23,0.08);
+      border-radius: 14px; overflow: hidden;
+      box-shadow: 0 1px 2px rgba(28,25,23,0.04), 0 8px 24px -12px rgba(28,25,23,0.18);
+      transition: translate 0.45s var(--ease-spring), box-shadow 0.3s ease;
+    }
+    .launch-card:hover {
+      translate: 0 -4px;
+      box-shadow: 0 1px 2px rgba(28,25,23,0.04), 0 18px 36px -14px rgba(28,25,23,0.28);
+    }
+    .launch-card-img {
+      display: block; width: 100%; aspect-ratio: 1 / 1; object-fit: cover;
+      background: #F5F5F4;
+    }
+    .launch-card-body { padding: 12px 14px 14px; }
+    .launch-card-vendor {
+      font-size: 11px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase;
+      color: #78716C; margin-bottom: 4px;
+    }
+    .launch-card-title {
+      font-size: 13px; font-weight: 600; color: #1C1917; line-height: 1.35;
+      display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+      min-height: 2.7em;
+    }
+    .launch-card-meta {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-top: 10px; font-size: 12px;
+    }
+    .launch-card-price { font-weight: 700; color: #1C1917; font-variant-numeric: tabular-nums; }
+    .launch-card-age {
+      color: #047857; background: rgba(16,185,129,0.1);
+      padding: 2px 8px; border-radius: 999px; font-weight: 600; font-size: 11px;
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .launch-strip-viewport { overflow-x: auto; -webkit-mask-image: none; mask-image: none; }
+      .launch-strip-track { animation: none; padding-left: 24px; }
+    }
+    @media (max-width: 1248px) { .launch-strip-head { padding: 0 24px; } }
+    @media (max-width: 640px) {
+      .launch-card { width: 156px; }
+      .launch-strip { margin-bottom: 16px; }
+    }
+    .launch-strip + .hero-mockup-wrap { margin-top: 24px; }
+    /* 2026-11-06 hero photo stack — replaces the static illustrative aside
+       card once latest_products.json loads: three real launch photos fanned
+       like a deck, front card cycles every 4.5s (paused on hover, off under
+       reduced motion). */
+    .hero-stack { position: relative; width: 300px; height: 410px; }
+    .hero-stack-card {
+      position: absolute; inset: 0;
+      background: #FFFFFF; border: 1px solid rgba(28,25,23,0.08);
+      border-radius: 18px; overflow: hidden;
+      box-shadow: 0 1px 2px rgba(28,25,23,0.05), 0 24px 48px -20px rgba(28,25,23,0.3);
+      transition: transform 0.9s var(--ease-spring), opacity 0.6s ease, filter 0.6s ease;
+    }
+    .hero-stack-card[data-pos="0"] { z-index: 3; transform: none; }
+    .hero-stack-card[data-pos="1"] { z-index: 2; transform: translate(34px, 18px) rotate(6deg) scale(0.92); filter: saturate(0.85); }
+    .hero-stack-card[data-pos="2"] { z-index: 1; transform: translate(-34px, 22px) rotate(-7deg) scale(0.88); filter: saturate(0.7); opacity: 0.85; }
+    .hero-stack:hover .hero-stack-card[data-pos="1"] { transform: translate(64px, 14px) rotate(9deg) scale(0.92); }
+    .hero-stack:hover .hero-stack-card[data-pos="2"] { transform: translate(-64px, 18px) rotate(-10deg) scale(0.88); }
+    .hero-stack-card img { display: block; width: 100%; aspect-ratio: 1 / 1; object-fit: cover; background: #F5F5F4; }
+    .hero-stack-body { padding: 14px 18px 16px; }
+    .hero-stack-top { display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-bottom: 4px; }
+    .hero-stack-vendor { font-size: 11px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; color: #78716C; }
+    .hero-stack-title { font-size: 15px; font-weight: 700; color: #1C1917; line-height: 1.3;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .hero-stack-price { font-size: 13px; font-weight: 700; color: #4F46E5; margin-top: 6px; font-variant-numeric: tabular-nums; }
+    .hero-stack-label {
+      position: absolute; top: 14px; left: 14px; z-index: 4;
+      font-size: 11px; font-weight: 700; letter-spacing: 0.04em;
+      color: #1C1917; background: rgba(255,255,255,0.92);
+      backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+      padding: 5px 10px; border-radius: 999px;
+      box-shadow: 0 2px 8px rgba(28,25,23,0.12);
+    }
+    .hero-visual-aside.has-stack .hero-aside-card { display: none; }
+
+    /* 2026-11-06 how-it-works visuals — competitor gap: every reference site
+       pairs each feature with a slice of product UI; ours was icon + text.
+       Each step now opens with a mini UI card. Static markup renders without
+       JS; JS hydrates step 2/3 with real titles and photos from
+       latest_products.json. Rows animate in once when the step is revealed. */
+    .how-step .how-icon, .how-step .how-connector { display: none; }
+    .how-grid > .how-step { min-width: 0; }  /* nowrap product names must not widen columns */
+    .how-visual {
+      height: 196px; margin-bottom: 26px; padding: 16px;
+      background: #FFFFFF; border: 1px solid rgba(28,25,23,0.08); border-radius: 16px;
+      box-shadow: 0 1px 2px rgba(28,25,23,0.04), 0 16px 32px -20px rgba(28,25,23,0.22);
+      overflow: hidden; position: relative; font-size: 12px; color: #1C1917;
+    }
+    .how-visual::after {  /* fade the bottom edge so clipped rows read as "more" */
+      content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 36px;
+      background: linear-gradient(to top, #FFFFFF, rgba(255,255,255,0));
+      pointer-events: none;
+    }
+    .hv-head {
+      display: flex; justify-content: space-between; align-items: center;
+      font-size: 11px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase;
+      color: #78716C; margin-bottom: 12px;
+    }
+    .hv-chip { font-size: 10px; padding: 2px 8px; border-radius: 999px;
+      background: rgba(79,70,229,0.08); color: #4F46E5; letter-spacing: 0.02em; }
+    .hv-row {
+      display: flex; align-items: center; gap: 10px; padding: 7px 0;
+      border-bottom: 1px solid rgba(28,25,23,0.06);
+      opacity: 0; translate: 0 6px;
+      transition: opacity 0.4s ease, translate 0.5s var(--ease-spring);
+    }
+    .how-step.is-visible .hv-row { opacity: 1; translate: 0 0; }
+    .how-step.is-visible .hv-row:nth-child(2) { transition-delay: 0.15s; }
+    .how-step.is-visible .hv-row:nth-child(3) { transition-delay: 0.3s; }
+    .how-step.is-visible .hv-row:nth-child(4) { transition-delay: 0.45s; }
+    .how-step.is-visible .hv-row:nth-child(5) { transition-delay: 0.6s; }
+    /* step 1: crawl log */
+    .hv-log { font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 11.5px; }
+    .hv-log .hv-row { justify-content: space-between; }
+    .hv-method { color: #4F46E5; font-weight: 700; margin-right: 6px; }
+    .hv-ok { color: #047857; font-weight: 700; }
+    .hv-path { color: #57534E; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    /* step 2: ranking */
+    .hv-rank { width: 18px; color: #A8A29E; font-weight: 700; font-variant-numeric: tabular-nums; }
+    .hv-name { flex: 1; min-width: 0; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .hv-bar { width: 72px; height: 6px; border-radius: 3px; background: rgba(79,70,229,0.1); overflow: hidden; flex: none; }
+    .hv-bar i { display: block; height: 100%; width: 0; border-radius: 3px;
+      background: linear-gradient(90deg, #6366F1, #8B5CF6);
+      transition: width 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.4s; }
+    .how-step.is-visible .hv-bar i { width: var(--w); }
+    /* step 3: email */
+    .hv-mail-from { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
+    .hv-avatar { width: 24px; height: 24px; border-radius: 7px; flex: none;
+      background: linear-gradient(135deg, #4F46E5, #8B5CF6); }
+    .hv-subject { font-weight: 700; font-size: 12.5px; }
+    .hv-sub2 { color: #A8A29E; font-size: 11px; }
+    .hv-thumb { width: 30px; height: 30px; border-radius: 7px; flex: none; object-fit: cover; background: #F5F5F4; }
+    .hv-price { font-weight: 700; font-variant-numeric: tabular-nums; }
+    @media (prefers-reduced-motion: reduce) {
+      .hv-row { opacity: 1; translate: none; }
+      .hv-bar i { width: var(--w); }
+    }
+
+    /* Real product photos replace the illustrative SVG thumbs in the dashboard mockup. */
+    .product-thumb.has-photo { padding: 0; background: #F5F5F4; }
+    .product-thumb.has-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
 
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after {
@@ -2373,7 +2563,7 @@
         mockup_preview_label: "Illustrative preview",
         hero_h1_line1: "58 brands, tracked weekly.",
         hero_h1_line2: "Monday's top 20 — one email.",
-        hero_sub: "Last week: 1,144 new products across Everlane, Gymshark, Allbirds, Ridge, and 54 more. We check every Sunday night. Monday morning, we send you the top 20. Free.",
+        hero_sub: "Every new launch from Everlane, Gymshark, Allbirds, Ridge, and 54 more brands. We check every Sunday night. Monday morning, we send you the top 20. Free.",
         contact_pill: "Contact",
         contact_h2: "Reach the founder directly.",
         contact_sub: "Questions, feedback, or want to discuss a custom setup? Send a note — response within 24 hours.",
@@ -2404,6 +2594,10 @@
         // Counter Bar
         counter_refresh: "Index refresh · every Monday",
         hero_aside_label: "This week's breakout",
+        hero_stack_label: "New this week",
+        how_v2_head: "Rising this week",
+        how_v3_subject: "Your Monday top 20",
+        launch_strip_title: "Launched in the last 30 days at brands we track",
 
         // Features section
 
@@ -2591,7 +2785,7 @@
         mockup_preview_label: "예시 미리보기",
         hero_h1_line1: "58 브랜드, 매주 추적합니다.",
         hero_h1_line2: "월요일 상위 20개 — 이메일 한 통.",
-        hero_sub: "지난주 신제품 1,144개 — Everlane, Gymshark, Allbirds, Ridge 등 58 브랜드. 매주 일요일 밤에 크롤링, 월요일 아침 상위 20개를 이메일로 보내드립니다. 무료.",
+        hero_sub: "Everlane, Gymshark, Allbirds, Ridge 등 58개 브랜드의 모든 신제품. 매주 일요일 밤에 크롤링, 월요일 아침 상위 20개를 이메일로 보내드립니다. 무료.",
         contact_pill: "연락처",
         contact_h2: "창업자에게 직접 연락.",
         contact_sub: "질문, 피드백, 커스텀 설정 문의? 메시지 남겨주세요 — 24시간 내 회신.",
@@ -2619,6 +2813,10 @@
         aria_open_menu: "메뉴 열기",
         counter_refresh: "인덱스 갱신 · 매주 월요일",
         hero_aside_label: "이번 주 급상승",
+        hero_stack_label: "이번 주 신제품",
+        how_v2_head: "이번 주 상승",
+        how_v3_subject: "이번 주 월요일 상위 20",
+        launch_strip_title: "추적 중인 브랜드의 최근 30일 신제품",
 
 
         // FIX 2026-07-29 D+58 CRIT: how_pill/step*_desc 중복 정리 — 두 번째 세트 (line ~4355) 가 last-wins.
@@ -2777,7 +2975,7 @@
         mockup_preview_label: "イメージプレビュー",
         hero_h1_line1: "58ブランドを毎週追跡。",
         hero_h1_line2: "月曜のトップ20 — メール1通で。",
-        hero_sub: "先週の新製品1,144点 — Everlane、Gymshark、Allbirds、Ridge など 58 ブランド。毎週日曜夜にクロール、月曜朝にメール配信。無料。",
+        hero_sub: "Everlane、Gymshark、Allbirds、Ridge など 58 ブランドの全新商品。毎週日曜夜にクロール、月曜朝にメール配信。無料。",
         contact_pill: "お問い合わせ",
         contact_h2: "創業者に直接連絡。",
         contact_sub: "質問、フィードバック、カスタム設定のご相談。メッセージをお送りください — 24時間以内に返信します。",
@@ -2805,6 +3003,10 @@
         aria_open_menu: "メニューを開く",
         counter_refresh: "インデックス更新 · 毎週月曜",
         hero_aside_label: "今週の急上昇",
+        hero_stack_label: "今週の新商品",
+        how_v2_head: "今週の上昇",
+        how_v3_subject: "今週の月曜トップ20",
+        launch_strip_title: "追跡中のブランドの直近30日の新商品",
 
 
         // FIX 2026-07-29 D+58 CRIT: how_pill/step*_desc 중복 정리 — 두 번째 세트 (line ~4735) 가 last-wins.
@@ -3008,9 +3210,10 @@
       var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       if (!document.startViewTransition || reduce) {
         window.STORESCOPE_I18N_APPLY(lang);
+        if (window.ssRefreshLaunchAges) window.ssRefreshLaunchAges();
         return;
       }
-      document.startViewTransition(function() { window.STORESCOPE_I18N_APPLY(lang); });
+      document.startViewTransition(function() { window.STORESCOPE_I18N_APPLY(lang); if (window.ssRefreshLaunchAges) window.ssRefreshLaunchAges(); });
     };
 
     // Auto-detect on load: URL ?lang= > localStorage > browser default (en/ko/ja만 지원)
@@ -3130,7 +3333,7 @@
     <span data-i18n="hero_h1_line1">58 brands, tracked weekly.</span><br>
     <span class="grad-text" data-i18n="hero_h1_line2">Monday's top 20 — one email.</span>
   </h1>
-  <p class="hero-sub" data-i18n="hero_sub">Last week: 1,144 new products across Everlane, Gymshark, Allbirds, Ridge, and 54 more. We check every Sunday night. Monday morning, we send you the top 20. Free.</p>
+  <p class="hero-sub" data-i18n="hero_sub">Every new launch from Everlane, Gymshark, Allbirds, Ridge, and 54 more brands. We check every Sunday night. Monday morning, we send you the top 20. Free.</p>
 
   <!-- FIX 2026-07-30 D+59 (design red team CRIT R3): 3 competing CTAs 제거.
        기존: btn-hero-primary + See pricing + email form = attention split.
@@ -3233,6 +3436,18 @@
       <div class="hero-aside-stat">31 stores · $39–$89</div>
     </div>
   </div>
+
+  <!-- 2026-11-06: real-launch strip (see .launch-strip CSS). Filled by JS from
+       latest_products.json; stays hidden if the fetch fails. -->
+  <section class="launch-strip" aria-labelledby="launch-strip-title" hidden>
+    <div class="launch-strip-head">
+      <span class="launch-strip-dot" aria-hidden="true"></span>
+      <h2 id="launch-strip-title" class="launch-strip-title" data-i18n="launch_strip_title">Launched in the last 30 days at brands we track</h2>
+    </div>
+    <div class="launch-strip-viewport">
+      <ul class="launch-strip-track" role="list"></ul>
+    </div>
+  </section>
 
   <!-- product mockup -->
   <div class="hero-mockup-wrap" id="features">
@@ -3432,6 +3647,14 @@
     <h2 class="section-heading" data-i18n="steps_h2">Three steps. No dashboard required.</h2>
     <div class="how-grid">
       <div class="how-step reveal reveal-d1">
+        <div class="how-visual hv-log" aria-hidden="true">
+          <div class="hv-head"><span>crawl · sun 23:00 UTC</span><span class="hv-chip">58 stores</span></div>
+          <div class="hv-row"><span class="hv-path"><span class="hv-method">GET</span>allbirds.com/products.json</span><span class="hv-ok">200</span></div>
+          <div class="hv-row"><span class="hv-path"><span class="hv-method">GET</span>brooklinen.com/products.json</span><span class="hv-ok">200</span></div>
+          <div class="hv-row"><span class="hv-path"><span class="hv-method">GET</span>colourpop.com/products.json</span><span class="hv-ok">200</span></div>
+          <div class="hv-row"><span class="hv-path"><span class="hv-method">GET</span>beardbrand.com/products.json</span><span class="hv-ok">200</span></div>
+          <div class="hv-row"><span class="hv-path"><span class="hv-method">GET</span>casper.com/products.json</span><span class="hv-ok">200</span></div>
+        </div>
         <div class="how-icon" aria-hidden="true">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
         </div>
@@ -3441,6 +3664,14 @@
         <p data-i18n="steps_1_desc">58 curated DTC Shopify brands, via each store's public /products.json — the same data any browser sees.</p>
       </div>
       <div class="how-step reveal reveal-d2">
+        <div class="how-visual hv-rank-list" aria-hidden="true">
+          <div class="hv-head"><span data-i18n="how_v2_head">Rising this week</span><span class="hv-chip" data-i18n="dash_trend_score">Storm Score</span></div>
+          <div class="hv-row"><span class="hv-rank">1</span><span class="hv-name" translate="no" data-hv-title="0">Washable Silk Slip Dress</span><span class="hv-bar"><i style="--w:94%"></i></span></div>
+          <div class="hv-row"><span class="hv-rank">2</span><span class="hv-name" translate="no" data-hv-title="1">Fisherman Sweater</span><span class="hv-bar"><i style="--w:81%"></i></span></div>
+          <div class="hv-row"><span class="hv-rank">3</span><span class="hv-name" translate="no" data-hv-title="2">Holiday Gift Set</span><span class="hv-bar"><i style="--w:68%"></i></span></div>
+          <div class="hv-row"><span class="hv-rank">4</span><span class="hv-name" translate="no" data-hv-title="3">Graphic Tee</span><span class="hv-bar"><i style="--w:55%"></i></span></div>
+          <div class="hv-row"><span class="hv-rank">5</span><span class="hv-name" translate="no" data-hv-title="4">Polka Dot Socks</span><span class="hv-bar"><i style="--w:43%"></i></span></div>
+        </div>
         <div class="how-icon" aria-hidden="true">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
         </div>
@@ -3450,6 +3681,13 @@
         <p data-i18n="steps_2_desc">Storm Score (0-100) weighs momentum, log-scaled store count, and age decay — so products still climbing surface first.</p>
       </div>
       <div class="how-step reveal reveal-d3">
+        <div class="how-visual hv-mail" aria-hidden="true">
+          <div class="hv-mail-from"><span class="hv-avatar"></span><div><div class="hv-subject" data-i18n="how_v3_subject">Your Monday top 20</div><div class="hv-sub2">StoreScope · Mon 08:00</div></div></div>
+          <div class="hv-row"><span class="hv-thumb" data-hv-img="0"></span><span class="hv-name" translate="no" data-hv-title="0">Washable Silk Slip Dress</span><span class="hv-price" data-hv-price="0">$198</span></div>
+          <div class="hv-row"><span class="hv-thumb" data-hv-img="1"></span><span class="hv-name" translate="no" data-hv-title="1">Fisherman Sweater</span><span class="hv-price" data-hv-price="1">$258</span></div>
+          <div class="hv-row"><span class="hv-thumb" data-hv-img="2"></span><span class="hv-name" translate="no" data-hv-title="2">Holiday Gift Set</span><span class="hv-price" data-hv-price="2">$23</span></div>
+          <div class="hv-row"><span class="hv-thumb" data-hv-img="3"></span><span class="hv-name" translate="no" data-hv-title="3">Graphic Tee</span><span class="hv-price" data-hv-price="3">$10</span></div>
+        </div>
         <div class="how-icon" aria-hidden="true">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 6-10 7L2 6"/></svg>
         </div>
@@ -4074,7 +4312,10 @@
 
     // 2026-09-22 fix: 72h freshness threshold — generated_at 이 이보다 오래되면
     // "live" 로 표시하지 않음 (허위 최신성 신호 금지). fetch 실패 시도 동일 취급.
-    var FRESHNESS_MAX_AGE_MS = 72 * 60 * 60 * 1000;
+    // 2026-11-06: 72h -> 8d. Data is rebuilt weekly (Mon), so 72h marked the
+    // site stale 4 of every 7 days. 8d = one weekly cycle + 1 day of slack;
+    // a missed weekly run still flips the badge to stale.
+    var FRESHNESS_MAX_AGE_MS = 8 * 24 * 60 * 60 * 1000;
 
     function showHeroLiveFresh(m) {
       var dotEl   = document.getElementById('hero-live-dot');
@@ -4128,10 +4369,142 @@
           showHeroLiveStale();
         });
 
+      // ── launch strip + photo helpers (2026-11-06) ──────────────
+      function shopifyImg(url, w) {
+        if (!/^https:\/\/cdn\.shopify\.com\//.test(url)) return url;
+        return url + (url.indexOf('?') === -1 ? '?' : '&') + 'width=' + w;
+      }
+      function launchAgeLabel(days) {
+        var d = (window.STORESCOPE_I18N && window.STORESCOPE_I18N[document.documentElement.lang || 'en']) || {};
+        return days === 0 ? (d.time_today_label || 'Today') : days + (d.time_days_ago_suffix || 'd ago');
+      }
+      window.ssRefreshLaunchAges = function() {
+        document.querySelectorAll('.launch-card-age[data-days]').forEach(function(el) {
+          el.textContent = launchAgeLabel(parseInt(el.getAttribute('data-days'), 10) || 0);
+        });
+      };
+      function renderLaunchStrip(items) {
+        var strip = document.querySelector('.launch-strip');
+        var track = strip && strip.querySelector('.launch-strip-track');
+        if (!track) return;
+        var withImg = items.filter(function(p) { return p.image_url; });
+        if (withImg.length < 6) return;   // too few to read as a stream
+        function card(p, hidden) {
+          var li = document.createElement('li');
+          li.className = 'launch-card';
+          if (hidden) li.setAttribute('aria-hidden', 'true');
+          var img = document.createElement('img');
+          img.className = 'launch-card-img';
+          img.src = shopifyImg(p.image_url, 400);
+          img.alt = hidden ? '' : (p.title || '');
+          img.loading = 'lazy'; img.decoding = 'async';
+          img.width = 196; img.height = 196;
+          var body = document.createElement('div'); body.className = 'launch-card-body';
+          var v = document.createElement('div'); v.className = 'launch-card-vendor'; v.textContent = p.vendor || '';
+          var t = document.createElement('div'); t.className = 'launch-card-title'; t.textContent = p.title || '';
+          var m = document.createElement('div'); m.className = 'launch-card-meta';
+          var pr = document.createElement('span'); pr.className = 'launch-card-price'; pr.textContent = '$' + Math.round(p.price);
+          var days = Math.max(0, Math.round(p.age_days || 0));
+          var ag = document.createElement('span'); ag.className = 'launch-card-age';
+          ag.setAttribute('data-days', String(days)); ag.textContent = launchAgeLabel(days);
+          m.appendChild(pr); m.appendChild(ag);
+          body.appendChild(v); body.appendChild(t); body.appendChild(m);
+          li.appendChild(img); li.appendChild(body);
+          return li;
+        }
+        // Two copies -> seamless translateX(-50%) loop; the copy is aria-hidden.
+        var frag = document.createDocumentFragment();
+        withImg.forEach(function(p) { frag.appendChild(card(p, false)); });
+        withImg.forEach(function(p) { frag.appendChild(card(p, true)); });
+        track.appendChild(frag);
+        track.style.setProperty('--launch-duration', Math.max(40, withImg.length * 5) + 's');
+        strip.hidden = false;
+      }
+
+      function hydrateHowVisuals(items) {
+        document.querySelectorAll('[data-hv-title]').forEach(function(el) {
+          var p = items[parseInt(el.getAttribute('data-hv-title'), 10)];
+          if (p && p.title) el.textContent = p.title;
+        });
+        document.querySelectorAll('[data-hv-price]').forEach(function(el) {
+          var p = items[parseInt(el.getAttribute('data-hv-price'), 10)];
+          if (p) el.textContent = '$' + Math.round(p.price);
+        });
+        document.querySelectorAll('[data-hv-img]').forEach(function(el) {
+          var p = items[parseInt(el.getAttribute('data-hv-img'), 10)];
+          if (!p || !p.image_url) return;
+          var img = document.createElement('img');
+          img.className = 'hv-thumb'; img.alt = ''; img.loading = 'lazy'; img.decoding = 'async';
+          img.src = shopifyImg(p.image_url, 80);
+          el.replaceWith(img);
+        });
+      }
+
+      function renderHeroStack(items) {
+        var aside = document.querySelector('.hero-visual-aside');
+        var picks = items.filter(function(p) { return p.image_url; }).slice(0, 3);
+        if (!aside || picks.length < 3) return;
+        var d = (window.STORESCOPE_I18N && window.STORESCOPE_I18N[document.documentElement.lang || 'en']) || {};
+        var stack = document.createElement('div');
+        stack.className = 'hero-stack';
+        var label = document.createElement('span');
+        label.className = 'hero-stack-label';
+        label.setAttribute('data-i18n', 'hero_stack_label');
+        label.textContent = d.hero_stack_label || 'New this week';
+        stack.appendChild(label);
+        var cards = picks.map(function(p, i) {
+          var c = document.createElement('div');
+          c.className = 'hero-stack-card';
+          c.setAttribute('data-pos', String(i));
+          var img = document.createElement('img');
+          img.src = shopifyImg(p.image_url, 600); img.alt = ''; img.decoding = 'async';
+          img.width = 300; img.height = 300;
+          var body = document.createElement('div'); body.className = 'hero-stack-body';
+          var top = document.createElement('div'); top.className = 'hero-stack-top';
+          var v = document.createElement('span'); v.className = 'hero-stack-vendor'; v.textContent = p.vendor || '';
+          var days = Math.max(0, Math.round(p.age_days || 0));
+          var ag = document.createElement('span'); ag.className = 'launch-card-age';
+          ag.setAttribute('data-days', String(days)); ag.textContent = launchAgeLabel(days);
+          top.appendChild(v); top.appendChild(ag);
+          var t = document.createElement('div'); t.className = 'hero-stack-title'; t.textContent = p.title || '';
+          var pr = document.createElement('div'); pr.className = 'hero-stack-price'; pr.textContent = '$' + Math.round(p.price);
+          body.appendChild(top); body.appendChild(t); body.appendChild(pr);
+          c.appendChild(img); c.appendChild(body);
+          stack.appendChild(c);
+          return c;
+        });
+        aside.appendChild(stack);
+        aside.classList.add('has-stack');
+        var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        if (reduce) return;
+        var hovering = false;
+        stack.addEventListener('mouseenter', function() { hovering = true; });
+        stack.addEventListener('mouseleave', function() { hovering = false; });
+        setInterval(function() {
+          if (hovering || document.hidden) return;
+          cards.forEach(function(c) {
+            var pos = (parseInt(c.getAttribute('data-pos'), 10) + 2) % 3;  // front -> back
+            c.setAttribute('data-pos', String(pos));
+          });
+        }, 4500);
+      }
+
       // ── (2) latest_products = mockup card override ──────────────
       tryFetch('./latest_products.json')
         .then(function(items) {
           if (!Array.isArray(items) || items.length === 0) return;
+          // 2026-11-06: drop non-launch items (samples, gift cards, GWP, $0).
+          // Mirrors pipeline/latest_products.py::_is_giveaway_noise so older
+          // JSON files render clean too.
+          var NOISE = /gift\s*card|e-?gift|\bsamples?\b|\bgwp\b|\(gift\)|\bvial\b|\bpackette\b|free\s+gift/i;
+          items = items.filter(function(p) {
+            return typeof p.price === 'number' && p.price >= 5
+              && !NOISE.test((p.title || '') + ' ' + (p.product_type_raw || ''));
+          });
+          if (items.length === 0) return;
+          renderLaunchStrip(items);
+          renderHeroStack(items);
+          hydrateHowVisuals(items);
           // 실 브랜드/제품 이름 → mockup 카드 슬롯 1-4 주입
           function shortTitle(t, max) {
             if (!t) return '';
@@ -4149,6 +4522,19 @@
             var storesEl = document.querySelector('[data-product-stores="' + i + '"]');
             if (nameEl) {
               nameEl.textContent = (p.vendor ? p.vendor + ' · ' : '') + shortTitle(p.title, 30);
+              var card = nameEl.closest('.product-card');
+              var thumb = card && card.querySelector('.product-thumb');
+              if (thumb && p.image_url) {
+                var im = new Image();
+                im.alt = '';
+                im.decoding = 'async';
+                im.onload = function(t, el) { return function() {
+                  t.textContent = '';
+                  t.appendChild(el);
+                  t.classList.add('has-photo');
+                }; }(thumb, im);
+                im.src = shopifyImg(p.image_url, 240);
+              }
             }
             if (priceEl) {
               var pf = priceFmt(p.price);
