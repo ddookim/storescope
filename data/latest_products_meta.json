@@ -1,70 +1,59 @@
 {
-  "generated_at": "2026-11-06T06:27:33.034323+00:00",
-  "week": "2026-W45",
+  "generated_at": "2026-11-09T02:37:24.314373+00:00",
+  "week": "2026-W46",
   "total_products_before_dedupe": null,
-  "total_after_dedupe": 884,
+  "total_after_dedupe": 929,
   "top_products_returned": 20,
   "categories": [
     {
-      "product_type": "Bundle",
-      "product_count": 55,
-      "vendor_count": 3,
+      "product_type": "Full Length",
+      "product_count": 59,
+      "vendor_count": 1,
       "top_vendors": [
-        "OUAI",
+        "Gymshark"
+      ]
+    },
+    {
+      "product_type": "T Shirt",
+      "product_count": 57,
+      "vendor_count": 1,
+      "top_vendors": [
+        "Gymshark"
+      ]
+    },
+    {
+      "product_type": "Bundle",
+      "product_count": 56,
+      "vendor_count": 2,
+      "top_vendors": [
         "Peak Design",
         "kylie-cosmetics"
       ]
     },
     {
-      "product_type": "Matching Sets",
-      "product_count": 49,
+      "product_type": "Uncategorized",
+      "product_count": 50,
+      "vendor_count": 7,
+      "top_vendors": [
+        "BYOMA",
+        "ColourPop",
+        "Dry Farm Wines"
+      ]
+    },
+    {
+      "product_type": "Training",
+      "product_count": 41,
       "vendor_count": 1,
       "top_vendors": [
-        "Fashion Nova"
+        "Gymshark"
       ]
     },
     {
-      "product_type": "Dresses",
-      "product_count": 47,
-      "vendor_count": 2,
-      "top_vendors": [
-        "Fashion Nova",
-        "Lunya"
-      ]
-    },
-    {
-      "product_type": "Lounge",
-      "product_count": 46,
+      "product_type": "Joggers",
+      "product_count": 35,
       "vendor_count": 1,
       "top_vendors": [
-        "Fashion Nova"
-      ]
-    },
-    {
-      "product_type": "Mens Screen Tops",
-      "product_count": 46,
-      "vendor_count": 1,
-      "top_vendors": [
-        "Fashion Nova"
-      ]
-    },
-    {
-      "product_type": "EDC",
-      "product_count": 42,
-      "vendor_count": 2,
-      "top_vendors": [
-        "Ridge",
-        "The Ridge Wallet"
-      ]
-    },
-    {
-      "product_type": "Pants",
-      "product_count": 36,
-      "vendor_count": 3,
-      "top_vendors": [
-        "Fashion Nova",
-        "Lunya",
-        "Outdoor Voices"
+        "Gymshark"
       ]
     },
     {
@@ -73,6 +62,15 @@
       "vendor_count": 1,
       "top_vendors": [
         "Dry Farm Wines"
+      ]
+    },
+    {
+      "product_type": "Tanks",
+      "product_count": 28,
+      "vendor_count": 2,
+      "top_vendors": [
+        "Gymshark",
+        "Outdoor Voices"
       ]
     }
   ]
