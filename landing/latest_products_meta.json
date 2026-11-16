@@ -1,59 +1,54 @@
 {
-  "generated_at": "2026-11-09T02:37:24.314373+00:00",
-  "week": "2026-W46",
+  "generated_at": "2026-11-16T02:45:10.989868+00:00",
+  "week": "2026-W47",
   "total_products_before_dedupe": null,
-  "total_after_dedupe": 929,
+  "total_after_dedupe": 805,
   "top_products_returned": 20,
   "categories": [
     {
-      "product_type": "Full Length",
-      "product_count": 59,
-      "vendor_count": 1,
+      "product_type": "Semi Permanent Tattoo",
+      "product_count": 199,
+      "vendor_count": 36,
       "top_vendors": [
-        "Gymshark"
+        "Aimee Isabel",
+        "Alexandra Newbould",
+        "Angelo R"
       ]
     },
     {
-      "product_type": "T Shirt",
-      "product_count": 57,
+      "product_type": "Tea & Coffee",
+      "product_count": 53,
       "vendor_count": 1,
       "top_vendors": [
-        "Gymshark"
+        "Maxwell & Williams"
       ]
     },
     {
-      "product_type": "Bundle",
-      "product_count": 56,
-      "vendor_count": 2,
+      "product_type": "Bundles",
+      "product_count": 42,
+      "vendor_count": 3,
       "top_vendors": [
-        "Peak Design",
-        "kylie-cosmetics"
+        "Casper",
+        "Dollar Shave Club",
+        "Mack Weldon"
+      ]
+    },
+    {
+      "product_type": "Servingware",
+      "product_count": 37,
+      "vendor_count": 1,
+      "top_vendors": [
+        "Maxwell & Williams"
       ]
     },
     {
       "product_type": "Uncategorized",
-      "product_count": 50,
+      "product_count": 35,
       "vendor_count": 7,
       "top_vendors": [
         "BYOMA",
-        "ColourPop",
+        "Dollar Shave Club",
         "Dry Farm Wines"
-      ]
-    },
-    {
-      "product_type": "Training",
-      "product_count": 41,
-      "vendor_count": 1,
-      "top_vendors": [
-        "Gymshark"
-      ]
-    },
-    {
-      "product_type": "Joggers",
-      "product_count": 35,
-      "vendor_count": 1,
-      "top_vendors": [
-        "Gymshark"
       ]
     },
     {
@@ -65,12 +60,22 @@
       ]
     },
     {
-      "product_type": "Tanks",
-      "product_count": 28,
+      "product_type": "Fragrance",
+      "product_count": 31,
+      "vendor_count": 4,
+      "top_vendors": [
+        "Glossier",
+        "Love Anna x",
+        "Maxwell & Williams"
+      ]
+    },
+    {
+      "product_type": "Christmas",
+      "product_count": 30,
       "vendor_count": 2,
       "top_vendors": [
-        "Gymshark",
-        "Outdoor Voices"
+        "Love Anna x",
+        "Maxwell & Williams"
       ]
     }
   ]
