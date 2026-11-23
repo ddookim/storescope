@@ -1,81 +1,74 @@
 {
-  "generated_at": "2026-11-16T02:45:10.989868+00:00",
-  "week": "2026-W47",
+  "generated_at": "2026-11-23T03:39:58.142104+00:00",
+  "week": "2026-W48",
   "total_products_before_dedupe": null,
-  "total_after_dedupe": 805,
+  "total_after_dedupe": 776,
   "top_products_returned": 20,
   "categories": [
     {
-      "product_type": "Semi Permanent Tattoo",
-      "product_count": 199,
-      "vendor_count": 36,
-      "top_vendors": [
-        "Aimee Isabel",
-        "Alexandra Newbould",
-        "Angelo R"
-      ]
-    },
-    {
-      "product_type": "Tea & Coffee",
-      "product_count": 53,
+      "product_type": "Dresses",
+      "product_count": 76,
       "vendor_count": 1,
       "top_vendors": [
-        "Maxwell & Williams"
+        "Fashion Nova"
       ]
     },
     {
-      "product_type": "Bundles",
-      "product_count": 42,
+      "product_type": "Matching Sets",
+      "product_count": 68,
+      "vendor_count": 1,
+      "top_vendors": [
+        "Fashion Nova"
+      ]
+    },
+    {
+      "product_type": "Mens Screen Tops",
+      "product_count": 54,
+      "vendor_count": 1,
+      "top_vendors": [
+        "Fashion Nova"
+      ]
+    },
+    {
+      "product_type": "Luxe",
+      "product_count": 50,
+      "vendor_count": 1,
+      "top_vendors": [
+        "Fashion Nova"
+      ]
+    },
+    {
+      "product_type": "Lingerie & Sleepwear",
+      "product_count": 47,
+      "vendor_count": 1,
+      "top_vendors": [
+        "Fashion Nova"
+      ]
+    },
+    {
+      "product_type": "Screens Tops and Bottoms",
+      "product_count": 45,
+      "vendor_count": 1,
+      "top_vendors": [
+        "Fashion Nova"
+      ]
+    },
+    {
+      "product_type": "Accessories",
+      "product_count": 41,
       "vendor_count": 3,
       "top_vendors": [
-        "Casper",
-        "Dollar Shave Club",
-        "Mack Weldon"
+        "Fashion Nova",
+        "Taylor Stitch",
+        "tentree"
       ]
     },
     {
-      "product_type": "Servingware",
-      "product_count": 37,
+      "product_type": "Knit Tops",
+      "product_count": 29,
       "vendor_count": 1,
       "top_vendors": [
-        "Maxwell & Williams"
-      ]
-    },
-    {
-      "product_type": "Uncategorized",
-      "product_count": 35,
-      "vendor_count": 7,
-      "top_vendors": [
-        "BYOMA",
-        "Dollar Shave Club",
-        "Dry Farm Wines"
-      ]
-    },
-    {
-      "product_type": "Wine",
-      "product_count": 34,
-      "vendor_count": 1,
-      "top_vendors": [
-        "Dry Farm Wines"
-      ]
-    },
-    {
-      "product_type": "Fragrance",
-      "product_count": 31,
-      "vendor_count": 4,
-      "top_vendors": [
-        "Glossier",
-        "Love Anna x",
-        "Maxwell & Williams"
-      ]
-    },
-    {
-      "product_type": "Christmas",
-      "product_count": 30,
-      "vendor_count": 2,
-      "top_vendors": [
-        "Love Anna x",
-        "Maxwell & Williams"
+        "Fashion Nova"
       ]
     }
   ]
